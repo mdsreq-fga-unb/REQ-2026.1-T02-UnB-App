@@ -2,8 +2,8 @@
 
 | Campo | Informação |
 |-------|------------|
-| **Nome** | [Nome do cliente/parceiro] |
-| **Tipo** | [Ex.: empresa privada, órgão público, startup...] |
-| **Representante** | [Nome e cargo] |
-| **Forma de contato** | [Ex.: reuniões por videoconferência, e-mail, Slack...] |
-| **Vínculo com o projeto** | [Ex.: cliente real, parceiro acadêmico, cliente imaginário...] |
+| **Nome** | Universidade de Brasília - Discentes 60+ |
+| **Tipo** | Plataforma educacional para acesso de informações e contato entre alunos e professores |
+| **Representante** | Maria Fátima Godoi |
+| **Forma de contato** | Mensagens pelo WhatsApp e reuniões periódicas |
+| **Vínculo com o projeto** | Usuária do grupo etário 60+ e aluna da Universidade de Brasília (universidade que usa a plataforma) |

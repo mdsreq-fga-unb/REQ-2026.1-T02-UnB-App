@@ -1,11 +1,10 @@
 # 1.6 Mapa de Stakeholders
 
-> Identifique os principais stakeholders: quem são, relação com a solução, interesses, expectativas e nível de influência.
+![Mapa de Stakeholders](../assets/stakeholders.png)
 
 ---
 
-<!-- Insira o diagrama de stakeholders -->
-![Mapa de Stakeholders](../assets/stakeholders.png)
+Os principais stakeholders do projeto UnB App são: Maria Fátima Godoi, como representante dos clientes e principal pessoa na avaliação das entregas e das prioridades a serem consideradas; alunos da Universidade de Brasília, que buscam uma melhora no uso da plataforma; e a equipe de desenvolvimento, responsável por criar essa nova ferramenta de conexão entre alunos e universidade, fazendo integração, usabilidade, acessibilidade e fluidez da plataforma em variados dispositivos.
 
 ---
 
@@ -13,8 +12,9 @@
 
 | Stakeholder | Relação com a solução | Interesse principal | Influência |
 |-------------|----------------------|---------------------|------------|
-| [Nome]      | [Descrição]          | [Interesse]         | Alta / Média / Baixa |
-| [Nome]      | [Descrição]          | [Interesse]         | Alta / Média / Baixa |
+| Maria Fátima Godoi | Representante dos clientes e usuária 60+ | Validar entregas e priorizar necessidades reais do público-alvo | Alta |
+| Alunos da Universidade de Brasília (60+) | Público-alvo direto da solução | Melhorar acessibilidade, autonomia e experiência acadêmica digital | Alta |
+| Equipe de desenvolvimento | Responsável pela construção do UnB App | Entregar integração com SIGAA com foco em usabilidade e acessibilidade | Média |
 
 !!! tip "Dica"
     Destaque os stakeholders que participam de decisão, validação, uso ou que serão impactados pelo produto.
