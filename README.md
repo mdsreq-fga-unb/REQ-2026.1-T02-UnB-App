@@ -1,32 +1,77 @@
 # REQ-2026.1-T02-UnB-App
 Repositório de projeto da disciplina de REQ-T2, 2026.1.
 
-## Estrutura
+## Estrutura da documentação
+
+### 1. Fonte da documentação (branch de trabalho)
 
 ```
-mkdocs-vpp/
-├── mkdocs.yml                  # Configuração principal
+REQ-2026.1-T02-UnB-App/
+├── mkdocs.yml                  # Configuração de navegação, tema e plugins
 ├── requirements.txt
 └── docs/
     ├── index.md                # Página inicial
+    ├── referencias.md
     ├── assets/
-    │   ├── logo.svg            # Substitua pelo logo do produto
-    │   ├── stylesheets/
-    │   │   └── extra.css       # Customizações visuais
-    │   ├── rich-picture.png    # Adicione suas imagens aqui
-    │   └── ishikawa.png
-    ├── 01-cenario/             # Seção 1 — Cenário Atual
-    ├── 02-solucao/             # Seção 2 — Solução Proposta
-    ├── 03-estrategias/         # Seção 3 — Estratégias ESW
-    ├── 04-er/                  # Seção 4 — Engenharia de Requisitos
-    ├── 05-cronograma/          # Seção 5 — Cronograma
-    ├── 06-interacao/           # Seção 6 — Equipe e Cliente
-    ├── 07-requisitos/          # Seção 7 — Requisitos (Unidade 2)
-    ├── 08-dor-dod/             # Seção 8 — DoR e DoD (Unidade 2)
-    ├── 09-backlog/             # Seção 9 — Backlog (Unidade 2)
-    ├── 10-licoes/              # Seção 10 — Lições Aprendidas
-    └── referencias.md
+    │   ├── logo.svg
+    │   └── stylesheets/
+    │       └── extra.css
+    ├── 01-cenario/
+    ├── 02-solucao/
+    ├── 03-estrategias/
+    ├── 04-er/
+    ├── 05-cronograma/
+    ├── 06-interacao/
+    ├── 07-requisitos/
+    ├── 08-dor-dod/
+    ├── 09-backlog/
+    └── 10-licoes/
 ```
+
+### 2. Publicação (branch `gh-pages`)
+
+A branch `gh-pages` é gerada automaticamente pelo MkDocs e contém somente os arquivos estáticos do site (HTML, CSS, JS e assets). Não edite essa branch manualmente.
+
+Estrutura esperada (resumo real do projeto):
+
+```
+gh-pages/
+├── .nojekyll
+├── index.html
+├── 404.html
+├── 01-cenario/
+│   ├── index.html
+│   ├── cliente/index.html
+│   ├── desafios/index.html
+│   ├── negocio/index.html
+│   ├── oportunidade/index.html
+│   ├── rich-picture/index.html
+│   ├── segmentacao/index.html
+│   └── stakeholders/index.html
+├── 02-solucao/
+├── 03-estrategias/
+├── 04-er/
+├── 05-cronograma/
+├── 06-interacao/
+├── 07-requisitos/
+├── 08-dor-dod/
+├── 09-backlog/
+├── 10-licoes/
+├── referencias/index.html
+├── assets/
+│   ├── logo.svg
+│   ├── stylesheets/
+│   └── javascripts/
+├── search/search_index.json
+├── sitemap.xml
+└── sitemap.xml.gz
+```
+
+Mapeamento importante:
+
+- `docs/<pagina>.md` -> `gh-pages/<pagina>/index.html`
+- `docs/index.md` -> `gh-pages/index.html`
+- `docs/assets/*` -> `gh-pages/assets/*`
 
 ## Como usar
 
@@ -50,13 +95,15 @@ Acesse em `http://127.0.0.1:8000`
 mkdocs build
 ```
 
+O comando acima gera a pasta `site/` localmente com os arquivos estáticos do site.
+
 ### 4. Deploy no GitHub Pages
 
 ```bash
-mkdocs gh-deploy
+mkdocs gh-deploy --clean
 ```
 
-> O comando acima faz o build e envia automaticamente para o branch `gh-pages` do repositório.
+> O comando acima faz o build, limpa arquivos antigos e publica automaticamente o resultado na branch `gh-pages`.
 
 ---
 
@@ -95,6 +142,7 @@ Os seguintes componentes customizados estão prontos para uso nos arquivos `.md`
 <span class="badge badge-green">Concluído</span>
 <span class="badge badge-amber">Revisão</span>
 <span class="badge badge-red">Bloqueado</span>
+```
 
 ## Commits
 
