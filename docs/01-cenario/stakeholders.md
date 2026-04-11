@@ -16,5 +16,3 @@ Os principais stakeholders do projeto UnB App são: Maria Fátima Godoi, como re
 | Alunos da Universidade de Brasília (60+) | Público-alvo direto da solução | Melhorar acessibilidade, autonomia e experiência acadêmica digital | Alta |
 | Equipe de desenvolvimento | Responsável pela construção do UnB App | Entregar integração com SIGAA com foco em usabilidade e acessibilidade | Média |
 
-!!! tip "Dica"
-    Destaque os stakeholders que participam de decisão, validação, uso ou que serão impactados pelo produto.

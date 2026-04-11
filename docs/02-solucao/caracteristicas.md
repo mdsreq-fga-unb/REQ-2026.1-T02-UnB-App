@@ -11,4 +11,3 @@
 | OE1 | OE4 | C05 | Central de Suporte Integrada | Módulo de fácil acesso com tutoriais rápidos (textos ampliados e vídeos curtos) sobre tarefas básicas. | Redução da dependência de auxílio de terceiros (familiares ou funcionários). |
 | OE5 | OE1 | C06 | Central de Acolhimento e Tutoriais | O aplicativo deve oferecer guias visuais simples e tutoriais passo a passo (como vídeos e ilustrações) para ensinar o usuário a realizar tarefas acadêmicas básicas, respondendo diretamente ao OE5. | Acelerar a curva de aprendizado e mitigar a frustração no primeiro contato com a vida acadêmica digital. |
 
-{: .tabela-caracteristicas }
