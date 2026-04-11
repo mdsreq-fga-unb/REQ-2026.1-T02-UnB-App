@@ -1,0 +1,371 @@
+/* ============================================================
+   CUSTOM THEME — Visão do Produto e Projeto
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
+/* ── Palette ─────────────────────────────────────────────── */
+:root {
+  --md-primary-fg-color:        #1a1f2e;
+  --md-primary-fg-color--light: #2d3452;
+  --md-primary-fg-color--dark:  #0f1219;
+  --md-accent-fg-color:         #4f7fff;
+  --md-accent-fg-color--transparent: rgba(79,127,255,.08);
+
+  --vpp-blue:    #4f7fff;
+  --vpp-green:   #34c98a;
+  --vpp-amber:   #f5a623;
+  --vpp-red:     #e55353;
+  --vpp-surface: #f5f6fa;
+  --vpp-border:  #e2e5ef;
+  --vpp-text:    #1a1f2e;
+  --vpp-muted:   #6b7280;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color:        #1a1f2e;
+  --md-default-bg-color:        #111827;
+  --md-default-fg-color:        #e5e7eb;
+  --vpp-surface: #1e2433;
+  --vpp-border:  #2d3452;
+  --vpp-text:    #e5e7eb;
+  --vpp-muted:   #9ca3af;
+}
+
+/* ── Base Typography ─────────────────────────────────────── */
+.md-typeset {
+  font-size: .875rem;
+  line-height: 1.75;
+  color: var(--vpp-text);
+}
+
+.md-typeset h1 {
+  font-weight: 700;
+  font-size: 1.9rem;
+  letter-spacing: -.02em;
+  border-bottom: 2px solid var(--vpp-blue);
+  padding-bottom: .4em;
+  margin-bottom: 1.2em;
+  color: var(--vpp-text);
+}
+
+.md-typeset h2 {
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin-top: 2em;
+  color: var(--vpp-text);
+  border-left: 3px solid var(--vpp-blue);
+  padding-left: .7em;
+}
+
+.md-typeset h3 {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--vpp-muted);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-top: 1.6em;
+}
+
+/* ── Header / Nav ────────────────────────────────────────── */
+.md-header {
+  background: var(--md-primary-fg-color);
+  box-shadow: 0 1px 0 rgba(255,255,255,.06), 0 4px 20px rgba(0,0,0,.25);
+}
+
+.md-header__title {
+  font-weight: 600;
+  letter-spacing: -.01em;
+}
+
+/* Keep top tabs readable when many sections are present. */
+.md-tabs .md-grid {
+  max-width: 100%;
+  padding-inline: .8rem;
+}
+
+.md-tabs {
+  background: var(--md-primary-fg-color--light);
+}
+
+.md-tabs__link {
+  font-size: .78rem;
+  padding-inline: .45rem;
+}
+
+.md-tabs__link--active,
+.md-tabs__link:hover {
+  color: var(--vpp-blue) !important;
+}
+
+/* ── Sidebar ─────────────────────────────────────────────── */
+.md-nav__title {
+  font-size: .7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--vpp-muted);
+  padding: 1rem .6rem .4rem;
+}
+
+.md-nav__link--active {
+  color: var(--vpp-blue) !important;
+  font-weight: 600;
+}
+
+/* ── Tables ──────────────────────────────────────────────── */
+.md-typeset table:not([class]) {
+  font-size: .8rem;
+  border: 1px solid var(--vpp-border);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,.06);
+}
+
+.md-typeset table:not([class]) thead tr {
+  background: var(--md-primary-fg-color);
+}
+
+.md-typeset table:not([class]) thead th {
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: .03em;
+  font-size: .75rem;
+  text-transform: uppercase;
+  border: none;
+  padding: .75rem 1rem;
+}
+
+.md-typeset table:not([class]) tbody tr:nth-child(even) {
+  background: var(--vpp-surface);
+}
+
+.md-typeset table:not([class]) td {
+  border-color: var(--vpp-border);
+  padding: .6rem 1rem;
+  vertical-align: top;
+}
+
+/* ── Admonitions ─────────────────────────────────────────── */
+.md-typeset .admonition,
+.md-typeset details {
+  border-radius: 6px;
+  border-left-width: 3px;
+  font-size: .85rem;
+}
+
+/* ── Code ────────────────────────────────────────────────── */
+.md-typeset code {
+  background: var(--vpp-surface);
+  border: 1px solid var(--vpp-border);
+  border-radius: 4px;
+  font-size: .82em;
+  padding: .1em .35em;
+}
+
+.md-typeset pre > code {
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+/* ── Hero card (home page) ───────────────────────────────── */
+.vpp-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.vpp-hero-card {
+  background: var(--vpp-surface);
+  border: 1px solid var(--vpp-border);
+  border-radius: 10px;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow .2s, transform .2s;
+}
+
+.vpp-hero-card:hover {
+  box-shadow: 0 6px 20px rgba(79,127,255,.12);
+  transform: translateY(-2px);
+}
+
+.vpp-hero-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--vpp-blue);
+  border-radius: 10px 10px 0 0;
+}
+
+.vpp-hero-card h3 {
+  font-size: .95rem !important;
+  font-weight: 600 !important;
+  margin-top: .4rem !important;
+  color: var(--vpp-text) !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+
+.vpp-hero-card p {
+  font-size: .82rem;
+  color: var(--vpp-muted);
+  margin-bottom: 0;
+}
+
+.vpp-hero-card .vpp-section-num {
+  font-size: .7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--vpp-blue);
+}
+
+/* ── Badges ──────────────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  padding: .15em .55em;
+  border-radius: 999px;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .03em;
+}
+
+.badge-blue   { background: rgba(79,127,255,.12); color: var(--vpp-blue); }
+.badge-green  { background: rgba(52,201,138,.12); color: var(--vpp-green); }
+.badge-amber  { background: rgba(245,166,35,.12); color: var(--vpp-amber); }
+.badge-red    { background: rgba(229,83,83,.12);  color: var(--vpp-red); }
+
+/* ── Status chips (DoR/DoD, MVP etc.) ───────────────────── */
+.vpp-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin: 1rem 0;
+}
+
+.vpp-chip {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  background: var(--vpp-surface);
+  border: 1px solid var(--vpp-border);
+  border-radius: 6px;
+  padding: .4rem .75rem;
+  font-size: .8rem;
+  font-weight: 500;
+}
+
+.vpp-chip .icon { font-size: 1rem; }
+
+/* ── Objective cards ─────────────────────────────────────── */
+.oe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+  margin: 1.2rem 0;
+}
+
+.oe-card {
+  background: var(--vpp-surface);
+  border: 1px solid var(--vpp-border);
+  border-radius: 8px;
+  padding: 1rem 1.1rem;
+}
+
+.oe-card .oe-id {
+  font-size: .7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--vpp-blue);
+}
+
+.oe-card p { font-size: .83rem; margin: .3rem 0 0; color: var(--vpp-text); }
+
+/* ── Sprint timeline ─────────────────────────────────────── */
+.sprint-timeline {
+  position: relative;
+  padding-left: 2rem;
+  border-left: 2px solid var(--vpp-border);
+  margin: 1.5rem 0;
+}
+
+.sprint-item {
+  position: relative;
+  padding: .8rem 0 .8rem 1rem;
+}
+
+.sprint-item::before {
+  content: '';
+  position: absolute;
+  left: -2.45rem;
+  top: 1.1rem;
+  width: .75rem;
+  height: .75rem;
+  border-radius: 50%;
+  background: var(--vpp-blue);
+  border: 2px solid var(--md-default-bg-color);
+}
+
+.sprint-item .sprint-label {
+  font-size: .7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--vpp-blue);
+}
+
+.sprint-item .sprint-title {
+  font-weight: 600;
+  font-size: .9rem;
+  margin: .1rem 0;
+}
+
+.sprint-item .sprint-dates {
+  font-size: .75rem;
+  color: var(--vpp-muted);
+}
+
+/* ── Team cards ──────────────────────────────────────────── */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 1.2rem 0;
+}
+
+.team-card {
+  background: var(--vpp-surface);
+  border: 1px solid var(--vpp-border);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.team-card .avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--vpp-blue), #7b61ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto .6rem;
+  font-weight: 700;
+  color: #fff;
+  font-size: .95rem;
+}
+
+.team-card .name { font-weight: 600; font-size: .88rem; }
+.team-card .role { font-size: .75rem; color: var(--vpp-muted); }
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 720px) {
+  .vpp-hero { grid-template-columns: 1fr; }
+  .oe-grid  { grid-template-columns: 1fr; }
+  .team-grid { grid-template-columns: 1fr 1fr; }
+}
