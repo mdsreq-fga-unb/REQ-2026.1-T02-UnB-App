@@ -146,6 +146,40 @@
   vertical-align: top;
 }
 
+/* 2.3 Caracteristicas: use all available width first, then allow horizontal scroll. */
+.md-typeset__table:has(> table.tabela-caracteristicas) {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.md-typeset table.tabela-caracteristicas {
+  min-width: 100%;
+  width: max-content;
+  table-layout: auto;
+  font-size: .76rem;
+}
+
+.md-typeset table.tabela-caracteristicas th,
+.md-typeset table.tabela-caracteristicas td {
+  padding: .55rem .65rem;
+  white-space: normal;
+  word-break: normal;
+  hyphens: auto;
+}
+
+@media screen and (max-width: 900px) {
+  .md-typeset table.tabela-caracteristicas {
+    font-size: .7rem;
+  }
+
+  .md-typeset table.tabela-caracteristicas th,
+  .md-typeset table.tabela-caracteristicas td {
+    padding: .5rem .55rem;
+  }
+}
+
 /* ── Admonitions ─────────────────────────────────────────── */
 .md-typeset .admonition,
 .md-typeset details {
