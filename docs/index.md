@@ -9,10 +9,10 @@
 
 | Campo         | Informação                          |
 |---------------|-------------------------------------|
-| **Produto**   | [Nome do Produto]                   |
-| **Versão**    | [n.n]                               |
-| **Equipe**    | [Nome da Equipe]                    |
-| **Disciplina**| Requisitos de Software — [Semestre] |
+| **Produto**   | UnB App                             |
+| **Versão**    | [1.3]                               |
+| **Equipe**    | [Rivotril - G7]                     |
+| **Disciplina**| Requisitos de Software — [2026.01]  |
 
 ---
 
@@ -20,7 +20,14 @@
 
 | Data | Versão | Descrição | Autor |
 |------|--------|-----------|-------|
-| —    | —      | —         | —     |
+| 03/04/2026 | 1.0 | Primeira versão do documento com quase toda a parte de 1 até 2.3 completa, além da inserção de alguns outros como o 2.4 | Luís Felipe Parreira Cunha, Rivadalvio, Davi e Pedro |
+| 04/04/2026 | 1.0.1 | Refinamento de detalhes e verificação do projeto | Mateus, Luís Felipe e Davi |
+| 06/04/2026 | 1.1 | Adequação aos pedidos do professor com adição de novos esclarecimentos e pontos. Além de alteração de nome do projeto | Luís Felipe, Rivadalvio e Mateus |
+| 06/04/2026 | 1.1.1 | Refinamento do documento | Pedro, Mateus e Rivadalvio |
+| 08/04/2026 | 1.2 | Atualizações da visão do projeto para seguir as recomendações do professor | Luís Felipe |
+| 09/04/2026 | 1.2.1 | Atualização de pensamentos e ideias que haviam ficado ambíguas no entendimento dos objetivos | Luís Felipe, Davi, Pedro e Rivadalvio |
+| 09/04/2026 | 1.2.2 | Inclusão do Objetivo Específico 5 (OE5), refinamento do Objetivo Geral e correção de erros pontuais no documento. | Davi Severiano |
+| 09/04/2026 | 1.3 | Correção ortográfica e acordo entre ideias que estavam muito ambíguas. Incluindo uma revisão geral dos tópicos 1 até o 2.3 | Davi, Luís, Mateus, Pedro e Rivadalvio |
 
 ---
 

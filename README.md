@@ -3,7 +3,7 @@ Repositório de projeto da disciplina de REQ-T2, 2026.1.
 
 ## Estrutura da documentação
 
-### 1. Fonte da documentação (branch de trabalho)
+### Fonte da documentação (branch de trabalho)
 
 ```
 REQ-2026.1-T02-UnB-App/
@@ -27,51 +27,6 @@ REQ-2026.1-T02-UnB-App/
     ├── 09-backlog/
     └── 10-licoes/
 ```
-
-### 2. Publicação (branch `gh-pages`)
-
-A branch `gh-pages` é gerada automaticamente pelo MkDocs e contém somente os arquivos estáticos do site (HTML, CSS, JS e assets). Não edite essa branch manualmente.
-
-Estrutura esperada (resumo real do projeto):
-
-```
-gh-pages/
-├── .nojekyll
-├── index.html
-├── 404.html
-├── 01-cenario/
-│   ├── index.html
-│   ├── cliente/index.html
-│   ├── desafios/index.html
-│   ├── negocio/index.html
-│   ├── oportunidade/index.html
-│   ├── rich-picture/index.html
-│   ├── segmentacao/index.html
-│   └── stakeholders/index.html
-├── 02-solucao/
-├── 03-estrategias/
-├── 04-er/
-├── 05-cronograma/
-├── 06-interacao/
-├── 07-requisitos/
-├── 08-dor-dod/
-├── 09-backlog/
-├── 10-licoes/
-├── referencias/index.html
-├── assets/
-│   ├── logo.svg
-│   ├── stylesheets/
-│   └── javascripts/
-├── search/search_index.json
-├── sitemap.xml
-└── sitemap.xml.gz
-```
-
-Mapeamento importante:
-
-- `docs/<pagina>.md` -> `gh-pages/<pagina>/index.html`
-- `docs/index.md` -> `gh-pages/index.html`
-- `docs/assets/*` -> `gh-pages/assets/*`
 
 ## Como usar
 
