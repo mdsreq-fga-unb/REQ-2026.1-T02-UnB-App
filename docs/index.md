@@ -28,6 +28,7 @@
 | 09/04/2026 | 1.2.1 | Atualização de pensamentos e ideias que haviam ficado ambíguas no entendimento dos objetivos | Luís Felipe, Davi, Pedro e Rivadalvio |
 | 09/04/2026 | 1.2.2 | Inclusão do Objetivo Específico 5 (OE5), refinamento do Objetivo Geral e correção de erros pontuais no documento. | Davi Severiano |
 | 09/04/2026 | 1.3 | Correção ortográfica e acordo entre ideias que estavam muito ambíguas. Incluindo uma revisão geral dos tópicos 1 até o 2.3 | Davi, Luís, Mateus, Pedro e Rivadalvio |
+| 12/04/2026 | 1.3.1 | Adicionados os tópicos referentes a cada um dos autores que é todo o tópico 6, além de alterações para atender os pedidos do professor no 2.3 | Davi, Luís |
 
 ---
 
