@@ -1,6 +1,5 @@
 # 2.5 Pesquisa de Mercado e Análise Competitiva
 
-<div align="justify">
 > Análise das soluções similares existentes e como a nova solução se diferencia.
 
 O UnB App é um suporte que dispõe acessibilidade para os estudantes, com enfâse naqueles que enfrentam qualquer barreiras no uso da interface padrão. Assim, o foco é reduzir a exclusão digital e a dependência tecnológica enfrentada, especialmente, pelo público 60+, sem dispor do sistema oficial da universidade.
@@ -22,4 +21,3 @@ O UnB App é um suporte que dispõe acessibilidade para os estudantes, com enfâ
 - **Assistência Proativa:** O aplicativo inverte a lógica de busca; ele avisa o aluno sobre prazos, locais de aula e responsabilidades em vez de obrigá-lo a navegar por menus complexos.
 - **Acolhimento e Tutoriais:** Inclui uma central de suporte com guias visuais e vídeos curtos para acelerar a curva de aprendizado e reduzir a ansiedade no primeiro contato digital.
 
-</div>
