@@ -37,6 +37,8 @@
   font-size: .875rem;
   line-height: 1.75;
   color: var(--vpp-text);
+  text-align: justify;    
+  hyphens: auto;         
 }
 
 .md-typeset h1 {
