@@ -1,19 +1,16 @@
-# 4.2 Engenharia de Requisitos e o [Nome do Processo]
+# 4.2 Engenharia de Requisitos e o Scrum
 
-> Mapeamento das atividades da ER, práticas e técnicas nas fases do processo estabelecido pela equipe.
+> A tabela abaixo detalha como as atividades de Engenharia de Requisitos (ER) serão integradas às fases do processo Scrum definido para o UnB App.
 
 ---
 
-| Fase do Processo | Atividade ER | Prática | Técnica | Resultado Esperado |
-|------------------|-------------|---------|---------|-------------------|
-| [Fase 1] | Elicitação e Descoberta | [Prática] | [Técnica] | [Resultado] |
-| [Fase 1] | Análise e Consenso | [Prática] | [Técnica] | [Resultado] |
-| [Fase 1] | Declaração | [Prática] | [Técnica] | [Resultado] |
-| [Fase 2] | Representação | [Prática] | [Técnica] | [Resultado] |
-| [Fase 2] | Verificação e Validação | [Prática] | [Técnica] | [Resultado] |
-| [Fase 2] | Organização e Atualização | [Prática] | [Técnica] | [Resultado] |
-| [Fase n] | Elicitação e Descoberta | [Prática] | [Técnica] | [Resultado] |
-| [Fase n] | Organização e Atualização | [Prática] | [Técnica] | [Resultado] |
-
-!!! tip "Dica"
-    Repita as fases conforme o processo escolhido. Para o ScrumXP, por exemplo, as fases seriam: Planejamento da Release, Planejamento da Sprint, Execução da Sprint, Revisão da Sprint, Retrospectiva e Planejamento da Próxima Release.
+| Fases do Processo | Atividades ER | Prática | Técnica | Resultado Esperado |
+|-------------------|---------------|---------|---------|--------------------|
+| Planejamento da Release | Elicitação e Descoberta | Compreensão do domínio e problemas | Entrevistas e questionários com diversos perfis de alunos | Lista de dores e necessidades priorizadas dos estudantes. |
+| Planejamento da Release | Análise e Consenso | Definição de escopo e valor | MoSCoW e Diagrama de Ishikawa | Histórias de usuário detalhadas e estimadas pela equipe. |
+| Planejamento da Release | Declaração | Formalização do Backlog Geral | Épicos e User Stories | Itens prontos para desenvolvimento, sem ambiguidades. |
+| Execução da Sprint | Representação | Modelagem e Design | Protótipos de alta fidelidade e Wireframes | Interfaces que guiam a implementação focada em usabilidade. |
+| Execução da Sprint | Organização e Atualização | Gestão de progresso | Refinamento (Grooming) e Kanban | Backlog atualizado e rastreabilidade das tarefas garantida. |
+| Revisão da Sprint | Verificação e Validação | Homologação com o cliente | Demonstração e Testes de Aceitação | Funcionalidades validadas pela representante e usuários. |
+| Revisão da Sprint | Declaração | Evolução de Requisitos | Incorporação de Feedbacks | Requisitos ajustados e novas descobertas inseridas no backlog. |
+| Retrospectiva | Organização e Atualização | Melhoria contínua do processo | Análise de lições aprendidas | Workflow de ER otimizado para as próximas iterações. |
