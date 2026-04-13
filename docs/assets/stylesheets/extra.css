@@ -122,6 +122,22 @@
   box-shadow: 0 1px 3px rgba(0,0,0,.06);
 }
 
+/* Tabela de Características do Produto (6 colunas — aplicado via wrapper .chars-table) */
+.chars-table table {
+  font-size: 0.7rem;
+}
+
+.chars-table th {
+  padding: .35rem .35rem !important;
+  font-size: 0.66rem !important;
+  letter-spacing: .02em !important;
+}
+
+.chars-table td {
+  padding: .35rem .35rem !important;
+  overflow-wrap: break-word;
+}
+
 .md-typeset table:not([class]) thead tr {
   background: var(--md-primary-fg-color);
 }
