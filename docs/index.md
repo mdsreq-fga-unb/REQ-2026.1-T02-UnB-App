@@ -10,7 +10,7 @@
 | Campo         | Informação                          |
 |---------------|-------------------------------------|
 | **Produto**   | UnB App                             |
-| **Versão**    | [1.3.2]                             |
+| **Versão**    | [1.3.5]                             |
 | **Equipe**    | [Rivotril - G7]                     |
 | **Disciplina**| Requisitos de Software — [2026.01]  |
 
@@ -30,6 +30,9 @@
 | 09/04/2026 | 1.3 | Correção ortográfica e acordo entre ideias que estavam muito ambíguas. Incluindo uma revisão geral dos tópicos 1 até o 2.3 | Davi, Luís, Mateus, Pedro e Rivadalvio |
 | 12/04/2026 | 1.3.1 | Adicionados os tópicos referentes a cada um dos autores que são tópicos 2.5, 2.6, 4.1 e 6.3 | Pedro, Luís |
 | 13/04/2026 | 1.3.2 | Adicionados os tópicos referentes a cada um dos autores que são tópicos 6.1, 6.2 e revisão 2.3 | Davi |
+| 13/04/2026 | 1.3.3 | Adicionados os tópicos referentes a cada um dos autores que são tópicos 3.2, 3.3 e 5 | Riva |
+| 13/04/2026 | 1.3.4 | Adicionados os tópicos referentes a cada um dos autores que são tópicos 2.7, 3.1 e 4.2 | Mateus |
+| 13/04/2026 | 1.3.5 | Revisão das novas adições feitas por cada integrante | Luis |
 
 ---
 
