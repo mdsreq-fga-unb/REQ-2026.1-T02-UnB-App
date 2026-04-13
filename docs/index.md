@@ -10,7 +10,7 @@
 | Campo         | Informação                          |
 |---------------|-------------------------------------|
 | **Produto**   | UnB App                             |
-| **Versão**    | [1.3]                               |
+| **Versão**    | [1.3.2]                             |
 | **Equipe**    | [Rivotril - G7]                     |
 | **Disciplina**| Requisitos de Software — [2026.01]  |
 
@@ -29,6 +29,7 @@
 | 09/04/2026 | 1.2.2 | Inclusão do Objetivo Específico 5 (OE5), refinamento do Objetivo Geral e correção de erros pontuais no documento. | Davi Severiano |
 | 09/04/2026 | 1.3 | Correção ortográfica e acordo entre ideias que estavam muito ambíguas. Incluindo uma revisão geral dos tópicos 1 até o 2.3 | Davi, Luís, Mateus, Pedro e Rivadalvio |
 | 12/04/2026 | 1.3.1 | Adicionados os tópicos referentes a cada um dos autores que são tópicos 2.5, 2.6, 4.1 e 6.3 | Pedro, Luís |
+| 13/04/2026 | 1.3.2 | Adicionados os tópicos referentes a cada um dos autores que são tópicos 6.1, 6.2 e revisão 2.3 | Davi |
 
 ---
 
