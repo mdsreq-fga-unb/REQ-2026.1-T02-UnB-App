@@ -148,6 +148,32 @@
   vertical-align: top;
 }
 
+/* Keep overview-table topic links readable in all themes, especially dark mode. */
+.md-typeset table:not([class]) tbody td:first-child a {
+  color: var(--vpp-blue);
+  font-weight: 500;
+  text-decoration-color: rgba(79,127,255,.45);
+}
+
+.md-typeset table:not([class]) tbody td:first-child a:hover,
+.md-typeset table:not([class]) tbody td:first-child a:focus-visible {
+  text-decoration-color: currentColor;
+}
+
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) tbody td:first-child a {
+  color: #a9c8ff;
+  text-decoration-color: rgba(169,200,255,.55);
+}
+
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) tbody td:first-child a:visited {
+  color: #c3d8ff;
+}
+
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) tbody td:first-child a:hover,
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) tbody td:first-child a:focus-visible {
+  color: #e3edff;
+}
+
 /* ── Admonitions ─────────────────────────────────────────── */
 .md-typeset .admonition,
 .md-typeset details {
