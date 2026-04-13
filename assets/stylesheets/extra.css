@@ -37,6 +37,8 @@
   font-size: .875rem;
   line-height: 1.75;
   color: var(--vpp-text);
+  text-align: justify;    
+  hyphens: auto;         
 }
 
 .md-typeset h1 {
@@ -120,22 +122,6 @@
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0,0,0,.06);
-}
-
-/* Tabela de Características do Produto (6 colunas — aplicado via wrapper .chars-table) */
-.chars-table table {
-  font-size: 0.7rem;
-}
-
-.chars-table th {
-  padding: .35rem .35rem !important;
-  font-size: 0.66rem !important;
-  letter-spacing: .02em !important;
-}
-
-.chars-table td {
-  padding: .35rem .35rem !important;
-  overflow-wrap: break-word;
 }
 
 .md-typeset table:not([class]) thead tr {
