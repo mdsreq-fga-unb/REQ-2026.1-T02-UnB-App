@@ -13,7 +13,7 @@ REQ-2026.1-T02-UnB-App/
     ├── index.md                # Página inicial
     ├── referencias.md
     ├── assets/
-    │   ├── logo.svg
+    │   ├── logo.png
     │   └── stylesheets/
     │       └── extra.css
     ├── 01-cenario/
@@ -61,16 +61,6 @@ mkdocs gh-deploy --clean
 > O comando acima faz o build, limpa arquivos antigos e publica automaticamente o resultado na branch `gh-pages`.
 
 ---
-
-## Personalização rápida
-
-| O que alterar | Onde |
-|---------------|------|
-| Nome do produto e equipe | `mkdocs.yml` → `site_name` e `docs/index.md` |
-| Logo | Substitua `docs/assets/logo.svg` |
-| Cores | `docs/assets/stylesheets/extra.css` → variáveis `:root` |
-| Imagens (rich picture, Ishikawa...) | Coloque em `docs/assets/` e referencie nos `.md` |
-| Conteúdo | Edite os arquivos `.md` de cada seção |
 
 ## Componentes CSS disponíveis
 

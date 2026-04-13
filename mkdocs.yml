@@ -7,8 +7,8 @@ site_dir: site
 theme:
   name: material
   language: pt
-  logo: assets/logo.svg
-  favicon: assets/logo.svg
+  logo: assets/logo.png
+  favicon: assets/logo.png
 
   palette:
     - scheme: default

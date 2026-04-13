@@ -11,6 +11,7 @@
   --md-primary-fg-color--dark:  #0f1219;
   --md-accent-fg-color:         #4f7fff;
   --md-accent-fg-color--transparent: rgba(79,127,255,.08);
+  --md-typeset-a-color:         #4f7fff;
 
   --vpp-blue:    #4f7fff;
   --vpp-green:   #34c98a;
@@ -26,6 +27,7 @@
   --md-primary-fg-color:        #1a1f2e;
   --md-default-bg-color:        #111827;
   --md-default-fg-color:        #e5e7eb;
+  --md-typeset-a-color:         #a9c8ff;
   --vpp-surface: #1e2433;
   --vpp-border:  #2d3452;
   --vpp-text:    #e5e7eb;
@@ -78,6 +80,15 @@
 .md-header__title {
   font-weight: 600;
   letter-spacing: -.01em;
+}
+
+/* Keep custom logo readable after switching to PNG artwork. */
+.md-header__button.md-logo img,
+.md-header__button.md-logo svg {
+  width: 2rem;
+  height: 2rem;
+  object-fit: cover;
+  border-radius: .2rem;
 }
 
 /* Keep top tabs readable when many sections are present. */
@@ -393,6 +404,12 @@
 
 /* ── Responsive ──────────────────────────────────────────── */
 @media (max-width: 720px) {
+  .md-header__button.md-logo img,
+  .md-header__button.md-logo svg {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
   .vpp-hero { grid-template-columns: 1fr; }
   .oe-grid  { grid-template-columns: 1fr; }
   .team-grid { grid-template-columns: 1fr 1fr; }
