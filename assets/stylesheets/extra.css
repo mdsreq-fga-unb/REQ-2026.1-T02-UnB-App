@@ -94,21 +94,43 @@
 /* Keep top tabs readable when many sections are present. */
 .md-tabs .md-grid {
   max-width: 100%;
-  padding-inline: .8rem;
+  padding-inline: .5rem;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
 }
 
 .md-tabs {
   background: var(--md-primary-fg-color--light);
 }
 
+.md-tabs__list {
+  display: flex;
+  flex-wrap: nowrap;
+  width: max-content;
+  min-width: 100%;
+}
+
+.md-tabs__item {
+  flex: 0 0 auto;
+}
+
 .md-tabs__link {
-  font-size: .78rem;
-  padding-inline: .45rem;
+  font-size: .74rem;
+  padding-inline: .3rem;
+  white-space: nowrap;
 }
 
 .md-tabs__link--active,
 .md-tabs__link:hover {
   color: var(--vpp-blue) !important;
+}
+
+@media (max-width: 1100px) {
+  .md-tabs__link {
+    font-size: .72rem;
+    padding-inline: .24rem;
+  }
 }
 
 /* ── Sidebar ─────────────────────────────────────────────── */
