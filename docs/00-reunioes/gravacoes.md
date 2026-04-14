@@ -6,6 +6,4 @@
 
 | Reunião | Data | Link da gravação | Participantes | Observações |
 |---------|------|------------------|---------------|-------------|
-| R01 | [dd/mm/aaaa] | [Adicionar link] | [Nomes] | [Pontos relevantes] |
-| R02 | [dd/mm/aaaa] | [Adicionar link] | [Nomes] | [Pontos relevantes] |
-| R03 | [dd/mm/aaaa] | [Adicionar link] | [Nomes] | [Pontos relevantes] |
+| R01 | 13/04/2026 | Não disponibilizado no repositório | Luis Felipe Parreira Cunha, Davi Severiano Freitas, Mateus Rodrigues Barreto, Pedro Henrique Ferreira Xavier, Rivadalvio Joaquim da Silva Filho | Reunião de revisão da Unidade 1. Transcrição integral em [Terminar a primeira entrega .docx](Terminar%20a%20primeira%20entrega%20.docx). |
