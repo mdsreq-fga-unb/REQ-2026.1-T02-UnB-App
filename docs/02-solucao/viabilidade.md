@@ -2,11 +2,8 @@
 
 > Avaliação objetiva da viabilidade no contexto da disciplina.
 
-<<<<<<< HEAD
 A proposta do UnB App apresenta alta viabilidade técnica e operacional para  período do semestre. De forma que, A equipe se apresenta bem estruturada e com papéis definidos, incluindo desenvolvedores focados em Frontend, Backend e analistas de QA e Requisitos. Além disso, o uso de tecnologias como **React Native, Expo e TypeScript** acelera o desenvolvimento multiplataforma (Android e iOS), enquanto o **Expo SQLite** simplifica a implementação das funcionalidades offline. 
 =======
-A proposta do UnB App apresenta alta viabilidade técnica e operacional para o período do semestre.
->>>>>>> 978e6aa8ac6c7604c9bc765cc9d77e9001466218
 
 ## Fundamentação da viabilidade
 
