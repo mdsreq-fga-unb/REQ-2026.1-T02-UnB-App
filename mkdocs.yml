@@ -83,6 +83,11 @@ plugins:
 
 nav:
   - Home: index.md
+  - "0 · Reuniões":
+    - Visão Geral: 00-reunioes/index.md
+    - "0.1 Gravações": 00-reunioes/gravacoes.md
+    - "0.2 Transcrições": 00-reunioes/transcricoes.md
+    - "0.3 Resumos": 00-reunioes/resumos.md
   - "1 · Cenário":
     - Visão Geral: 01-cenario/index.md
     - "1.1 Identificação do Cliente": 01-cenario/cliente.md

@@ -40,6 +40,11 @@
 
 <div class="vpp-hero">
   <div class="vpp-hero-card">
+    <span class="vpp-section-num">Seção 0</span>
+    <h3>Reuniões</h3>
+    <p>Gravações, transcrições e resumos dos encontros de acompanhamento do projeto.</p>
+  </div>
+  <div class="vpp-hero-card">
     <span class="vpp-section-num">Seções 1</span>
     <h3>Cenário Atual</h3>
     <p>Cliente, contexto de negócio, rich picture, stakeholders e segmentação.</p>
