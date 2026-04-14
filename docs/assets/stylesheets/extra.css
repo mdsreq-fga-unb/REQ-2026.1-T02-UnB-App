@@ -11,6 +11,7 @@
   --md-primary-fg-color--dark:  #0f1219;
   --md-accent-fg-color:         #4f7fff;
   --md-accent-fg-color--transparent: rgba(79,127,255,.08);
+  --md-typeset-a-color:         #4f7fff;
 
   --vpp-blue:    #4f7fff;
   --vpp-green:   #34c98a;
@@ -26,6 +27,7 @@
   --md-primary-fg-color:        #1a1f2e;
   --md-default-bg-color:        #111827;
   --md-default-fg-color:        #e5e7eb;
+  --md-typeset-a-color:         #a9c8ff;
   --vpp-surface: #1e2433;
   --vpp-border:  #2d3452;
   --vpp-text:    #e5e7eb;
@@ -37,6 +39,8 @@
   font-size: .875rem;
   line-height: 1.75;
   color: var(--vpp-text);
+  text-align: justify;    
+  hyphens: auto;         
 }
 
 .md-typeset h1 {
@@ -78,24 +82,55 @@
   letter-spacing: -.01em;
 }
 
+/* Keep custom logo readable after switching to PNG artwork. */
+.md-header__button.md-logo img,
+.md-header__button.md-logo svg {
+  width: 2rem;
+  height: 2rem;
+  object-fit: cover;
+  border-radius: .2rem;
+}
+
 /* Keep top tabs readable when many sections are present. */
 .md-tabs .md-grid {
   max-width: 100%;
-  padding-inline: .8rem;
+  padding-inline: .5rem;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
 }
 
 .md-tabs {
   background: var(--md-primary-fg-color--light);
 }
 
+.md-tabs__list {
+  display: flex;
+  flex-wrap: nowrap;
+  width: max-content;
+  min-width: 100%;
+}
+
+.md-tabs__item {
+  flex: 0 0 auto;
+}
+
 .md-tabs__link {
-  font-size: .78rem;
-  padding-inline: .45rem;
+  font-size: .74rem;
+  padding-inline: .3rem;
+  white-space: nowrap;
 }
 
 .md-tabs__link--active,
 .md-tabs__link:hover {
   color: var(--vpp-blue) !important;
+}
+
+@media (max-width: 1100px) {
+  .md-tabs__link {
+    font-size: .72rem;
+    padding-inline: .24rem;
+  }
 }
 
 /* ── Sidebar ─────────────────────────────────────────────── */
@@ -160,6 +195,32 @@
   border-color: var(--vpp-border);
   padding: .6rem 1rem;
   vertical-align: top;
+}
+
+/* Keep overview-table topic links readable in all themes, especially dark mode. */
+.md-typeset table:not([class]) tbody td:first-child a {
+  color: var(--vpp-blue);
+  font-weight: 500;
+  text-decoration-color: rgba(79,127,255,.45);
+}
+
+.md-typeset table:not([class]) tbody td:first-child a:hover,
+.md-typeset table:not([class]) tbody td:first-child a:focus-visible {
+  text-decoration-color: currentColor;
+}
+
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) tbody td:first-child a {
+  color: #a9c8ff;
+  text-decoration-color: rgba(169,200,255,.55);
+}
+
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) tbody td:first-child a:visited {
+  color: #c3d8ff;
+}
+
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) tbody td:first-child a:hover,
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) tbody td:first-child a:focus-visible {
+  color: #e3edff;
 }
 
 /* ── Admonitions ─────────────────────────────────────────── */
@@ -381,6 +442,12 @@
 
 /* ── Responsive ──────────────────────────────────────────── */
 @media (max-width: 720px) {
+  .md-header__button.md-logo img,
+  .md-header__button.md-logo svg {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
   .vpp-hero { grid-template-columns: 1fr; }
   .oe-grid  { grid-template-columns: 1fr; }
   .team-grid { grid-template-columns: 1fr 1fr; }

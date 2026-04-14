@@ -1,16 +1,14 @@
-# 2.3 Características do Produto
+# 2.3 Características de Produto (mapeadas com os Objetivos Específicos do Produto)
 
-> Características mapeadas com os Objetivos Específicos do Produto.
+A seguir são apresentadas as principais características da solução proposta para melhoria do SIGAA da Universidade de Brasília, alinhadas aos Objetivos Específicos do Produto.
 
 <div class="chars-table" markdown="1">
-| OE Principal | Contribuição Secundária | ID | Característica | Descrição resumida | Valor de negócio principal |
-|:---:|:---:|:---:|---|---|---|
-| OE3 | OE1 | C01 | Visualização de Carteirinha Offline | Disponibilizar a carteirinha de estudante gerada localmente no dispositivo (em cache), sem necessidade de internet ativa. | Autonomia em catracas e identificação sem depender de conexão de dados. |
-| OE3 | OE2 | C02 | Consulta de Grade Horária Offline | Armazenar e exibir a grade horária do semestre atual e o mapa/número das salas de aula para consulta rápida. | Redução de ansiedade e frustração ao procurar salas nos campi da UnB. |
-| OE3 | OE4 | C03 | Acompanhamento Facilitado da Rotina Acadêmica | Antecipar e organizar as informações do dia a dia do aluno, informando previamente sobre locais de aula, prazos de trabalhos e devolução de livros, para que ele não precise procurar essas informações no sistema. | Reduz o risco de o estudante perder compromissos importantes e elimina a necessidade de acessar o portal acadêmico manualmente para checar a agenda. |
-| OE3 | OE4 | C04 | Orientação sobre o Calendário da Universidade | Guiar o aluno durante os momentos mais importantes e críticos do semestre, avisando com antecedência sobre as datas de oferta de disciplinas e os períodos de matrículas. | Evitar que o aluno perca o semestre por esquecer prazos ou por não ter o costume de acessar o sistema, garantindo continuidade dos estudos com tranquilidade. |
-| OE1 | OE4 | C05 | Central de Suporte Integrada | Módulo de fácil acesso com tutoriais rápidos (textos ampliados e vídeos curtos) sobre tarefas básicas. | Redução da dependência de auxílio de terceiros (familiares ou funcionários). |
-| OE5 | OE1 | C06 | Central de Acolhimento e Tutoriais | O aplicativo deve oferecer guias visuais simples e tutoriais passo a passo (como vídeos e ilustrações) para ensinar o usuário a realizar tarefas acadêmicas básicas, respondendo diretamente ao OE5. | Acelerar a curva de aprendizado e mitigar a frustração no primeiro contato com a vida acadêmica digital. |
+| OE principal | Contribuição secundária | ID | Característica | Descrição resumida | Valor de negócio principal |
+|---|---|---|---|---|---|
+| OE3 | OE1 | C01 | Gestão de Identidade e Acesso Institucional | Módulo dedicado ao gerenciamento da identidade do aluno, permitindo a autenticação segura e a exibição de credenciais oficiais da UnB com resiliência de conexão (suporte a cache e armazenamento local). | Garantir o acesso autônomo aos espaços físicos mitigando barreiras de infraestrutura e dependência de internet. |
+| OE2 | OE3 | C02 | Gestão e Visualização da Rotina Acadêmica | Ambiente centralizado para estruturação do semestre do aluno, consolidando dados de turmas, professores e locais de aula (ensalamento) com suporte nativo a consulta offline. | Redução da ansiedade e da sobrecarga cognitiva na localização de espaços físicos nos campi, fornecendo previsibilidade diária sem dependência de internet. |
+| OE4 | OE3 | C03 | Sistema de Comunicação e Alertas Proativos | Mecanismo de assistência e notificação automatizada focado em antecipar eventos críticos, com ênfase nos períodos de oferta de disciplinas e consolidação de matrículas. | Assegurar a conformidade com os prazos institucionais e a continuidade da jornada educacional, mitigando o risco de perda de semestre decorrente da falta de acompanhamento manual e contínuo da plataforma por parte do usuário. |
+| OE5 | OE1, OE4 | C04 | Central de Acolhimento e Letramento Digital | Módulo integrado de capacitação contínua e suporte contextualizado, projetado para prover fluxos guiados e orientações interativas que conduzam o discente na execução autônoma de tarefas acadêmicas, desde o primeiro acesso até a navegação rotineira na plataforma. | Acelerar a curva de aprendizagem tecnológica e mitigar a frustração no contato inicial com o ecossistema digital, reduzindo drasticamente a dependência de terceiros para a operação do sistema. |
 
 </div>
 

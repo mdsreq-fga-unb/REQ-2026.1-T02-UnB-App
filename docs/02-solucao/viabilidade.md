@@ -2,14 +2,29 @@
 
 > Avaliação objetiva da viabilidade no contexto da disciplina.
 
+A proposta do UnB App apresenta alta viabilidade técnica e operacional para o período do semestre.
+
+## Fundamentação da viabilidade
+
+A equipe está estruturada com papéis definidos, incluindo desenvolvedores focados em Frontend, Backend e analistas de QA e Requisitos. Além disso, o uso de tecnologias como **React Native, Expo e TypeScript** acelera o desenvolvimento multiplataforma (Android e iOS), enquanto o **Expo SQLite** simplifica a implementação das funcionalidades offline.
+
+O acesso à representante dos usuários (Maria Fátima) por canais diretos de comunicação, como WhatsApp e Teams, garante ciclos rápidos de validação. Isso favorece a entrega de um **MVP funcional** com consulta de grade horária e carteirinha digital até o final das sprints planejadas.
+
+## Premissas operacionais
+
+- Equipe ativa e com papéis bem definidos durante todo o semestre.
+- Acompanhamento frequente com a representante dos usuários para validação contínua.
+- Manutenção de um ambiente estável de desenvolvimento com Expo e SQLite.
+
+
 ---
 
-[Preencha aqui a avaliação de viabilidade.]
-
 !!! warning "Riscos identificados"
-    - [Risco 1] — mitigação: [estratégia]
-    - [Risco 2] — mitigação: [estratégia]
+    - **Dificuldade na integração com dados do SIGAA** — mitigação: Utilizar técnicas de web scraping ou APIs intermediárias para consumir os dados necessários sem depender de acesso oficial direto ao backend da UnB.
+    - **Fadiga ou falta de disponibilidade dos usuários 60+ para testes** — mitigação: Planejar reuniões quinzenais curtas via Microsoft Teams e coletar feedbacks assíncronos via WhatsApp.
+    - **Complexidade de acessibilidade para o público-alvo** — mitigação: Aplicar o *Definition of Ready* (DoR) com foco rigoroso em contraste, tipografia e simplicidade antes de iniciar qualquer desenvolvimento.
 
 !!! success "Condições para viabilidade"
-    - [Condição 1]
-    - [Condição 2]
+    - **Engajamento da Cliente:** Manutenção da comunicação frequente com a representante Maria Fátima para validação dos incrementos.
+    - **Ambiente de Desenvolvimento:** Configuração estável do ecossistema Expo e SQLite pela equipe de desenvolvimento.
+    - **Cumprimento do Cronograma:** Seguir rigorosamente o planejamento de 7 sprints para garantir a consolidação final em junho de 2026.

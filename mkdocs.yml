@@ -7,8 +7,8 @@ site_dir: site
 theme:
   name: material
   language: pt
-  logo: assets/logo.svg
-  favicon: assets/logo.svg
+  logo: assets/logo.png
+  favicon: assets/logo.png
 
   palette:
     - scheme: default
@@ -83,6 +83,11 @@ plugins:
 
 nav:
   - Home: index.md
+  - "0 · Reuniões":
+    - Visão Geral: 00-reunioes/index.md
+    - "0.1 Gravações": 00-reunioes/gravacoes.md
+    - "0.2 Transcrições": 00-reunioes/transcricoes.md
+    - "0.3 Resumos": 00-reunioes/resumos.md
   - "1 · Cenário":
     - Visão Geral: 01-cenario/index.md
     - "1.1 Identificação do Cliente": 01-cenario/cliente.md
@@ -130,6 +135,7 @@ nav:
     - "9.1 Backlog Geral": 09-backlog/backlog-geral.md
     - "9.2 Priorização e MVP": 09-backlog/priorizacao.md
   - "10 · Lições":
+    - Visão Geral: 10-licoes/index.md
     - Unidade 1: 10-licoes/unidade1.md
     - Unidade 2: 10-licoes/unidade2.md
     - Unidade 3: 10-licoes/unidade3.md
