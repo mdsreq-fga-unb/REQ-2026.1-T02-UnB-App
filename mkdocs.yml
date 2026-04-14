@@ -1,6 +1,6 @@
-site_name: "[Nome do Produto] — Visão do Produto e Projeto"
+site_name: "UnB App — Visão do Produto e Projeto"
 site_description: "Documentação de Visão do Produto e Projeto"
-site_author: "Equipe de Desenvolvimento"
+site_author: "Grupo 7 - Rivotril"
 docs_dir: docs
 site_dir: site
 
@@ -50,7 +50,7 @@ extra_css:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/sua-org/seu-repo
+      link: https://github.com/mdsreq-fga-unb/REQ-2026.1-T02-UnB-App
 
 markdown_extensions:
   - admonition

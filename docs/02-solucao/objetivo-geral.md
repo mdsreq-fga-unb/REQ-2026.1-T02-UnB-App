@@ -1,7 +1,5 @@
 # 2.1 Objetivo Geral do Produto
 
-> Apresente o que se espera alcançar com o produto e como ele irá resolver o problema ou explorar as oportunidades identificadas.
+O objetivo geral é desenvolver a independência e a autonomia acadêmica aos discentes da faixa etária 60+. Em vez de apenas traduzir o SIGAA para o celular, o produto visa romper as barreiras de exclusão digital e arquitetural que atualmente geram ansiedade e dependência tecnológica nesses alunos.
 
----
-
-[Preencha aqui o objetivo geral do produto.]
+A solução entregará um ecossistema simplificado, proativo e resiliente (com forte suporte offline), garantindo que estudantes como a Dona Maria Fátima possam focar em seu aprendizado, e não na luta diária contra a interface da universidade.
