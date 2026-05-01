@@ -14,4 +14,11 @@ Abaixo segue a figura que representa bem essas causas e problemas encontrados na
 
 ## Diagrama de Ishikawa (Causa e Efeito)
 
-![Diagrama de Ishikawa](../assets/ishikawa.png)
+<div class="image-preview">
+  <figure class="image-preview__figure">
+    <img src="../../assets/ishikawa.png" alt="Diagrama de Ishikawa" loading="lazy">
+  </figure>
+  <a class="image-preview__action" href="../../assets/ishikawa.png" target="_blank" rel="noopener">
+    Abrir imagem em tamanho completo
+  </a>
+</div>
