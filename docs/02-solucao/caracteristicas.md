@@ -2,13 +2,13 @@
 
 A seguir são apresentadas as principais características da solução proposta para melhoria do SIGAA da Universidade de Brasília, alinhadas aos Objetivos Específicos do Produto.
 
+<div class="chars-table" markdown="1">
 | OE principal | Contribuição secundária | ID | Característica | Descrição resumida | Valor de negócio principal |
 |---|---|---|---|---|---|
 | OE3 | OE1 | C01 | Gestão de Identidade e Acesso Institucional | Módulo dedicado ao gerenciamento da identidade do aluno, permitindo a autenticação segura e a exibição de credenciais oficiais da UnB com resiliência de conexão (suporte a cache e armazenamento local). | Garantir o acesso autônomo aos espaços físicos mitigando barreiras de infraestrutura e dependência de internet. |
 | OE2 | OE3 | C02 | Gestão e Visualização da Rotina Acadêmica | Ambiente centralizado para estruturação do semestre do aluno, consolidando dados de turmas, professores e locais de aula (ensalamento) com suporte nativo a consulta offline. | Redução da ansiedade e da sobrecarga cognitiva na localização de espaços físicos nos campi, fornecendo previsibilidade diária sem dependência de internet. |
 | OE4 | OE3 | C03 | Sistema de Comunicação e Alertas Proativos | Mecanismo de assistência e notificação automatizada focado em antecipar eventos críticos, com ênfase nos períodos de oferta de disciplinas e consolidação de matrículas. | Assegurar a conformidade com os prazos institucionais e a continuidade da jornada educacional, mitigando o risco de perda de semestre decorrente da falta de acompanhamento manual e contínuo da plataforma por parte do usuário. |
 | OE5 | OE1, OE4 | C04 | Central de Acolhimento e Letramento Digital | Módulo integrado de capacitação contínua e suporte contextualizado, projetado para prover fluxos guiados e orientações interativas que conduzam o discente na execução autônoma de tarefas acadêmicas, desde o primeiro acesso até a navegação rotineira na plataforma. | Acelerar a curva de aprendizagem tecnológica e mitigar a frustração no contato inicial com o ecossistema digital, reduzindo drasticamente a dependência de terceiros para a operação do sistema. |
-| OE3 | OE1 | C05 | Gestão de Acesso a Serviços Universitários (RU e Biblioteca) | Consolidação de dados vitais (QR Codes institucionais) mantidos em cache para rápida apresentação em terminais. | Permitir o consumo autônomo de serviços essenciais sem barreiras de infraestrutura. |
-| OE1 | OE2 | C06 | Módulo de Acompanhamento de Desempenho | Ambiente focado na exibição do histórico escolar e das notas. | Promover a autonomia do aluno na consulta de notas, eliminando a necessidade de solicitar ajuda a familiares. |
-| OE1 | OE3 | C07 | Central de armazenamento de Documentos | Módulo focado no salvamento local e na organização de atestados e documentos oficiais da instituição, permitindo que o estudante consulte e apresente seus arquivos diretamente do dispositivo móvel a qualquer momento, mesmo quando estiver offline. | Garantir a independência burocrática do aluno sem depender de conexão ou terminais físicos. |
-| OE5 | OE2 | C08 | Guia de Integração para Ingressantes | Fluxo inicial de acolhimento acionado no primeiro acesso, apresentando a estrutura do aplicativo de forma ilustrativa. | Facilitar o primeiro contato com a ferramenta, reduzindo o atrito e a ansiedade dos calouros 60+. |
+
+</div>
+

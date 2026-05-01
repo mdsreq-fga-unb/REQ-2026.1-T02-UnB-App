@@ -133,13 +133,6 @@
   }
 }
 
-/* Give documentation pages enough horizontal room for wide data tables. */
-@media (min-width: 1220px) {
-  .md-main__inner.md-grid {
-    max-width: min(94rem, calc(100% - 2rem));
-  }
-}
-
 /* ── Sidebar ─────────────────────────────────────────────── */
 .md-nav__title {
   font-size: .7rem;
@@ -156,8 +149,7 @@
 }
 
 /* ── Tables ──────────────────────────────────────────────── */
-.md-typeset table:not([class]),
-.md-typeset table.product-characteristics-table {
+.md-typeset table:not([class]) {
   font-size: .8rem;
   border: 1px solid var(--vpp-border);
   border-radius: 8px;
@@ -165,56 +157,27 @@
   box-shadow: 0 1px 3px rgba(0,0,0,.06);
 }
 
-/* Product characteristics table (six columns). */
-.md-typeset table.product-characteristics-table {
-  width: 100%;
-  min-width: 68rem;
-  table-layout: fixed;
-  font-size: .72rem;
+/* Tabela de Características do Produto (6 colunas — aplicado via wrapper .chars-table) */
+.chars-table table {
+  font-size: 0.7rem;
 }
 
-.md-typeset .md-typeset__scrollwrap:has(table.product-characteristics-table),
-.md-typeset .md-typeset__table:has(table.product-characteristics-table) {
-  width: 100%;
-}
-
-.md-typeset .md-typeset__scrollwrap:has(table.product-characteristics-table) {
-  margin-left: 0;
-  margin-right: 0;
-}
-
-.md-typeset table.product-characteristics-table th,
-.md-typeset table.product-characteristics-table td {
-  padding: .45rem .55rem !important;
-  overflow-wrap: break-word;
-  word-break: normal;
-}
-
-.md-typeset table.product-characteristics-table th {
-  font-size: .66rem !important;
+.chars-table th {
+  padding: .35rem .35rem !important;
+  font-size: 0.66rem !important;
   letter-spacing: .02em !important;
 }
 
-.md-typeset table.product-characteristics-table th:nth-child(1) { width: 8%; }
-.md-typeset table.product-characteristics-table th:nth-child(2) { width: 12%; }
-.md-typeset table.product-characteristics-table th:nth-child(3) { width: 6%; }
-.md-typeset table.product-characteristics-table th:nth-child(4) { width: 18%; }
-.md-typeset table.product-characteristics-table th:nth-child(5) { width: 28%; }
-.md-typeset table.product-characteristics-table th:nth-child(6) { width: 28%; }
-
-@media (max-width: 1219px) {
-  .md-typeset table.product-characteristics-table {
-    min-width: 60rem;
-  }
+.chars-table td {
+  padding: .35rem .35rem !important;
+  overflow-wrap: break-word;
 }
 
-.md-typeset table:not([class]) thead tr,
-.md-typeset table.product-characteristics-table thead tr {
+.md-typeset table:not([class]) thead tr {
   background: var(--md-primary-fg-color);
 }
 
-.md-typeset table:not([class]) thead th,
-.md-typeset table.product-characteristics-table thead th {
+.md-typeset table:not([class]) thead th {
   color: #fff;
   font-weight: 600;
   letter-spacing: .03em;
@@ -224,13 +187,11 @@
   padding: .75rem 1rem;
 }
 
-.md-typeset table:not([class]) tbody tr:nth-child(even),
-.md-typeset table.product-characteristics-table tbody tr:nth-child(even) {
+.md-typeset table:not([class]) tbody tr:nth-child(even) {
   background: var(--vpp-surface);
 }
 
-.md-typeset table:not([class]) td,
-.md-typeset table.product-characteristics-table td {
+.md-typeset table:not([class]) td {
   border-color: var(--vpp-border);
   padding: .6rem 1rem;
   vertical-align: top;
