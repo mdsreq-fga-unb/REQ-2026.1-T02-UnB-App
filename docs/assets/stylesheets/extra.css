@@ -304,6 +304,96 @@
   box-shadow: 0 10px 24px rgba(0,0,0,.35);
 }
 
+.diagram-actions {
+  display: flex;
+  justify-content: center;
+  margin: .75rem 0 2rem;
+}
+
+.md-typeset .diagram-modal__trigger,
+.md-typeset .diagram-modal__close {
+  cursor: pointer;
+  border: 0;
+  color: #fff;
+  background: var(--vpp-blue);
+  border-radius: 6px;
+  font-size: .82rem;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(79,127,255,.22);
+}
+
+.md-typeset .diagram-modal__trigger {
+  min-height: 2.25rem;
+  padding: .45rem .9rem;
+}
+
+.md-typeset .diagram-modal__close {
+  min-height: 2rem;
+  padding: .35rem .75rem;
+  background: var(--md-primary-fg-color--light);
+}
+
+.diagram-modal {
+  width: min(94vw, 1200px);
+  max-width: 94vw;
+  height: min(88vh, 760px);
+  max-height: 88vh;
+  padding: 0;
+  color: var(--vpp-text);
+  background: var(--md-default-bg-color);
+  border: 1px solid var(--vpp-border);
+  border-radius: 8px;
+  box-shadow: 0 24px 70px rgba(0,0,0,.35);
+}
+
+.diagram-modal::backdrop {
+  background: rgba(15,18,25,.62);
+}
+
+.diagram-modal__panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.diagram-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .75rem 1rem;
+  background: var(--vpp-surface);
+  border-bottom: 1px solid var(--vpp-border);
+}
+
+.diagram-modal__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.diagram-modal__body {
+  flex: 1;
+  overflow: auto;
+  padding: 1rem;
+}
+
+.diagram-modal__body .mermaid {
+  min-width: 1120px;
+  padding: 1rem;
+}
+
+[data-md-color-scheme="slate"] .diagram-modal {
+  background: #171d2a;
+  box-shadow: 0 10px 24px rgba(0,0,0,.35);
+}
+
+[data-md-color-scheme="slate"] .diagram-modal__header {
+  background: #1e2433;
+}
+
 /* ── Hero card (home page) ───────────────────────────────── */
 .vpp-hero {
   display: grid;
