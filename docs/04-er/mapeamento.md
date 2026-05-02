@@ -1,16 +1,13 @@
-# 4.2 Engenharia de Requisitos e o Scrum
+# 4.2 Engenharia de Requisitos e o FDD
 
-> A tabela abaixo detalha como as atividades de Engenharia de Requisitos (ER) serão integradas às fases do processo Scrum definido para o UnB App.
+> A tabela abaixo detalha como as atividades de Engenharia de Requisitos (ER) serão integradas aos cinco processos do FDD definido para o UnB App.
 
 ---
 
-| Fases do Processo | Atividades ER | Prática | Técnica | Resultado Esperado |
-|-------------------|---------------|---------|---------|--------------------|
-| Planejamento da Release | Elicitação e Descoberta | Compreensão do domínio e problemas | Entrevistas e questionários com diversos perfis de alunos | Lista de dores e necessidades priorizadas dos estudantes. |
-| Planejamento da Release | Análise e Consenso | Definição de escopo e valor | MoSCoW e Diagrama de Ishikawa | Histórias de usuário detalhadas e estimadas pela equipe. |
-| Planejamento da Release | Declaração | Formalização do Backlog Geral | Épicos e User Stories | Itens prontos para desenvolvimento, sem ambiguidades. |
-| Execução da Sprint | Representação | Modelagem e Design | Protótipos de alta fidelidade e Wireframes | Interfaces que guiam a implementação focada em usabilidade. |
-| Execução da Sprint | Organização e Atualização | Gestão de progresso | Refinamento (Grooming) e Kanban | Backlog atualizado e rastreabilidade das tarefas garantida. |
-| Revisão da Sprint | Verificação e Validação | Homologação com o cliente | Demonstração e Testes de Aceitação | Funcionalidades validadas pela representante e usuários. |
-| Revisão da Sprint | Declaração | Evolução de Requisitos | Incorporação de Feedbacks | Requisitos ajustados e novas descobertas inseridas no backlog. |
-| Retrospectiva | Organização e Atualização | Melhoria contínua do processo | Análise de lições aprendidas | Workflow de ER otimizado para as próximas iterações. |
+| Processo FDD | Atividades ER | Técnica | Resultado Esperado |
+|--------------|---------------|---------|--------------------|
+| **1. Desenvolver Modelo Abrangente** | Elicitação e Descoberta / Representação | Entrevistas, questionários e Rich Picture | Panorama visual do cenário atual e das dores dos usuários 60+. |
+| **2. Construir Lista de Funcionalidades** | Análise e Consenso / Declaração | Workshops de Requisitos e declaração no padrão ação-resultado-objeto | Lista priorizada de features alinhada às necessidades do público-alvo. |
+| **3. Planejar por Funcionalidade** | Análise e Consenso | Técnica MoSCoW e negociação | Features ordenadas por valor de negócio, com escopo do MVP definido. |
+| **4. Detalhar por Funcionalidade** | Representação / Verificação | Mockups, protótipos de baixa fidelidade e inspeções de design | Interfaces validadas internamente, com foco em contraste e tipografia acessível. |
+| **5. Construir por Funcionalidade** | Verificação e Validação / Organização e Atualização | Demonstrações com stakeholders, testes de aceitação e refinamento da lista de features | Features entregues, validadas pela representante Maria Fátima e rastreadas no backlog. |
