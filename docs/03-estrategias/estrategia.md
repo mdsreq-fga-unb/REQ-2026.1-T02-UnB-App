@@ -3,7 +3,7 @@
 <div class="vpp-chip-row">
   <div class="vpp-chip"><span class="icon">🎯</span> <strong>Abordagem:</strong>&nbsp;Ágil</div>
   <div class="vpp-chip"><span class="icon">🔄</span> <strong>Ciclo de vida:</strong>&nbsp;Iterativo e Incremental</div>
-  <div class="vpp-chip"><span class="icon">⚙️</span> <strong>Processo:</strong>&nbsp;Scrum</div>
+  <div class="vpp-chip"><span class="icon">⚙️</span> <strong>Processo:</strong>&nbsp;FDD (Feature-Driven Development)</div>
 </div>
 
 ---
@@ -26,12 +26,12 @@ Cada iteração permite:
 
 Essa estratégia está alinhada à ideia de que as atividades da Engenharia de Software são interdependentes e continuamente retroalimentadas, e não estritamente sequenciais.
 
-**Processo de Engenharia de Software:** Scrum
+**Processo de Engenharia de Software:** FDD (Feature-Driven Development)
 
-O processo adotado será o Scrum, estruturado em sprints quinzenais, com foco em:
+O processo adotado será o FDD, estruturado em torno do desenvolvimento orientado a funcionalidades, com foco em:
 
-- planejamento incremental;
-- desenvolvimento orientado a valor;
-- validação contínua com stakeholders.
+- planejamento e construção incremental por features;
+- desenvolvimento orientado a valor, priorizando funcionalidades de maior impacto para o usuário;
+- validação contínua com stakeholders a cada entrega de feature.
 
-As cerimônias (planejamento, revisão e retrospectiva) permitirão manter o alinhamento entre equipe e cliente, além de apoiar a adaptação contínua do projeto conforme novas necessidades e entendimentos forem surgindo.
+As cinco atividades do FDD (Desenvolver Modelo Geral, Construir Lista de Features, Planejar por Feature, Detalhar por Feature e Construir por Feature) permitirão manter o alinhamento entre equipe e cliente, além de apoiar a adaptação contínua do projeto conforme novas funcionalidades forem identificadas e priorizadas.
