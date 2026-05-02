@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import { ActivityIndicator, Linking, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
@@ -85,19 +85,21 @@ function formatDateTime(value: string | null) {
 }
 
 function groupByMonth(eventos: EventoCalendarioAcademico[]) {
-  return eventos.reduce<{ month: string; data: EventoCalendarioAcademico[] }[]>((groups, evento) => {
+  const groups = eventos.reduce<{ month: string; data: EventoCalendarioAcademico[] }[]>((acc, evento) => {
     const date = parseLocalDate(evento.data_inicio);
     const month = MONTHS[date.getMonth()];
-    const currentGroup = groups.find((group) => group.month === month);
+    const currentGroup = acc.find((group) => group.month === month);
 
     if (currentGroup) {
       currentGroup.data.push(evento);
     } else {
-      groups.push({ month, data: [evento] });
+      acc.push({ month, data: [evento] });
     }
 
-    return groups;
+    return acc;
   }, []);
+
+  return groups;
 }
 
 export default function CalendarioAcademicoScreen() {
@@ -107,6 +109,9 @@ export default function CalendarioAcademicoScreen() {
   const { colors, isDark } = useTheme();
   const [eventos, setEventos] = useState<EventoCalendarioAcademico[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const scrollViewRef = useRef<ScrollView>(null);
+  const monthLayouts = useRef<Record<string, number>>({});
+  
   const [resumo, setResumo] = useState<{
     ano: number;
     periodo: number;
@@ -136,6 +141,23 @@ export default function CalendarioAcademicoScreen() {
     carregarCalendario();
   }, [carregarCalendario]);
 
+  // Efeito para scrollar automaticamente para o mês atual
+  useEffect(() => {
+    if (!isLoading && eventos.length > 0) {
+      const currentMonthName = MONTHS[new Date().getMonth()];
+      
+      // Delay curto para garantir que o layout foi renderizado e as posições Y coletadas
+      const timeoutId = setTimeout(() => {
+        const targetY = monthLayouts.current[currentMonthName];
+        if (targetY !== undefined && scrollViewRef.current) {
+          scrollViewRef.current.scrollTo({ y: targetY, animated: true });
+        }
+      }, 300);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [isLoading, eventos]);
+
   const eventosPorMes = useMemo(() => groupByMonth(eventos), [eventos]);
   const sourceUrl = resumo?.fonte || eventos[0]?.fonte || '';
 
@@ -163,12 +185,26 @@ export default function CalendarioAcademicoScreen() {
         <View style={{ width: 28 }} />
       </View>
 
+      <View style={[styles.stickyLegendContainer, { backgroundColor: colors.surface, borderBottomColor: colors.border }]}>
+        <View style={styles.legendWrapContent}>
+          {(['matricula', 'aulas', 'feriado', 'ponto_facultativo', 'marco'] as TipoEventoCalendario[]).map((tipo) => (
+            <View key={tipo} style={[styles.legendPill, { backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : '#eef4f1', borderColor: colors.border }]}>
+              <View style={[styles.legendDot, { backgroundColor: getTypeColor(tipo, colors.primary) }]} />
+              <Text style={[styles.legendText, { fontSize: getFontSize(13), color: colors.textSecondary }]} numberOfLines={1}>
+                {TYPE_META[tipo].label}
+              </Text>
+            </View>
+          ))}
+        </View>
+      </View>
+
       {isLoading ? (
         <View style={styles.centerContainer}>
           <ActivityIndicator size="large" color={colors.primary} />
         </View>
       ) : (
         <ScrollView
+          ref={scrollViewRef}
           contentInsetAdjustmentBehavior="automatic"
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContent}
@@ -191,19 +227,16 @@ export default function CalendarioAcademicoScreen() {
             </View>
           </View>
 
-          <View style={styles.legendRow}>
-            {(['matricula', 'aulas', 'feriado', 'ponto_facultativo', 'marco'] as TipoEventoCalendario[]).map((tipo) => (
-              <View key={tipo} style={[styles.legendPill, { backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : '#eef4f1', borderColor: colors.border }]}>
-                <View style={[styles.legendDot, { backgroundColor: getTypeColor(tipo, colors.primary) }]} />
-                <Text style={[styles.legendText, { fontSize: getFontSize(12), color: colors.textSecondary }]} numberOfLines={1}>
-                  {TYPE_META[tipo].label}
-                </Text>
-              </View>
-            ))}
-          </View>
+
 
           {eventosPorMes.map((group) => (
-            <View key={group.month} style={styles.monthSection}>
+            <View 
+              key={group.month} 
+              style={styles.monthSection}
+              onLayout={(event) => {
+                monthLayouts.current[group.month] = event.nativeEvent.layout.y;
+              }}
+            >
               <Text style={[styles.monthTitle, { fontSize: getFontSize(18), color: colors.textPrimary }]}>
                 {group.month}
               </Text>
@@ -302,8 +335,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    paddingVertical: 16,
-    borderBottomWidth: 1,
+    paddingTop: 16,
+    paddingBottom: 12,
   },
   closeButton: {
     padding: 4,
@@ -360,24 +393,32 @@ const styles = StyleSheet.create({
     fontFamily: FONT,
     fontWeight: '500',
   },
-  legendRow: {
+  stickyLegendContainer: {
+    borderBottomWidth: 1,
+    paddingBottom: 12,
+  },
+  legendWrapContent: {
+    paddingHorizontal: 16,
+    gap: 10,
+    rowGap: 10,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   legendPill: {
-    minHeight: 32,
-    borderRadius: 16,
+    minHeight: 34,
+    borderRadius: 17,
     borderWidth: 0.8,
-    paddingHorizontal: 10,
+    paddingHorizontal: 12,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
+    gap: 8,
   },
   legendDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    width: 10,
+    height: 10,
+    borderRadius: 5,
   },
   legendText: {
     fontFamily: FONT,
