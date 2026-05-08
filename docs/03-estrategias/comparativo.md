@@ -1,15 +1,16 @@
 # 3.2 Quadro Comparativo
 
-O quadro a seguir apresenta a comparação entre dois processos de desenvolvimento de software — **Scrum (abordagem ágil)** e **Cascata (abordagem dirigida por plano)** — com foco em como cada um lida com os requisitos.
+O quadro a seguir apresenta a comparação entre dois processos de desenvolvimento de software — **FDD (Feature-Driven Development)** e **XP (Extreme Programming)** — ambos de natureza ágil, com foco em como cada um lida com os requisitos e com o desenvolvimento.
 
-| Critério | Scrum (Ágil) | Cascata (Dirigido por Plano) |
+| Critério | FDD (Feature-Driven Development) | XP (Extreme Programming) |
 |---|---|---|
-| Natureza do processo | Iterativo e incremental | Sequencial e linear |
-| Tratamento dos requisitos | Evolutivo e contínuo | Definido previamente |
-| Flexibilidade | Alta — mudanças são esperadas | Baixa — mudanças são restritas |
-| Entregas | Frequentes e incrementais | Única entrega ao final |
-| Feedback do usuário | Contínuo | Limitado |
-| Validação dos requisitos | Ao longo de todo o processo | Majoritariamente ao final |
-| Risco | Reduzido pela validação contínua | Elevado devido à validação tardia |
-| Documentação | Adaptativa e suficiente | Formal e detalhada |
-| Adequação ao projeto | Alta (contexto dinâmico e centrado no usuário) | Baixa (requisitos instáveis) |
+| Natureza do processo | Iterativo e incremental por características | Iterativo e incremental por histórias |
+| Tratamento dos requisitos | Orientado a características priorizadas por valor | Orientado a histórias de usuário |
+| Flexibilidade | Alta – características podem ser replanejadas | Muito alta – mudanças são bem-vindas a qualquer momento |
+| Entregas | Incrementais por características concluída | Frequentes a cada iteração curta |
+| Feedback do usuário | Ao final de cada características entregue | Contínuo, com cliente presente na equipe |
+| Validação dos requisitos | Por características, ao longo do processo | Contínua, via testes automatizados (TDD) |
+| Risco | Reduzido pela granularidade das características | Reduzido pela cobertura de testes |
+| Documentação | Moderada – modelos e lista de características | Mínima – código e testes como documentação |
+| Foco principal | Modelagem e entrega orientada a valor | Qualidade técnica e práticas de programação |
+| Adequação ao projeto | Alta (contexto com requisitos evolutivos e foco no usuário) | Parcial (exige equipe disciplinada em TDD e pair programming) |
