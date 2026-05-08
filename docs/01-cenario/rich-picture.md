@@ -1,6 +1,13 @@
 # 1.3 Rich Picture
 
-![Rich Picture](../assets/rich-picture.png)
+<div class="image-preview">
+  <figure class="image-preview__figure">
+    <img src="../../assets/rich-picture.png" alt="Rich Picture" loading="lazy">
+  </figure>
+  <a class="image-preview__action" href="../../assets/rich-picture.png" target="_blank" rel="noopener">
+    Abrir imagem em tamanho completo
+  </a>
+</div>
 
 **Legenda:**
 

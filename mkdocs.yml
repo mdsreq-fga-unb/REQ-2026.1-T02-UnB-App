@@ -47,6 +47,9 @@ theme:
 extra_css:
   - assets/stylesheets/extra.css
 
+extra_javascript:
+  - assets/javascripts/dialogs.js
+
 extra:
   social:
     - icon: fontawesome/brands/github

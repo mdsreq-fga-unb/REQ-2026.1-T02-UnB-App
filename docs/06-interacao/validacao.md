@@ -19,8 +19,45 @@ flowchart LR
     C --> D[Testes de\nAceitação]
     D --> E{Aprovado?}
     E -- Sim --> F[✅ Entregue]
-    E -- Não --> B
+    E -- Não --> G[Backlog\nReplanejamento]
+    G --> H{Próxima\niteração?}
+    H -- Sim --> A
+    H -- Não --> I[Permanece\nno backlog]
 ```
+
+<div class="diagram-actions">
+  <button class="diagram-modal__trigger" type="button" data-dialog-open="validacao-fluxo-modal">
+    Ampliar visualização do fluxo
+  </button>
+</div>
+
+<dialog id="validacao-fluxo-modal" class="diagram-modal" aria-labelledby="validacao-fluxo-modal-title" markdown="1">
+<div class="diagram-modal__panel" markdown="1">
+<header class="diagram-modal__header">
+  <p id="validacao-fluxo-modal-title" class="diagram-modal__title">Etapas de validação</p>
+  <button class="diagram-modal__close" type="button" data-dialog-close aria-label="Fechar visualização ampliada">
+    Fechar
+  </button>
+</header>
+
+<div class="diagram-modal__body" markdown="1">
+
+```mermaid
+flowchart LR
+    A[Definition of Ready\nDoR] --> B[Desenvolvimento]
+    B --> C[Definition of Done\nDoD]
+    C --> D[Testes de\nAceitação]
+    D --> E{Aprovado?}
+    E -- Sim --> F[✅ Entregue]
+    E -- Não --> G[Backlog\nReplanejamento]
+    G --> H{Próxima\niteração?}
+    H -- Sim --> A
+    H -- Não --> I[Permanece\nno backlog]
+```
+
+</div>
+</div>
+</dialog>
 
 ---
 
@@ -52,7 +89,7 @@ Nessa etapa, serão coletados feedbacks sobre:
 - compreensão da interface;
 - autonomia na realização de tarefas.
 
-Os feedbacks coletados orientarão ajustes contínuos do produto ao longo das sprints.
+Os feedbacks coletados orientarão ajustes contínuos do produto ao longo das sprints. Caso a funcionalidade não seja aprovada, ela retornará ao backlog para replanejamento e poderá entrar na próxima iteração, conforme prioridade e capacidade da equipe.
 
 ---
 
