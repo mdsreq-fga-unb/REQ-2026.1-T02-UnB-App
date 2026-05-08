@@ -2736,7 +2736,38 @@
     C --&gt; D[Testes de\nAceitação]
     D --&gt; E{Aprovado?}
     E -- Sim --&gt; F[✅ Entregue]
-    E -- Não --&gt; B</code></pre>
+    E -- Não --&gt; G[Backlog\nReplanejamento]
+    G --&gt; H{Próxima\niteração?}
+    H -- Sim --&gt; A
+    H -- Não --&gt; I[Permanece\nno backlog]</code></pre>
+<div class="diagram-actions">
+  <button class="diagram-modal__trigger" type="button" data-dialog-open="validacao-fluxo-modal">
+    Ampliar visualização do fluxo
+  </button>
+</div>
+
+<p><dialog id="validacao-fluxo-modal" class="diagram-modal" aria-labelledby="validacao-fluxo-modal-title" markdown="1"></p>
+<div class="diagram-modal__panel">
+<header class="diagram-modal__header">
+<p class="diagram-modal__title" id="validacao-fluxo-modal-title">Etapas de validação</p>
+  <button class="diagram-modal__close" type="button" data-dialog-close aria-label="Fechar visualização ampliada">
+    Fechar
+  </button>
+</header>
+<div class="diagram-modal__body">
+<pre class="mermaid"><code>flowchart LR
+    A[Definition of Ready\nDoR] --&gt; B[Desenvolvimento]
+    B --&gt; C[Definition of Done\nDoD]
+    C --&gt; D[Testes de\nAceitação]
+    D --&gt; E{Aprovado?}
+    E -- Sim --&gt; F[✅ Entregue]
+    E -- Não --&gt; G[Backlog\nReplanejamento]
+    G --&gt; H{Próxima\niteração?}
+    H -- Sim --&gt; A
+    H -- Não --&gt; I[Permanece\nno backlog]</code></pre>
+</div>
+</div>
+<p></dialog></p>
 <hr />
 <h3 id="1-definition-of-ready-dor">1. Definition of Ready (DoR)<a class="headerlink" href="#1-definition-of-ready-dor" title="Permanent link">&para;</a></h3>
 <p>Antes do desenvolvimento de cada funcionalidade, será aplicado o DoR para garantir que os requisitos estejam claros, completos e viáveis. Veja os critérios detalhados em <a href="../../08-dor-dod/dor/">8.1 DoR</a>.</p>
@@ -2763,7 +2794,7 @@
 <li>compreensão da interface;</li>
 <li>autonomia na realização de tarefas.</li>
 </ul>
-<p>Os feedbacks coletados orientarão ajustes contínuos do produto ao longo das sprints.</p>
+<p>Os feedbacks coletados orientarão ajustes contínuos do produto ao longo das sprints. Caso a funcionalidade não seja aprovada, ela retornará ao backlog para replanejamento e poderá entrar na próxima iteração, conforme prioridade e capacidade da equipe.</p>
 <hr />
 <h2 id="validacao-preliminar-com-prototipos">Validação preliminar com protótipos<a class="headerlink" href="#validacao-preliminar-com-prototipos" title="Permanent link">&para;</a></h2>
 <p>Protótipos de interface também serão utilizados para validação preliminar, permitindo identificar problemas de usabilidade antes da implementação.</p>
@@ -2883,6 +2914,8 @@
     
     
       <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../assets/javascripts/dialogs.js"></script>
       
     
   </body>

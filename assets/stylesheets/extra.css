@@ -133,6 +133,13 @@
   }
 }
 
+/* Give documentation pages enough horizontal room for wide data tables. */
+@media (min-width: 1220px) {
+  .md-main__inner.md-grid {
+    max-width: min(94rem, calc(100% - 2rem));
+  }
+}
+
 /* ── Sidebar ─────────────────────────────────────────────── */
 .md-nav__title {
   font-size: .7rem;
@@ -149,7 +156,8 @@
 }
 
 /* ── Tables ──────────────────────────────────────────────── */
-.md-typeset table:not([class]) {
+.md-typeset table:not([class]),
+.md-typeset table.product-characteristics-table {
   font-size: .8rem;
   border: 1px solid var(--vpp-border);
   border-radius: 8px;
@@ -158,26 +166,55 @@
 }
 
 /* Tabela de Características do Produto (6 colunas — aplicado via wrapper .chars-table) */
-.chars-table table {
-  font-size: 0.7rem;
+.md-typeset table.product-characteristics-table {
+  width: 100%;
+  min-width: 68rem;
+  table-layout: fixed;
+  font-size: .72rem;
 }
 
-.chars-table th {
-  padding: .35rem .35rem !important;
-  font-size: 0.66rem !important;
+.md-typeset .md-typeset__scrollwrap:has(table.product-characteristics-table),
+.md-typeset .md-typeset__table:has(table.product-characteristics-table) {
+  width: 100%;
+}
+
+.md-typeset .md-typeset__scrollwrap:has(table.product-characteristics-table) {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.md-typeset table.product-characteristics-table th,
+.md-typeset table.product-characteristics-table td {
+  padding: .45rem .55rem !important;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.md-typeset table.product-characteristics-table th {
+  font-size: .66rem !important;
   letter-spacing: .02em !important;
 }
 
-.chars-table td {
-  padding: .35rem .35rem !important;
-  overflow-wrap: break-word;
+.md-typeset table.product-characteristics-table th:nth-child(1) { width: 8%; }
+.md-typeset table.product-characteristics-table th:nth-child(2) { width: 12%; }
+.md-typeset table.product-characteristics-table th:nth-child(3) { width: 6%; }
+.md-typeset table.product-characteristics-table th:nth-child(4) { width: 18%; }
+.md-typeset table.product-characteristics-table th:nth-child(5) { width: 28%; }
+.md-typeset table.product-characteristics-table th:nth-child(6) { width: 28%; }
+
+@media (max-width: 1219px) {
+  .md-typeset table.product-characteristics-table {
+    min-width: 60rem;
+  }
 }
 
-.md-typeset table:not([class]) thead tr {
+.md-typeset table:not([class]) thead tr,
+.md-typeset table.product-characteristics-table thead tr {
   background: var(--md-primary-fg-color);
 }
 
-.md-typeset table:not([class]) thead th {
+.md-typeset table:not([class]) thead th,
+.md-typeset table.product-characteristics-table thead th {
   color: #fff;
   font-weight: 600;
   letter-spacing: .03em;
@@ -187,11 +224,13 @@
   padding: .75rem 1rem;
 }
 
-.md-typeset table:not([class]) tbody tr:nth-child(even) {
+.md-typeset table:not([class]) tbody tr:nth-child(even),
+.md-typeset table.product-characteristics-table tbody tr:nth-child(even) {
   background: var(--vpp-surface);
 }
 
-.md-typeset table:not([class]) td {
+.md-typeset table:not([class]) td,
+.md-typeset table.product-characteristics-table td {
   border-color: var(--vpp-border);
   padding: .6rem 1rem;
   vertical-align: top;
@@ -244,6 +283,154 @@
   background: none;
   border: none;
   padding: 0;
+}
+
+/* Image previews with explicit full-size access. */
+.image-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .85rem;
+  margin: 1.5rem 0 2rem;
+}
+
+.image-preview__figure {
+  width: 100%;
+  margin: 0;
+  padding: .75rem;
+  background: var(--md-default-bg-color);
+  border: 1px solid var(--vpp-border);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(18,25,46,.08);
+}
+
+.image-preview__figure img {
+  display: block;
+  width: 100%;
+  max-height: 72vh;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.md-typeset .image-preview__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.25rem;
+  padding: .45rem .9rem;
+  color: #fff;
+  background: var(--vpp-blue);
+  border-radius: 6px;
+  font-size: .82rem;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(79,127,255,.22);
+  transition: background-color .2s, box-shadow .2s, transform .2s;
+}
+
+.md-typeset .image-preview__action:hover,
+.md-typeset .image-preview__action:focus-visible {
+  color: #fff;
+  background: var(--md-primary-fg-color--light);
+  box-shadow: 0 6px 16px rgba(79,127,255,.28);
+  transform: translateY(-1px);
+}
+
+[data-md-color-scheme="slate"] .image-preview__figure {
+  background: #171d2a;
+  box-shadow: 0 10px 24px rgba(0,0,0,.35);
+}
+
+.diagram-actions {
+  display: flex;
+  justify-content: center;
+  margin: .75rem 0 2rem;
+}
+
+.md-typeset .diagram-modal__trigger,
+.md-typeset .diagram-modal__close {
+  cursor: pointer;
+  border: 0;
+  color: #fff;
+  background: var(--vpp-blue);
+  border-radius: 6px;
+  font-size: .82rem;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(79,127,255,.22);
+}
+
+.md-typeset .diagram-modal__trigger {
+  min-height: 2.25rem;
+  padding: .45rem .9rem;
+}
+
+.md-typeset .diagram-modal__close {
+  min-height: 2rem;
+  padding: .35rem .75rem;
+  background: var(--md-primary-fg-color--light);
+}
+
+.diagram-modal {
+  width: min(94vw, 1200px);
+  max-width: 94vw;
+  height: min(88vh, 760px);
+  max-height: 88vh;
+  padding: 0;
+  color: var(--vpp-text);
+  background: var(--md-default-bg-color);
+  border: 1px solid var(--vpp-border);
+  border-radius: 8px;
+  box-shadow: 0 24px 70px rgba(0,0,0,.35);
+}
+
+.diagram-modal::backdrop {
+  background: rgba(15,18,25,.62);
+}
+
+.diagram-modal__panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.diagram-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .75rem 1rem;
+  background: var(--vpp-surface);
+  border-bottom: 1px solid var(--vpp-border);
+}
+
+.diagram-modal__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.diagram-modal__body {
+  flex: 1;
+  overflow: auto;
+  padding: 1rem;
+}
+
+.diagram-modal__body .mermaid {
+  min-width: 1120px;
+  padding: 1rem;
+}
+
+[data-md-color-scheme="slate"] .diagram-modal {
+  background: #171d2a;
+  box-shadow: 0 10px 24px rgba(0,0,0,.35);
+}
+
+[data-md-color-scheme="slate"] .diagram-modal__header {
+  background: #1e2433;
 }
 
 /* ── Hero card (home page) ───────────────────────────────── */

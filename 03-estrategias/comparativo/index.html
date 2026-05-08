@@ -2531,60 +2531,65 @@
 
 
 <h1 id="32-quadro-comparativo">3.2 Quadro Comparativo<a class="headerlink" href="#32-quadro-comparativo" title="Permanent link">&para;</a></h1>
-<p>O quadro a seguir apresenta a comparação entre dois processos de desenvolvimento de software — <strong>Scrum (abordagem ágil)</strong> e <strong>Cascata (abordagem dirigida por plano)</strong> — com foco em como cada um lida com os requisitos.</p>
+<p>O quadro a seguir apresenta a comparação entre dois processos de desenvolvimento de software — <strong>FDD (Feature-Driven Development)</strong> e <strong>XP (Extreme Programming)</strong> — ambos de natureza ágil, com foco em como cada um lida com os requisitos e com o desenvolvimento.</p>
 <table>
 <thead>
 <tr>
 <th>Critério</th>
-<th>Scrum (Ágil)</th>
-<th>Cascata (Dirigido por Plano)</th>
+<th>FDD (Feature-Driven Development)</th>
+<th>XP (Extreme Programming)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Natureza do processo</td>
-<td>Iterativo e incremental</td>
-<td>Sequencial e linear</td>
+<td>Iterativo e incremental por características</td>
+<td>Iterativo e incremental por histórias</td>
 </tr>
 <tr>
 <td>Tratamento dos requisitos</td>
-<td>Evolutivo e contínuo</td>
-<td>Definido previamente</td>
+<td>Orientado a características priorizadas por valor</td>
+<td>Orientado a histórias de usuário</td>
 </tr>
 <tr>
 <td>Flexibilidade</td>
-<td>Alta — mudanças são esperadas</td>
-<td>Baixa — mudanças são restritas</td>
+<td>Alta – características podem ser replanejadas</td>
+<td>Muito alta – mudanças são bem-vindas a qualquer momento</td>
 </tr>
 <tr>
 <td>Entregas</td>
-<td>Frequentes e incrementais</td>
-<td>Única entrega ao final</td>
+<td>Incrementais por características concluída</td>
+<td>Frequentes a cada iteração curta</td>
 </tr>
 <tr>
 <td>Feedback do usuário</td>
-<td>Contínuo</td>
-<td>Limitado</td>
+<td>Ao final de cada características entregue</td>
+<td>Contínuo, com cliente presente na equipe</td>
 </tr>
 <tr>
 <td>Validação dos requisitos</td>
-<td>Ao longo de todo o processo</td>
-<td>Majoritariamente ao final</td>
+<td>Por características, ao longo do processo</td>
+<td>Contínua, via testes automatizados (TDD)</td>
 </tr>
 <tr>
 <td>Risco</td>
-<td>Reduzido pela validação contínua</td>
-<td>Elevado devido à validação tardia</td>
+<td>Reduzido pela granularidade das características</td>
+<td>Reduzido pela cobertura de testes</td>
 </tr>
 <tr>
 <td>Documentação</td>
-<td>Adaptativa e suficiente</td>
-<td>Formal e detalhada</td>
+<td>Moderada – modelos e lista de características</td>
+<td>Mínima – código e testes como documentação</td>
+</tr>
+<tr>
+<td>Foco principal</td>
+<td>Modelagem e entrega orientada a valor</td>
+<td>Qualidade técnica e práticas de programação</td>
 </tr>
 <tr>
 <td>Adequação ao projeto</td>
-<td>Alta (contexto dinâmico e centrado no usuário)</td>
-<td>Baixa (requisitos instáveis)</td>
+<td>Alta (contexto com requisitos evolutivos e foco no usuário)</td>
+<td>Parcial (exige equipe disciplinada em TDD e pair programming)</td>
 </tr>
 </tbody>
 </table>
@@ -2703,6 +2708,8 @@
     
     
       <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../assets/javascripts/dialogs.js"></script>
       
     
   </body>
