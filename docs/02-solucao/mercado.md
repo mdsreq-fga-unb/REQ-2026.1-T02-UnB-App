@@ -11,7 +11,7 @@ O UnB App é um suporte que dispõe acessibilidade para os estudantes, com enfâ
 | Solução | Pontos fortes | Limitações (Foco 60+) |
 |---------|--------------|-----------|
 | **SIGAA (Desktop)** | Centraliza todos os processos acadêmicos e dados oficiais em um único portal. | Interface complexa dos anos 2000, excesso de links, letras pequenas e poluição visual. |
-| **SIGAA Mobile (App)** | Oferece portabilidade para consulta de notas e notícias em dispositivos móveis. | Navegação pouco intuitiva, botões reduzidos e falta de recursos de acessibilidade específicos. |
+| **SIGAA Mobile (Aplicação Web para dispositivos móveis)** | Oferece portabilidade para consulta de notas e notícias em dispositivos móveis. | Navegação pouco intuitiva, botões reduzidos e falta de recursos de acessibilidade específicos. |
 | **Navegadores Mobile** | Permite o uso de zoom nativo do celular para tentar contornar a fadiga visual. | O zoom quebra o layout da página, exigindo rolagem lateral e dificultando a localização de botões, alem das letras miúdas. |
 
 ## Diferenciais da solução proposta
