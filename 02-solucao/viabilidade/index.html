@@ -1280,10 +1280,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#fundamentacao-da-viabilidade" class="md-nav__link">
+  <a href="#riscos-identificados-e-planos-de-acao" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Fundamentação da viabilidade
+        Riscos Identificados e Planos de Ação
       
     </span>
   </a>
@@ -1291,10 +1291,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#premissas-operacionais" class="md-nav__link">
+  <a href="#condicoes-para-viabilidade" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Premissas operacionais
+        Condições para Viabilidade
       
     </span>
   </a>
@@ -2583,10 +2583,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#fundamentacao-da-viabilidade" class="md-nav__link">
+  <a href="#riscos-identificados-e-planos-de-acao" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Fundamentação da viabilidade
+        Riscos Identificados e Planos de Ação
       
     </span>
   </a>
@@ -2594,10 +2594,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#premissas-operacionais" class="md-nav__link">
+  <a href="#condicoes-para-viabilidade" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Premissas operacionais
+        Condições para Viabilidade
       
     </span>
   </a>
@@ -2622,36 +2622,28 @@
 
 
 <h1 id="26-viabilidade-da-proposta">2.6 Viabilidade da Proposta<a class="headerlink" href="#26-viabilidade-da-proposta" title="Permanent link">&para;</a></h1>
-<blockquote>
-<p>Avaliação objetiva da viabilidade no contexto da disciplina.</p>
-</blockquote>
-<p>A proposta do UnB App apresenta alta viabilidade técnica e operacional para o período do semestre.</p>
-<h2 id="fundamentacao-da-viabilidade">Fundamentação da viabilidade<a class="headerlink" href="#fundamentacao-da-viabilidade" title="Permanent link">&para;</a></h2>
-<p>A equipe está estruturada com papéis definidos, incluindo desenvolvedores focados em Frontend, Backend e analistas de QA e Requisitos. Além disso, o uso de tecnologias como <strong>React Native, Expo e TypeScript</strong> acelera o desenvolvimento multiplataforma (Android e iOS), enquanto o <strong>Expo SQLite</strong> simplifica a implementação das funcionalidades offline.</p>
-<p>O acesso à representante dos usuários (Maria Fátima) por canais diretos de comunicação, como WhatsApp e Teams, garante ciclos rápidos de validação. Isso favorece a entrega de um <strong>MVP funcional</strong> com consulta de grade horária e carteirinha digital até o final das sprints planejadas.</p>
-<h2 id="premissas-operacionais">Premissas operacionais<a class="headerlink" href="#premissas-operacionais" title="Permanent link">&para;</a></h2>
+<p>A proposta do UnB App apresenta alta viabilidade técnica. A equipe está estruturada com papéis definidos, contando com desenvolvedores focados em Frontend, Backend e analistas de QA e Requisitos. O uso de tecnologias modernas como React Native, Expo e TypeScript acelera o desenvolvimento multiplataforma (Android e iOS), enquanto a utilização do Expo SQLite simplifica a implementação das funcionalidades offline.</p>
+<p>Ademais, o acesso direto à representante dos usuários, Maria Fátima, por meio de canais como WhatsApp e Teams, garante ciclos rápidos de validação. Essa proximidade permite a entrega segura de um MVP funcional, que incluirá a consulta de grade horária e a carteirinha digital, seguindo os processos orientados a funcionalidades (FDD) até o final das sprints planejadas.</p>
+<h2 id="riscos-identificados-e-planos-de-acao">Riscos Identificados e Planos de Ação<a class="headerlink" href="#riscos-identificados-e-planos-de-acao" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Equipe ativa e com papéis bem definidos durante todo o semestre.</li>
-<li>Acompanhamento frequente com a representante dos usuários para validação contínua.</li>
-<li>Manutenção de um ambiente estável de desenvolvimento com Expo e SQLite.</li>
+<li><strong>Dificuldade na integração com dados do SIGAA:</strong> A equipe reavaliou a arquitetura de integração para garantir a viabilidade técnica e contornar os bloqueios de acesso direto ao backend da UnB. A viabilidade dessa abordagem já está comprovada por meio de uma Prova de Conceito Teórica, baseada em APIs de projetos acadêmicos consolidados (como SuaGradeUnB, NoFluxoUnB e IntegralizeiUnb). A obtenção dos dados utilizará uma estratégia mista para otimizar recursos:</li>
+<li><strong>Leitura Automática do PDF da Grade:</strong> O aluno irá baixar o PDF com a sua grade de horários no SIGAA e colocá-lo no nosso aplicativo. O próprio aplicativo vai "ler" esse documento automaticamente, encontrar quais são as turmas, professores e salas daquele aluno, e salvar tudo no celular. Assim, o idoso não precisará digitar nada manualmente.</li>
+<li><strong>Web Scraping Dinâmico (Servidor Intermediário):</strong> Para os dados que sofrem mudanças frequentes, um servidor intermediário próprio fará o web scraping diariamente e exclusivamente da página pública de 'Turmas Abertas' da UnB, cruzando essas informações com as turmas do aluno em tempo real (quando houver acesso à internet).</li>
+<li>
+<p><strong>Inserção Manual de Dados Estáticos (Calendário):</strong> Em prol da simplicidade arquitetural, os dados do site do Calendário Acadêmico (datas de matrícula, feriados e prazos) não sofrerão web scraping, pois são informações estáticas que mudam apenas semestralmente. A própria equipe fará a inserção e manutenção manual dessas datas no banco de dados.</p>
+</li>
+<li>
+<p><strong>Fadiga ou falta de disponibilidade dos usuários 60+ para testes:</strong> Como ação preventiva para este cenário e visando um fluxo de validação contínuo, serão planejadas reuniões semanais curtas via Microsoft Teams ou presenciais, além da coleta de feedbacks rápidos pelo WhatsApp e apôs aulas na própria universidade, na parte da manhã.</p>
+</li>
+<li><strong>Complexidade de acessibilidade para o público-alvo:</strong> A solução para este desafio dar-se-á através da aplicação rigorosa do <em>Definition of Ready</em> (DoR), com foco total em contraste, tipografia e simplicidade de navegação antes de iniciar a construção de qualquer funcionalidade.</li>
 </ul>
-<hr />
-<div class="admonition warning">
-<p class="admonition-title">Riscos identificados</p>
+<h2 id="condicoes-para-viabilidade">Condições para Viabilidade<a class="headerlink" href="#condicoes-para-viabilidade" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Dificuldade na integração com dados do SIGAA</strong> — mitigação: Utilizar técnicas de web scraping ou APIs intermediárias para consumir os dados necessários sem depender de acesso oficial direto ao backend da UnB.</li>
-<li><strong>Fadiga ou falta de disponibilidade dos usuários 60+ para testes</strong> — mitigação: Planejar reuniões quinzenais curtas via Microsoft Teams e coletar feedbacks assíncronos via WhatsApp.</li>
-<li><strong>Complexidade de acessibilidade para o público-alvo</strong> — mitigação: Aplicar o <em>Definition of Ready</em> (DoR) com foco rigoroso em contraste, tipografia e simplicidade antes de iniciar qualquer desenvolvimento.</li>
+<li><strong>Engajamento da Cliente:</strong> Manutenção de uma comunicação frequente com a representante Maria Fátima para a validação semanal de cada design e funcionalidade desenvolvida.</li>
+<li><strong>Ambiente e Infraestrutura:</strong> Garantia de uma configuração estável do ecossistema Expo e SQLite por parte da equipe técnica no aplicativo, somada à garantia de estabilidade e hospedagem do servidor intermediário responsável pela extração diária das turmas.</li>
+<li><strong>Manutenção de Dados Estáticos:</strong> Comprometimento da equipe técnica em realizar a atualização manual do banco de dados referente ao calendário acadêmico a cada novo semestre.</li>
+<li><strong>Cumprimento do Cronograma (FDD):</strong> Adesão rigorosa ao planejamento das sprints, estruturadas nos 5 processos do Feature-Driven Development.</li>
 </ul>
-</div>
-<div class="admonition success">
-<p class="admonition-title">Condições para viabilidade</p>
-<ul>
-<li><strong>Engajamento da Cliente:</strong> Manutenção da comunicação frequente com a representante Maria Fátima para validação dos incrementos.</li>
-<li><strong>Ambiente de Desenvolvimento:</strong> Configuração estável do ecossistema Expo e SQLite pela equipe de desenvolvimento.</li>
-<li><strong>Cumprimento do Cronograma:</strong> Seguir rigorosamente o planejamento de 7 sprints para garantir a consolidação final em junho de 2026.</li>
-</ul>
-</div>
 
 
 
