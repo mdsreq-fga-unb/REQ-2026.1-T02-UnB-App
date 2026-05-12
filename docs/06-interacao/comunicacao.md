@@ -16,7 +16,7 @@
     | Reunião | Frequência | Formato | Canal |
     |---------|------------|---------|-------|
     | Planejamento de Sprint (Sprint Planning) | A cada 15 dias (início de cada Sprint) | Reunião interna para seleção de itens do backlog, definição de tarefas e responsáveis | Microsoft Teams |
-    | Daily Scrum | Diária | Encontro curto, assíncrono via mensagens no grupo ou rápido no canal síncrono | WhatsApp ou Microsoft Teams |
+    | Reuniões Diárias (Atualização de status) | Diária | Encontro curto, assíncrono via mensagens no grupo ou rápido no canal síncrono | WhatsApp ou Microsoft Teams |
     | Retrospectiva da Sprint | A cada 15 dias (após a Sprint Review) | Reunião interna para avaliar processos e registrar lições aprendidas da iteração | Microsoft Teams |
 
 === "Com o cliente"

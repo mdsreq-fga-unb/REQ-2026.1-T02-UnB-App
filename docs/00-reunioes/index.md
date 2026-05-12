@@ -10,5 +10,3 @@ Seção dedicada ao registro das reuniões do projeto, com organização de grav
 | [0.2 Transcrições](transcricoes.md) | Registro textual dos encontros e decisões discutidas |
 | [0.3 Resumos](resumos.md) | Síntese objetiva dos principais pontos e encaminhamentos |
 
-!!! tip "Padrão recomendado"
-    Mantenha os registros em ordem cronológica e use identificadores consistentes, como **R01**, **R02**, **R03**.

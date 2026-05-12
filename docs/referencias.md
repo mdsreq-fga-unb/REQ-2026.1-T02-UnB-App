@@ -1,12 +1,7 @@
 # Referências Bibliográficas
 
-> Liste todas as referências utilizadas na construção deste documento (norma ABNT ou outro padrão adotado pela disciplina).
-
 ---
 
-1. [Descrição da referência 1]
+1. Grupo Rivotril - Engenharia de Requisitos FCTE/UnB 2026-01. **Acessibilidade SIGAA REQ. 2026.1**. 2026. Disponível em: <../assets/anexo/Acessibilidade SIGAA REQ. 2026.1.pdf>. Acesso em: 07 maio 2026.
 2. [Descrição da referência 2]
 3. [Descrição da referência 3]
-
-!!! tip "Formato ABNT (exemplo)"
-    SOMMERVILLE, Ian. **Engenharia de Software**. 10. ed. São Paulo: Pearson, 2019.
