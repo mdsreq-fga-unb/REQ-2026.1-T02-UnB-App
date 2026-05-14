@@ -1,10 +1,10 @@
-/* ============================================================
-   CUSTOM THEME — Visão do Produto e Projeto
+﻿/* ============================================================
+   CUSTOM THEME â€” VisÃ£o do Produto e Projeto
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
 
-/* ── Palette ─────────────────────────────────────────────── */
+/* â”€â”€ Palette â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 :root {
   --md-primary-fg-color:        #1a1f2e;
   --md-primary-fg-color--light: #2d3452;
@@ -34,7 +34,7 @@
   --vpp-muted:   #9ca3af;
 }
 
-/* ── Base Typography ─────────────────────────────────────── */
+/* â”€â”€ Base Typography â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .md-typeset {
   font-size: .875rem;
   line-height: 1.75;
@@ -71,7 +71,7 @@
   margin-top: 1.6em;
 }
 
-/* ── Header / Nav ────────────────────────────────────────── */
+/* â”€â”€ Header / Nav â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .md-header {
   background: var(--md-primary-fg-color);
   box-shadow: 0 1px 0 rgba(255,255,255,.06), 0 4px 20px rgba(0,0,0,.25);
@@ -140,7 +140,7 @@
   }
 }
 
-/* ── Sidebar ─────────────────────────────────────────────── */
+/* â”€â”€ Sidebar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .md-nav__title {
   font-size: .7rem;
   font-weight: 700;
@@ -155,7 +155,7 @@
   font-weight: 600;
 }
 
-/* ── Tables ──────────────────────────────────────────────── */
+/* â”€â”€ Tables â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .md-typeset table:not([class]),
 .md-typeset table.product-characteristics-table {
   font-size: .8rem;
@@ -165,7 +165,7 @@
   box-shadow: 0 1px 3px rgba(0,0,0,.06);
 }
 
-/* Tabela de Características do Produto (6 colunas — aplicado via wrapper .chars-table) */
+/* Tabela de CaracterÃ­sticas do Produto (6 colunas â€” aplicado via wrapper .chars-table) */
 .md-typeset table.product-characteristics-table {
   width: 100%;
   min-width: 68rem;
@@ -262,7 +262,7 @@
   color: #e3edff;
 }
 
-/* ── Admonitions ─────────────────────────────────────────── */
+/* â”€â”€ Admonitions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .md-typeset .admonition,
 .md-typeset details {
   border-radius: 6px;
@@ -270,7 +270,7 @@
   font-size: .85rem;
 }
 
-/* ── Code ────────────────────────────────────────────────── */
+/* â”€â”€ Code â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .md-typeset code {
   background: var(--vpp-surface);
   border: 1px solid var(--vpp-border);
@@ -433,7 +433,7 @@
   background: #1e2433;
 }
 
-/* ── Hero card (home page) ───────────────────────────────── */
+/* â”€â”€ Hero card (home page) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .vpp-hero {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -488,7 +488,7 @@
   color: var(--vpp-blue);
 }
 
-/* ── Badges ──────────────────────────────────────────────── */
+/* â”€â”€ Badges â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .badge {
   display: inline-block;
   padding: .15em .55em;
@@ -503,7 +503,7 @@
 .badge-amber  { background: rgba(245,166,35,.12); color: var(--vpp-amber); }
 .badge-red    { background: rgba(229,83,83,.12);  color: var(--vpp-red); }
 
-/* ── Status chips (DoR/DoD, MVP etc.) ───────────────────── */
+/* â”€â”€ Status chips (DoR/DoD, MVP etc.) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .vpp-chip-row {
   display: flex;
   flex-wrap: wrap;
@@ -525,7 +525,7 @@
 
 .vpp-chip .icon { font-size: 1rem; }
 
-/* ── Objective cards ─────────────────────────────────────── */
+/* â”€â”€ Objective cards â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .oe-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -550,7 +550,7 @@
 
 .oe-card p { font-size: .83rem; margin: .3rem 0 0; color: var(--vpp-text); }
 
-/* ── Sprint timeline ─────────────────────────────────────── */
+/* â”€â”€ Sprint timeline â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .sprint-timeline {
   position: relative;
   padding-left: 2rem;
@@ -594,7 +594,7 @@
   color: var(--vpp-muted);
 }
 
-/* ── Team cards ──────────────────────────────────────────── */
+/* â”€â”€ Team cards â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .team-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -762,7 +762,7 @@
   color: var(--vpp-muted);
 }
 
-/* ── Responsive ──────────────────────────────────────────── */
+/* â”€â”€ Responsive â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @media (max-width: 720px) {
   .md-header__button.md-logo img,
   .md-header__button.md-logo svg {
@@ -774,3 +774,8 @@
   .oe-grid  { grid-template-columns: 1fr; }
   .team-grid { grid-template-columns: 1fr; }
 }
+
+.md-tabs__link { padding-left: 0.5rem; padding-right: 0.5rem; font-size: 0.7rem; }
+.md-tabs__item { padding: 0; }
+.md-tabs__list { display: flex; justify-content: center; width: 100%; margin: 0 auto; }
+

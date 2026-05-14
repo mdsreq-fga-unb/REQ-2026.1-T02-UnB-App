@@ -62,7 +62,7 @@ flowchart LR
 ---
 
 ### 1. Definition of Ready (DoR)
-Antes do desenvolvimento de cada funcionalidade, será aplicado o DoR para garantir que os requisitos estejam claros, completos e viáveis. Veja os critérios detalhados em [8.1 DoR](../08-dor-dod/dor.md).
+Antes do desenvolvimento de cada funcionalidade, será aplicado o DoR para garantir que os requisitos estejam claros, completos e viáveis. Veja os critérios detalhados em [9.1 DoR](../09-dor-dod/dor.md).
 
 Nesta etapa, os critérios de aceitação devem estar bem definidos e alinhados às necessidades dos estudantes idosos, com atenção especial a:
 
@@ -72,7 +72,7 @@ Nesta etapa, os critérios de aceitação devem estar bem definidos e alinhados 
 - clareza das interações e dos fluxos.
 
 ### 2. Definition of Done (DoD)
-Durante o desenvolvimento, cada funcionalidade só será considerada concluída após cumprir o DoD. Veja os critérios detalhados em [8.2 DoD](../08-dor-dod/dod.md).
+Durante o desenvolvimento, cada funcionalidade só será considerada concluída após cumprir o DoD. Veja os critérios detalhados em [9.2 DoD](../09-dor-dod/dod.md).
 
 Além da validação funcional pela equipe, a conclusão exige:
 
