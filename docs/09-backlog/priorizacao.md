@@ -1,5 +1,9 @@
 # 9.2 Priorização do Backlog e MVP
 
+## Matriz de Valor de Negócio x Esforço
+
+![Matriz de Valor de Negócio e Esforço](../assets/matriz-priorizacao.png)
+
 ## Critérios de priorização
 
 > Pontuação baseada em **Valor de Negócio (VB)**, **Complexidade Técnica (CX)** e **Esforço de Implementação (ES)** — escala de 1 a 5.
