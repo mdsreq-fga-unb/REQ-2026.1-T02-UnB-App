@@ -30,15 +30,15 @@ $$IP = \frac{VB}{PT} \quad \text{(Índice de Prioridade)}$$
 
 ### Tabela de priorização
 
-| US | Descrição | VB | CX | ES | PT | IP | Quadrante | Prioridade |
+| Feature | Descrição | VB | CX | ES | PT | IP | Quadrante | Prioridade |
 |----|-----------|:--:|:--:|:--:|:--:|:--:|-----------|:---:|
-| US01 | [Descrição] | — | — | — | — | — | [Q1/Q2/Q3/Q4] | 1 |
-| US02 | [Descrição] | — | — | — | — | — | [Q1/Q2/Q3/Q4] | 1 |
-| US03 | [Descrição] | — | — | — | — | — | [Q1/Q2/Q3/Q4] | 2 |
-| US04 | [Descrição] | — | — | — | — | — | [Q1/Q2/Q3/Q4] | 2 |
-| US05 | [Descrição] | — | — | — | — | — | [Q1/Q2/Q3/Q4] | 3 |
-| US06 | [Descrição] | — | — | — | — | — | [Q1/Q2/Q3/Q4] | 3 |
-| US07 | [Descrição] | — | — | — | — | — | [Q1/Q2/Q3/Q4] | 4 |
+| F01 | [Descrição] | — | — | — | — | — | [Q1/Q2/Q3/Q4] | 1 |
+| F02 | [Descrição] | — | — | — | — | — | [Q1/Q2/Q3/Q4] | 1 |
+| F03 | [Descrição] | — | — | — | — | — | [Q1/Q2/Q3/Q4] | 2 |
+| F04 | [Descrição] | — | — | — | — | — | [Q1/Q2/Q3/Q4] | 2 |
+| F05 | [Descrição] | — | — | — | — | — | [Q1/Q2/Q3/Q4] | 3 |
+| F06 | [Descrição] | — | — | — | — | — | [Q1/Q2/Q3/Q4] | 3 |
+| F07 | [Descrição] | — | — | — | — | — | [Q1/Q2/Q3/Q4] | 4 |
 
 ---
 
@@ -47,12 +47,12 @@ $$IP = \frac{VB}{PT} \quad \text{(Índice de Prioridade)}$$
 > Conjunto mínimo de funcionalidades para lançamento e validação das principais hipóteses de valor de negócio.
 
 !!! success "Compõem o MVP (Prioridade 1 e 2)"
-    - **US01** — [Descrição]
-    - **US02** — [Descrição]
-    - **US03** — [Descrição]
-    - **US04** — [Descrição]
+    - **F01** — [Descrição]
+    - **F02** — [Descrição]
+    - **F03** — [Descrição]
+    - **F04** — [Descrição]
 
 !!! warning "Fora do MVP (Prioridade 3 e 4)"
-    - **US05** — [Descrição]
-    - **US06** — [Descrição]
-    - **US07** — [Descrição]
+    - **F05** — [Descrição]
+    - **F06** — [Descrição]
+    - **F07** — [Descrição]
