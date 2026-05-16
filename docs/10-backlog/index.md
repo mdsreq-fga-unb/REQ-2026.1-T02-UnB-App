@@ -1,7 +1,5 @@
 # 10 · Backlog de Produto
 
-!!! info "Entrega — Unidade 2"
-    Esta seção deve ser entregue na Unidade 2.
 
 | Subseção | Conteúdo |
 |----------|----------|
