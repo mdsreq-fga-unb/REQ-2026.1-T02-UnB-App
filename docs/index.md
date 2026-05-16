@@ -67,7 +67,7 @@
   <div class="vpp-hero-card">
     <span class="vpp-section-num">Seção 5</span>
     <h3>Cronograma e Entregas</h3>
-    <p>Planejamento temporal, sprints e marcos de entrega.</p>
+    <p>Planejamento temporal, iterações e marcos de entrega do projeto.</p>
   </div>
   <div class="vpp-hero-card">
     <span class="vpp-section-num">Seções 7 – 9</span>

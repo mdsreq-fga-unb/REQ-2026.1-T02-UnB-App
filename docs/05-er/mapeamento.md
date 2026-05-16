@@ -6,11 +6,8 @@
 
 | Processo FDD | Atividades ER | Prática | Técnica | Resultado Esperado |
 |--------------|---------------|---------|---------|--------------------|
-| **Desenvolver Modelo Abrangente** | Elicitação e Descoberta | Compreensão do domínio e problemas | Entrevistas e questionários com diversos perfis de alunos | Lista de dores e necessidades priorizadas dos estudantes. |
-| | Análise e Consenso | Definição de escopo e valor | MoSCoW e Diagrama de Ishikawa | Features detalhadas e estimadas pela equipe. |
-| | Declaração | Formalização do Backlog Geral | Lista de Features | Itens prontos para desenvolvimento, sem ambiguidades. |
-| **Execução da Sprint** | Representação | Modelagem e Design | Protótipos de alta fidelidade e Wireframes | Interfaces que guiam a implementação focada em usabilidade. |
-| | Organização e Atualização | Gestão de progresso | Refinamento e Kanban | Backlog atualizado e rastreabilidade das tarefas garantida. |
-| **Revisão da Sprint** | Verificação e Validação | Homologação com o cliente | Demonstração e Testes de Aceitação | Funcionalidades validadas pela representante e usuários. |
-| | Declaração | Evolução de Requisitos | Incorporação de Feedbacks | Requisitos ajustados e novas descobertas inseridas no backlog. |
-| **Retrospectiva** | Organização e Atualização | Melhoria contínua do processo | Análise de lições aprendidas | Workflow de ER otimizado para as próximas iterações. |
+| **Desenvolver Modelo Abrangente** | Elicitação e Descoberta | Compreensão do domínio e problemas | Entrevistas, Questionários e Rich Picture | Lista de dores e entendimento visual da jornada de uso do cenário atual. |
+| **Construir Lista de Funcionalidades** | Análise e Consenso | Definição de escopo e valor | Workshops e MoSCoW | Features agrupadas e categorizadas em uma lista gerenciável. |
+| **Planejar por Funcionalidade** | Declaração e Organização | Priorização e alocação de esforço | Refinamento e Planejamento de Milestones | Funcionalidades priorizadas, detalhadas e atribuídas a pacotes de trabalho (classes/componentes). |
+| **Projetar por Funcionalidade** | Representação | Modelagem e Design | Mockups, Protótipos de Baixa/Alta Fidelidade e Inspeções de Design | Interfaces que guiam a implementação focada em usabilidade e acessibilidade, com validação técnica. |
+| **Construir por Funcionalidade** | Verificação e Validação | Homologação com o cliente | Inspeções de Código e Demonstrações com Stakeholders | Funcionalidades desenvolvidas, validadas pela representante/usuários e integradas ao produto final. |

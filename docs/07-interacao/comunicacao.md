@@ -15,20 +15,20 @@
 === "Com a equipe"
     | Reunião | Frequência | Formato | Canal |
     |---------|------------|---------|-------|
-    | Planejamento de Sprint (Sprint Planning) | A cada 15 dias (início de cada Sprint) | Reunião interna para seleção de itens do backlog, definição de tarefas e responsáveis | Microsoft Teams |
-    | Reuniões Diárias (Atualização de status) | Diária | Encontro curto, assíncrono via mensagens no grupo ou rápido no canal síncrono | WhatsApp ou Microsoft Teams |
-    | Retrospectiva da Sprint | A cada 15 dias (após a Sprint Review) | Reunião interna para avaliar processos e registrar lições aprendidas da iteração | Microsoft Teams |
+    | Planejamento (Plan by Feature) | A cada 15 dias (início de cada iteração) | Reunião interna para seleção de features, planejamento de milestones e alocação de responsáveis | Microsoft Teams |
+    | Acompanhamento (Atualização de status) | Diária | Encontro curto, assíncrono via mensagens no grupo ou rápido no canal síncrono | WhatsApp ou Microsoft Teams |
+    | Reunião de Melhoria de Processo | A cada 15 dias (final da iteração) | Reunião interna para avaliar o processo FDD e registrar lições aprendidas da iteração | Microsoft Teams |
 
 === "Com o cliente"
     | Reunião | Frequência | Formato | Canal |
     |---------|------------|---------|-------|
-    | Revisão de Sprint (Sprint Review) | Quinzenal (final de cada Sprint) | Demonstração do incremento de software com coleta de feedbacks para ajuste do backlog | Microsoft Teams |
+    | Validação com Cliente (Build by Feature) | Quinzenal (final de cada iteração) | Demonstração e homologação das funcionalidades construídas, com coleta de feedbacks para ajuste evolutivo | Microsoft Teams |
     | Interações adicionais e contínuas | Contínua, conforme necessidade | Comunicação rápida e informal para dúvidas pontuais e validações de hipóteses de usabilidade | WhatsApp |
 
 ---
 
 ## Frequência de Interação com o Cliente
 
-O cliente estará diretamente envolvido nas **Revisões de Sprint**, realizadas quinzenalmente ao final de cada ciclo. Nessas reuniões, via Microsoft Teams, a equipe apresentará os incrementos desenvolvidos para validação das entregas, incluindo aspectos como contraste, tamanho de fonte e simplificação de fluxos para o público 60+.
+O cliente estará diretamente envolvido nas **Validações Quinzenais**, realizadas ao final de cada ciclo de construção de features. Nessas reuniões, via Microsoft Teams, a equipe apresentará as funcionalidades desenvolvidas para homologação das entregas, incluindo aspectos como contraste, tamanho de fonte e simplificação de fluxos para o público 60+.
 
 Além dos encontros formais, haverá um canal aberto e contínuo via grupo oficial de WhatsApp, permitindo interações rápidas ao longo do desenvolvimento diário. Esse contato é essencial para esclarecer dúvidas pontuais sobre a rotina acadêmica dos idosos e apoiar a validação ágil de decisões de usabilidade.

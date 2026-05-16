@@ -89,7 +89,7 @@ Nessa etapa, serão coletados feedbacks sobre:
 - compreensão da interface;
 - autonomia na realização de tarefas.
 
-Os feedbacks coletados orientarão ajustes contínuos do produto ao longo das sprints. Caso a funcionalidade não seja aprovada, ela retornará ao backlog para replanejamento e poderá entrar na próxima iteração, conforme prioridade e capacidade da equipe.
+Os feedbacks coletados orientarão ajustes contínuos do produto ao longo das iterações. Caso a funcionalidade não seja aprovada, ela retornará ao backlog para replanejamento e poderá entrar no próximo ciclo, conforme prioridade e capacidade da equipe.
 
 ---
 

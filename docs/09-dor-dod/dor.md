@@ -1,6 +1,6 @@
 # 9.1 Definition of Ready (DoR)
 
-> Acordo entre o time e o Product Owner que indica quando um requisito está preparado para entrar em uma Sprint.
+> Acordo estabelecido pela equipe que indica quando uma Funcionalidade (Feature) está completamente detalhada e preparada para entrar no processo de "Projetar e Construir por Funcionalidade" do FDD.
 
 ---
 
