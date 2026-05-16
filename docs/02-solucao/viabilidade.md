@@ -2,7 +2,7 @@
 
 A proposta do UnB App apresenta alta viabilidade técnica. A equipe está estruturada com papéis definidos, contando com desenvolvedores focados em Frontend, Backend e analistas de QA e Requisitos. O uso de tecnologias modernas como React Native, Expo e TypeScript acelera o desenvolvimento multiplataforma (Android e iOS), enquanto a utilização do Expo SQLite simplifica a implementação das funcionalidades offline.
 
-Ademais, o acesso direto à representante dos usuários, Maria Fátima, por meio de canais como WhatsApp e Teams, garante ciclos rápidos de validação. Essa proximidade permite a entrega segura de um MVP funcional, que incluirá a consulta de grade horária e a carteirinha digital, seguindo os processos orientados a funcionalidades (FDD) até o final das sprints planejadas.
+Ademais, o acesso direto à representante dos usuários, Maria Fátima, por meio de canais como WhatsApp e Teams, garante ciclos rápidos de validação. Essa proximidade permite a entrega segura de um MVP funcional, que incluirá a consulta de grade horária e a carteirinha digital, seguindo os processos orientados a funcionalidades (FDD) até o final das iterações planejadas.
 
 ## Riscos Identificados e Planos de Ação
 
@@ -19,4 +19,4 @@ Ademais, o acesso direto à representante dos usuários, Maria Fátima, por meio
 - **Engajamento da Cliente:** Manutenção de uma comunicação frequente com a representante Maria Fátima para a validação semanal de cada design e funcionalidade desenvolvida.
 - **Ambiente e Infraestrutura:** Garantia de uma configuração estável do ecossistema Expo e SQLite por parte da equipe técnica no aplicativo, somada à garantia de estabilidade e hospedagem do servidor intermediário responsável pela extração diária das turmas.
 - **Manutenção de Dados Estáticos:** Comprometimento da equipe técnica em realizar a atualização manual do banco de dados referente ao calendário acadêmico a cada novo semestre.
-- **Cumprimento do Cronograma (FDD):** Adesão rigorosa ao planejamento das sprints, estruturadas nos 5 processos do Feature-Driven Development.
+- **Cumprimento do Cronograma (FDD):** Adesão rigorosa ao planejamento de iterações, estruturadas nos 5 processos principais do Feature-Driven Development.

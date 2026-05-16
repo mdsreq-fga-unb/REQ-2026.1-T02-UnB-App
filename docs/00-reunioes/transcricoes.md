@@ -30,11 +30,11 @@
 	- comunicação e alertas proativos;
 	- central de acolhimento e letramento digital.
 - Ferramentas de comunicação da equipe: WhatsApp, Microsoft Teams e GitHub Projects.
-- Dinâmica de trabalho com Scrum em sprints de 15 dias, com planning, dailies, review e retrospectiva.
+- Dinâmica de trabalho orientada ao FDD em iterações de 15 dias, com ritos de planejamento, acompanhamento e validação de features.
 - Estratégia de interação com a cliente (Maria Fátima): validação quinzenal e canal aberto para dúvidas rápidas.
 - Comparativo de soluções atuais (SIGAA desktop, mobile e navegador mobile) e diferenciais da proposta.
 - Premissas, riscos e estratégias de mitigação para viabilidade do projeto.
-- Justificativa da escolha do Scrum em relação ao modelo cascata.
+- Justificativa da adoção do framework FDD em relação ao modelo cascata.
 - Alinhamento macro do cronograma por unidades (U1 a U4).
 
 ### Registro

@@ -1,6 +1,6 @@
 # 9.2 Definition of Done (DoD)
 
-> Acordo que demonstra a qualidade do requisito produzido. Um item que não atende ao DoD **não deve ser apresentado na Sprint Review**.
+> Acordo que demonstra a qualidade da funcionalidade produzida. Um item que não atende ao DoD **não deve ser apresentado na validação de entrega para o cliente (Demonstração de Feature)**.
 
 ---
 
