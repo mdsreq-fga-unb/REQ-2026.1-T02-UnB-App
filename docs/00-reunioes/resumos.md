@@ -26,13 +26,13 @@
 ### Pendências
 
 - Detalhar e validar os requisitos da Unidade 2 (funcionais e não funcionais).
-- Definir critérios formais de aceitação, DoR e DoD para as histórias priorizadas.
+- Definir critérios formais de aceitação, DoR e DoD para as Features priorizadas.
 - Consolidar abordagem para consumo de dados institucionais (API/intermediação/web scraping, conforme viabilidade).
 - Planejar as sessões de validação com usuários 60+ para reduzir risco de baixa disponibilidade.
 
 ### Próximos passos
 
-- Estruturar backlog da U2 em épicos, user stories e tarefas no GitHub Projects.
+- Estruturar backlog da U2 em Features e tarefas no GitHub Projects.
 - Priorizar MVP com foco inicial em carteirinha offline e grade horária.
 - Preparar roteiro de entrevistas e validações de usabilidade com Maria Fátima.
 - Manter revisão quinzenal dos incrementos com feedback contínuo.

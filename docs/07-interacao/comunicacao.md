@@ -6,7 +6,7 @@
 |------------|-----------|
 | WhatsApp | Grupo oficial com a equipe e a cliente para envio de mensagens rápidas, atualizações curtas de status e esclarecimento de dúvidas pontuais. |
 | Microsoft Teams | Condução de entrevistas, demonstrações de protótipos e cerimônias ágeis com o cliente, com suporte a gravação e compartilhamento de tela. |
-| GitHub Projects | Uso interno da equipe técnica para manter o quadro Kanban com Épicos, User Stories e Tarefas, centralizando código e gerenciamento em um único ambiente. |
+| GitHub Projects | Uso interno da equipe técnica para manter o quadro Kanban com as Features e Tarefas, centralizando código e gerenciamento em um único ambiente. |
 
 ---
 
