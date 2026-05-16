@@ -86,12 +86,12 @@ plugins:
 
 nav:
   - Home: index.md
-  - "0 · Reuniões":
+  - "0·Reuniões":
     - Visão Geral: 00-reunioes/index.md
     - "0.1 Gravações": 00-reunioes/gravacoes.md
     - "0.2 Transcrições": 00-reunioes/transcricoes.md
     - "0.3 Resumos": 00-reunioes/resumos.md
-  - "1 · Cenário":
+  - "1·Cenário":
     - Visão Geral: 01-cenario/index.md
     - "1.1 Identificação do Cliente": 01-cenario/cliente.md
     - "1.2 Introdução ao Negócio": 01-cenario/negocio.md
@@ -100,7 +100,7 @@ nav:
     - "1.5 Desafios do Projeto": 01-cenario/desafios.md
     - "1.6 Mapa de Stakeholders": 01-cenario/stakeholders.md
     - "1.7 Segmentação de Clientes": 01-cenario/segmentacao.md
-  - "2 · Solução":
+  - "2·Solução":
     - Visão Geral: 02-solucao/index.md
     - "2.1 Objetivo Geral": 02-solucao/objetivo-geral.md
     - "2.2 Objetivos Específicos": 02-solucao/objetivos-especificos.md
@@ -109,38 +109,39 @@ nav:
     - "2.5 Análise Competitiva": 02-solucao/mercado.md
     - "2.6 Viabilidade": 02-solucao/viabilidade.md
     - "2.7 Benefícios Esperados": 02-solucao/beneficios.md
-  - "3 · Estratégias":
-    - Visão Geral: 03-estrategias/index.md
-    - "3.1 Estratégia Priorizada": 03-estrategias/estrategia.md
-    - "3.2 Quadro Comparativo": 03-estrategias/comparativo.md
-    - "3.3 Justificativa": 03-estrategias/justificativa.md
-  - "4 · ER":
-    - Visão Geral: 04-er/index.md
-    - "4.1 Atividades e Técnicas": 04-er/atividades.md
-    - "4.2 ER e o Processo": 04-er/mapeamento.md
-  - "5 · Cronograma": 05-cronograma/index.md
-  - "6 · Equipe":
-    - Visão Geral: 06-interacao/index.md
-    - "6.1 Composição da Equipe": 06-interacao/equipe.md
-    - "6.2 Comunicação": 06-interacao/comunicacao.md
-    - "6.3 Processo de Validação": 06-interacao/validacao.md
-  - "7 · Requisitos":
-    - Visão Geral: 07-requisitos/index.md
-    - "7.1 Requisitos Funcionais": 07-requisitos/funcionais.md
-    - "7.2 Requisitos Não Funcionais": 07-requisitos/nao-funcionais.md
-    - "7.3 Rastreabilidade": 07-requisitos/rastreabilidade.md
-  - "8 · DoR e DoD":
-    - Visão Geral: 08-dor-dod/index.md
-    - "8.1 Definition of Ready": 08-dor-dod/dor.md
-    - "8.2 Definition of Done": 08-dor-dod/dod.md
-  - "9 · Backlog":
-    - Visão Geral: 09-backlog/index.md
-    - "9.1 Backlog Geral": 09-backlog/backlog-geral.md
-    - "9.2 Priorização e MVP": 09-backlog/priorizacao.md
-  - "10 · Lições":
-    - Visão Geral: 10-licoes/index.md
-    - Unidade 1: 10-licoes/unidade1.md
-    - Unidade 2: 10-licoes/unidade2.md
-    - Unidade 3: 10-licoes/unidade3.md
-    - Unidade 4: 10-licoes/unidade4.md
+  - "3·Intervenção Social": 03-intervencao-social/index.md
+  - "4·Estratégias":
+    - Visão Geral: 04-estrategias/index.md
+    - "4.1 Estratégia Priorizada": 04-estrategias/estrategia.md
+    - "4.2 Quadro Comparativo": 04-estrategias/comparativo.md
+    - "4.3 Justificativa": 04-estrategias/justificativa.md
+  - "5·ER":
+    - Visão Geral: 05-er/index.md
+    - "5.1 Atividades e Técnicas": 05-er/atividades.md
+    - "5.2 ER e o Processo": 05-er/mapeamento.md
+  - "6·Cronograma": 06-cronograma/index.md
+  - "7·Equipe":
+    - Visão Geral: 07-interacao/index.md
+    - "7.1 Composição da Equipe": 07-interacao/equipe.md
+    - "7.2 Comunicação": 07-interacao/comunicacao.md
+    - "7.3 Processo de Validação": 07-interacao/validacao.md
+  - "8·Requisitos":
+    - Visão Geral: 08-requisitos/index.md
+    - "8.1 Requisitos Funcionais": 08-requisitos/funcionais.md
+    - "8.2 Requisitos Não Funcionais": 08-requisitos/nao-funcionais.md
+    - "8.3 Rastreabilidade": 08-requisitos/rastreabilidade.md
+  - "9·DoR e DoD":
+    - Visão Geral: 09-dor-dod/index.md
+    - "9.1 Definition of Ready": 09-dor-dod/dor.md
+    - "9.2 Definition of Done": 09-dor-dod/dod.md
+  - "10·Backlog":
+    - Visão Geral: 10-backlog/index.md
+    - "10.1 Backlog Geral": 10-backlog/backlog-geral.md
+    - "10.2 Priorização e MVP": 10-backlog/priorizacao.md
+  - "11·Lições":
+    - Visão Geral: 11-licoes/index.md
+    - Unidade 1: 11-licoes/unidade1.md
+    - Unidade 2: 11-licoes/unidade2.md
+    - Unidade 3: 11-licoes/unidade3.md
+    - Unidade 4: 11-licoes/unidade4.md
   - Referências: referencias.md
