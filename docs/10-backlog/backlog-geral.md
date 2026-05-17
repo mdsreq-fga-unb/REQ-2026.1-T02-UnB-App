@@ -9,7 +9,7 @@
 
 | RF | Feature | Descrição | RNFs relacionados |
 |----|-----------|-----------|-------------------|
-| RF01 | F01 | [ação] [resultado] [objetivo] | RNF0x |
+| RF08, RF09, RF10, RF11 | F01 | [Conversar com assistente] [Sanar dúvidas usando linguagem natural] [Diminuir ansiedade e estresse causados pela falta de entendimento das plataformas oficiais da Universidade] | RNF01, RNF08 |
 | RF02 | F02 | [ação] [resultado] [objetivo] | RNF0x |
 | RF03 | F03 | [ação] [resultado] [objetivo] | RNF0x |
 | RF04 | F04 | [ação] [resultado] [objetivo] | RNF0x |
@@ -20,5 +20,3 @@
 | RF09 | F09 | [ação] [resultado] [objetivo] | RNF0x |
 | RF10 | F10 | [ação] [resultado] [objetivo] | RNF0x |
 
-!!! tip "Lembrete"
-    Requisitos não funcionais transversais aplicam-se a todas as Features e não precisam ser repetidos em cada linha.
