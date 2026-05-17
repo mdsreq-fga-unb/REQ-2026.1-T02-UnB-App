@@ -2588,29 +2588,20 @@
 <thead>
 <tr>
 <th>ID</th>
+<th>Nome</th>
 <th>Descrição</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>RNF01</td>
-<td>[Requisito de usabilidade]</td>
+<td>Aplicar Interface com Tipografia Adaptável</td>
+<td>O sistema deve aplicar nativamente uma interface de tipografia adaptável em todas as suas telas, seguindo o padrão ABNT: texto sem serifa e justificado para a esquerda.</td>
 </tr>
-</tbody>
-</table>
-</div>
-<div class="tabbed-block">
-<table>
-<thead>
-<tr>
-<th>ID</th>
-<th>Descrição</th>
-</tr>
-</thead>
-<tbody>
 <tr>
 <td>RNF02</td>
-<td>[Requisito de confiabilidade / segurança]</td>
+<td>Projetar Navegação de Tarefas Essenciais em Até 2 Cliques</td>
+<td>O sistema deve ser projetado de forma que a navegação até tarefas essenciais — como consulta de notas e locais de prova — exija no máximo 2 cliques a partir da tela inicial.</td>
 </tr>
 </tbody>
 </table>
@@ -2620,13 +2611,20 @@
 <thead>
 <tr>
 <th>ID</th>
+<th>Nome</th>
 <th>Descrição</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>RNF03</td>
-<td>[Requisito de desempenho / performance]</td>
+<td>Permitir Consulta de Informações Institucionais Offline</td>
+<td>O sistema deve permitir a consulta da grade horária, ensalamento e carteirinha estudantil de forma 100% offline, sem dependência de internet, utilizando dados armazenados no cache local via SQLite.</td>
+</tr>
+<tr>
+<td>RNF04</td>
+<td>Sincronizar Automaticamente Dados Divergentes</td>
+<td>O sistema deve possuir conexão direta com o banco de dados do web scraping toda vez que houver acesso à internet, verificando e sincronizando automaticamente informações divergentes das aulas matriculadas para salvamento local.</td>
 </tr>
 </tbody>
 </table>
@@ -2636,13 +2634,15 @@
 <thead>
 <tr>
 <th>ID</th>
+<th>Nome</th>
 <th>Descrição</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>RNF04</td>
-<td>[Compatibilidade com navegadores, SOs, dispositivos]</td>
+<td>-</td>
+<td>N/A</td>
+<td>Nenhum requisito de desempenho mapeado até o momento.</td>
 </tr>
 </tbody>
 </table>
@@ -2652,13 +2652,48 @@
 <thead>
 <tr>
 <th>ID</th>
+<th>Nome</th>
 <th>Descrição</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>RNF05</td>
-<td>[Restrição de implementação, tecnologia, etc.]</td>
+<td>Garantir Compatibilidade com Android 7.0+ e iOS 15.1+</td>
+<td>O sistema deve suportar sistemas operacionais de acordo com o mínimo exigido pela biblioteca Expo, garantindo compatibilidade com Android 7.0 ou superior e iOS 15.1 ou superior.</td>
+</tr>
+<tr>
+<td>RNF06</td>
+<td>Atualizar Calendário Acadêmico e Correções via OTA</td>
+<td>O sistema deve suportar atualizações na nuvem para mitigar problemas urgentes — como dados de calendário desatualizados ou bugs críticos — sem necessidade de publicação de nova versão nas lojas, utilizando o Send Over-the-Air Updates do EAS (Expo Application Services).</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tabbed-block">
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Nome</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RNF07</td>
+<td>Desenvolver Aplicativo com React Native, Expo e TypeScript</td>
+<td>O sistema deve ser desenvolvido utilizando React Native, Expo e TypeScript como stack tecnológica principal.</td>
+</tr>
+<tr>
+<td>RNF08</td>
+<td>Armazenar Dados Locais com Expo SQLite</td>
+<td>O sistema deve armazenar todos os dados locais do usuário utilizando a biblioteca Expo SQLite, garantindo persistência e acesso offline às informações.</td>
+</tr>
+<tr>
+<td>RNF09</td>
+<td>Emitir Notificações sobre Eventos e Alterações Acadêmicas</td>
+<td>O sistema deve emitir notificações proativas sobre datas críticas — como períodos de oferta de disciplinas e matrícula — e sobre alterações de professor, horário ou sala, utilizando atualizações via nuvem para garantir que o aplicativo não perca funcionalidades por falta de atualização.</td>
 </tr>
 </tbody>
 </table>
