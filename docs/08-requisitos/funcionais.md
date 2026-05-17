@@ -25,4 +25,5 @@
 | RF17 | Coletar Dados de Aulas Diariamente via SIGAA | O sistema deve coletar diariamente, a partir da plataforma SIGAA, os dados referentes às aulas do estudante. |
 | RF18 | Coletar Dados do Calendário Acadêmico Semanalmente | O sistema deve coletar semanalmente os dados das aulas a partir do calendário acadêmico oficial da universidade. |
 | RF19 | Atualizar Informações de Disciplinas Matriculadas | O sistema deve atualizar diariamente as informações das disciplinas em que o estudante está matriculado, com base nos dados extraídos do SIGAA. |
-| RF20 | Centralizar Documentos Oficiais para Acesso Offline | O sistema deve centralizar os documentos oficiais da universidade, disponibilizando-os para acesso rápido e sem necessidade de conexão com a internet. |
+| RF20 | Enviar Documentos Oficiais | O sistema deve permitir que o estudante envie e anexe documentos oficiais à sua conta no aplicativo para uso nas funcionalidades disponíveis. |
+| RF21 | Armazenar Documentos Oficiais para Acesso Offline | O sistema deve centralizar os documentos oficiais da universidade, disponibilizando-os para acesso rápido e sem necessidade de conexão com a internet. |
