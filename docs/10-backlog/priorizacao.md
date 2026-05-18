@@ -58,17 +58,19 @@ Os requisitos pontuados são alocados visualmente na Matriz de Priorização ide
 
 ## Tabela Consolidada de Priorização
 
+Aplicando a equação da Pontuação ($VB / ES$) baseada nos dados empíricos atualizados (votos do formulário + peso da cliente) e nas novas estimativas de esforço:
+
 | Feature | Nome da Feature | MoSCoW | VB (Peso) | ES (Horas) | Pontuação | Quadrante |
 |----|-----------|:------:|:--:|:--:|:--:|:---:|
-| F02 | Exibir QRCode da BCE | Must | 9 | 2 | 4.5 | Q1 |
-| F03 | Exibir e armazenar a carteirinha digital | Must | 9 | 3 | 3.0 | Q1 |
-| F07 | Consultar grade horária e ensalamento | Must | 10 | 4 | 2.5 | Q1 |
-| F01 | Conversar com assistente | Must | 10 | 10 | 1.0 | Q2 |
-| F04 | Extrair, processar e armazenar Histórico Escolar e/ou Passe Livre | Should | 7 | 8 | 0.87 | Q2 |
-| F09 | Centralizar documentos oficiais | Should | 6 | 4 | 1.5 | Q3 |
-| F08 | Coletar e atualizar dados acadêmicos | Could | 5 | 5 | 1.0 | Q3 |
-| F05 | Exibir fluxos de onboarding | Could | 4 | 3 | 1.33 | Q3 |
-| F06 | Listar e reproduzir tutoriais | Won't | 3 | 6 | 0.5 | Q4 |
+| F09 | Centralizar documentos oficiais | Must | 22 | 12 | 1.83 | Q1 |
+| F05 | Exibir fluxos de onboarding | Must | 16 | 10 | 1.60 | Q1 |
+| F07 | Consultar grade horária e ensalamento | Must | 9 | 16 | 0.56 | Q1 / Q2 |
+| F04 | Extrair e processar Histórico Escolar | Should | 16 | 35 | 0.45 | Q2 |
+| F02 | Exibir QRCode da BCE | Could | 3 | 8 | 0.37 | Q3 |
+| F08 | Coletar e atualizar dados acadêmicos (Matrícula) | Should | 16 | 50 | 0.32 | Q2 |
+| F03 | Exibir e armazenar a carteirinha digital | Could | 3 | 10 | 0.30 | Q3 |
+| F06 | Listar e reproduzir tutoriais | Won't | 2 | 15 | 0.13 | Q4 |
+| F01 | Conversar com assistente (IA/Voz) | Won't | 2 | 60 | 0.03 | Q4 |
 
 ---
 
@@ -76,15 +78,17 @@ Os requisitos pontuados são alocados visualmente na Matriz de Priorização ide
 
 > Conjunto mínimo de funcionalidades estritamente necessárias (*Must Have*, primariamente em Q1/Q2) para lançamento e validação contínua de hipóteses com o público.
 
+A integração dos dados empíricos da pesquisa muda o foco do aplicativo, mostrando que **a maior dor do usuário é acessar materiais e não se perder na interface**.
+
 !!! success "Compõem o MVP"
-    - **F02** — Exibir QRCode da BCE
-    - **F03** — Exibir e armazenar a carteirinha digital
+    - **F09** — Centralizar documentos oficiais
+    - **F05** — Exibir fluxos de onboarding
     - **F07** — Consultar grade horária e ensalamento
-    - **F01** — Conversar com assistente
+    - **F04** — Extrair e processar Histórico Escolar e/ou Passe Livre
+    - **F08** — Coletar e atualizar dados acadêmicos (Matrícula)
 
 !!! warning "Fora do MVP"
-    - **F04** — Extrair, processar e armazenar Histórico Escolar e/ou Passe Livre
-    - **F09** — Centralizar documentos oficiais
-    - **F08** — Coletar e atualizar dados acadêmicos
-    - **F05** — Exibir fluxos de onboarding
+    - **F02** — Exibir QRCode da BCE
+    - **F03** — Exibir e armazenar a carteirinha digital
     - **F06** — Listar e reproduzir tutoriais
+    - **F01** — Conversar com assistente
