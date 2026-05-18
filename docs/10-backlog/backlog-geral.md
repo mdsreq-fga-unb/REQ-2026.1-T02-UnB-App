@@ -10,8 +10,8 @@
 | RFs | Feature | Ação (Nome da Feature) | Resultado | Objetivo | RNFs relacionados |
 |----|---------|------------------------|-----------|----------|-------------------|
 | RF08, RF09, RF10, RF11 | F01 | Conversar com assistente | Sanar dúvidas usando linguagem natural | Diminuir ansiedade e estresse causados pela falta de entendimento das plataformas oficiais da Universidade | RNF01, RNF08 |
-| RF02 | F02 | Exibir QRCode da BCE | resultado | objetivo | RNF0x |
-| RF01, RF03 | F03 | Exibir e armazenar a carteirinha digital | resultado | objetivo | RNF0x |
+| RF02 | F02 | Exibir QRCode da BCE | Gerar e apresentar na tela o QR Code criado a partir do CPF do estudante | Permitir a autenticação e o acesso físico rápido e prático à Biblioteca Central (BCE) | RNF01, RNF02, RNF03, RNF08 |
+| RF01, RF03 | F03 | Acessar carteirinha digital | Apresentar as credenciais do aluno a qualquer momento a partir do armazenamento local | Garantir a identificação do estudante nos espaços da universidade mesmo sem internet | RNF02, RNF03, RNF08 |
 | RF04, RF05, RF06 | F04 | Extrair, processar e armazenar Histórico Escolar e/ ou Passe Livre Estudantil | resultado | objetivo | RNF0x |
 | RF07 | F05 | Exibir fluxos de onboarding | resultado | objetivo | RNF0x |
 | RF12, RF13, RF14, RF15 | F06 | Listar e reproduzir tutoriais | resultado | objetivo | RNF0x |
