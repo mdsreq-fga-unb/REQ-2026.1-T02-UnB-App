@@ -1,4 +1,4 @@
-# 3 · Estratégias de Engenharia de Software
+# 4 · Estratégias de Engenharia de Software
 
 | Subseção | Conteúdo |
 |----------|----------|
