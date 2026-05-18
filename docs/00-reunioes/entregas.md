@@ -1,6 +1,6 @@
-# 0.2 Transcrições das Reuniões
+# 0.1 Entregas das Unidades
 
-> Página para manter as transcrições (completas ou resumidas) das reuniões realizadas.
+> Página para manter as entregas das unidades realizadas.
 
 ---
 
