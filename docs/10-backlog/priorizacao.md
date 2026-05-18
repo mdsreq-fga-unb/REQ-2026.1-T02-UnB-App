@@ -26,7 +26,9 @@ O Esforço indica o tempo estimado em **horas** para a implementação do requis
 
 ### Fórmulas
 
-$$Pontuação = \frac{VB}{ES}$$
+$$
+\text{Pontuação} = \frac{VB}{ES}
+$$
 
 > O relacionamento para priorização se dá pela divisão do Valor de Negócio (VB) pelas horas de Esforço (ES), estabelecendo uma relação de Retorno sobre Investimento (ROI). Onde pontuações maiores indicam itens de maior prioridade.
 
