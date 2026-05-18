@@ -10,7 +10,7 @@
 | Campo         | Informação                          |
 |---------------|-------------------------------------|
 | **Produto**   | UnB App                             |
-| **Versão**    | [1.3.5]                             |
+| **Versão**    | [1.6.1]                               |
 | **Equipe**    | [Rivotril - G7]                     |
 | **Disciplina**| Requisitos de Software — [2026.01]  |
 
@@ -33,6 +33,14 @@
 | 13/04/2026 | 1.3.3 | Adicionados os tópicos referentes a cada um dos autores que são tópicos 3.2, 3.3 e 5 | Riva |
 | 13/04/2026 | 1.3.4 | Adicionados os tópicos referentes a cada um dos autores que são tópicos 2.7, 3.1 e 4.2 | Mateus |
 | 13/04/2026 | 1.3.5 | Revisão das novas adições feitas por cada integrante | Luis |
+| 01/05/2026 | 1.4 | Reformulação completa das issues apresentadas pelo professor | Davi, Luís, Mateus, Pedro e Rivadalvio |
+| 09/05/2026 | 1.4.1 | Finalização da verificação de todas as alterações feitas de acordo com o pedido das issues | Davi, Luís, Mateus, Pedro e Rivadalvio |
+| 09/05/2026 | 1.5 | Começo estrutural da formação dos requisitos definidos e objetivos do projeto (Unidade 2 de forma formal no documento) | Davi, Luís, Mateus, Pedro e Rivadalvio |
+| 13/05/2026 | 1.5.1 | Criação da matriz de rastreabilidade dos requisitos e da matriz de valor de negócio e esforço para definição do MVP | Davi, Luís, Mateus, Pedro e Rivadalvio |
+| 14/05/2026 | 1.5.2 | Correção do que foi apresentado em sala como característica de produto unificada e diminuição de 1:1 de características para requisitos | Davi, Luís, Mateus, Pedro e Rivadalvio |
+| 15/05/2026 | 1.5.3 | Reformulação dos objetivos específicos e das características, além da criação de novos requisitos, destrinchando outros maiores | Davi, Mateus, Pedro e Rivadalvio |
+| 16/05/2026 | 1.6 | Organização e produção da priorização do backlog e quais features entrariam no MVP | Davi, Luís, Mateus, Pedro e Rivadalvio |
+| 18/05/2026 | 1.6.1 | Revisão e finalização da Unidade 2, englobando toda a Visão de Produto e Projeto do UnB App | Davi, Luís, Mateus, Pedro e Rivadalvio |
 
 ---
 

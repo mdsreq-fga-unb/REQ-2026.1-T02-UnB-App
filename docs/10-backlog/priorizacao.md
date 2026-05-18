@@ -84,11 +84,13 @@ A integração dos dados empíricos da pesquisa muda o foco do aplicativo, mostr
     - **F09** — Centralizar documentos oficiais
     - **F05** — Exibir fluxos de onboarding
     - **F07** — Consultar grade horária e ensalamento
-    - **F04** — Extrair e processar Histórico Escolar e/ou Passe Livre
-    - **F08** — Coletar e atualizar dados acadêmicos (Matrícula)
 
 !!! warning "Fora do MVP"
+    - **F04** — Extrair e processar Histórico Escolar e/ou Passe Livre
+    - **F08** — Coletar e atualizar dados acadêmicos (Matrícula)
     - **F02** — Exibir QRCode da BCE
     - **F03** — Exibir e armazenar a carteirinha digital
     - **F06** — Listar e reproduzir tutoriais
     - **F01** — Conversar com assistente
+
+Obs.: Como forma de deixar o produto final do semestre mais robusto foi escolhido a Feaure F02 e a F03 como prioridade após a conclusão do MVP!
