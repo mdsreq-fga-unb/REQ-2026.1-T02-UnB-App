@@ -7,6 +7,7 @@
 | Reunião | Data | Responsável | Link/Arquivo da transcrição | Observações |
 |---------|------|-------------|-----------------------------|-------------|
 | R01 | 13/04/2026 | Luis Felipe Parreira Cunha | [Terminar a primeira entrega .docx](Terminar%20a%20primeira%20entrega%20.docx) | Revisão da Unidade 1 e alinhamento do plano de execução do semestre. |
+| R02 | 18/05/2026 | Luis Felipe Parreira Cunha | [Terminar Unidade 2 (2).docx](Terminar%20Unidade%202%20(2).docx) | Elaboração e consolidação dos tópicos da Unidade 2. |
 
 ## R01 · 13/04/2026 (23h59)
 
@@ -40,3 +41,30 @@
 ### Registro
 
 A transcrição integral está disponível no arquivo [Terminar a primeira entrega .docx](Terminar%20a%20primeira%20entrega%20.docx), armazenado nesta mesma pasta.
+
+## R02 · 18/05/2026
+
+**Duração:** 14m27s
+
+**Participantes com fala registrada:**
+
+- Luis Felipe Parreira Cunha
+- Davi Severiano Freitas
+- Mateus Rodrigues Barreto
+- Pedro Henrique Ferreira Xavier
+- Rivadalvio Joaquim da Silva Filho
+
+### Tópicos abordados
+
+- Seleção e justificativa do ciclo de vida ágil iterativo-incremental associado ao processo FDD em contraste com o XP.
+- Cronograma planejado e orientado às features, indicando as features de 5, 7 e 9 como MVP prioritário (com data de fechamento para 22/05).
+- Mapeamento detalhado de 21 requisitos funcionais (assistente, carteirinha, grade e tutoriais) e separação técnica dos 4 principais eixos de não funcionais.
+- Criação e visualização da Árvore de Rastreabilidade alinhada ao objetivo de autonomia do público 60+.
+- Consolidação do Definition of Ready (DoR) com viabilidade e uso de BDD, e do Definition of Done (DoD) com revisão e testes (unitários, integração e funcionais).
+- Detalhamento de Backlog e elaboração das 9 features baseadas nos requisitos (F1 a F9).
+- Definição do MVP por técnica matemática cruzando MoSCoW e Matriz Valor vs Esforço (ROI via chamados do formulário).
+- Reflexão sobre as lições aprendidas (refatoração pelo FDD, importância do controle rigoroso via DoR/DoD para conter refações nos Pull Requests).
+
+### Registro
+
+A transcrição integral está disponível no arquivo [Terminar Unidade 2 (2).docx](Terminar%20Unidade%202%20(2).docx), armazenado nesta mesma pasta.
