@@ -1,6 +1,6 @@
-# 0.1 Gravações das Reuniões
+# 0.2 Comprovações e reuniões gerais (gravações)
 
-> Página para centralizar os links das reuniões gravadas.
+> Página para centralizar os links das gravações das reuniões e demais comprovações.
 
 ---
 

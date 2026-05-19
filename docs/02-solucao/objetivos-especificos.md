@@ -13,15 +13,11 @@ O presente projeto tem como objetivo desenvolver uma solução mobile complement
   </div>
   <div class="oe-card">
     <span class="oe-id">OE3</span>
-    <p>Garantir o acesso irrestrito ao campus físico (catracas, RU, biblioteca, salas de aula), anulando a dependência de conexões de internet instáveis e fornecendo dados vitais de forma offline.</p>
+    <p>Facilitar a curva de aprendizado e o primeiro acesso à vida acadêmica digital, oferecendo um ambiente de acolhimento focado em reduzir o atrito, a ansiedade e a dependência inicial dos calouros 60+ no contato com os sistemas acadêmicos.</p>
   </div>
   <div class="oe-card">
     <span class="oe-id">OE4</span>
     <p>Reduzir a ansiedade e o esquecimento de responsabilidades acadêmicas estabelecendo uma comunicação proativa, que avise o aluno sobre o que ele precisa fazer, em vez de obrigá-lo a procurar a informação.</p>
-  </div>
-  <div class="oe-card">
-    <span class="oe-id">OE5</span>
-    <p>Facilitar a curva de aprendizado e o primeiro acesso à vida acadêmica digital, oferecendo um ambiente de acolhimento focado em reduzir o atrito, a ansiedade e a dependência inicial dos calouros 60+ no contato com os sistemas acadêmicos.</p>
   </div>
 </div>
 

@@ -1,35 +1,7 @@
 # REQ-2026.1-T02-UnB-App
 Repositório de projeto da disciplina de REQ-T2, 2026.1.
 
-## Estrutura da documentação
-
-### Fonte da documentação (branch de trabalho)
-
-```
-REQ-2026.1-T02-UnB-App/
-├── mkdocs.yml                  # Configuração de navegação, tema e plugins
-├── requirements.txt
-└── docs/
-    ├── index.md                # Página inicial
-    ├── referencias.md
-    ├── assets/
-    │   ├── logo.png
-    │   └── stylesheets/
-    │       └── extra.css
-    ├── 00-reunioes/
-    ├── 01-cenario/
-    ├── 02-solucao/
-    ├── 03-estrategias/
-    ├── 04-er/
-    ├── 05-cronograma/
-    ├── 06-interacao/
-    ├── 07-requisitos/
-    ├── 08-dor-dod/
-    ├── 09-backlog/
-    └── 10-licoes/
-```
-
-## Como usar
+## Como usar a documentação
 
 ### 1. Instalar dependências
 
@@ -62,33 +34,6 @@ mkdocs gh-deploy --clean
 > O comando acima faz o build, limpa arquivos antigos e publica automaticamente o resultado na branch `gh-pages`.
 
 ---
-
-## Componentes CSS disponíveis
-
-Os seguintes componentes customizados estão prontos para uso nos arquivos `.md`:
-
-```html
-<!-- Cards da home -->
-<div class="vpp-hero"> <div class="vpp-hero-card"> ... </div> </div>
-
-<!-- Chips de status -->
-<div class="vpp-chip-row"> <div class="vpp-chip">🎯 Texto</div> </div>
-
-<!-- Cards de objetivos específicos -->
-<div class="oe-grid"> <div class="oe-card"> <span class="oe-id">OE1</span> <p>...</p> </div> </div>
-
-<!-- Timeline de sprints -->
-<div class="sprint-timeline"> <div class="sprint-item"> ... </div> </div>
-
-<!-- Cards de equipe -->
-<div class="team-grid"> <div class="team-card"> <div class="avatar">AB</div> ... </div> </div>
-
-<!-- Badges -->
-<span class="badge badge-blue">Em andamento</span>
-<span class="badge badge-green">Concluído</span>
-<span class="badge badge-amber">Revisão</span>
-<span class="badge badge-red">Bloqueado</span>
-```
 
 ## Commits
 

@@ -1,0 +1,28 @@
+# 9.1 Definition of Ready (DoR)
+
+> Acordo estabelecido pela equipe que indica quando uma Funcionalidade (Feature) está completamente detalhada e preparada para entrar no processo de "Projetar e Construir por Funcionalidade" do FDD.
+
+---
+
+<div class="vpp-chip-row">
+  <div class="vpp-chip"><span class="icon">✅</span> Informação suficiente para desenvolvimento</div>
+  <div class="vpp-chip"><span class="icon">✅</span> Cabe em uma iteração</div>
+  <div class="vpp-chip"><span class="icon">✅</span> Representado como Feature FDD</div>
+  <div class="vpp-chip"><span class="icon">✅</span> Coberto por critérios de aceite e BDD</div>
+  <div class="vpp-chip"><span class="icon">✅</span> Interface mapeada (quando necessário)</div>
+</div>
+
+---
+
+## Checklist do DoR
+
+| # | Critério | Descrição |
+|---|----------|-----------|
+| 1 | **Informação necessária** | O requisito tem detalhes suficientes para o time entender o que deve ser feito, sem ambiguidades. |
+| 2 | **Cabe em uma iteração** | O requisito é pequeno o bastante para ser concluído em um único ciclo. |
+| 3 | **Declaração de Feature** | O requisito está descrito no formato de Feature list. |
+| 4 | **Critérios de aceite + BDD** | Critérios de aceitação e especificações BDD estão presentes. |
+| 5 | **Interface mapeada** | Se envolve interface, ela está definida e descrita. |
+
+!!! example "Formato de Feature FDD"
+    **[ação]** **[resultado]** **[objetivo]**.

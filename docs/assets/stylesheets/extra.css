@@ -1,10 +1,10 @@
-/* ============================================================
-   CUSTOM THEME — Visão do Produto e Projeto
+﻿/* ============================================================
+   CUSTOM THEME â€” VisÃ£o do Produto e Projeto
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
 
-/* ── Palette ─────────────────────────────────────────────── */
+/* â”€â”€ Palette â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 :root {
   --md-primary-fg-color:        #1a1f2e;
   --md-primary-fg-color--light: #2d3452;
@@ -34,7 +34,7 @@
   --vpp-muted:   #9ca3af;
 }
 
-/* ── Base Typography ─────────────────────────────────────── */
+/* â”€â”€ Base Typography â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .md-typeset {
   font-size: .875rem;
   line-height: 1.75;
@@ -71,7 +71,7 @@
   margin-top: 1.6em;
 }
 
-/* ── Header / Nav ────────────────────────────────────────── */
+/* â”€â”€ Header / Nav â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .md-header {
   background: var(--md-primary-fg-color);
   box-shadow: 0 1px 0 rgba(255,255,255,.06), 0 4px 20px rgba(0,0,0,.25);
@@ -133,7 +133,14 @@
   }
 }
 
-/* ── Sidebar ─────────────────────────────────────────────── */
+/* Give documentation pages enough horizontal room for wide data tables. */
+@media (min-width: 1220px) {
+  .md-main__inner.md-grid {
+    max-width: min(94rem, calc(100% - 2rem));
+  }
+}
+
+/* â”€â”€ Sidebar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .md-nav__title {
   font-size: .7rem;
   font-weight: 700;
@@ -148,8 +155,9 @@
   font-weight: 600;
 }
 
-/* ── Tables ──────────────────────────────────────────────── */
-.md-typeset table:not([class]) {
+/* â”€â”€ Tables â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.md-typeset table:not([class]),
+.md-typeset table.product-characteristics-table {
   font-size: .8rem;
   border: 1px solid var(--vpp-border);
   border-radius: 8px;
@@ -157,27 +165,56 @@
   box-shadow: 0 1px 3px rgba(0,0,0,.06);
 }
 
-/* Tabela de Características do Produto (6 colunas — aplicado via wrapper .chars-table) */
-.chars-table table {
-  font-size: 0.7rem;
+/* Tabela de CaracterÃ­sticas do Produto (6 colunas â€” aplicado via wrapper .chars-table) */
+.md-typeset table.product-characteristics-table {
+  width: 100%;
+  min-width: 68rem;
+  table-layout: fixed;
+  font-size: .72rem;
 }
 
-.chars-table th {
-  padding: .35rem .35rem !important;
-  font-size: 0.66rem !important;
+.md-typeset .md-typeset__scrollwrap:has(table.product-characteristics-table),
+.md-typeset .md-typeset__table:has(table.product-characteristics-table) {
+  width: 100%;
+}
+
+.md-typeset .md-typeset__scrollwrap:has(table.product-characteristics-table) {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.md-typeset table.product-characteristics-table th,
+.md-typeset table.product-characteristics-table td {
+  padding: .45rem .55rem !important;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.md-typeset table.product-characteristics-table th {
+  font-size: .66rem !important;
   letter-spacing: .02em !important;
 }
 
-.chars-table td {
-  padding: .35rem .35rem !important;
-  overflow-wrap: break-word;
+.md-typeset table.product-characteristics-table th:nth-child(1) { width: 8%; }
+.md-typeset table.product-characteristics-table th:nth-child(2) { width: 12%; }
+.md-typeset table.product-characteristics-table th:nth-child(3) { width: 6%; }
+.md-typeset table.product-characteristics-table th:nth-child(4) { width: 18%; }
+.md-typeset table.product-characteristics-table th:nth-child(5) { width: 28%; }
+.md-typeset table.product-characteristics-table th:nth-child(6) { width: 28%; }
+
+@media (max-width: 1219px) {
+  .md-typeset table.product-characteristics-table {
+    min-width: 60rem;
+  }
 }
 
-.md-typeset table:not([class]) thead tr {
+.md-typeset table:not([class]) thead tr,
+.md-typeset table.product-characteristics-table thead tr {
   background: var(--md-primary-fg-color);
 }
 
-.md-typeset table:not([class]) thead th {
+.md-typeset table:not([class]) thead th,
+.md-typeset table.product-characteristics-table thead th {
   color: #fff;
   font-weight: 600;
   letter-spacing: .03em;
@@ -187,11 +224,13 @@
   padding: .75rem 1rem;
 }
 
-.md-typeset table:not([class]) tbody tr:nth-child(even) {
+.md-typeset table:not([class]) tbody tr:nth-child(even),
+.md-typeset table.product-characteristics-table tbody tr:nth-child(even) {
   background: var(--vpp-surface);
 }
 
-.md-typeset table:not([class]) td {
+.md-typeset table:not([class]) td,
+.md-typeset table.product-characteristics-table td {
   border-color: var(--vpp-border);
   padding: .6rem 1rem;
   vertical-align: top;
@@ -223,7 +262,7 @@
   color: #e3edff;
 }
 
-/* ── Admonitions ─────────────────────────────────────────── */
+/* â”€â”€ Admonitions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .md-typeset .admonition,
 .md-typeset details {
   border-radius: 6px;
@@ -231,7 +270,7 @@
   font-size: .85rem;
 }
 
-/* ── Code ────────────────────────────────────────────────── */
+/* â”€â”€ Code â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .md-typeset code {
   background: var(--vpp-surface);
   border: 1px solid var(--vpp-border);
@@ -246,7 +285,155 @@
   padding: 0;
 }
 
-/* ── Hero card (home page) ───────────────────────────────── */
+/* Image previews with explicit full-size access. */
+.image-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .85rem;
+  margin: 1.5rem 0 2rem;
+}
+
+.image-preview__figure {
+  width: 100%;
+  margin: 0;
+  padding: .75rem;
+  background: var(--md-default-bg-color);
+  border: 1px solid var(--vpp-border);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(18,25,46,.08);
+}
+
+.image-preview__figure img {
+  display: block;
+  width: 100%;
+  max-height: 72vh;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.md-typeset .image-preview__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.25rem;
+  padding: .45rem .9rem;
+  color: #fff;
+  background: var(--vpp-blue);
+  border-radius: 6px;
+  font-size: .82rem;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(79,127,255,.22);
+  transition: background-color .2s, box-shadow .2s, transform .2s;
+}
+
+.md-typeset .image-preview__action:hover,
+.md-typeset .image-preview__action:focus-visible {
+  color: #fff;
+  background: var(--md-primary-fg-color--light);
+  box-shadow: 0 6px 16px rgba(79,127,255,.28);
+  transform: translateY(-1px);
+}
+
+[data-md-color-scheme="slate"] .image-preview__figure {
+  background: #171d2a;
+  box-shadow: 0 10px 24px rgba(0,0,0,.35);
+}
+
+.diagram-actions {
+  display: flex;
+  justify-content: center;
+  margin: .75rem 0 2rem;
+}
+
+.md-typeset .diagram-modal__trigger,
+.md-typeset .diagram-modal__close {
+  cursor: pointer;
+  border: 0;
+  color: #fff;
+  background: var(--vpp-blue);
+  border-radius: 6px;
+  font-size: .82rem;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(79,127,255,.22);
+}
+
+.md-typeset .diagram-modal__trigger {
+  min-height: 2.25rem;
+  padding: .45rem .9rem;
+}
+
+.md-typeset .diagram-modal__close {
+  min-height: 2rem;
+  padding: .35rem .75rem;
+  background: var(--md-primary-fg-color--light);
+}
+
+.diagram-modal {
+  width: min(94vw, 1200px);
+  max-width: 94vw;
+  height: min(88vh, 760px);
+  max-height: 88vh;
+  padding: 0;
+  color: var(--vpp-text);
+  background: var(--md-default-bg-color);
+  border: 1px solid var(--vpp-border);
+  border-radius: 8px;
+  box-shadow: 0 24px 70px rgba(0,0,0,.35);
+}
+
+.diagram-modal::backdrop {
+  background: rgba(15,18,25,.62);
+}
+
+.diagram-modal__panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.diagram-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .75rem 1rem;
+  background: var(--vpp-surface);
+  border-bottom: 1px solid var(--vpp-border);
+}
+
+.diagram-modal__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.diagram-modal__body {
+  flex: 1;
+  overflow: auto;
+  padding: 1rem;
+}
+
+.diagram-modal__body .mermaid {
+  min-width: 1120px;
+  padding: 1rem;
+}
+
+[data-md-color-scheme="slate"] .diagram-modal {
+  background: #171d2a;
+  box-shadow: 0 10px 24px rgba(0,0,0,.35);
+}
+
+[data-md-color-scheme="slate"] .diagram-modal__header {
+  background: #1e2433;
+}
+
+/* â”€â”€ Hero card (home page) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .vpp-hero {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -301,7 +488,7 @@
   color: var(--vpp-blue);
 }
 
-/* ── Badges ──────────────────────────────────────────────── */
+/* â”€â”€ Badges â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .badge {
   display: inline-block;
   padding: .15em .55em;
@@ -316,7 +503,7 @@
 .badge-amber  { background: rgba(245,166,35,.12); color: var(--vpp-amber); }
 .badge-red    { background: rgba(229,83,83,.12);  color: var(--vpp-red); }
 
-/* ── Status chips (DoR/DoD, MVP etc.) ───────────────────── */
+/* â”€â”€ Status chips (DoR/DoD, MVP etc.) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .vpp-chip-row {
   display: flex;
   flex-wrap: wrap;
@@ -338,7 +525,7 @@
 
 .vpp-chip .icon { font-size: 1rem; }
 
-/* ── Objective cards ─────────────────────────────────────── */
+/* â”€â”€ Objective cards â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .oe-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -363,7 +550,7 @@
 
 .oe-card p { font-size: .83rem; margin: .3rem 0 0; color: var(--vpp-text); }
 
-/* ── Sprint timeline ─────────────────────────────────────── */
+/* â”€â”€ Sprint timeline â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .sprint-timeline {
   position: relative;
   padding-left: 2rem;
@@ -407,40 +594,174 @@
   color: var(--vpp-muted);
 }
 
-/* ── Team cards ──────────────────────────────────────────── */
+/* â”€â”€ Team cards â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
-  margin: 1.2rem 0;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.15rem;
+  margin: 1.4rem 0;
 }
 
 .team-card {
-  background: var(--vpp-surface);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: .65rem;
+  background:
+    radial-gradient(circle at 100% 0, rgba(79,127,255,.14), transparent 42%),
+    var(--vpp-surface);
   border: 1px solid var(--vpp-border);
-  border-radius: 8px;
+  border-radius: 14px;
   padding: 1rem;
-  text-align: center;
+  box-shadow: 0 8px 22px rgba(18,25,46,.08);
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+  animation: team-card-in .45s ease both;
 }
 
-.team-card .avatar {
-  width: 48px;
-  height: 48px;
+.team-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--vpp-blue), var(--vpp-green));
+  border-radius: 14px 14px 0 0;
+}
+
+.team-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(79,127,255,.38);
+  box-shadow: 0 12px 30px rgba(25,35,61,.16);
+}
+
+.team-card:nth-child(2) { animation-delay: .06s; }
+.team-card:nth-child(3) { animation-delay: .12s; }
+.team-card:nth-child(4) { animation-delay: .18s; }
+.team-card:nth-child(5) { animation-delay: .24s; }
+
+.team-card .team-card__photo {
+  width: 76px;
+  height: 76px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--vpp-blue), #7b61ff);
+  object-fit: cover;
+  border: 2px solid rgba(79,127,255,.26);
+  box-shadow: 0 4px 12px rgba(0,0,0,.13);
+}
+
+.team-card .team-card__name {
+  margin: 0;
+  font-size: .92rem;
+  line-height: 1.3;
+  font-weight: 700;
+  color: var(--vpp-text);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.team-card .team-card__handle {
+  width: fit-content;
+  font-size: .74rem;
+  font-weight: 600;
+  color: var(--vpp-blue) !important;
+  text-decoration: none;
+}
+
+.team-card .team-card__handle:hover,
+.team-card .team-card__handle:focus-visible {
+  text-decoration: underline;
+}
+
+.team-card .team-card__role {
+  margin: .1rem 0 .2rem;
+  font-size: .75rem;
+  color: var(--vpp-muted);
+  font-weight: 600;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+
+.team-card .team-card__chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .38rem;
+}
+
+.team-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: .18rem .52rem;
+  border-radius: 999px;
+  background: rgba(79,127,255,.1);
+  color: var(--vpp-blue);
+  font-size: .68rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.team-card .team-card__meta {
+  margin: .18rem 0 0;
+  padding-left: 1rem;
+  font-size: .76rem;
+}
+
+.team-card .team-card__meta li {
+  margin: .22rem 0;
+}
+
+.team-card .team-card__meta strong {
+  color: var(--vpp-muted);
+  font-weight: 600;
+}
+
+@keyframes team-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+[data-md-color-scheme="slate"] .team-card {
+  background:
+    radial-gradient(circle at 100% 0, rgba(79,127,255,.2), transparent 45%),
+    #1b2231;
+  box-shadow: 0 10px 24px rgba(0,0,0,.35);
+}
+
+[data-md-color-scheme="slate"] .team-chip {
+  background: rgba(169,200,255,.16);
+  color: #d6e6ff;
+}
+
+/* Compatibilidade com markup antigo de cards de equipe. */
+.team-card .avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--vpp-blue), var(--vpp-green));
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto .6rem;
+  margin-bottom: .3rem;
   font-weight: 700;
   color: #fff;
-  font-size: .95rem;
+  font-size: .92rem;
 }
 
-.team-card .name { font-weight: 600; font-size: .88rem; }
-.team-card .role { font-size: .75rem; color: var(--vpp-muted); }
+.team-card .name {
+  font-weight: 700;
+  font-size: .9rem;
+}
 
-/* ── Responsive ──────────────────────────────────────────── */
+.team-card .role {
+  font-size: .75rem;
+  color: var(--vpp-muted);
+}
+
 @media (max-width: 720px) {
   .md-header__button.md-logo img,
   .md-header__button.md-logo svg {
@@ -450,5 +771,10 @@
 
   .vpp-hero { grid-template-columns: 1fr; }
   .oe-grid  { grid-template-columns: 1fr; }
-  .team-grid { grid-template-columns: 1fr 1fr; }
+  .team-grid { grid-template-columns: 1fr; }
 }
+
+.md-tabs__link { padding-left: 0.5rem; padding-right: 0.5rem; font-size: 0.7rem; }
+.md-tabs__item { padding: 0; }
+.md-tabs__list { display: flex; justify-content: center; width: 100%; margin: 0 auto; }
+
