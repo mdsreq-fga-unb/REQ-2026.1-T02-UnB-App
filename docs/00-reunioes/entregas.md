@@ -6,8 +6,8 @@
 
 | Reunião | Data | Responsável | Link/Arquivo da transcrição | Observações |
 |---------|------|-------------|-----------------------------|-------------|
-| R01 | 13/04/2026 | Luis Felipe Parreira Cunha | [Terminar a primeira entrega .docx](Terminar%20a%20primeira%20entrega%20.docx) | Revisão da Unidade 1 e alinhamento do plano de execução do semestre. |
-| R02 | 18/05/2026 | Luis Felipe Parreira Cunha | [Terminar Unidade 2 (2).docx](Terminar%20Unidade%202%20(2).docx) | Elaboração e consolidação dos tópicos da Unidade 2. |
+| R01 | 13/04/2026 | Luis Felipe Parreira Cunha | [Terminar a primeira entrega .docx](docx/Terminar%20a%20primeira%20entrega%20.docx) | Revisão da Unidade 1 e alinhamento do plano de execução do semestre. |
+| R02 | 18/05/2026 | Luis Felipe Parreira Cunha | [Terminar Unidade 2 (2).docx](docx/Terminar%20Unidade%202%20(2).docx) | Elaboração e consolidação dos tópicos da Unidade 2. |
 
 ## R01 · 13/04/2026 (23h59)
 
@@ -40,7 +40,7 @@
 
 ### Registro
 
-A transcrição integral está disponível no arquivo [Terminar a primeira entrega .docx](Terminar%20a%20primeira%20entrega%20.docx), armazenado nesta mesma pasta.
+A transcrição integral está disponível no arquivo [Terminar a primeira entrega .docx](docx/Terminar%20a%20primeira%20entrega%20.docx), armazenado nesta mesma pasta.
 
 ## R02 · 18/05/2026
 
@@ -67,4 +67,4 @@ A transcrição integral está disponível no arquivo [Terminar a primeira entre
 
 ### Registro
 
-A transcrição integral está disponível no arquivo [Terminar Unidade 2 (2).docx](Terminar%20Unidade%202%20(2).docx), armazenado nesta mesma pasta.
+A transcrição integral está disponível no arquivo [Terminar Unidade 2 (2).docx](docx/Terminar%20Unidade%202%20(2).docx), armazenado nesta mesma pasta.
