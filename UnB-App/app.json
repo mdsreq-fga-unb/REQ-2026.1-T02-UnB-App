@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "UnB-App",
-    "slug": "UnB-App",
+    "slug": "unb-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -40,6 +40,13 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "e6b040ee-9f5d-4dc7-a792-dce39b7bc2ba"
+      }
+    },
+    "owner": "rivotril-req-20261"
   }
 }
