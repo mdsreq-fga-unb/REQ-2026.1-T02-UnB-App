@@ -31,6 +31,7 @@ When you're ready, run:
 
 ```bash
 npx expo run:android --device
+eas build -p android --profile preview
 ```
 
 ### Other setup steps
