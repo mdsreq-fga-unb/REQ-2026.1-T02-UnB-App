@@ -1,5 +1,4 @@
 import { NativeTabs } from "expo-router/unstable-native-tabs";
-import { Platform } from "react-native";
 
 export default function TabLayout() {
   return (

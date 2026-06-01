@@ -1,8 +1,201 @@
-import { ScrollView, Text, View, StyleSheet, TextInput, TouchableOpacity, Platform } from "react-native";
+import React, { useState, useEffect } from 'react';
+import { ScrollView, Text, View, StyleSheet, TextInput, TouchableOpacity, Platform, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SymbolView, SFSymbol } from "expo-symbols";
+import { useSQLiteContext } from 'expo-sqlite';
+import * as FileSystem from 'expo-file-system/legacy';
+import * as DocumentPicker from 'expo-document-picker';
+import * as Sharing from 'expo-sharing';
+import * as IntentLauncher from 'expo-intent-launcher';
+
+interface DocumentRecord {
+  id: number;
+  title: string;
+  description: string;
+  meta: string;
+  color: string;
+  symbolName: string;
+  uri: string; // empty string means not downloaded
+  fileName: string | null;
+  mimeType: string | null;
+  size: number | null;
+}
+
+const DEFAULT_DOCS = [
+  {
+    title: "Boletim de Notas",
+    description: "Notas das disciplinas do semestre 2026.1",
+    meta: "Atualizado em 18/03/2026",
+    color: "#1d8d28",
+    symbolName: "doc.text.fill"
+  },
+  {
+    title: "Índice Acadêmico",
+    description: "IRA, IECH e CR consolidados",
+    meta: "Emitido em 10/03/2026",
+    color: "#0e7490",
+    symbolName: "chart.bar.doc.horizontal"
+  },
+  {
+    title: "Histórico Escolar",
+    description: "Todas as disciplinas cursadas",
+    meta: "Emitido em 02/03/2026",
+    color: "#7c3aed",
+    symbolName: "books.vertical.fill"
+  },
+  {
+    title: "Atestado de Matrícula",
+    description: "Comprovante oficial de vínculo com a UnB",
+    meta: "Válido até 31/07/2026",
+    color: "#b45309",
+    symbolName: "person.text.rectangle.fill"
+  },
+  {
+    title: "Passe Livre Estudantil",
+    description: "Solicitação de gratuidade no transporte",
+    meta: "Em análise · Solicitado 15/03/2026",
+    color: "#be185d",
+    symbolName: "bus.fill"
+  }
+];
 
 export default function Documentos() {
+  const db = useSQLiteContext();
+  const [documents, setDocuments] = useState<DocumentRecord[]>([]);
+  const [search, setSearch] = useState("");
+  const [totalSize, setTotalSize] = useState(0);
+
+  const loadDocuments = async () => {
+    try {
+      let result = await db.getAllAsync<DocumentRecord>('SELECT * FROM documents ORDER BY id ASC');
+      if (result.length === 0) {
+        // Inicializar com os dados padrão
+        for (let i = 0; i < DEFAULT_DOCS.length; i++) {
+          const doc = DEFAULT_DOCS[i];
+          // O último item (Passe Livre) nós não deixamos baixar ainda, para mockar estado diferente
+          const disabledDoc = i === 4;
+          await db.runAsync(
+            'INSERT INTO documents (title, description, meta, color, symbolName, uri) VALUES (?, ?, ?, ?, ?, ?)',
+            [doc.title, doc.description, doc.meta, doc.color, doc.symbolName, disabledDoc ? "disabled" : ""]
+          );
+        }
+        result = await db.getAllAsync<DocumentRecord>('SELECT * FROM documents ORDER BY id ASC');
+      }
+      setDocuments(result);
+      const size = result.reduce((acc, curr) => acc + (curr.size || 0), 0);
+      setTotalSize(size);
+    } catch (error) {
+      console.error('Erro ao carregar documentos', error);
+    }
+  };
+
+  useEffect(() => {
+    loadDocuments();
+  }, []);
+
+  const handleBaixar = async (doc: DocumentRecord) => {
+    if (doc.uri && doc.uri !== "disabled" && doc.uri !== "") {
+      Alert.alert('Aviso', 'O documento já foi baixado. Toque em "Ver" para acessá-lo.');
+      return;
+    }
+    try {
+      Alert.alert('Simulação de Download', 'Selecione um arquivo local para simular o download deste documento oficial do app da UnB.');
+      const result = await DocumentPicker.getDocumentAsync({
+        copyToCacheDirectory: true,
+      });
+
+      if (!result.canceled && result.assets && result.assets.length > 0) {
+        const asset = result.assets[0];
+        const fileName = `${doc.id}_${asset.name || 'documento.pdf'}`;
+        const newUri = FileSystem.documentDirectory + fileName;
+        
+        await FileSystem.copyAsync({
+          from: asset.uri,
+          to: newUri
+        });
+
+        const extension = asset.name?.split('.').pop()?.toUpperCase() || 'ARQUIVO';
+        const newMeta = `Baixado em ${new Date().toLocaleDateString('pt-BR')} · ${extension}`;
+        
+        const bindName = asset.name ?? 'documento.pdf';
+        const bindMimeType = asset.mimeType ?? null;
+        const bindSize = asset.size ?? null;
+
+        await db.runAsync(
+          'UPDATE documents SET uri = ?, fileName = ?, mimeType = ?, size = ?, meta = ? WHERE id = ?',
+          [newUri, bindName, bindMimeType, bindSize, newMeta, doc.id]
+        );
+
+        loadDocuments();
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Erro', 'Não foi possível baixar/salvar o arquivo.');
+    }
+  };
+
+  const handleVer = async (doc: DocumentRecord) => {
+    if (!doc.uri || doc.uri === "disabled" || doc.uri === "") {
+      Alert.alert('Aviso', 'Este documento ainda não foi baixado.');
+      return;
+    }
+    
+    try {
+      if (Platform.OS === 'android') {
+        const contentUri = await FileSystem.getContentUriAsync(doc.uri);
+        await IntentLauncher.startActivityAsync('android.intent.action.VIEW', {
+          data: contentUri,
+          flags: 1, // FLAG_GRANT_READ_URI_PERMISSION
+          type: doc.mimeType || 'application/pdf'
+        });
+      } else {
+        const isAvailable = await Sharing.isAvailableAsync();
+        if (isAvailable) {
+          await Sharing.shareAsync(doc.uri);
+        } else {
+          Alert.alert('Acesso', 'Não é possível abrir o arquivo neste dispositivo.');
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Erro', 'Não foi possível visualizar o arquivo.');
+    }
+  };
+
+  const handleRemover = async (doc: DocumentRecord) => {
+    try {
+      if (doc.uri && doc.uri !== "disabled" && doc.uri !== "") {
+        const fileInfo = await FileSystem.getInfoAsync(doc.uri);
+        if (fileInfo.exists) {
+          await FileSystem.deleteAsync(doc.uri);
+        }
+      }
+
+      await db.runAsync(
+        'UPDATE documents SET uri = ?, fileName = ?, mimeType = ?, size = ?, meta = ? WHERE id = ?',
+        ["", null, null, null, DEFAULT_DOCS[doc.id - 1]?.meta || "Disponível para download", doc.id]
+      );
+
+      loadDocuments();
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Erro', 'Não foi possível remover o arquivo.');
+    }
+  };
+
+  const formatSize = (bytes: number) => {
+    if (bytes === 0) return '0 B';
+    const k = 1024;
+    const sizes = ['B', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  };
+
+  const filteredDocs = documents.filter(d => 
+    d.title.toLowerCase().includes(search.toLowerCase()) || 
+    d.description.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -25,7 +218,7 @@ export default function Documentos() {
               </View>
               <View style={styles.storageTextContainer}>
                 <Text style={styles.storageTitle}>Meus Documentos</Text>
-                <Text style={styles.storageSubtitle}>5 documentos · 2,4 MB de 5 MB</Text>
+                <Text style={styles.storageSubtitle}>{documents.filter(d => d.uri && d.uri !== "disabled" && d.uri !== "").length} documentos · {formatSize(totalSize)} de 5 MB</Text>
               </View>
               <View style={styles.chevronIcon}>
                 {Platform.OS === 'ios' ? (
@@ -36,7 +229,7 @@ export default function Documentos() {
               </View>
             </View>
             <View style={styles.progressBarContainer}>
-              <View style={[styles.progressBarFill, { width: '48%' }]} />
+              <View style={[styles.progressBarFill, { width: `${Math.min((totalSize / (5 * 1024 * 1024)) * 100, 100)}%` }]} />
             </View>
           </View>
 
@@ -51,47 +244,28 @@ export default function Documentos() {
               style={styles.searchInput}
               placeholder="Buscar documento..."
               placeholderTextColor="#90a1b9"
+              value={search}
+              onChangeText={setSearch}
             />
           </View>
 
           {/* Docs List */}
           <View style={styles.docsList}>
-            <DocCard 
-              title="Boletim de Notas"
-              description="Notas das disciplinas do semestre 2026.1"
-              meta="Atualizado em 18/03/2026 · PDF"
-              color="#1d8d28"
-              symbolName="doc.text.fill"
-            />
-            <DocCard 
-              title="Índice Acadêmico"
-              description="IRA, IECH e CR consolidados"
-              meta="Emitido em 10/03/2026 · PDF"
-              color="#0e7490"
-              symbolName="chart.bar.doc.horizontal"
-            />
-            <DocCard 
-              title="Histórico Escolar"
-              description="Todas as disciplinas cursadas"
-              meta="Emitido em 02/03/2026 · PDF"
-              color="#7c3aed"
-              symbolName="books.vertical.fill"
-            />
-            <DocCard 
-              title="Atestado de Matrícula"
-              description="Comprovante oficial de vínculo com a UnB"
-              meta="Válido até 31/07/2026 · PDF"
-              color="#b45309"
-              symbolName="person.text.rectangle.fill"
-            />
-            <DocCard 
-              title="Passe Livre Estudantil"
-              description="Solicitação de gratuidade no transporte"
-              meta="Em análise · Solicitado 15/03/2026"
-              color="#be185d"
-              symbolName="bus.fill"
-              disabled
-            />
+            {filteredDocs.map(doc => (
+              <DocCard 
+                key={doc.id}
+                title={doc.title}
+                description={doc.description}
+                meta={doc.meta}
+                color={doc.color}
+                symbolName={doc.symbolName as any}
+                disabled={doc.uri === "disabled"}
+                hasFile={!!doc.uri && doc.uri !== "disabled" && doc.uri !== ""}
+                onBaixar={() => handleBaixar(doc)}
+                onVer={() => handleVer(doc)}
+                onRemover={() => handleRemover(doc)}
+              />
+            ))}
           </View>
         </View>
       </ScrollView>
@@ -99,15 +273,18 @@ export default function Documentos() {
   );
 }
 
-function DocCard({ title, description, meta, color, symbolName, disabled = false }: {
+function DocCard({ title, description, meta, color, symbolName, disabled = false, hasFile = false, onBaixar, onVer, onRemover }: {
   title: string;
   description: string;
   meta: string;
   color: string;
   symbolName: SFSymbol;
   disabled?: boolean;
+  hasFile?: boolean;
+  onBaixar: () => void;
+  onVer: () => void;
+  onRemover: () => void;
 }) {
-  const bgOpacity = disabled ? 0.05 : 0.1;
   const opacityStyle = disabled ? { opacity: 0.5 } : {};
   const btnColor = disabled ? "#cbd5e1" : color;
 
@@ -130,7 +307,11 @@ function DocCard({ title, description, meta, color, symbolName, disabled = false
       <Text style={styles.docMeta}>{meta}</Text>
       
       <View style={[styles.actionsRow, opacityStyle]}>
-        <TouchableOpacity style={[styles.actionBtnOutline, { borderColor: btnColor }]} activeOpacity={disabled ? 1 : 0.7}>
+        <TouchableOpacity 
+          style={[styles.actionBtnOutline, { borderColor: btnColor, opacity: hasFile ? 1 : 0.5 }]} 
+          activeOpacity={disabled || !hasFile ? 1 : 0.7}
+          onPress={disabled || !hasFile ? undefined : onVer}
+        >
           {Platform.OS === 'ios' ? (
             <SymbolView name="eye.fill" size={16} tintColor={btnColor} />
           ) : (
@@ -139,14 +320,33 @@ function DocCard({ title, description, meta, color, symbolName, disabled = false
           <Text style={[styles.actionBtnOutlineText, { color: btnColor }]}>Ver</Text>
         </TouchableOpacity>
         
-        <TouchableOpacity style={[styles.actionBtnSolid, { backgroundColor: btnColor }]} activeOpacity={disabled ? 1 : 0.7}>
-          {Platform.OS === 'ios' ? (
-            <SymbolView name="arrow.down.doc.fill" size={16} tintColor="#fff" />
-          ) : (
-            <Text style={{ fontSize: 14 }}>⬇</Text>
-          )}
-          <Text style={styles.actionBtnSolidText}>Baixar</Text>
-        </TouchableOpacity>
+        {hasFile ? (
+          <TouchableOpacity 
+            style={[styles.actionBtnSolid, { backgroundColor: "#ef4444" }]} 
+            activeOpacity={0.7}
+            onPress={onRemover}
+          >
+            {Platform.OS === 'ios' ? (
+              <SymbolView name="trash.fill" size={16} tintColor="#fff" />
+            ) : (
+              <Text style={{ fontSize: 14 }}>🗑</Text>
+            )}
+            <Text style={styles.actionBtnSolidText}>Remover</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity 
+            style={[styles.actionBtnSolid, { backgroundColor: btnColor }]} 
+            activeOpacity={disabled ? 1 : 0.7}
+            onPress={disabled ? undefined : onBaixar}
+          >
+            {Platform.OS === 'ios' ? (
+              <SymbolView name="arrow.down.doc.fill" size={16} tintColor="#fff" />
+            ) : (
+              <Text style={{ fontSize: 14 }}>⬇</Text>
+            )}
+            <Text style={styles.actionBtnSolidText}>Baixar</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );

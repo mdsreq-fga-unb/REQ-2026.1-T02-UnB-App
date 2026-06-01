@@ -1,15 +1,41 @@
 import { Stack } from "expo-router";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { SQLiteProvider, type SQLiteDatabase } from 'expo-sqlite';
+
+async function initializeDatabase(db: SQLiteDatabase) {
+  try {
+    await db.execAsync(`
+      PRAGMA journal_mode = WAL;
+      CREATE TABLE IF NOT EXISTS documents (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        description TEXT,
+        meta TEXT,
+        color TEXT,
+        symbolName TEXT,
+        uri TEXT NOT NULL,
+        fileName TEXT,
+        mimeType TEXT,
+        size INTEGER,
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+  } catch (error) {
+    console.error('Falha ao inicializar banco de dados:', error);
+  }
+}
 
 export default function RootLayout() {
   return (
-    <View style={styles.container}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      </Stack>
-      <AccessibilityButton />
-    </View>
+    <SQLiteProvider databaseName="documents.db" onInit={initializeDatabase}>
+      <View style={styles.container}>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        </Stack>
+        <AccessibilityButton />
+      </View>
+    </SQLiteProvider>
   );
 }
 
