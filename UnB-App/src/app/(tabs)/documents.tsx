@@ -7,6 +7,7 @@ import * as FileSystem from 'expo-file-system/legacy';
 import * as DocumentPicker from 'expo-document-picker';
 import * as Sharing from 'expo-sharing';
 import * as IntentLauncher from 'expo-intent-launcher';
+import { useTextSize } from '@/contexts/TextSizeContext';
 
 interface DocumentRecord {
   id: number;
@@ -61,6 +62,7 @@ const DEFAULT_DOCS = [
 
 export default function Documentos() {
   const db = useSQLiteContext();
+  const { getFontSize } = useTextSize();
   const [documents, setDocuments] = useState<DocumentRecord[]>([]);
   const [search, setSearch] = useState("");
   const [totalSize, setTotalSize] = useState(0);
@@ -221,8 +223,8 @@ export default function Documentos() {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.subtitle}>Seus arquivos acadêmicos</Text>
-          <Text style={styles.title}>Documentos</Text>
+          <Text style={[styles.subtitle, { fontSize: getFontSize(15) }]}>Seus arquivos acadêmicos</Text>
+          <Text style={[styles.title, { fontSize: getFontSize(28) }]}>Documentos</Text>
         </View>
 
         <View style={styles.mainContent}>
@@ -237,8 +239,8 @@ export default function Documentos() {
                 )}
               </View>
               <View style={styles.storageTextContainer}>
-                <Text style={styles.storageTitle}>Meus Documentos</Text>
-                <Text style={styles.storageSubtitle}>{documents.filter(d => d.uri && d.uri !== "").length} documentos · {formatSize(totalSize)} de 5 MB</Text>
+                <Text style={[styles.storageTitle, { fontSize: getFontSize(17) }]}>Meus Documentos</Text>
+                <Text style={[styles.storageSubtitle, { fontSize: getFontSize(14) }]}>{documents.filter(d => d.uri && d.uri !== "").length} documentos · {formatSize(totalSize)} de 5 MB</Text>
               </View>
               <View style={styles.chevronIcon}>
                 {Platform.OS === 'ios' ? (
@@ -260,8 +262,8 @@ export default function Documentos() {
             ) : (
               <Text style={{ fontSize: 16 }}>🔍</Text>
             )}
-            <TextInput 
-              style={styles.searchInput}
+            <TextInput
+              style={[styles.searchInput, { fontSize: getFontSize(16) }]}
               placeholder="Buscar documento..."
               placeholderTextColor="#90a1b9"
               value={search}
@@ -283,6 +285,7 @@ export default function Documentos() {
                 onBaixar={() => handleBaixar(doc)}
                 onVer={() => handleVer(doc)}
                 onRemover={() => handleRemover(doc)}
+                getFontSize={getFontSize}
               />
             ))}
           </View>
@@ -292,7 +295,7 @@ export default function Documentos() {
   );
 }
 
-function DocCard({ title, description, meta, color, symbolName, hasFile = false, onBaixar, onVer, onRemover }: {
+function DocCard({ title, description, meta, color, symbolName, hasFile = false, onBaixar, onVer, onRemover, getFontSize }: {
   title: string;
   description: string;
   meta: string;
@@ -302,6 +305,7 @@ function DocCard({ title, description, meta, color, symbolName, hasFile = false,
   onBaixar: () => void;
   onVer: () => void;
   onRemover: () => void;
+  getFontSize: (baseSize: number) => number;
 }) {
   const btnColor = color;
 
@@ -316,12 +320,12 @@ function DocCard({ title, description, meta, color, symbolName, hasFile = false,
           )}
         </View>
         <View style={styles.docTextContainer}>
-          <Text style={styles.docTitle}>{title}</Text>
-          <Text style={styles.docDescription}>{description}</Text>
+          <Text style={[styles.docTitle, { fontSize: getFontSize(18) }]}>{title}</Text>
+          <Text style={[styles.docDescription, { fontSize: getFontSize(14) }]}>{description}</Text>
         </View>
       </View>
       
-      {meta ? <Text style={styles.docMeta}>{meta}</Text> : null}
+      {meta ? <Text style={[styles.docMeta, { fontSize: getFontSize(13) }]}>{meta}</Text> : null}
       
       <View style={styles.actionsRow}>
         <TouchableOpacity 
@@ -334,7 +338,7 @@ function DocCard({ title, description, meta, color, symbolName, hasFile = false,
           ) : (
             <Text style={{ fontSize: 14 }}>👁</Text>
           )}
-          <Text style={[styles.actionBtnOutlineText, { color: btnColor }]}>Ver</Text>
+          <Text style={[styles.actionBtnOutlineText, { color: btnColor, fontSize: getFontSize(15) }]}>Ver</Text>
         </TouchableOpacity>
         
         {hasFile ? (
@@ -348,7 +352,7 @@ function DocCard({ title, description, meta, color, symbolName, hasFile = false,
             ) : (
               <Text style={{ fontSize: 14 }}>🗑</Text>
             )}
-            <Text style={styles.actionBtnSolidText}>Remover</Text>
+            <Text style={[styles.actionBtnSolidText, { fontSize: getFontSize(15) }]}>Remover</Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity 
@@ -361,7 +365,7 @@ function DocCard({ title, description, meta, color, symbolName, hasFile = false,
             ) : (
               <Text style={{ fontSize: 14 }}>⬇</Text>
             )}
-            <Text style={styles.actionBtnSolidText}>Baixar</Text>
+            <Text style={[styles.actionBtnSolidText, { fontSize: getFontSize(15) }]}>Baixar</Text>
           </TouchableOpacity>
         )}
       </View>
