@@ -66,6 +66,7 @@ export default function Documentos() {
   const [documents, setDocuments] = useState<DocumentRecord[]>([]);
   const [search, setSearch] = useState("");
   const [totalSize, setTotalSize] = useState(0);
+  const [showSavedDocuments, setShowSavedDocuments] = useState(false);
 
   const syncDefaultDocuments = useCallback(async () => {
     const existing = await db.getAllAsync<DocumentRecord>('SELECT * FROM documents');
@@ -184,6 +185,31 @@ export default function Documentos() {
     }
   };
 
+  const handleCompartilhar = async (doc: DocumentRecord) => {
+    if (!doc.uri || doc.uri === "") {
+      Alert.alert('Aviso', 'Este documento ainda não foi baixado.');
+      return;
+    }
+
+    try {
+      const isAvailable = await Sharing.isAvailableAsync();
+
+      if (!isAvailable) {
+        Alert.alert('Compartilhar', 'Não é possível compartilhar arquivos neste dispositivo.');
+        return;
+      }
+
+      await Sharing.shareAsync(doc.uri, {
+        mimeType: doc.mimeType || undefined,
+        dialogTitle: doc.title,
+        UTI: doc.mimeType || undefined,
+      });
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Erro', 'Não foi possível compartilhar o arquivo.');
+    }
+  };
+
   const handleRemover = async (doc: DocumentRecord) => {
     try {
       if (doc.uri && doc.uri !== "") {
@@ -217,6 +243,8 @@ export default function Documentos() {
     d.title.toLowerCase().includes(search.toLowerCase()) || 
     d.description.toLowerCase().includes(search.toLowerCase())
   );
+  const savedDocuments = documents.filter((doc) => doc.uri && doc.uri !== "");
+  const savedDocumentsLabel = savedDocuments.length === 1 ? "documento" : "documentos";
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -229,7 +257,13 @@ export default function Documentos() {
 
         <View style={styles.mainContent}>
           {/* StorageCard */}
-          <View style={styles.storageCard}>
+          <TouchableOpacity
+            style={styles.storageCard}
+            activeOpacity={0.82}
+            accessibilityRole="button"
+            accessibilityLabel="Ver documentos salvos"
+            onPress={() => setShowSavedDocuments((visible) => !visible)}
+          >
             <View style={styles.storageRow}>
               <View style={styles.storageIconContainer}>
                 {Platform.OS === 'ios' ? (
@@ -240,20 +274,57 @@ export default function Documentos() {
               </View>
               <View style={styles.storageTextContainer}>
                 <Text style={[styles.storageTitle, { fontSize: getFontSize(17) }]}>Meus Documentos</Text>
-                <Text style={[styles.storageSubtitle, { fontSize: getFontSize(14) }]}>{documents.filter(d => d.uri && d.uri !== "").length} documentos · {formatSize(totalSize)} de 5 MB</Text>
+                <Text style={[styles.storageSubtitle, { fontSize: getFontSize(14) }]}>{savedDocuments.length} {savedDocumentsLabel} · {formatSize(totalSize)} de 5 MB</Text>
               </View>
               <View style={styles.chevronIcon}>
                 {Platform.OS === 'ios' ? (
-                  <SymbolView name="chevron.right" size={20} tintColor="#314158" />
+                  <SymbolView name={showSavedDocuments ? "chevron.down" : "chevron.right"} size={20} tintColor="#314158" />
                 ) : (
-                  <Text style={{ fontSize: 20 }}>›</Text>
+                  <Text style={{ fontSize: 20 }}>{showSavedDocuments ? "⌄" : "›"}</Text>
                 )}
               </View>
             </View>
             <View style={styles.progressBarContainer}>
               <View style={[styles.progressBarFill, { width: `${Math.min((totalSize / (5 * 1024 * 1024)) * 100, 100)}%` }]} />
             </View>
-          </View>
+          </TouchableOpacity>
+
+          {showSavedDocuments ? (
+            <View style={styles.savedDocumentsPanel}>
+              {savedDocuments.length > 0 ? (
+                savedDocuments.map((doc) => (
+                  <View key={doc.id} style={styles.savedDocumentRow}>
+                    <View style={styles.savedDocumentInfo}>
+                      <Text style={[styles.savedDocumentTitle, { fontSize: getFontSize(15) }]} numberOfLines={1}>
+                        {doc.title}
+                      </Text>
+                      <Text style={[styles.savedDocumentMeta, { fontSize: getFontSize(13) }]} numberOfLines={1}>
+                        {doc.fileName || doc.meta || "Arquivo salvo"} · {formatSize(doc.size || 0)}
+                      </Text>
+                    </View>
+                    <TouchableOpacity
+                      style={styles.shareButton}
+                      activeOpacity={0.75}
+                      accessibilityRole="button"
+                      accessibilityLabel={`Compartilhar ${doc.title}`}
+                      onPress={() => handleCompartilhar(doc)}
+                    >
+                      {Platform.OS === 'ios' ? (
+                        <SymbolView name="square.and.arrow.up.fill" size={16} tintColor="#ffffff" />
+                      ) : (
+                        <Text style={{ fontSize: 14, color: "#ffffff" }}>↗</Text>
+                      )}
+                      <Text style={[styles.shareButtonText, { fontSize: getFontSize(13) }]}>Compartilhar</Text>
+                    </TouchableOpacity>
+                  </View>
+                ))
+              ) : (
+                <Text style={[styles.emptySavedDocumentsText, { fontSize: getFontSize(14) }]}>
+                  Nenhum documento salvo ainda.
+                </Text>
+              )}
+            </View>
+          ) : null}
 
           {/* SearchBar */}
           <View style={styles.searchBar}>
@@ -449,6 +520,55 @@ const styles = StyleSheet.create({
     height: "100%",
     backgroundColor: "#1d8d28",
     borderRadius: 5,
+  },
+  savedDocumentsPanel: {
+    backgroundColor: "#ffffff",
+    borderRadius: 16,
+    padding: 12,
+    borderWidth: 0.8,
+    borderColor: "#e2e8f0",
+    gap: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 1.5,
+    elevation: 2,
+  },
+  savedDocumentRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    paddingVertical: 8,
+  },
+  savedDocumentInfo: {
+    flex: 1,
+    gap: 2,
+  },
+  savedDocumentTitle: {
+    color: "#0f172b",
+    fontWeight: "600",
+  },
+  savedDocumentMeta: {
+    color: "#62748e",
+  },
+  shareButton: {
+    minHeight: 40,
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 6,
+    backgroundColor: "#1d8d28",
+  },
+  shareButtonText: {
+    color: "#ffffff",
+    fontWeight: "600",
+  },
+  emptySavedDocumentsText: {
+    color: "#62748e",
+    paddingVertical: 8,
+    textAlign: "center",
   },
   searchBar: {
     flexDirection: "row",
