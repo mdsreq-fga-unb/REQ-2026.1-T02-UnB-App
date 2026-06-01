@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { ScrollView, Text, View, StyleSheet, TextInput, TouchableOpacity, Platform, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SymbolView, SFSymbol } from "expo-symbols";
@@ -25,35 +25,35 @@ const DEFAULT_DOCS = [
   {
     title: "Boletim de Notas",
     description: "Notas das disciplinas do semestre 2026.1",
-    meta: "Atualizado em 18/03/2026",
+    meta: "",
     color: "#1d8d28",
     symbolName: "doc.text.fill"
   },
   {
     title: "Índice Acadêmico",
     description: "IRA, IECH e CR consolidados",
-    meta: "Emitido em 10/03/2026",
+    meta: "",
     color: "#0e7490",
     symbolName: "chart.bar.doc.horizontal"
   },
   {
     title: "Histórico Escolar",
     description: "Todas as disciplinas cursadas",
-    meta: "Emitido em 02/03/2026",
+    meta: "",
     color: "#7c3aed",
     symbolName: "books.vertical.fill"
   },
   {
     title: "Atestado de Matrícula",
     description: "Comprovante oficial de vínculo com a UnB",
-    meta: "Válido até 31/07/2026",
+    meta: "",
     color: "#b45309",
     symbolName: "person.text.rectangle.fill"
   },
   {
     title: "Passe Livre Estudantil",
     description: "Solicitação de gratuidade no transporte",
-    meta: "Em análise · Solicitado 15/03/2026",
+    meta: "",
     color: "#be185d",
     symbolName: "bus.fill"
   }
@@ -65,36 +65,56 @@ export default function Documentos() {
   const [search, setSearch] = useState("");
   const [totalSize, setTotalSize] = useState(0);
 
-  const loadDocuments = async () => {
-    try {
-      let result = await db.getAllAsync<DocumentRecord>('SELECT * FROM documents ORDER BY id ASC');
-      if (result.length === 0) {
-        // Inicializar com os dados padrão
-        for (let i = 0; i < DEFAULT_DOCS.length; i++) {
-          const doc = DEFAULT_DOCS[i];
-          // O último item (Passe Livre) nós não deixamos baixar ainda, para mockar estado diferente
-          const disabledDoc = i === 4;
-          await db.runAsync(
-            'INSERT INTO documents (title, description, meta, color, symbolName, uri) VALUES (?, ?, ?, ?, ?, ?)',
-            [doc.title, doc.description, doc.meta, doc.color, doc.symbolName, disabledDoc ? "disabled" : ""]
-          );
-        }
-        result = await db.getAllAsync<DocumentRecord>('SELECT * FROM documents ORDER BY id ASC');
+  const syncDefaultDocuments = useCallback(async () => {
+    const existing = await db.getAllAsync<DocumentRecord>('SELECT * FROM documents');
+    const existingByTitle = new Map(existing.map((doc) => [doc.title, doc]));
+    const defaultTitles = new Set(DEFAULT_DOCS.map((doc) => doc.title));
+
+    for (const staleDoc of existing.filter((doc) => !defaultTitles.has(doc.title))) {
+      await db.runAsync('DELETE FROM documents WHERE id = ?', [staleDoc.id]);
+    }
+
+    for (const doc of DEFAULT_DOCS) {
+      const savedDoc = existingByTitle.get(doc.title);
+
+      if (!savedDoc) {
+        await db.runAsync(
+          'INSERT INTO documents (title, description, meta, color, symbolName, uri) VALUES (?, ?, ?, ?, ?, ?)',
+          [doc.title, doc.description, doc.meta, doc.color, doc.symbolName, ""]
+        );
+        continue;
       }
+
+      await db.runAsync(
+        `UPDATE documents
+         SET description = ?,
+             color = ?,
+             symbolName = ?,
+             meta = CASE WHEN uri = '' THEN ? ELSE meta END
+         WHERE id = ?`,
+        [doc.description, doc.color, doc.symbolName, doc.meta, savedDoc.id]
+      );
+    }
+  }, [db]);
+
+  const loadDocuments = useCallback(async () => {
+    try {
+      await syncDefaultDocuments();
+      const result = await db.getAllAsync<DocumentRecord>('SELECT * FROM documents ORDER BY id ASC');
       setDocuments(result);
       const size = result.reduce((acc, curr) => acc + (curr.size || 0), 0);
       setTotalSize(size);
     } catch (error) {
       console.error('Erro ao carregar documentos', error);
     }
-  };
+  }, [db, syncDefaultDocuments]);
 
   useEffect(() => {
     loadDocuments();
-  }, []);
+  }, [loadDocuments]);
 
   const handleBaixar = async (doc: DocumentRecord) => {
-    if (doc.uri && doc.uri !== "disabled" && doc.uri !== "") {
+    if (doc.uri && doc.uri !== "") {
       Alert.alert('Aviso', 'O documento já foi baixado. Toque em "Ver" para acessá-lo.');
       return;
     }
@@ -135,7 +155,7 @@ export default function Documentos() {
   };
 
   const handleVer = async (doc: DocumentRecord) => {
-    if (!doc.uri || doc.uri === "disabled" || doc.uri === "") {
+    if (!doc.uri || doc.uri === "") {
       Alert.alert('Aviso', 'Este documento ainda não foi baixado.');
       return;
     }
@@ -164,7 +184,7 @@ export default function Documentos() {
 
   const handleRemover = async (doc: DocumentRecord) => {
     try {
-      if (doc.uri && doc.uri !== "disabled" && doc.uri !== "") {
+      if (doc.uri && doc.uri !== "") {
         const fileInfo = await FileSystem.getInfoAsync(doc.uri);
         if (fileInfo.exists) {
           await FileSystem.deleteAsync(doc.uri);
@@ -173,7 +193,7 @@ export default function Documentos() {
 
       await db.runAsync(
         'UPDATE documents SET uri = ?, fileName = ?, mimeType = ?, size = ?, meta = ? WHERE id = ?',
-        ["", null, null, null, DEFAULT_DOCS[doc.id - 1]?.meta || "Disponível para download", doc.id]
+        ["", null, null, null, "", doc.id]
       );
 
       loadDocuments();
@@ -218,7 +238,7 @@ export default function Documentos() {
               </View>
               <View style={styles.storageTextContainer}>
                 <Text style={styles.storageTitle}>Meus Documentos</Text>
-                <Text style={styles.storageSubtitle}>{documents.filter(d => d.uri && d.uri !== "disabled" && d.uri !== "").length} documentos · {formatSize(totalSize)} de 5 MB</Text>
+                <Text style={styles.storageSubtitle}>{documents.filter(d => d.uri && d.uri !== "").length} documentos · {formatSize(totalSize)} de 5 MB</Text>
               </View>
               <View style={styles.chevronIcon}>
                 {Platform.OS === 'ios' ? (
@@ -259,8 +279,7 @@ export default function Documentos() {
                 meta={doc.meta}
                 color={doc.color}
                 symbolName={doc.symbolName as any}
-                disabled={doc.uri === "disabled"}
-                hasFile={!!doc.uri && doc.uri !== "disabled" && doc.uri !== ""}
+                hasFile={!!doc.uri && doc.uri !== ""}
                 onBaixar={() => handleBaixar(doc)}
                 onVer={() => handleVer(doc)}
                 onRemover={() => handleRemover(doc)}
@@ -273,20 +292,18 @@ export default function Documentos() {
   );
 }
 
-function DocCard({ title, description, meta, color, symbolName, disabled = false, hasFile = false, onBaixar, onVer, onRemover }: {
+function DocCard({ title, description, meta, color, symbolName, hasFile = false, onBaixar, onVer, onRemover }: {
   title: string;
   description: string;
   meta: string;
   color: string;
   symbolName: SFSymbol;
-  disabled?: boolean;
   hasFile?: boolean;
   onBaixar: () => void;
   onVer: () => void;
   onRemover: () => void;
 }) {
-  const opacityStyle = disabled ? { opacity: 0.5 } : {};
-  const btnColor = disabled ? "#cbd5e1" : color;
+  const btnColor = color;
 
   return (
     <View style={styles.docCard}>
@@ -304,13 +321,13 @@ function DocCard({ title, description, meta, color, symbolName, disabled = false
         </View>
       </View>
       
-      <Text style={styles.docMeta}>{meta}</Text>
+      {meta ? <Text style={styles.docMeta}>{meta}</Text> : null}
       
-      <View style={[styles.actionsRow, opacityStyle]}>
+      <View style={styles.actionsRow}>
         <TouchableOpacity 
           style={[styles.actionBtnOutline, { borderColor: btnColor, opacity: hasFile ? 1 : 0.5 }]} 
-          activeOpacity={disabled || !hasFile ? 1 : 0.7}
-          onPress={disabled || !hasFile ? undefined : onVer}
+          activeOpacity={!hasFile ? 1 : 0.7}
+          onPress={!hasFile ? undefined : onVer}
         >
           {Platform.OS === 'ios' ? (
             <SymbolView name="eye.fill" size={16} tintColor={btnColor} />
@@ -336,8 +353,8 @@ function DocCard({ title, description, meta, color, symbolName, disabled = false
         ) : (
           <TouchableOpacity 
             style={[styles.actionBtnSolid, { backgroundColor: btnColor }]} 
-            activeOpacity={disabled ? 1 : 0.7}
-            onPress={disabled ? undefined : onBaixar}
+            activeOpacity={0.7}
+            onPress={onBaixar}
           >
             {Platform.OS === 'ios' ? (
               <SymbolView name="arrow.down.doc.fill" size={16} tintColor="#fff" />
@@ -358,7 +375,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f8fafc",
   },
   scrollContent: {
-    paddingBottom: 40,
+    paddingBottom: 120,
   },
   header: {
     paddingTop: 40,

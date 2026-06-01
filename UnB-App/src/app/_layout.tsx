@@ -21,6 +21,20 @@ async function initializeDatabase(db: SQLiteDatabase) {
         createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
       );
     `);
+
+    const knownTitles = new Set([
+      'Boletim de Notas',
+      'Índice Acadêmico',
+      'Histórico Escolar',
+      'Atestado de Matrícula',
+      'Passe Livre Estudantil'
+    ]);
+    const existing = await db.getAllAsync<{ title: string }>('SELECT title FROM documents');
+    const existingTitles = new Set(existing.map((r) => r.title));
+    const staleTitles = [...existingTitles].filter((t) => !knownTitles.has(t));
+    for (const stale of staleTitles) {
+      await db.runAsync('DELETE FROM documents WHERE title = ?', [stale]);
+    }
   } catch (error) {
     console.error('Falha ao inicializar banco de dados:', error);
   }
