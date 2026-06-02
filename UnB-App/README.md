@@ -13,7 +13,7 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 2. Start the app
 
    ```bash
-   npx expo start
+   npx expo start --go
    ```
 
 In the output, you'll find options to open the app in a
@@ -32,6 +32,11 @@ When you're ready, run:
 ```bash
 npx expo run:android --device
 eas build -p android --profile preview
+```
+
+```bash
+# ou caso queira rodar localmente
+eas build --platform android --local
 ```
 
 ### Other setup steps
