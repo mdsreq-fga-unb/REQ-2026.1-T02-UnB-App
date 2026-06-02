@@ -31,6 +31,10 @@ When you're ready, run:
 
 ```bash
 npx expo run:android --device
+```
+
+```bash
+# Baixar .apk via nuvem usando o EAS build
 eas build -p android --profile preview
 ```
 
