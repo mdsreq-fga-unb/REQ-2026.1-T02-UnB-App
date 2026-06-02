@@ -35,7 +35,7 @@ eas build -p android --profile preview
 ```
 
 ```bash
-# ou caso queira rodar localmente
+# ou caso queira rodar localmente. No windows só com WSL
 eas build --platform android --local
 ```
 
