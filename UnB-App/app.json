@@ -50,6 +50,12 @@
         "projectId": "e6b040ee-9f5d-4dc7-a792-dce39b7bc2ba"
       }
     },
-    "owner": "rivotril-req-20261"
+    "owner": "rivotril-req-20261",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/e6b040ee-9f5d-4dc7-a792-dce39b7bc2ba"
+    }
   }
 }
