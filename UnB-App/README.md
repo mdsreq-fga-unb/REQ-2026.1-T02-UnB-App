@@ -39,6 +39,11 @@ eas build -p android --profile preview
 eas build --platform android --local
 ```
 
+```bash
+# Atualizar via over-the-air informações
+eas update --channel preview --platform android
+```
+
 ### Other setup steps
 
 - To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
