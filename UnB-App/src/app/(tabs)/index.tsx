@@ -148,7 +148,7 @@ export default function Index() {
 
   return (
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <ScrollView
           contentContainerStyle={styles.scrollContent}
         >
@@ -387,7 +387,7 @@ export default function Index() {
             </View>
           </View>
         </ScrollView>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
