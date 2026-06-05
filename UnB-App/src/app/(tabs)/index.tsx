@@ -2,13 +2,14 @@ import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-nati
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SymbolView } from "expo-symbols";
 import { useTextSize } from "@/contexts/TextSizeContext";
+import { useRouter } from "expo-router";
 
 // Tipo local para ícones multiplataforma
 type SymbolName = { ios: string; android: string; web?: string };
 
 type ActionTileProps = {
   title: string;
-  icon: SymbolName; 
+  icon: SymbolName;
   badge?: string;
   onPress?: () => void;
 };
@@ -21,7 +22,7 @@ type CourseRowProps = {
 
 type FooterShortcutProps = {
   title: string;
-  icon: SymbolName; 
+  icon: SymbolName;
   onPress?: () => void;
 };
 
@@ -145,6 +146,7 @@ function FooterShortcut({ title, icon, onPress }: FooterShortcutProps) {
 
 export default function Index() {
   const { getFontSize } = useTextSize();
+  const router = useRouter();
 
   return (
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
@@ -205,7 +207,13 @@ export default function Index() {
           {/* Main content */}
           <View style={styles.mainContent}>
             {/* Profile header card */}
-            <View style={styles.profileCard}>
+            <Pressable 
+              onPress={() => router.navigate("/ajustes")} 
+              style={({ pressed }) => [
+                styles.profileCard,
+                pressed && { opacity: 0.7 }
+              ]}
+            >
               <View style={styles.profileAvatar}>
 
                 <SymbolView
@@ -244,7 +252,7 @@ export default function Index() {
                   Campus UnB Gama
                 </Text>
               </View>
-            </View>
+            </Pressable>
 
             {/* Quick action tiles */}
             <View style={styles.tilesGrid}>
@@ -252,6 +260,7 @@ export default function Index() {
               <ActionTile
                 title="Minhas Disciplinas"
                 icon={{ ios: "book.closed.fill", android: "menu_book", web: "menu_book" }}
+                onPress={() => router.push("/disciplinas")}
               />
               <ActionTile
                 title="Minhas Atividades"
@@ -260,6 +269,7 @@ export default function Index() {
               <ActionTile
                 title="Meus Documentos"
                 icon={{ ios: "doc.text.fill", android: "description", web: "description" }}
+                onPress={() => router.push("/documents")}
               />
               <ActionTile
                 title="Fórum do Curso"
@@ -306,6 +316,7 @@ export default function Index() {
                   Novo tópico no Aula: Apresentação do plano de ensino e formação das equipes de desenvolvimento.
                 </Text>
                 <Pressable
+                  onPress={() => router.push("/disciplinas")}
                   style={({ pressed }) => [
                     styles.primaryButton,
                     pressed && styles.primaryButtonPressed,
@@ -347,16 +358,18 @@ export default function Index() {
                 <CourseRow
                   name="Qualidade de Software 1"
                   meta="2026.1 · FCTE-99 · Ter/Qui 10h às 11h40"
+                  onPress={() => router.push("/disciplinas")}
                 />
                 <View style={styles.courseDivider} />
-                <CourseRow name="Compiladores" meta="2026.1" />
+                <CourseRow name="Compiladores" meta="2026.1" onPress={() => router.push("/disciplinas")} />
                 <View style={styles.courseDivider} />
-                <CourseRow name="Requisitos de Software" meta="2026.1" />
+                <CourseRow name="Requisitos de Software" meta="2026.1" onPress={() => router.push("/disciplinas")} />
                 <View style={styles.courseDivider} />
-                <CourseRow name="Testes de Software" meta="2026.1" />
+                <CourseRow name="Testes de Software" meta="2026.1" onPress={() => router.push("/disciplinas")} />
               </View>
 
               <Pressable
+                onPress={() => router.push("/disciplinas")}
                 style={({ pressed }) => [
                   styles.outlineButton,
                   pressed && styles.outlineButtonPressed,
@@ -718,5 +731,5 @@ const styles = StyleSheet.create({
     color: COLORS.textPrimary,
     flex: 1,
   },
-  
+
 });
