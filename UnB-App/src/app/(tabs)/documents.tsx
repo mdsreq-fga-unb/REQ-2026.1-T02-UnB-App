@@ -280,7 +280,7 @@ export default function Documentos() {
                 {Platform.OS === 'ios' ? (
                   <SymbolView name={showSavedDocuments ? "chevron.down" : "chevron.right"} size={20} tintColor="#314158" />
                 ) : (
-                  <Text style={{ fontSize: 20 }}>{showSavedDocuments ? "⌄" : "›"}</Text>
+                  <Text style={{ fontSize: 20 }}>{showSavedDocuments ? "⌄" : ">"}</Text>
                 )}
               </View>
             </View>

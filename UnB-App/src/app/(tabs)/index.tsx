@@ -1,11 +1,14 @@
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { SymbolView, SFSymbol } from "expo-symbols";
+import { SymbolView } from "expo-symbols";
 import { useTextSize } from "@/contexts/TextSizeContext";
+
+// Tipo local para ícones multiplataforma
+type SymbolName = { ios: string; android: string; web?: string };
 
 type ActionTileProps = {
   title: string;
-  icon: SFSymbol;
+  icon: SymbolName; 
   badge?: string;
   onPress?: () => void;
 };
@@ -18,7 +21,7 @@ type CourseRowProps = {
 
 type FooterShortcutProps = {
   title: string;
-  icon: SFSymbol;
+  icon: SymbolName; 
   onPress?: () => void;
 };
 
@@ -50,7 +53,12 @@ function ActionTile({ title, icon, badge, onPress }: ActionTileProps) {
       ]}
     >
       <View style={styles.tileIconWrapper}>
-        <SymbolView name={icon} size={28} tintColor={COLORS.primary} />
+        {/* name recebe o objeto diretamente — iOS usa SF Symbol, Android usa Material Symbol */}
+        <SymbolView
+          name={icon as any}
+          tintColor={COLORS.primary}
+          size={28}
+        />
       </View>
       <Text
         style={[
@@ -99,7 +107,12 @@ function CourseRow({ name, meta, onPress }: CourseRowProps) {
           {meta}
         </Text>
       </View>
-      <SymbolView name="chevron.right" size={22} tintColor={COLORS.textPlaceholder} />
+
+      <SymbolView
+        name={{ ios: "chevron.right", android: "chevron_right", web: "chevron_right" }}
+        size={22}
+        tintColor={COLORS.textPlaceholder}
+      />
     </Pressable>
   );
 }
@@ -115,7 +128,9 @@ function FooterShortcut({ title, icon, onPress }: FooterShortcutProps) {
         pressed && styles.tilePressed,
       ]}
     >
-      <SymbolView name={icon} size={26} tintColor={COLORS.textPrimary} />
+
+      <SymbolView name={icon as any} size={26} tintColor={COLORS.textPrimary} />
+
       <Text
         style={[
           styles.shortcutTitle,
@@ -192,7 +207,13 @@ export default function Index() {
             {/* Profile header card */}
             <View style={styles.profileCard}>
               <View style={styles.profileAvatar}>
-                <SymbolView name="person.fill" size={32} tintColor={COLORS.primary} />
+
+                <SymbolView
+                  name={{ ios: "person.fill", android: "person", web: "person" }}
+                  size={32}
+                  tintColor={COLORS.primary}
+                />
+
               </View>
               <View style={styles.profileInfo}>
                 <Text
@@ -227,16 +248,36 @@ export default function Index() {
 
             {/* Quick action tiles */}
             <View style={styles.tilesGrid}>
-              <ActionTile title="Minhas Disciplinas" icon="book.closed.fill" />
-              <ActionTile title="Minhas Atividades" icon="list.bullet.clipboard.fill" />
-              <ActionTile title="Meus Documentos" icon="doc.text.fill" />
-              <ActionTile title="Fórum do Curso" icon="bubble.left.and.bubble.right.fill" badge="2" />
+              {/* Cada tile agora passa o objeto { ios, android } explicitamente */}
+              <ActionTile
+                title="Minhas Disciplinas"
+                icon={{ ios: "book.closed.fill", android: "menu_book", web: "menu_book" }}
+              />
+              <ActionTile
+                title="Minhas Atividades"
+                icon={{ ios: "list.bullet.clipboard.fill", android: "assignment", web: "assignment" }}
+              />
+              <ActionTile
+                title="Meus Documentos"
+                icon={{ ios: "doc.text.fill", android: "description", web: "description" }}
+              />
+              <ActionTile
+                title="Fórum do Curso"
+                icon={{ ios: "bubble.left.and.bubble.right.fill", android: "forum", web: "forum" }}
+                badge="2"
+              />
             </View>
 
             {/* Latest updates */}
             <View style={styles.section}>
               <View style={styles.sectionHeader}>
-                <SymbolView name="megaphone.fill" size={22} tintColor={COLORS.textPrimary} />
+
+                <SymbolView
+                  name={{ ios: "megaphone.fill", android: "campaign", web: "campaign" }}
+                  size={22}
+                  tintColor={COLORS.textPrimary}
+                />
+
                 <Text
                   style={[
                     styles.sectionTitle,
@@ -285,7 +326,13 @@ export default function Index() {
             {/* Courses */}
             <View style={styles.section}>
               <View style={styles.sectionHeader}>
-                <SymbolView name="books.vertical.fill" size={22} tintColor={COLORS.textPrimary} />
+
+                <SymbolView
+                  name={{ ios: "books.vertical.fill", android: "library_books", web: "library_books" }}
+                  size={22}
+                  tintColor={COLORS.textPrimary}
+                />
+
                 <Text
                   style={[
                     styles.sectionTitle,
@@ -328,8 +375,15 @@ export default function Index() {
 
             {/* Footer shortcuts */}
             <View style={styles.shortcutsRow}>
-              <FooterShortcut title="Turmas Anteriores" icon="clock.arrow.circlepath" />
-              <FooterShortcut title="Calendário" icon="calendar" />
+
+              <FooterShortcut
+                title="Turmas Anteriores"
+                icon={{ ios: "clock.arrow.circlepath", android: "history", web: "history" }}
+              />
+              <FooterShortcut
+                title="Calendário"
+                icon={{ ios: "calendar", android: "calendar_today", web: "calendar_today" }}
+              />
             </View>
           </View>
         </ScrollView>
@@ -664,5 +718,5 @@ const styles = StyleSheet.create({
     color: COLORS.textPrimary,
     flex: 1,
   },
-
+  
 });
