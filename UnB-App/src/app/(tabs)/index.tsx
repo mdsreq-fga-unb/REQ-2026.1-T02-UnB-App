@@ -207,8 +207,8 @@ export default function Index() {
           {/* Main content */}
           <View style={styles.mainContent}>
             {/* Profile header card */}
-            <Pressable 
-              onPress={() => router.navigate("/ajustes")} 
+            <Pressable
+              onPress={() => router.navigate("/ajustes")}
               style={({ pressed }) => [
                 styles.profileCard,
                 pressed && { opacity: 0.7 }
@@ -264,7 +264,7 @@ export default function Index() {
               />
               <ActionTile
                 title="Minhas Atividades"
-                icon={{ ios: "list.bullet.clipboard.fill", android: "assignment", web: "assignment" }}
+                icon={{ ios: "person.text.rectangle.fill", android: "badge", web: "badge" }}
               />
               <ActionTile
                 title="Meus Documentos"
