@@ -57,8 +57,14 @@ export default function GradeHorariaModalScreen() {
       <View style={styles.infoContainer}>
         <Text style={[styles.courseName, { fontSize: getFontSize(15) }]}>{item.nome_disciplina}</Text>
         <Text style={[styles.courseCode, { fontSize: getFontSize(13) }]}>{item.codigo_disciplina} - Turma {item.codigo_turma}</Text>
-        <Text style={[styles.location, { fontSize: getFontSize(13) }]}>📍 {item.local}</Text>
-        <Text style={[styles.docente, { fontSize: getFontSize(13) }]}>👨‍🏫 {item.docente_nome}</Text>
+        <View style={[styles.infoRow, { marginBottom: 4 }]}>
+          <SymbolView name={{ ios: "mappin.and.ellipse", android: "location_on", web: "location_on" } as any} size={14} tintColor="#334155" fallback={<Text style={{ fontSize: 12 }}>📍</Text>} />
+          <Text style={[styles.location, { fontSize: getFontSize(13) }]}>{item.local}</Text>
+        </View>
+        <View style={styles.infoRow}>
+          <SymbolView name={{ ios: "person.fill", android: "person", web: "person" } as any} size={14} tintColor="#64748b" fallback={<Text style={{ fontSize: 12 }}>👨‍🏫</Text>} />
+          <Text style={[styles.docente, { fontSize: getFontSize(13) }]}>{item.docente_nome}</Text>
+        </View>
       </View>
     </View>
   );
@@ -67,7 +73,7 @@ export default function GradeHorariaModalScreen() {
     <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']}>
       <View style={styles.header}>
           <TouchableOpacity onPress={() => router.back()} style={styles.closeBtn}>
-              <SymbolView name="xmark" size={24} tintColor="#0f172b" fallback={<Text style={{fontSize: 20}}>X</Text>} />
+              <SymbolView name={{ ios: "xmark", android: "close", web: "close" } as any} size={24} tintColor="#0f172b" fallback={<Text style={{fontSize: 20}}>X</Text>} />
           </TouchableOpacity>
           <Text style={[styles.title, { fontSize: getFontSize(20) }]}>Grade Horária</Text>
           <View style={{ width: 24 }} />
@@ -112,7 +118,10 @@ export default function GradeHorariaModalScreen() {
                   renderItem={renderCard}
                   contentContainerStyle={styles.listContainer}
                   ListEmptyComponent={
-                  <Text style={[styles.emptyText, { fontSize: getFontSize(16) }]}>Nenhuma aula neste dia. Aproveite o descanso! 🎉</Text>
+                  <View style={styles.emptyContainer}>
+                    <SymbolView name={{ ios: "sparkles", android: "auto_awesome", web: "auto_awesome" } as any} size={28} tintColor="#1d8d28" fallback={<Text style={{ fontSize: 24 }}>✨</Text>} />
+                    <Text style={[styles.emptyText, { fontSize: getFontSize(16) }]}>Nenhuma aula neste dia. Aproveite o descanso!</Text>
+                  </View>
                   }
               />
           </View>
@@ -149,11 +158,13 @@ const styles = StyleSheet.create({
   timeText: { fontWeight: 'bold', color: '#1d8d28' },
   timeSubtext: { color: '#64748b', marginTop: 4 },
   infoContainer: { flex: 1, justifyContent: 'center' },
+  infoRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   courseName: { fontWeight: 'bold', color: '#0f172b', marginBottom: 4 },
   courseCode: { color: '#475569', marginBottom: 8 },
-  location: { color: '#334155', fontWeight: '500', marginBottom: 4 },
+  location: { color: '#334155', fontWeight: '500' },
   docente: { color: '#64748b' },
-  emptyText: { textAlign: 'center', color: '#64748b', marginTop: 40 },
+  emptyContainer: { alignItems: 'center', marginTop: 40, gap: 12 },
+  emptyText: { textAlign: 'center', color: '#64748b' },
   emptyGlobalContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 30, paddingBottom: 60 },
   emptyGlobalTitle: { fontWeight: 'bold', color: '#0f172b', marginBottom: 12, textAlign: 'center' },
   emptyGlobalDesc: { color: '#64748b', textAlign: 'center', marginBottom: 30, lineHeight: 22 },

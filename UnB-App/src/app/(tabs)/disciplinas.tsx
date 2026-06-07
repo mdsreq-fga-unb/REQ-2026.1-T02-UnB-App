@@ -38,23 +38,23 @@ export default function DisciplinasScreen() {
     <View style={styles.card}>
       <View style={styles.cardHeader}>
         <View style={styles.iconContainer}>
-          <SymbolView name="book.pages.fill" size={24} tintColor="#1d8d28" fallback={<Text style={{ fontSize: 20 }}>📖</Text>} />
+          <SymbolView name={{ ios: "book.pages.fill", android: "menu_book", web: "menu_book" } as any} size={24} tintColor="#1d8d28" fallback={<Text style={{ fontSize: 20 }}>📖</Text>} />
         </View>
         <View style={styles.cardTitleContainer}>
           <Text style={[styles.cardTitle, { fontSize: getFontSize(18) }]} numberOfLines={1} selectable>{item.nome_disciplina}</Text>
           <Text style={[styles.cardSubtitle, { fontSize: getFontSize(14) }]} selectable>{item.codigo_disciplina} · 2026.1</Text>
         </View>
-        <SymbolView name="chevron.right" size={20} tintColor="#90a1b9" fallback={<Text style={{ fontSize: 16 }}>›</Text>} />
+        <SymbolView name={{ ios: "chevron.right", android: "chevron_right", web: "chevron_right" } as any} size={20} tintColor="#90a1b9" fallback={<Text style={{ fontSize: 16 }}>›</Text>} />
       </View>
 
       <View style={styles.cardInfoRow}>
         <View style={styles.infoItem}>
-          <SymbolView name="clock.fill" size={16} tintColor="#1d8d28" fallback={<Text style={{ fontSize: 14 }}>🕒</Text>} />
+          <SymbolView name={{ ios: "clock.fill", android: "schedule", web: "schedule" } as any} size={16} tintColor="#1d8d28" fallback={<Text style={{ fontSize: 14 }}>🕒</Text>} />
           <Text style={[styles.infoText, { fontSize: getFontSize(15) }]} selectable>{item.horarios_formatados}</Text>
         </View>
         {item.local ? (
           <View style={styles.infoItem}>
-            <SymbolView name="mappin.and.ellipse" size={16} tintColor="#1d8d28" fallback={<Text style={{ fontSize: 14 }}>📍</Text>} />
+            <SymbolView name={{ ios: "mappin.and.ellipse", android: "location_on", web: "location_on" } as any} size={16} tintColor="#1d8d28" fallback={<Text style={{ fontSize: 14 }}>📍</Text>} />
             <Text style={[styles.infoText, { fontSize: getFontSize(15) }]} selectable>{item.local}</Text>
           </View>
         ) : null}
@@ -86,7 +86,7 @@ export default function DisciplinasScreen() {
 
             <View style={styles.searchContainer}>
               <View style={styles.searchBar}>
-                <SymbolView name="magnifyingglass" size={20} tintColor="#90a1b9" fallback={<Text style={{ fontSize: 16 }}>🔍</Text>} />
+                <SymbolView name={{ ios: "magnifyingglass", android: "search", web: "search" } as any} size={20} tintColor="#90a1b9" fallback={<Text style={{ fontSize: 16 }}>🔍</Text>} />
                 <TextInput
                   style={[styles.searchInput, { fontSize: getFontSize(16) }]}
                   placeholder="Buscar disciplina..."
@@ -103,13 +103,13 @@ export default function DisciplinasScreen() {
                   {({ pressed }) => (
                     <View style={[styles.gradeCard, pressed && { opacity: 0.72 }]}>
                       <View style={styles.gradeIconContainer}>
-                        <SymbolView name="calendar" size={24} tintColor="#1d8d28" fallback={<Text style={{ fontSize: 20 }}>📅</Text>} />
+                        <SymbolView name={{ ios: "calendar", android: "calendar_today", web: "calendar_today" } as any} size={24} tintColor="#1d8d28" fallback={<Text style={{ fontSize: 20 }}>📅</Text>} />
                       </View>
                       <View style={styles.gradeTextContainer}>
                         <Text style={[styles.gradeTitle, { fontSize: getFontSize(17) }]}>Grade Horária</Text>
                         <Text style={[styles.gradeSubtitle, { fontSize: getFontSize(14) }]}>Visualizar sua semana</Text>
                       </View>
-                      <SymbolView name="chevron.right" size={20} tintColor="#1d8d28" fallback={<Text style={{ fontSize: 16, color: '#1d8d28' }}>›</Text>} />
+                      <SymbolView name={{ ios: "chevron.right", android: "chevron_right", web: "chevron_right" } as any} size={20} tintColor="#1d8d28" fallback={<Text style={{ fontSize: 16, color: '#1d8d28' }}>›</Text>} />
                     </View>
                   )}
                 </Pressable>
