@@ -9,52 +9,47 @@ import * as Sharing from 'expo-sharing';
 import * as IntentLauncher from 'expo-intent-launcher';
 import { useTextSize } from '@/contexts/TextSizeContext';
 
-interface DocumentRecord {
-  id: number;
+const MATRICULA_MOCK = '240000000';
+
+interface UI_Document {
+  id_documento: number | null;
   title: string;
   description: string;
   meta: string;
   color: string;
   symbolName: string;
-  uri: string; // empty string means not downloaded
-  fileName: string | null;
-  mimeType: string | null;
-  size: number | null;
+  uri: string;
+  size: number;
 }
 
 const DEFAULT_DOCS = [
   {
     title: "Boletim de Notas",
     description: "Notas das disciplinas do semestre 2026.1",
-    meta: "",
     color: "#1d8d28",
     symbolName: "doc.text.fill"
   },
   {
     title: "Índice Acadêmico",
     description: "IRA, IECH e CR consolidados",
-    meta: "",
     color: "#0e7490",
     symbolName: "chart.bar.doc.horizontal"
   },
   {
     title: "Histórico Escolar",
     description: "Todas as disciplinas cursadas",
-    meta: "",
     color: "#7c3aed",
     symbolName: "books.vertical.fill"
   },
   {
     title: "Atestado de Matrícula",
     description: "Comprovante oficial de vínculo com a UnB",
-    meta: "",
     color: "#b45309",
     symbolName: "person.text.rectangle.fill"
   },
   {
     title: "Passe Livre Estudantil",
     description: "Solicitação de gratuidade no transporte",
-    meta: "",
     color: "#be185d",
     symbolName: "bus.fill"
   }
@@ -63,60 +58,59 @@ const DEFAULT_DOCS = [
 export default function Documentos() {
   const db = useSQLiteContext();
   const { getFontSize } = useTextSize();
-  const [documents, setDocuments] = useState<DocumentRecord[]>([]);
+  const [documents, setDocuments] = useState<UI_Document[]>([]);
   const [search, setSearch] = useState("");
   const [totalSize, setTotalSize] = useState(0);
   const [showSavedDocuments, setShowSavedDocuments] = useState(false);
 
-  const syncDefaultDocuments = useCallback(async () => {
-    const existing = await db.getAllAsync<DocumentRecord>('SELECT * FROM documents');
-    const existingByTitle = new Map(existing.map((doc) => [doc.title, doc]));
-    const defaultTitles = new Set(DEFAULT_DOCS.map((doc) => doc.title));
-
-    for (const staleDoc of existing.filter((doc) => !defaultTitles.has(doc.title))) {
-      await db.runAsync('DELETE FROM documents WHERE id = ?', [staleDoc.id]);
-    }
-
-    for (const doc of DEFAULT_DOCS) {
-      const savedDoc = existingByTitle.get(doc.title);
-
-      if (!savedDoc) {
-        await db.runAsync(
-          'INSERT INTO documents (title, description, meta, color, symbolName, uri) VALUES (?, ?, ?, ?, ?, ?)',
-          [doc.title, doc.description, doc.meta, doc.color, doc.symbolName, ""]
-        );
-        continue;
-      }
-
-      await db.runAsync(
-        `UPDATE documents
-         SET description = ?,
-             color = ?,
-             symbolName = ?,
-             meta = CASE WHEN uri = '' THEN ? ELSE meta END
-         WHERE id = ?`,
-        [doc.description, doc.color, doc.symbolName, doc.meta, savedDoc.id]
-      );
-    }
-  }, [db]);
-
   const loadDocuments = useCallback(async () => {
     try {
-      await syncDefaultDocuments();
-      const result = await db.getAllAsync<DocumentRecord>('SELECT * FROM documents ORDER BY id ASC');
-      setDocuments(result);
-      const size = result.reduce((acc, curr) => acc + (curr.size || 0), 0);
-      setTotalSize(size);
+      // Busca os documentos que estão salvos no SQLite
+      const result = await db.getAllAsync<{ id_documento: number, tipo: string, uri_arquivo: string, data_atualizacao: string }>(
+        'SELECT * FROM Documento WHERE matricula_aluno = ?', 
+        [MATRICULA_MOCK]
+      );
+
+      let sizeAccumulator = 0;
+
+      // Mescla o estado da UI com o estado do Banco + FileSystem (Arquitetura Híbrida)
+      const merged: UI_Document[] = await Promise.all(DEFAULT_DOCS.map(async (defDoc) => {
+        const saved = result.find(r => r.tipo === defDoc.title);
+        let fileSize = 0;
+        
+        if (saved && saved.uri_arquivo) {
+          try {
+            const info = await FileSystem.getInfoAsync(saved.uri_arquivo);
+            if (info.exists) fileSize = info.size;
+          } catch (e) {}
+        }
+
+        sizeAccumulator += fileSize;
+
+        return {
+          id_documento: saved ? saved.id_documento : null,
+          title: defDoc.title,
+          description: defDoc.description,
+          meta: saved ? `Salvo em ${new Date(saved.data_atualizacao).toLocaleDateString('pt-BR')}` : "",
+          color: defDoc.color,
+          symbolName: defDoc.symbolName,
+          uri: saved ? saved.uri_arquivo : "",
+          size: fileSize
+        };
+      }));
+
+      setDocuments(merged);
+      setTotalSize(sizeAccumulator);
     } catch (error) {
-      console.error('Erro ao carregar documentos', error);
+      console.error('Erro ao carregar documentos híbridos', error);
     }
-  }, [db, syncDefaultDocuments]);
+  }, [db]);
 
   useEffect(() => {
     loadDocuments();
   }, [loadDocuments]);
 
-  const handleBaixar = async (doc: DocumentRecord) => {
+  const handleBaixar = async (doc: UI_Document) => {
     if (doc.uri && doc.uri !== "") {
       Alert.alert('Aviso', 'O documento já foi baixado. Toque em "Ver" para acessá-lo.');
       return;
@@ -129,7 +123,7 @@ export default function Documentos() {
 
       if (!result.canceled && result.assets && result.assets.length > 0) {
         const asset = result.assets[0];
-        const fileName = `${doc.id}_${asset.name || 'documento.pdf'}`;
+        const fileName = `${doc.title.replace(/\\s/g, '_')}_${asset.name || 'documento.pdf'}`;
         const newUri = FileSystem.documentDirectory + fileName;
         
         await FileSystem.copyAsync({
@@ -137,16 +131,10 @@ export default function Documentos() {
           to: newUri
         });
 
-        const extension = asset.name?.split('.').pop()?.toUpperCase() || 'ARQUIVO';
-        const newMeta = `Baixado em ${new Date().toLocaleDateString('pt-BR')} · ${extension}`;
-        
-        const bindName = asset.name ?? 'documento.pdf';
-        const bindMimeType = asset.mimeType ?? null;
-        const bindSize = asset.size ?? null;
-
+        // Insere no banco
         await db.runAsync(
-          'UPDATE documents SET uri = ?, fileName = ?, mimeType = ?, size = ?, meta = ? WHERE id = ?',
-          [newUri, bindName, bindMimeType, bindSize, newMeta, doc.id]
+          'INSERT INTO Documento (matricula_aluno, tipo, uri_arquivo, data_atualizacao) VALUES (?, ?, ?, ?)',
+          [MATRICULA_MOCK, doc.title, newUri, new Date().toISOString()]
         );
 
         loadDocuments();
@@ -157,27 +145,19 @@ export default function Documentos() {
     }
   };
 
-  const handleVer = async (doc: DocumentRecord) => {
-    if (!doc.uri || doc.uri === "") {
-      Alert.alert('Aviso', 'Este documento ainda não foi baixado.');
-      return;
-    }
-    
+  const handleVer = async (doc: UI_Document) => {
+    if (!doc.uri || doc.uri === "") return;
     try {
       if (Platform.OS === 'android') {
         const contentUri = await FileSystem.getContentUriAsync(doc.uri);
         await IntentLauncher.startActivityAsync('android.intent.action.VIEW', {
           data: contentUri,
-          flags: 1, // FLAG_GRANT_READ_URI_PERMISSION
-          type: doc.mimeType || 'application/pdf'
+          flags: 1,
+          type: 'application/pdf'
         });
       } else {
         const isAvailable = await Sharing.isAvailableAsync();
-        if (isAvailable) {
-          await Sharing.shareAsync(doc.uri);
-        } else {
-          Alert.alert('Acesso', 'Não é possível abrir o arquivo neste dispositivo.');
-        }
+        if (isAvailable) await Sharing.shareAsync(doc.uri);
       }
     } catch (error) {
       console.error(error);
@@ -185,32 +165,22 @@ export default function Documentos() {
     }
   };
 
-  const handleCompartilhar = async (doc: DocumentRecord) => {
-    if (!doc.uri || doc.uri === "") {
-      Alert.alert('Aviso', 'Este documento ainda não foi baixado.');
-      return;
-    }
-
+  const handleCompartilhar = async (doc: UI_Document) => {
+    if (!doc.uri || doc.uri === "") return;
     try {
       const isAvailable = await Sharing.isAvailableAsync();
-
       if (!isAvailable) {
         Alert.alert('Compartilhar', 'Não é possível compartilhar arquivos neste dispositivo.');
         return;
       }
-
-      await Sharing.shareAsync(doc.uri, {
-        mimeType: doc.mimeType || undefined,
-        dialogTitle: doc.title,
-        UTI: doc.mimeType || undefined,
-      });
+      await Sharing.shareAsync(doc.uri, { dialogTitle: doc.title });
     } catch (error) {
       console.error(error);
       Alert.alert('Erro', 'Não foi possível compartilhar o arquivo.');
     }
   };
 
-  const handleRemover = async (doc: DocumentRecord) => {
+  const handleRemover = async (doc: UI_Document) => {
     try {
       if (doc.uri && doc.uri !== "") {
         const fileInfo = await FileSystem.getInfoAsync(doc.uri);
@@ -219,10 +189,12 @@ export default function Documentos() {
         }
       }
 
-      await db.runAsync(
-        'UPDATE documents SET uri = ?, fileName = ?, mimeType = ?, size = ?, meta = ? WHERE id = ?',
-        ["", null, null, null, "", doc.id]
-      );
+      if (doc.id_documento) {
+        await db.runAsync(
+          'DELETE FROM Documento WHERE id_documento = ?',
+          [doc.id_documento]
+        );
+      }
 
       loadDocuments();
     } catch (error) {
@@ -293,13 +265,13 @@ export default function Documentos() {
             <View style={styles.savedDocumentsPanel}>
               {savedDocuments.length > 0 ? (
                 savedDocuments.map((doc) => (
-                  <View key={doc.id} style={styles.savedDocumentRow}>
+                  <View key={doc.id_documento} style={styles.savedDocumentRow}>
                     <View style={styles.savedDocumentInfo}>
                       <Text style={[styles.savedDocumentTitle, { fontSize: getFontSize(15) }]} numberOfLines={1}>
                         {doc.title}
                       </Text>
                       <Text style={[styles.savedDocumentMeta, { fontSize: getFontSize(13) }]} numberOfLines={1}>
-                        {doc.fileName || doc.meta || "Arquivo salvo"} · {formatSize(doc.size || 0)}
+                        {doc.meta} · {formatSize(doc.size || 0)}
                       </Text>
                     </View>
                     <TouchableOpacity
@@ -346,7 +318,7 @@ export default function Documentos() {
           <View style={styles.docsList}>
             {filteredDocs.map(doc => (
               <DocCard 
-                key={doc.id}
+                key={doc.title}
                 title={doc.title}
                 description={doc.description}
                 meta={doc.meta}
@@ -383,7 +355,7 @@ function DocCard({ title, description, meta, color, symbolName, hasFile = false,
   return (
     <View style={styles.docCard}>
       <View style={styles.docRow}>
-        <View style={[styles.docIconContainer, { backgroundColor: `${color}1A` /* ~10% opacity */ }]}>
+        <View style={[styles.docIconContainer, { backgroundColor: `${color}1A` }]}>
           {Platform.OS === 'ios' ? (
             <SymbolView name={symbolName} size={24} tintColor={color} />
           ) : (
@@ -455,7 +427,7 @@ const styles = StyleSheet.create({
   header: {
     paddingTop: 40,
     paddingHorizontal: 20,
-    paddingRight: 80, // espaço para o botão flutuante Aa
+    paddingRight: 80, 
     marginBottom: 24,
   },
   subtitle: {
