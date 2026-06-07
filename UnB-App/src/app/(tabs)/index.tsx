@@ -1,8 +1,11 @@
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { useState, useCallback } from 'react';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SymbolView } from "expo-symbols";
 import { useTextSize } from "@/contexts/TextSizeContext";
-import { useRouter } from "expo-router";
+import { useRouter, useFocusEffect } from "expo-router";
+import { useSQLiteContext } from 'expo-sqlite';
+import { buscarTodasDisciplinas, type DisciplinaInfo } from '../../../database/queries/gradeQueries';
 
 // Tipo local para ícones multiplataforma
 type SymbolName = { ios: string; android: string; web?: string };
@@ -147,6 +150,23 @@ function FooterShortcut({ title, icon, onPress }: FooterShortcutProps) {
 export default function Index() {
   const { getFontSize } = useTextSize();
   const router = useRouter();
+  const db = useSQLiteContext();
+  const [disciplinas, setDisciplinas] = useState<DisciplinaInfo[]>([]);
+
+  const carregarDisciplinas = useCallback(async () => {
+    try {
+      const data = await buscarTodasDisciplinas(db);
+      setDisciplinas(data);
+    } catch (error) {
+      console.error('Erro ao buscar disciplinas:', error);
+    }
+  }, [db]);
+
+  useFocusEffect(
+    useCallback(() => {
+      carregarDisciplinas();
+    }, [carregarDisciplinas])
+  );
 
   return (
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
@@ -355,17 +375,21 @@ export default function Index() {
               </View>
 
               <View style={styles.coursesCard}>
-                <CourseRow
-                  name="Qualidade de Software 1"
-                  meta="2026.1 · FCTE-99 · Ter/Qui 10h às 11h40"
-                  onPress={() => router.push("/disciplinas")}
-                />
-                <View style={styles.courseDivider} />
-                <CourseRow name="Compiladores" meta="2026.1" onPress={() => router.push("/disciplinas")} />
-                <View style={styles.courseDivider} />
-                <CourseRow name="Requisitos de Software" meta="2026.1" onPress={() => router.push("/disciplinas")} />
-                <View style={styles.courseDivider} />
-                <CourseRow name="Testes de Software" meta="2026.1" onPress={() => router.push("/disciplinas")} />
+                {disciplinas.slice(0, 4).map((disciplina, index) => (
+                  <View key={disciplina.id_turma.toString()}>
+                    <CourseRow
+                      name={disciplina.nome_disciplina}
+                      meta={`2026.1 · ${disciplina.codigo_disciplina}${disciplina.horarios_formatados ? ` · ${disciplina.horarios_formatados}` : ''}`}
+                      onPress={() => router.push("/disciplinas")}
+                    />
+                    {index < Math.min(disciplinas.length, 4) - 1 && <View style={styles.courseDivider} />}
+                  </View>
+                ))}
+                {disciplinas.length === 0 && (
+                  <Text style={{ padding: 16, color: COLORS.textMuted, textAlign: 'center', fontFamily: FONT }}>
+                    Nenhuma disciplina encontrada.
+                  </Text>
+                )}
               </View>
 
               <Pressable

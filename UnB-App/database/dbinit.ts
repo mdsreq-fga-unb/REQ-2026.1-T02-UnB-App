@@ -1,5 +1,5 @@
 import { type SQLiteDatabase } from 'expo-sqlite';
-import { popularGradeHorariaMock } from './queries/gradeQueries';
+
 
 export async function initializeDatabase(db: SQLiteDatabase) {
   try {
@@ -106,8 +106,6 @@ export async function initializeDatabase(db: SQLiteDatabase) {
     `);
 
 
-
-    await popularGradeHorariaMock(db);
 
   } catch (error) {
     console.error('Falha ao inicializar banco de dados:', error);

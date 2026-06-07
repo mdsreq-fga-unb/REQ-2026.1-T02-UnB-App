@@ -1,107 +1,60 @@
 import { SQLiteDatabase } from 'expo-sqlite';
 import { parseHorarioUnB } from '../../utils/horarioParser';
-
-const MATRICULA_MOCK = '240000000';
-const ANO_MOCK = 2026;
-const PERIODO_MOCK = 1;
+import { type InfoAluno, type DisciplinaExtraida } from '../../utils/pdfParser';
 
 export async function temGradeCadastrada(db: SQLiteDatabase): Promise<boolean> {
   const result = await db.getFirstAsync<{ count: number }>('SELECT count(*) as count FROM Aula');
   return !!result && result.count > 0;
 }
 
-export async function popularGradeHorariaMock(db: SQLiteDatabase) {
-  const result = await db.getFirstAsync<{ count: number }>('SELECT count(*) as count FROM Disciplina');
-  if (result && result.count > 0) return;
-
-  const mockData = [
-    {
-      codigo: 'FGA0003',
-      nome: 'COMPILADORES 1',
-      turma: '01',
-      docente: 'PROFESSOR FICTICIO 1',
-      local: 'FCTE - S9',
-      horario: '24T23'
-    },
-    {
-      codigo: 'FGA0030',
-      nome: 'ESTRUTURAS DE DADOS 2',
-      turma: '02',
-      docente: 'PROFESSOR FICTICIO 2',
-      local: 'FCTE - MOCAP',
-      horario: '26M12'
-    },
-    {
-      codigo: 'FGA0170',
-      nome: 'FUNDAMENTOS DE SISTEMAS OPERACIONAIS',
-      turma: '02',
-      docente: 'PROFESSOR FICTICIO 3',
-      local: 'FCTE - S1',
-      horario: '46M5 46T1'
-    },
-    {
-      codigo: 'FGA0173',
-      nome: 'INTERAÇÃO HUMANO COMPUTADOR',
-      turma: '02',
-      docente: 'PROFESSORA FICTICIA 1',
-      local: 'FCTE - S9 / I10',
-      horario: '35T45'
-    },
-    {
-      codigo: 'FGA0313',
-      nome: 'REQUISITOS DE SOFTWARE',
-      turma: '02',
-      docente: 'PROFESSOR FICTICIO 4',
-      local: 'FCTE - 17 / I3',
-      horario: '35M34'
-    },
-    {
-      codigo: 'FGA0137',
-      nome: 'SISTEMAS DE BANCO DE DADOS 1',
-      turma: '01',
-      docente: 'PROFESSOR FICTICIO 5',
-      local: 'FCTE - S9',
-      horario: '46M34'
-    }
-  ];
-
+export async function popularGradePorDados(db: SQLiteDatabase, aluno: InfoAluno | null, disciplinas: DisciplinaExtraida[]) {
   await db.withTransactionAsync(async () => {
-    // Inserir base
+    // 1. Limpar dados anteriores (ou de uma vez só se for o único usuário)
+    await db.runAsync('DELETE FROM Aula');
+    await db.runAsync('DELETE FROM Turma_Docente');
+    await db.runAsync('DELETE FROM Turma_Aluno');
+    await db.runAsync('DELETE FROM Turma');
+    await db.runAsync('DELETE FROM Periodo_Letivo');
+    await db.runAsync('DELETE FROM Aluno');
+
+    // 2. Inserir Aluno
+    const matricula = aluno?.matricula || '000000000';
+    const ano = aluno?.ano || new Date().getFullYear();
+    const periodo = aluno?.semestre || 1;
+
     await db.runAsync(
       'INSERT OR IGNORE INTO Aluno (matricula, nome, curso, CPF) VALUES (?, ?, ?, ?)',
-      [MATRICULA_MOCK, 'ALUNO ANONIMO DE TESTE', 'ENGENHARIA DE SOFTWARE', '00000000000']
+      [matricula, aluno?.nome || 'ALUNO NÃO IDENTIFICADO', aluno?.curso || 'CURSO NÃO IDENTIFICADO', '']
     );
 
+    // 3. Inserir Período Letivo
     await db.runAsync(
       'INSERT OR IGNORE INTO Periodo_Letivo (ano, periodo, data_inicio, data_fim) VALUES (?, ?, ?, ?)',
-      [ANO_MOCK, PERIODO_MOCK, '16/03/2026', '18/07/2026']
+      [ano, periodo, '', '']
     );
 
-    for (const item of mockData) {
+    // 4. Inserir Disciplinas, Turmas, Docentes e Aulas
+    for (const item of disciplinas) {
       await db.runAsync(
         'INSERT OR IGNORE INTO Disciplina (codigo_disciplina, nome_disciplina) VALUES (?, ?)',
         [item.codigo, item.nome]
       );
 
-      // Inserir Turma
       await db.runAsync(
         'INSERT INTO Turma (codigo_disciplina, numero_turma, ano, periodo) VALUES (?, ?, ?, ?)',
-        [item.codigo, item.turma, ANO_MOCK, PERIODO_MOCK]
+        [item.codigo, item.turma, ano, periodo]
       );
       
       const turmaResult = await db.getFirstAsync<{ id_turma: number }>('SELECT last_insert_rowid() as id_turma');
       const idTurma = turmaResult?.id_turma;
 
       if (idTurma) {
-        // Relacionar Aluno com a Turma
         await db.runAsync(
           'INSERT OR IGNORE INTO Turma_Aluno (id_turma, matricula_aluno) VALUES (?, ?)',
-          [idTurma, MATRICULA_MOCK]
+          [idTurma, matricula]
         );
 
-        // Tratar múltiplos docentes
-        const professores = item.docente.split(',').map(p => p.trim()).filter(Boolean);
-        for (const professorNome of professores) {
+        for (const professorNome of item.docentes) {
           await db.runAsync(
             'INSERT OR IGNORE INTO Docente (nome_docente) VALUES (?)',
             [professorNome]
@@ -116,8 +69,9 @@ export async function popularGradeHorariaMock(db: SQLiteDatabase) {
           }
         }
 
-        // Inserir Aulas
-        const horariosParsados = parseHorarioUnB(item.horario, item.local);
+        const horariosStr = item.horarios.join(' ');
+        const horariosParsados = parseHorarioUnB(horariosStr, item.local);
+        
         for (const h of horariosParsados) {
           await db.runAsync(
             'INSERT INTO Aula (id_turma, dia_semana, local, hora_inicio, hora_fim) VALUES (?, ?, ?, ?, ?)',
@@ -150,7 +104,20 @@ export type DisciplinaInfo = {
   horarios_formatados: string; 
 };
 
+async function getDefaultParams(db: SQLiteDatabase) {
+  const aluno = await db.getFirstAsync<{matricula: string}>('SELECT matricula FROM Aluno LIMIT 1');
+  const periodoLetivo = await db.getFirstAsync<{ano: number, periodo: number}>('SELECT ano, periodo FROM Periodo_Letivo LIMIT 1');
+  
+  return {
+    matricula: aluno?.matricula || '000000000',
+    ano: periodoLetivo?.ano || new Date().getFullYear(),
+    periodo: periodoLetivo?.periodo || 1
+  };
+}
+
 export async function buscarGradePorDia(db: SQLiteDatabase, diaSemana: number): Promise<AulaCard[]> {
+  const { matricula, ano, periodo } = await getDefaultParams(db);
+
   const rows = await db.getAllAsync<AulaCard>(
     `
     SELECT 
@@ -175,7 +142,7 @@ export async function buscarGradePorDia(db: SQLiteDatabase, diaSemana: number): 
       a.hora_inicio
     ORDER BY a.hora_inicio ASC
     `,
-    [diaSemana, MATRICULA_MOCK, ANO_MOCK, PERIODO_MOCK]
+    [diaSemana, matricula, ano, periodo]
   );
 
   const agruparAulas = (aulas: AulaCard[]) => {
@@ -216,6 +183,8 @@ export async function buscarGradePorDia(db: SQLiteDatabase, diaSemana: number): 
 }
 
 export async function buscarTodasDisciplinas(db: SQLiteDatabase): Promise<DisciplinaInfo[]> {
+  const { matricula, ano, periodo } = await getDefaultParams(db);
+
   const turmas = await db.getAllAsync<{
     id_turma: number;
     codigo_disciplina: string;
@@ -239,7 +208,7 @@ export async function buscarTodasDisciplinas(db: SQLiteDatabase): Promise<Discip
     GROUP BY t.id_turma
     ORDER BY d.nome_disciplina ASC
     `,
-    [MATRICULA_MOCK, ANO_MOCK, PERIODO_MOCK]
+    [matricula, ano, periodo]
   );
 
   const diasMap: Record<number, string> = {
@@ -261,10 +230,9 @@ export async function buscarTodasDisciplinas(db: SQLiteDatabase): Promise<Discip
 
     let local = '';
     if (aulas.length > 0) {
-      local = aulas[0].local; // Pega o local da primeira aula
+      local = aulas[0].local;
     }
 
-    // Agrupar horários iguais em dias diferentes (ex: Seg/Qua 14h-15h40)
     const horariosAgrupados: Record<string, string[]> = {};
     for (const aula of aulas) {
       const key = `${aula.hora_inicio}–${aula.hora_fim}`;

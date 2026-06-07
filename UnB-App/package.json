@@ -27,6 +27,7 @@
     "expo-intent-launcher": "~55.0.12",
     "expo-linear-gradient": "~55.0.14",
     "expo-linking": "~55.0.15",
+    "expo-pdf-text-extract": "^1.1.0",
     "expo-router": "~55.0.16",
     "expo-sharing": "~55.0.20",
     "expo-splash-screen": "~55.0.21",

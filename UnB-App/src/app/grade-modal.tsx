@@ -1,7 +1,10 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { useSQLiteContext } from 'expo-sqlite';
-import { buscarGradePorDia, temGradeCadastrada, type AulaCard } from '../../database/queries/gradeQueries';
+import { buscarGradePorDia, temGradeCadastrada, popularGradePorDados, type AulaCard } from '../../database/queries/gradeQueries';
+import { extrairDadosDoPDF } from '../../utils/pdfParser';
+import * as DocumentPicker from 'expo-document-picker';
+import { extractTextWithInfo } from 'expo-pdf-text-extract';
 import { useTextSize } from "@/contexts/TextSizeContext";
 import { SymbolView } from "expo-symbols";
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -28,6 +31,47 @@ export default function GradeHorariaModalScreen() {
   
   const [aulas, setAulas] = useState<AulaCard[]>([]);
   const [hasGrade, setHasGrade] = useState<boolean | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const handleUpload = async () => {
+    try {
+      setIsProcessing(true);
+      const result = await DocumentPicker.getDocumentAsync({
+        type: 'application/pdf',
+        copyToCacheDirectory: true,
+      });
+
+      if (result.canceled) {
+        setIsProcessing(false);
+        return;
+      }
+
+      const fileUri = result.assets[0].uri;
+      const extractResult = await extractTextWithInfo(fileUri);
+      
+      if (!extractResult.success) {
+         alert('Falha ao extrair texto do PDF. Tente novamente ou use outro arquivo.');
+         setIsProcessing(false);
+         return;
+      }
+
+      const { aluno, disciplinas } = extrairDadosDoPDF(extractResult.text);
+      if (disciplinas.length === 0) {
+         alert('Não foi possível encontrar disciplinas válidas neste PDF.');
+         setIsProcessing(false);
+         return;
+      }
+
+      await popularGradePorDados(db, aluno, disciplinas);
+      
+      alert('Grade importada com sucesso!');
+      await carregarAulas();
+    } catch (error: any) {
+       alert(`Erro ao processar o arquivo: ${error.message}`);
+    } finally {
+       setIsProcessing(false);
+    }
+  };
 
   const carregarAulas = useCallback(async () => {
     try {
@@ -85,8 +129,10 @@ export default function GradeHorariaModalScreen() {
               <Text style={[styles.emptyGlobalDesc, { fontSize: getFontSize(14) }]}>
                   Para carregar sua grade, por favor faça o upload da declaração ou histórico escolar. Se você não tiver disciplinas no semestre, tudo bem também.
               </Text>
-              <TouchableOpacity style={styles.uploadButton}>
-                  <Text style={[styles.uploadButtonText, { fontSize: getFontSize(15) }]}>Upload: NOMEAR DOCUMENTO</Text>
+              <TouchableOpacity style={styles.uploadButton} onPress={handleUpload} disabled={isProcessing}>
+                  <Text style={[styles.uploadButtonText, { fontSize: getFontSize(15) }]}>
+                    {isProcessing ? 'PROCESSANDO...' : 'FAZER UPLOAD DA MATRÍCULA'}
+                  </Text>
               </TouchableOpacity>
           </View>
       ) : (
