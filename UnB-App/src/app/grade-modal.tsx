@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { useSQLiteContext } from 'expo-sqlite';
-import { buscarGradePorDia, temGradeCadastrada, type AulaCard } from '../database/queries/gradeQueries';
+import { buscarGradePorDia, temGradeCadastrada, type AulaCard } from '../../database/queries/gradeQueries';
 import { useTextSize } from "@/contexts/TextSizeContext";
 import { SymbolView } from "expo-symbols";
 import { SafeAreaView } from 'react-native-safe-area-context';
