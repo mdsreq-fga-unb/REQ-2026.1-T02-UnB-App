@@ -1,7 +1,10 @@
-import { View, Text, StyleSheet, FlatList, TextInput, Platform, Pressable } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TextInput, Platform, Pressable, TouchableOpacity } from 'react-native';
 import { useState, useCallback } from 'react';
 import { useSQLiteContext } from 'expo-sqlite';
-import { buscarTodasDisciplinas, type DisciplinaInfo } from '../../../database/queries/gradeQueries';
+import { buscarTodasDisciplinas, popularGradePorDados, type DisciplinaInfo } from '../../../database/queries/gradeQueries';
+import { extrairDadosDoPDF } from '../../../utils/pdfParser';
+import * as DocumentPicker from 'expo-document-picker';
+import { extractTextWithInfo } from 'expo-pdf-text-extract';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect, Link } from 'expo-router';
 import { useTextSize } from "@/contexts/TextSizeContext";
@@ -13,6 +16,7 @@ export default function DisciplinasScreen() {
 
   const [disciplinas, setDisciplinas] = useState<DisciplinaInfo[]>([]);
   const [search, setSearch] = useState('');
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const carregarDisciplinas = useCallback(async () => {
     try {
@@ -22,6 +26,46 @@ export default function DisciplinasScreen() {
       console.error('Erro ao buscar disciplinas:', error);
     }
   }, [db]);
+
+  const handleUpload = async () => {
+    try {
+      setIsProcessing(true);
+      const result = await DocumentPicker.getDocumentAsync({
+        type: 'application/pdf',
+        copyToCacheDirectory: true,
+      });
+
+      if (result.canceled) {
+        setIsProcessing(false);
+        return;
+      }
+
+      const fileUri = result.assets[0].uri;
+      const extractResult = await extractTextWithInfo(fileUri);
+      
+      if (!extractResult.success) {
+         alert('Falha ao extrair texto do PDF. Tente novamente ou use outro arquivo.');
+         setIsProcessing(false);
+         return;
+      }
+
+      const { aluno, disciplinas: parsedDisciplinas } = extrairDadosDoPDF(extractResult.text);
+      if (parsedDisciplinas.length === 0) {
+         alert('Não foi possível encontrar disciplinas válidas neste PDF.');
+         setIsProcessing(false);
+         return;
+      }
+
+      await popularGradePorDados(db, aluno, parsedDisciplinas);
+      
+      alert('Grade importada com sucesso!');
+      await carregarDisciplinas();
+    } catch (error: any) {
+       alert(`Erro ao processar o arquivo: ${error.message}`);
+    } finally {
+       setIsProcessing(false);
+    }
+  };
 
   useFocusEffect(
     useCallback(() => {
@@ -118,7 +162,17 @@ export default function DisciplinasScreen() {
           </>
         }
         ListEmptyComponent={
-          <Text style={[styles.emptyText, { fontSize: getFontSize(16) }]}>Nenhuma disciplina encontrada.</Text>
+          <View style={styles.emptyGlobalContainer}>
+              <Text style={[styles.emptyGlobalTitle, { fontSize: getFontSize(18) }]}>Nenhuma disciplina encontrada</Text>
+              <Text style={[styles.emptyGlobalDesc, { fontSize: getFontSize(14) }]}>
+                  Para carregar sua grade, por favor faça o upload da declaração ou histórico escolar. Se você não tiver disciplinas no semestre, tudo bem também.
+              </Text>
+              <TouchableOpacity style={styles.uploadButton} onPress={handleUpload} disabled={isProcessing}>
+                  <Text style={[styles.uploadButtonText, { fontSize: getFontSize(15) }]}>
+                    {isProcessing ? 'PROCESSANDO...' : 'FAZER UPLOAD DA MATRÍCULA'}
+                  </Text>
+              </TouchableOpacity>
+          </View>
         }
       />
     </SafeAreaView>
@@ -277,4 +331,9 @@ const styles = StyleSheet.create({
     color: '#64748b',
     marginTop: 40,
   },
+  emptyGlobalContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 30, paddingBottom: 60, marginTop: 40 },
+  emptyGlobalTitle: { fontWeight: 'bold', color: '#0f172b', marginBottom: 12, textAlign: 'center' },
+  emptyGlobalDesc: { color: '#64748b', textAlign: 'center', marginBottom: 30, lineHeight: 22 },
+  uploadButton: { backgroundColor: '#1d8d28', paddingVertical: 14, paddingHorizontal: 24, borderRadius: 12, elevation: 2, shadowColor: '#1d8d28', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 8 },
+  uploadButtonText: { color: '#ffffff', fontWeight: 'bold', textAlign: 'center' },
 });
