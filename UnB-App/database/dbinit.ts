@@ -5,16 +5,6 @@ export async function initializeDatabase(db: SQLiteDatabase) {
   try {
     await db.execAsync(`
       PRAGMA foreign_keys = OFF;
-      DROP TABLE IF EXISTS Horario_Turma;
-      DROP TABLE IF EXISTS Turma_Docente;
-      DROP TABLE IF EXISTS Turma_Aluno;
-      DROP TABLE IF EXISTS Turma;
-      DROP TABLE IF EXISTS Aula;
-      DROP TABLE IF EXISTS Docente;
-      DROP TABLE IF EXISTS Disciplina;
-      DROP TABLE IF EXISTS Periodo_Letivo;
-      DROP TABLE IF EXISTS Aluno;
-      DROP TABLE IF EXISTS documents;
       PRAGMA foreign_keys = ON;
       PRAGMA journal_mode = WAL;
 
