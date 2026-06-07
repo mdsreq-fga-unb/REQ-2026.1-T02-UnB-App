@@ -1,119 +1,107 @@
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, TextInput, Platform } from 'react-native';
 import { useState, useCallback } from 'react';
 import { useSQLiteContext } from 'expo-sqlite';
-import { buscarGradePorDia, temGradeCadastrada, type AulaCard } from '../../../database/queries/gradeQueries';
+import { buscarTodasDisciplinas, type DisciplinaInfo } from '../../../database/queries/gradeQueries';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useFocusEffect } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import { useTextSize } from "@/contexts/TextSizeContext";
-
-const DIAS_SEMANA = [
-  { id: 2, nome: 'Seg' },
-  { id: 3, nome: 'Ter' },
-  { id: 4, nome: 'Qua' },
-  { id: 5, nome: 'Qui' },
-  { id: 6, nome: 'Sex' },
-  { id: 7, nome: 'Sáb' },
-];
+import { SymbolView } from "expo-symbols";
 
 export default function DisciplinasScreen() {
   const db = useSQLiteContext();
   const insets = useSafeAreaInsets();
   const { getFontSize } = useTextSize();
+  const router = useRouter();
   
-  const [diaSelecionado, setDiaSelecionado] = useState(() => {
-    const hoje = new Date().getDay();
-    // Se for domingo (0) ou sábado (6) sem aula, foca na segunda (2)
-    return hoje >= 2 && hoje <= 7 ? hoje : 2;
-  });
-  
-  const [aulas, setAulas] = useState<AulaCard[]>([]);
-  const [hasGrade, setHasGrade] = useState<boolean | null>(null);
+  const [disciplinas, setDisciplinas] = useState<DisciplinaInfo[]>([]);
+  const [search, setSearch] = useState('');
 
-  const carregarAulas = useCallback(async () => {
+  const carregarDisciplinas = useCallback(async () => {
     try {
-      const gradeExiste = await temGradeCadastrada(db);
-      setHasGrade(gradeExiste);
-      if (gradeExiste) {
-        const data = await buscarGradePorDia(db, diaSelecionado);
-        setAulas(data);
-      } else {
-        setAulas([]);
-      }
+      const data = await buscarTodasDisciplinas(db);
+      setDisciplinas(data);
     } catch (error) {
-      console.error('Erro ao buscar grade:', error);
+      console.error('Erro ao buscar disciplinas:', error);
     }
-  }, [db, diaSelecionado]);
+  }, [db]);
 
   useFocusEffect(
     useCallback(() => {
-      carregarAulas();
-    }, [carregarAulas])
+      carregarDisciplinas();
+    }, [carregarDisciplinas])
   );
 
-  const renderCard = ({ item }: { item: AulaCard }) => (
+  const filteredDisciplinas = disciplinas.filter(d => 
+    d.nome_disciplina.toLowerCase().includes(search.toLowerCase()) ||
+    d.codigo_disciplina.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const renderCard = ({ item }: { item: DisciplinaInfo }) => (
     <View style={styles.card}>
-      <View style={styles.timeContainer}>
-        <Text style={[styles.timeText, { fontSize: getFontSize(16) }]}>{item.hora_inicio}</Text>
-        <Text style={[styles.timeSubtext, { fontSize: getFontSize(12) }]}>às {item.hora_fim}</Text>
+      <View style={styles.cardHeader}>
+        <View style={styles.iconContainer}>
+          <SymbolView name="book.pages.fill" size={24} tintColor="#1d8d28" fallback={<Text style={{fontSize: 20}}>📖</Text>} />
+        </View>
+        <View style={styles.cardTitleContainer}>
+          <Text style={[styles.cardTitle, { fontSize: getFontSize(18) }]} numberOfLines={1}>{item.nome_disciplina}</Text>
+          <Text style={[styles.cardSubtitle, { fontSize: getFontSize(14) }]}>{item.codigo_disciplina} · 2026.1</Text>
+        </View>
+        <SymbolView name="chevron.right" size={20} tintColor="#90a1b9" fallback={<Text style={{fontSize: 16}}>›</Text>} />
       </View>
-      <View style={styles.infoContainer}>
-        <Text style={[styles.courseName, { fontSize: getFontSize(15) }]}>{item.nome_disciplina}</Text>
-        <Text style={[styles.courseCode, { fontSize: getFontSize(13) }]}>{item.codigo_disciplina} - Turma {item.codigo_turma}</Text>
-        <Text style={[styles.location, { fontSize: getFontSize(13) }]}>📍 {item.local}</Text>
-        <Text style={[styles.docente, { fontSize: getFontSize(13) }]}>👨‍🏫 {item.docente_nome}</Text>
+      
+      <View style={styles.cardInfoRow}>
+        <View style={styles.infoItem}>
+          <SymbolView name="clock.fill" size={16} tintColor="#1d8d28" fallback={<Text style={{fontSize: 14}}>🕒</Text>} />
+          <Text style={[styles.infoText, { fontSize: getFontSize(15) }]}>{item.horarios_formatados}</Text>
+        </View>
+        {item.local ? (
+          <View style={styles.infoItem}>
+            <SymbolView name="mappin.and.ellipse" size={16} tintColor="#1d8d28" fallback={<Text style={{fontSize: 14}}>📍</Text>} />
+            <Text style={[styles.infoText, { fontSize: getFontSize(15) }]}>{item.local}</Text>
+          </View>
+        ) : null}
+      </View>
+      
+      <View style={styles.cardFooter}>
+        <Text style={[styles.footerLabel, { fontSize: getFontSize(14) }]}>Professor(es):</Text>
+        <Text style={[styles.footerValue, { fontSize: getFontSize(14) }]} numberOfLines={1}>{item.docente_nome}</Text>
       </View>
     </View>
   );
 
-  if (hasGrade === false) {
-    return (
-      <View style={[styles.container, { paddingTop: Math.max(insets.top, 20) }]}>
-        <Text style={[styles.title, { fontSize: getFontSize(24) }]}>Grade Horária</Text>
-        <View style={styles.emptyGlobalContainer}>
-          <Text style={[styles.emptyGlobalTitle, { fontSize: getFontSize(18) }]}>Nenhuma disciplina encontrada</Text>
-          <Text style={[styles.emptyGlobalDesc, { fontSize: getFontSize(14) }]}>
-            Para carregar sua grade, por favor faça o upload da declaração ou histórico escolar. Se você não tiver disciplinas no semestre, tudo bem também.
-          </Text>
-          <TouchableOpacity style={styles.uploadButton}>
-            <Text style={[styles.uploadButtonText, { fontSize: getFontSize(15) }]}>Upload: NOMEAR DOCUMENTO</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  }
-
   return (
     <View style={[styles.container, { paddingTop: Math.max(insets.top, 20) }]}>
-      <Text style={[styles.title, { fontSize: getFontSize(24) }]}>Grade Horária</Text>
-      
-      <View style={styles.daysContainer}>
-        {DIAS_SEMANA.map((dia) => (
-          <TouchableOpacity
-            key={dia.id}
-            style={[
-              styles.dayButton,
-              diaSelecionado === dia.id && styles.dayButtonSelected
-            ]}
-            onPress={() => setDiaSelecionado(dia.id)}
-          >
-            <Text style={[
-              styles.dayText,
-              { fontSize: getFontSize(14) },
-              diaSelecionado === dia.id && styles.dayTextSelected
-            ]}>
-              {dia.nome}
-            </Text>
-          </TouchableOpacity>
-        ))}
+      <View style={styles.header}>
+        <View>
+          <Text style={[styles.subtitle, { fontSize: getFontSize(15) }]}>Semestre 2026.1</Text>
+          <Text style={[styles.title, { fontSize: getFontSize(28) }]}>Minhas Disciplinas</Text>
+        </View>
+        <TouchableOpacity style={styles.gradeButton} onPress={() => router.push('/grade-modal')}>
+          <SymbolView name="calendar" size={20} tintColor="#1d8d28" fallback={<Text style={{fontSize: 16}}>📅</Text>} />
+          <Text style={[styles.gradeButtonText, { fontSize: getFontSize(14) }]}>Grade</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.searchContainer}>
+        <View style={styles.searchBar}>
+          <SymbolView name="magnifyingglass" size={20} tintColor="#90a1b9" fallback={<Text style={{fontSize: 16}}>🔍</Text>} />
+          <TextInput
+            style={[styles.searchInput, { fontSize: getFontSize(16) }]}
+            placeholder="Buscar disciplina..."
+            placeholderTextColor="#90a1b9"
+            value={search}
+            onChangeText={setSearch}
+          />
+        </View>
       </View>
 
       <FlatList
-        data={aulas}
-        keyExtractor={(item) => item.id_horario.toString()}
+        data={filteredDisciplinas}
+        keyExtractor={(item) => item.id_turma.toString()}
         renderItem={renderCard}
         contentContainerStyle={styles.listContainer}
         ListEmptyComponent={
-          <Text style={[styles.emptyText, { fontSize: getFontSize(16) }]}>Nenhuma aula neste dia. Aproveite o descanso! 🎉</Text>
+          <Text style={[styles.emptyText, { fontSize: getFontSize(16) }]}>Nenhuma disciplina encontrada.</Text>
         }
       />
     </View>
@@ -121,27 +109,141 @@ export default function DisciplinasScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#f8fafc' },
-  title: { fontWeight: 'bold', color: '#0f172b', paddingHorizontal: 20, marginBottom: 16 },
-  daysContainer: { flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20, marginBottom: 20 },
-  dayButton: { paddingVertical: 8, paddingHorizontal: 12, borderRadius: 20, backgroundColor: '#e2e8f0' },
-  dayButtonSelected: { backgroundColor: '#1d8d28' },
-  dayText: { fontWeight: '600', color: '#475569' },
-  dayTextSelected: { color: '#ffffff' },
-  listContainer: { paddingHorizontal: 20, paddingBottom: 100 },
-  card: { flexDirection: 'row', backgroundColor: '#ffffff', borderRadius: 16, padding: 16, marginBottom: 16, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 8, elevation: 2, borderWidth: 1, borderColor: '#f1f5f9' },
-  timeContainer: { borderRightWidth: 1, borderRightColor: '#e2e8f0', paddingRight: 16, marginRight: 16, justifyContent: 'center', alignItems: 'center', minWidth: 70 },
-  timeText: { fontWeight: 'bold', color: '#1d8d28' },
-  timeSubtext: { color: '#64748b', marginTop: 4 },
-  infoContainer: { flex: 1, justifyContent: 'center' },
-  courseName: { fontWeight: 'bold', color: '#0f172b', marginBottom: 4 },
-  courseCode: { color: '#475569', marginBottom: 8 },
-  location: { color: '#334155', fontWeight: '500', marginBottom: 4 },
-  docente: { color: '#64748b' },
-  emptyText: { textAlign: 'center', color: '#64748b', marginTop: 40 },
-  emptyGlobalContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 30, paddingBottom: 60 },
-  emptyGlobalTitle: { fontWeight: 'bold', color: '#0f172b', marginBottom: 12, textAlign: 'center' },
-  emptyGlobalDesc: { color: '#64748b', textAlign: 'center', marginBottom: 30, lineHeight: 22 },
-  uploadButton: { backgroundColor: '#1d8d28', paddingVertical: 14, paddingHorizontal: 24, borderRadius: 12, elevation: 2, shadowColor: '#1d8d28', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 8 },
-  uploadButtonText: { color: '#ffffff', fontWeight: 'bold', textAlign: 'center' },
+  container: {
+    flex: 1,
+    backgroundColor: '#f8fafc',
+  },
+  header: {
+    paddingHorizontal: 20,
+    marginBottom: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  subtitle: {
+    color: '#62748e',
+    marginBottom: 4,
+  },
+  title: {
+    fontWeight: 'bold',
+    color: '#0f172b',
+  },
+  gradeButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#e8f5ea',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 20,
+    gap: 6,
+  },
+  gradeButtonText: {
+    color: '#1d8d28',
+    fontWeight: '600',
+  },
+  searchContainer: {
+    paddingHorizontal: 20,
+    marginBottom: 16,
+  },
+  searchBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#ffffff',
+    height: 56,
+    borderRadius: 16,
+    paddingHorizontal: 16,
+    gap: 12,
+    borderWidth: 0.8,
+    borderColor: '#e2e8f0',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 1.5,
+    elevation: 2,
+  },
+  searchInput: {
+    flex: 1,
+    color: '#0f172b',
+    height: '100%',
+  },
+  listContainer: {
+    paddingHorizontal: 20,
+    paddingBottom: 40,
+    gap: 16,
+  },
+  card: {
+    backgroundColor: '#ffffff',
+    borderRadius: 16,
+    padding: 20,
+    borderWidth: 0.8,
+    borderColor: '#e2e8f0',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 1.5,
+    elevation: 2,
+  },
+  cardHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginBottom: 16,
+  },
+  iconContainer: {
+    width: 48,
+    height: 48,
+    backgroundColor: '#e8f5ea',
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  cardTitleContainer: {
+    flex: 1,
+  },
+  cardTitle: {
+    fontWeight: '600',
+    color: '#0f172b',
+    marginBottom: 2,
+  },
+  cardSubtitle: {
+    color: '#62748e',
+    fontWeight: '500',
+  },
+  cardInfoRow: {
+    gap: 8,
+    marginBottom: 16,
+  },
+  infoItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  infoText: {
+    color: '#314158',
+    fontWeight: '500',
+  },
+  cardFooter: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingTop: 12,
+    borderTopWidth: 1,
+    borderTopColor: '#f1f5f9',
+  },
+  footerLabel: {
+    color: '#45556c',
+    fontWeight: '500',
+  },
+  footerValue: {
+    color: '#1d8d28',
+    fontWeight: 'bold',
+    flex: 1,
+    textAlign: 'right',
+    marginLeft: 12,
+  },
+  emptyText: {
+    textAlign: 'center',
+    color: '#64748b',
+    marginTop: 40,
+  },
 });

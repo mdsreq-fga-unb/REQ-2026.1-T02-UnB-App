@@ -140,6 +140,16 @@ export type AulaCard = {
   hora_fim: string;
 };
 
+export type DisciplinaInfo = {
+  id_turma: number;
+  codigo_disciplina: string;
+  nome_disciplina: string;
+  codigo_turma: string;
+  local: string;
+  docente_nome: string;
+  horarios_formatados: string; 
+};
+
 export async function buscarGradePorDia(db: SQLiteDatabase, diaSemana: number): Promise<AulaCard[]> {
   const rows = await db.getAllAsync<AulaCard>(
     `
@@ -203,4 +213,82 @@ export async function buscarGradePorDia(db: SQLiteDatabase, diaSemana: number): 
   };
 
   return agruparAulas(rows);
+}
+
+export async function buscarTodasDisciplinas(db: SQLiteDatabase): Promise<DisciplinaInfo[]> {
+  const turmas = await db.getAllAsync<{
+    id_turma: number;
+    codigo_disciplina: string;
+    nome_disciplina: string;
+    codigo_turma: string;
+    docente_nome: string;
+  }>(
+    `
+    SELECT 
+      t.id_turma,
+      t.codigo_disciplina,
+      d.nome_disciplina,
+      t.numero_turma as codigo_turma,
+      GROUP_CONCAT(DISTINCT doc.nome_docente) as docente_nome
+    FROM Turma t
+    INNER JOIN Disciplina d ON t.codigo_disciplina = d.codigo_disciplina
+    INNER JOIN Turma_Aluno ta ON t.id_turma = ta.id_turma
+    LEFT JOIN Turma_Docente td ON t.id_turma = td.id_turma
+    LEFT JOIN Docente doc ON td.id_docente = doc.id_docente
+    WHERE ta.matricula_aluno = ? AND t.ano = ? AND t.periodo = ?
+    GROUP BY t.id_turma
+    ORDER BY d.nome_disciplina ASC
+    `,
+    [MATRICULA_MOCK, ANO_MOCK, PERIODO_MOCK]
+  );
+
+  const diasMap: Record<number, string> = {
+    2: 'Seg', 3: 'Ter', 4: 'Qua', 5: 'Qui', 6: 'Sex', 7: 'Sáb'
+  };
+
+  const resultado: DisciplinaInfo[] = [];
+
+  for (const turma of turmas) {
+    const aulas = await db.getAllAsync<{
+      dia_semana: number;
+      local: string;
+      hora_inicio: string;
+      hora_fim: string;
+    }>(
+      'SELECT dia_semana, local, hora_inicio, hora_fim FROM Aula WHERE id_turma = ? ORDER BY dia_semana ASC, hora_inicio ASC',
+      [turma.id_turma]
+    );
+
+    let local = '';
+    if (aulas.length > 0) {
+      local = aulas[0].local; // Pega o local da primeira aula
+    }
+
+    // Agrupar horários iguais em dias diferentes (ex: Seg/Qua 14h-15h40)
+    const horariosAgrupados: Record<string, string[]> = {};
+    for (const aula of aulas) {
+      const key = `${aula.hora_inicio}–${aula.hora_fim}`;
+      if (!horariosAgrupados[key]) horariosAgrupados[key] = [];
+      const diaNome = diasMap[aula.dia_semana] || String(aula.dia_semana);
+      if (!horariosAgrupados[key].includes(diaNome)) {
+        horariosAgrupados[key].push(diaNome);
+      }
+    }
+
+    const horariosStrs = Object.entries(horariosAgrupados).map(([horario, dias]) => {
+      return `${dias.join('/')} · ${horario}`;
+    });
+
+    resultado.push({
+      id_turma: turma.id_turma,
+      codigo_disciplina: turma.codigo_disciplina,
+      nome_disciplina: turma.nome_disciplina,
+      codigo_turma: turma.codigo_turma,
+      local: local,
+      docente_nome: turma.docente_nome ? turma.docente_nome.replace(/,/g, ' / ') : 'A definir',
+      horarios_formatados: horariosStrs.join(', ') || 'Sem horário'
+    });
+  }
+
+  return resultado;
 }

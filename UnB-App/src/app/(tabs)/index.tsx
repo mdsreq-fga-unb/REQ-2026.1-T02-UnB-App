@@ -394,8 +394,9 @@ export default function Index() {
                 icon={{ ios: "clock.arrow.circlepath", android: "history", web: "history" }}
               />
               <FooterShortcut
-                title="Calendário"
+                title="Grade Horária"
                 icon={{ ios: "calendar", android: "calendar_today", web: "calendar_today" }}
+                onPress={() => router.push('/grade-modal')}
               />
             </View>
           </View>

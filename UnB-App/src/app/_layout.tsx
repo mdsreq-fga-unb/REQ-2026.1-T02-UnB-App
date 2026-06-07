@@ -26,6 +26,7 @@ export default function RootLayout() {
           <View style={styles.container}>
             <Stack>
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="grade-modal" options={{ presentation: 'modal', headerShown: false }} />
             </Stack>
             <AccessibilityButton />
           </View>
