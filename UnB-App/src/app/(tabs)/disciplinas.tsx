@@ -1,18 +1,16 @@
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, TextInput, Platform } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TextInput, Platform, Pressable } from 'react-native';
 import { useState, useCallback } from 'react';
 import { useSQLiteContext } from 'expo-sqlite';
 import { buscarTodasDisciplinas, type DisciplinaInfo } from '../../../database/queries/gradeQueries';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useFocusEffect, useRouter } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useFocusEffect, Link } from 'expo-router';
 import { useTextSize } from "@/contexts/TextSizeContext";
 import { SymbolView } from "expo-symbols";
 
 export default function DisciplinasScreen() {
   const db = useSQLiteContext();
-  const insets = useSafeAreaInsets();
   const { getFontSize } = useTextSize();
-  const router = useRouter();
-  
+
   const [disciplinas, setDisciplinas] = useState<DisciplinaInfo[]>([]);
   const [search, setSearch] = useState('');
 
@@ -31,7 +29,7 @@ export default function DisciplinasScreen() {
     }, [carregarDisciplinas])
   );
 
-  const filteredDisciplinas = disciplinas.filter(d => 
+  const filteredDisciplinas = disciplinas.filter(d =>
     d.nome_disciplina.toLowerCase().includes(search.toLowerCase()) ||
     d.codigo_disciplina.toLowerCase().includes(search.toLowerCase())
   );
@@ -40,82 +38,101 @@ export default function DisciplinasScreen() {
     <View style={styles.card}>
       <View style={styles.cardHeader}>
         <View style={styles.iconContainer}>
-          <SymbolView name="book.pages.fill" size={24} tintColor="#1d8d28" fallback={<Text style={{fontSize: 20}}>📖</Text>} />
+          <SymbolView name="book.pages.fill" size={24} tintColor="#1d8d28" fallback={<Text style={{ fontSize: 20 }}>📖</Text>} />
         </View>
         <View style={styles.cardTitleContainer}>
-          <Text style={[styles.cardTitle, { fontSize: getFontSize(18) }]} numberOfLines={1}>{item.nome_disciplina}</Text>
-          <Text style={[styles.cardSubtitle, { fontSize: getFontSize(14) }]}>{item.codigo_disciplina} · 2026.1</Text>
+          <Text style={[styles.cardTitle, { fontSize: getFontSize(18) }]} numberOfLines={1} selectable>{item.nome_disciplina}</Text>
+          <Text style={[styles.cardSubtitle, { fontSize: getFontSize(14) }]} selectable>{item.codigo_disciplina} · 2026.1</Text>
         </View>
-        <SymbolView name="chevron.right" size={20} tintColor="#90a1b9" fallback={<Text style={{fontSize: 16}}>›</Text>} />
+        <SymbolView name="chevron.right" size={20} tintColor="#90a1b9" fallback={<Text style={{ fontSize: 16 }}>›</Text>} />
       </View>
-      
+
       <View style={styles.cardInfoRow}>
         <View style={styles.infoItem}>
-          <SymbolView name="clock.fill" size={16} tintColor="#1d8d28" fallback={<Text style={{fontSize: 14}}>🕒</Text>} />
-          <Text style={[styles.infoText, { fontSize: getFontSize(15) }]}>{item.horarios_formatados}</Text>
+          <SymbolView name="clock.fill" size={16} tintColor="#1d8d28" fallback={<Text style={{ fontSize: 14 }}>🕒</Text>} />
+          <Text style={[styles.infoText, { fontSize: getFontSize(15) }]} selectable>{item.horarios_formatados}</Text>
         </View>
         {item.local ? (
           <View style={styles.infoItem}>
-            <SymbolView name="mappin.and.ellipse" size={16} tintColor="#1d8d28" fallback={<Text style={{fontSize: 14}}>📍</Text>} />
-            <Text style={[styles.infoText, { fontSize: getFontSize(15) }]}>{item.local}</Text>
+            <SymbolView name="mappin.and.ellipse" size={16} tintColor="#1d8d28" fallback={<Text style={{ fontSize: 14 }}>📍</Text>} />
+            <Text style={[styles.infoText, { fontSize: getFontSize(15) }]} selectable>{item.local}</Text>
           </View>
         ) : null}
       </View>
-      
+
       <View style={styles.cardFooter}>
         <Text style={[styles.footerLabel, { fontSize: getFontSize(14) }]}>Professor(es):</Text>
-        <Text style={[styles.footerValue, { fontSize: getFontSize(14) }]} numberOfLines={1}>{item.docente_nome}</Text>
+        <Text style={[styles.footerValue, { fontSize: getFontSize(14) }]} numberOfLines={1} selectable>{item.docente_nome}</Text>
       </View>
     </View>
   );
 
   return (
-    <View style={[styles.container, { paddingTop: Math.max(insets.top, 20) }]}>
-      <View style={styles.header}>
-        <View>
-          <Text style={[styles.subtitle, { fontSize: getFontSize(15) }]}>Semestre 2026.1</Text>
-          <Text style={[styles.title, { fontSize: getFontSize(28) }]}>Minhas Disciplinas</Text>
-        </View>
-        <TouchableOpacity style={styles.gradeButton} onPress={() => router.push('/grade-modal')}>
-          <SymbolView name="calendar" size={20} tintColor="#1d8d28" fallback={<Text style={{fontSize: 16}}>📅</Text>} />
-          <Text style={[styles.gradeButtonText, { fontSize: getFontSize(14) }]}>Grade</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.searchContainer}>
-        <View style={styles.searchBar}>
-          <SymbolView name="magnifyingglass" size={20} tintColor="#90a1b9" fallback={<Text style={{fontSize: 16}}>🔍</Text>} />
-          <TextInput
-            style={[styles.searchInput, { fontSize: getFontSize(16) }]}
-            placeholder="Buscar disciplina..."
-            placeholderTextColor="#90a1b9"
-            value={search}
-            onChangeText={setSearch}
-          />
-        </View>
-      </View>
-
+    <SafeAreaView style={styles.safeArea}>
       <FlatList
         data={filteredDisciplinas}
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerStyle={styles.listContainer}
         keyExtractor={(item) => item.id_turma.toString()}
         renderItem={renderCard}
-        contentContainerStyle={styles.listContainer}
+        ListHeaderComponent={
+          <>
+            <View style={[styles.header, { paddingRight: 70 }]}>
+              <View>
+                <Text style={[styles.subtitle, { fontSize: getFontSize(15) }]}>Semestre 2026.1</Text>
+                <Text style={[styles.title, { fontSize: getFontSize(28) }]}>Minhas Disciplinas</Text>
+              </View>
+            </View>
+
+            <View style={styles.searchContainer}>
+              <View style={styles.searchBar}>
+                <SymbolView name="magnifyingglass" size={20} tintColor="#90a1b9" fallback={<Text style={{ fontSize: 16 }}>🔍</Text>} />
+                <TextInput
+                  style={[styles.searchInput, { fontSize: getFontSize(16) }]}
+                  placeholder="Buscar disciplina..."
+                  placeholderTextColor="#90a1b9"
+                  value={search}
+                  onChangeText={setSearch}
+                />
+              </View>
+            </View>
+
+            <View style={{ paddingBottom: 16 }}>
+              <Link href="/grade-modal" asChild>
+                <Pressable>
+                  {({ pressed }) => (
+                    <View style={[styles.gradeCard, pressed && { opacity: 0.72 }]}>
+                      <View style={styles.gradeIconContainer}>
+                        <SymbolView name="calendar" size={24} tintColor="#1d8d28" fallback={<Text style={{ fontSize: 20 }}>📅</Text>} />
+                      </View>
+                      <View style={styles.gradeTextContainer}>
+                        <Text style={[styles.gradeTitle, { fontSize: getFontSize(17) }]}>Grade Horária</Text>
+                        <Text style={[styles.gradeSubtitle, { fontSize: getFontSize(14) }]}>Visualizar sua semana</Text>
+                      </View>
+                      <SymbolView name="chevron.right" size={20} tintColor="#1d8d28" fallback={<Text style={{ fontSize: 16, color: '#1d8d28' }}>›</Text>} />
+                    </View>
+                  )}
+                </Pressable>
+              </Link>
+            </View>
+          </>
+        }
         ListEmptyComponent={
           <Text style={[styles.emptyText, { fontSize: getFontSize(16) }]}>Nenhuma disciplina encontrada.</Text>
         }
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
     backgroundColor: '#f8fafc',
   },
   header: {
-    paddingHorizontal: 20,
-    marginBottom: 16,
+    paddingTop: 40,
+    marginBottom: 24,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -128,21 +145,40 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#0f172b',
   },
-  gradeButton: {
+  gradeCard: {
+    backgroundColor: "#f0fdf4",
+    borderRadius: 16,
+    borderCurve: 'continuous',
+    padding: 20,
+    borderWidth: 0.8,
+    borderColor: "#a4f4cf",
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#e8f5ea',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 20,
-    gap: 6,
+    gap: 12,
+    boxShadow: "0 1px 2px rgba(0, 0, 0, 0.05)",
   },
-  gradeButtonText: {
-    color: '#1d8d28',
-    fontWeight: '600',
+  gradeIconContainer: {
+    width: 48,
+    height: 48,
+    backgroundColor: "#ffffff",
+    borderRadius: 14,
+    borderCurve: 'continuous',
+    alignItems: "center",
+    justifyContent: "center",
+    boxShadow: "0 1px 2px rgba(0, 0, 0, 0.05)",
+  },
+  gradeTextContainer: {
+    flex: 1,
+    gap: 2,
+  },
+  gradeTitle: {
+    fontWeight: "600",
+    color: "#0f172b",
+  },
+  gradeSubtitle: {
+    color: "#314158",
   },
   searchContainer: {
-    paddingHorizontal: 20,
     marginBottom: 16,
   },
   searchBar: {
@@ -151,15 +187,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     height: 56,
     borderRadius: 16,
+    borderCurve: 'continuous',
     paddingHorizontal: 16,
     gap: 12,
     borderWidth: 0.8,
     borderColor: '#e2e8f0',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 1.5,
-    elevation: 2,
+    boxShadow: "0 1px 2px rgba(0, 0, 0, 0.05)",
   },
   searchInput: {
     flex: 1,
@@ -168,20 +201,17 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     paddingHorizontal: 20,
-    paddingBottom: 40,
+    paddingBottom: 120,
     gap: 16,
   },
   card: {
     backgroundColor: '#ffffff',
     borderRadius: 16,
+    borderCurve: 'continuous',
     padding: 20,
     borderWidth: 0.8,
     borderColor: '#e2e8f0',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 1.5,
-    elevation: 2,
+    boxShadow: "0 1px 2px rgba(0, 0, 0, 0.05)",
   },
   cardHeader: {
     flexDirection: 'row',
@@ -194,6 +224,7 @@ const styles = StyleSheet.create({
     height: 48,
     backgroundColor: '#e8f5ea',
     borderRadius: 14,
+    borderCurve: 'continuous',
     alignItems: 'center',
     justifyContent: 'center',
   },
