@@ -14,7 +14,7 @@ export async function initializeDatabase(db: SQLiteDatabase) {
       DROP TABLE IF EXISTS Disciplina;
       DROP TABLE IF EXISTS Periodo_Letivo;
       DROP TABLE IF EXISTS Aluno;
-      DROP TABLE IF EXISTS Documento;
+      DROP TABLE IF EXISTS documents;
       PRAGMA foreign_keys = ON;
       PRAGMA journal_mode = WAL;
 
@@ -91,14 +91,17 @@ export async function initializeDatabase(db: SQLiteDatabase) {
       );
 
       -- 9. Tabela do Módulo de Documentos
-      CREATE TABLE IF NOT EXISTS Documento (
-          id_documento INTEGER PRIMARY KEY AUTOINCREMENT,
-          matricula_aluno TEXT NOT NULL,
-          tipo TEXT NOT NULL,
-          uri_arquivo TEXT NOT NULL,
-          data_atualizacao TEXT NOT NULL,
-          
-          FOREIGN KEY (matricula_aluno) REFERENCES Aluno (matricula) ON DELETE CASCADE
+      CREATE TABLE IF NOT EXISTS documents (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          title TEXT NOT NULL,
+          description TEXT NOT NULL,
+          meta TEXT,
+          color TEXT NOT NULL,
+          symbolName TEXT NOT NULL,
+          uri TEXT,
+          fileName TEXT,
+          mimeType TEXT,
+          size INTEGER
       );
     `);
 

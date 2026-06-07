@@ -9,47 +9,83 @@ import * as Sharing from 'expo-sharing';
 import * as IntentLauncher from 'expo-intent-launcher';
 import { useTextSize } from '@/contexts/TextSizeContext';
 
-const MATRICULA_MOCK = '240000000';
+// Mapeamento: SF Symbol (iOS) → Material Symbol (Android / Web)
+type CrossPlatformSymbol = {
+  ios: SFSymbol;
+  android: string;
+  web: string;
+};
 
-interface UI_Document {
-  id_documento: number | null;
+const SYMBOL_MAP: Record<string, CrossPlatformSymbol> = {
+  // Ícones de interface
+  'folder.fill':                { ios: 'folder.fill',                android: 'folder',          web: 'folder' },
+  'chevron.down':               { ios: 'chevron.down',               android: 'expand_more',     web: 'expand_more' },
+  'chevron.right':              { ios: 'chevron.right',              android: 'chevron_right',   web: 'chevron_right' },
+  'square.and.arrow.up.fill':   { ios: 'square.and.arrow.up.fill',   android: 'share',           web: 'share' },
+  'magnifyingglass':            { ios: 'magnifyingglass',            android: 'search',          web: 'search' },
+  'eye.fill':                   { ios: 'eye.fill',                   android: 'visibility',      web: 'visibility' },
+  'trash.fill':                 { ios: 'trash.fill',                 android: 'delete',          web: 'delete' },
+  'arrow.down.doc.fill':        { ios: 'arrow.down.doc.fill',        android: 'download',        web: 'download' },
+  // Ícones dos documentos (DEFAULT_DOCS)
+  'doc.text.fill':              { ios: 'doc.text.fill',              android: 'description',     web: 'description' },
+  'chart.bar.doc.horizontal':   { ios: 'chart.bar.doc.horizontal',   android: 'analytics',       web: 'analytics' },
+  'books.vertical.fill':        { ios: 'books.vertical.fill',        android: 'menu_book',       web: 'menu_book' },
+  'person.text.rectangle.fill': { ios: 'person.text.rectangle.fill', android: 'contact_page',    web: 'contact_page' },
+  'bus.fill':                   { ios: 'bus.fill',                   android: 'directions_bus',  web: 'directions_bus' },
+};
+
+// Helper para obter o objeto cross-platform a partir de um nome de símbolo
+function sym(name: string) {
+  return (SYMBOL_MAP[name] ?? {}) as any;
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
+interface DocumentRecord {
+  id: number;
   title: string;
   description: string;
   meta: string;
   color: string;
   symbolName: string;
-  uri: string;
-  size: number;
+  uri: string; // empty string means not downloaded
+  fileName: string | null;
+  mimeType: string | null;
+  size: number | null;
 }
 
 const DEFAULT_DOCS = [
   {
     title: "Boletim de Notas",
     description: "Notas das disciplinas do semestre 2026.1",
+    meta: "",
     color: "#1d8d28",
     symbolName: "doc.text.fill"
   },
   {
     title: "Índice Acadêmico",
     description: "IRA, IECH e CR consolidados",
+    meta: "",
     color: "#0e7490",
     symbolName: "chart.bar.doc.horizontal"
   },
   {
     title: "Histórico Escolar",
     description: "Todas as disciplinas cursadas",
+    meta: "",
     color: "#7c3aed",
     symbolName: "books.vertical.fill"
   },
   {
     title: "Atestado de Matrícula",
     description: "Comprovante oficial de vínculo com a UnB",
+    meta: "",
     color: "#b45309",
     symbolName: "person.text.rectangle.fill"
   },
   {
     title: "Passe Livre Estudantil",
     description: "Solicitação de gratuidade no transporte",
+    meta: "",
     color: "#be185d",
     symbolName: "bus.fill"
   }
@@ -58,59 +94,60 @@ const DEFAULT_DOCS = [
 export default function Documentos() {
   const db = useSQLiteContext();
   const { getFontSize } = useTextSize();
-  const [documents, setDocuments] = useState<UI_Document[]>([]);
+  const [documents, setDocuments] = useState<DocumentRecord[]>([]);
   const [search, setSearch] = useState("");
   const [totalSize, setTotalSize] = useState(0);
   const [showSavedDocuments, setShowSavedDocuments] = useState(false);
 
-  const loadDocuments = useCallback(async () => {
-    try {
-      // Busca os documentos que estão salvos no SQLite
-      const result = await db.getAllAsync<{ id_documento: number, tipo: string, uri_arquivo: string, data_atualizacao: string }>(
-        'SELECT * FROM Documento WHERE matricula_aluno = ?', 
-        [MATRICULA_MOCK]
+  const syncDefaultDocuments = useCallback(async () => {
+    const existing = await db.getAllAsync<DocumentRecord>('SELECT * FROM documents');
+    const existingByTitle = new Map(existing.map((doc) => [doc.title, doc]));
+    const defaultTitles = new Set(DEFAULT_DOCS.map((doc) => doc.title));
+
+    for (const staleDoc of existing.filter((doc) => !defaultTitles.has(doc.title))) {
+      await db.runAsync('DELETE FROM documents WHERE id = ?', [staleDoc.id]);
+    }
+
+    for (const doc of DEFAULT_DOCS) {
+      const savedDoc = existingByTitle.get(doc.title);
+
+      if (!savedDoc) {
+        await db.runAsync(
+          'INSERT INTO documents (title, description, meta, color, symbolName, uri) VALUES (?, ?, ?, ?, ?, ?)',
+          [doc.title, doc.description, doc.meta, doc.color, doc.symbolName, ""]
+        );
+        continue;
+      }
+
+      await db.runAsync(
+        `UPDATE documents
+         SET description = ?,
+             color = ?,
+             symbolName = ?,
+             meta = CASE WHEN uri = '' THEN ? ELSE meta END
+         WHERE id = ?`,
+        [doc.description, doc.color, doc.symbolName, doc.meta, savedDoc.id]
       );
-
-      let sizeAccumulator = 0;
-
-      // Mescla o estado da UI com o estado do Banco + FileSystem (Arquitetura Híbrida)
-      const merged: UI_Document[] = await Promise.all(DEFAULT_DOCS.map(async (defDoc) => {
-        const saved = result.find(r => r.tipo === defDoc.title);
-        let fileSize = 0;
-        
-        if (saved && saved.uri_arquivo) {
-          try {
-            const info = await FileSystem.getInfoAsync(saved.uri_arquivo);
-            if (info.exists) fileSize = info.size;
-          } catch (e) {}
-        }
-
-        sizeAccumulator += fileSize;
-
-        return {
-          id_documento: saved ? saved.id_documento : null,
-          title: defDoc.title,
-          description: defDoc.description,
-          meta: saved ? `Salvo em ${new Date(saved.data_atualizacao).toLocaleDateString('pt-BR')}` : "",
-          color: defDoc.color,
-          symbolName: defDoc.symbolName,
-          uri: saved ? saved.uri_arquivo : "",
-          size: fileSize
-        };
-      }));
-
-      setDocuments(merged);
-      setTotalSize(sizeAccumulator);
-    } catch (error) {
-      console.error('Erro ao carregar documentos híbridos', error);
     }
   }, [db]);
+
+  const loadDocuments = useCallback(async () => {
+    try {
+      await syncDefaultDocuments();
+      const result = await db.getAllAsync<DocumentRecord>('SELECT * FROM documents ORDER BY id ASC');
+      setDocuments(result);
+      const size = result.reduce((acc, curr) => acc + (curr.size || 0), 0);
+      setTotalSize(size);
+    } catch (error) {
+      console.error('Erro ao carregar documentos', error);
+    }
+  }, [db, syncDefaultDocuments]);
 
   useEffect(() => {
     loadDocuments();
   }, [loadDocuments]);
 
-  const handleBaixar = async (doc: UI_Document) => {
+  const handleBaixar = async (doc: DocumentRecord) => {
     if (doc.uri && doc.uri !== "") {
       Alert.alert('Aviso', 'O documento já foi baixado. Toque em "Ver" para acessá-lo.');
       return;
@@ -123,7 +160,7 @@ export default function Documentos() {
 
       if (!result.canceled && result.assets && result.assets.length > 0) {
         const asset = result.assets[0];
-        const fileName = `${doc.title.replace(/\\s/g, '_')}_${asset.name || 'documento.pdf'}`;
+        const fileName = `${doc.id}_${asset.name || 'documento.pdf'}`;
         const newUri = FileSystem.documentDirectory + fileName;
         
         await FileSystem.copyAsync({
@@ -131,10 +168,16 @@ export default function Documentos() {
           to: newUri
         });
 
-        // Insere no banco
+        const extension = asset.name?.split('.').pop()?.toUpperCase() || 'ARQUIVO';
+        const newMeta = `Baixado em ${new Date().toLocaleDateString('pt-BR')} · ${extension}`;
+        
+        const bindName = asset.name ?? 'documento.pdf';
+        const bindMimeType = asset.mimeType ?? null;
+        const bindSize = asset.size ?? null;
+
         await db.runAsync(
-          'INSERT INTO Documento (matricula_aluno, tipo, uri_arquivo, data_atualizacao) VALUES (?, ?, ?, ?)',
-          [MATRICULA_MOCK, doc.title, newUri, new Date().toISOString()]
+          'UPDATE documents SET uri = ?, fileName = ?, mimeType = ?, size = ?, meta = ? WHERE id = ?',
+          [newUri, bindName, bindMimeType, bindSize, newMeta, doc.id]
         );
 
         loadDocuments();
@@ -145,19 +188,27 @@ export default function Documentos() {
     }
   };
 
-  const handleVer = async (doc: UI_Document) => {
-    if (!doc.uri || doc.uri === "") return;
+  const handleVer = async (doc: DocumentRecord) => {
+    if (!doc.uri || doc.uri === "") {
+      Alert.alert('Aviso', 'Este documento ainda não foi baixado.');
+      return;
+    }
+    
     try {
       if (Platform.OS === 'android') {
         const contentUri = await FileSystem.getContentUriAsync(doc.uri);
         await IntentLauncher.startActivityAsync('android.intent.action.VIEW', {
           data: contentUri,
-          flags: 1,
-          type: 'application/pdf'
+          flags: 1, // FLAG_GRANT_READ_URI_PERMISSION
+          type: doc.mimeType || 'application/pdf'
         });
       } else {
         const isAvailable = await Sharing.isAvailableAsync();
-        if (isAvailable) await Sharing.shareAsync(doc.uri);
+        if (isAvailable) {
+          await Sharing.shareAsync(doc.uri);
+        } else {
+          Alert.alert('Acesso', 'Não é possível abrir o arquivo neste dispositivo.');
+        }
       }
     } catch (error) {
       console.error(error);
@@ -165,22 +216,32 @@ export default function Documentos() {
     }
   };
 
-  const handleCompartilhar = async (doc: UI_Document) => {
-    if (!doc.uri || doc.uri === "") return;
+  const handleCompartilhar = async (doc: DocumentRecord) => {
+    if (!doc.uri || doc.uri === "") {
+      Alert.alert('Aviso', 'Este documento ainda não foi baixado.');
+      return;
+    }
+
     try {
       const isAvailable = await Sharing.isAvailableAsync();
+
       if (!isAvailable) {
         Alert.alert('Compartilhar', 'Não é possível compartilhar arquivos neste dispositivo.');
         return;
       }
-      await Sharing.shareAsync(doc.uri, { dialogTitle: doc.title });
+
+      await Sharing.shareAsync(doc.uri, {
+        mimeType: doc.mimeType || undefined,
+        dialogTitle: doc.title,
+        UTI: doc.mimeType || undefined,
+      });
     } catch (error) {
       console.error(error);
       Alert.alert('Erro', 'Não foi possível compartilhar o arquivo.');
     }
   };
 
-  const handleRemover = async (doc: UI_Document) => {
+  const handleRemover = async (doc: DocumentRecord) => {
     try {
       if (doc.uri && doc.uri !== "") {
         const fileInfo = await FileSystem.getInfoAsync(doc.uri);
@@ -189,12 +250,10 @@ export default function Documentos() {
         }
       }
 
-      if (doc.id_documento) {
-        await db.runAsync(
-          'DELETE FROM Documento WHERE id_documento = ?',
-          [doc.id_documento]
-        );
-      }
+      await db.runAsync(
+        'UPDATE documents SET uri = ?, fileName = ?, mimeType = ?, size = ?, meta = ? WHERE id = ?',
+        ["", null, null, null, "", doc.id]
+      );
 
       loadDocuments();
     } catch (error) {
@@ -238,22 +297,24 @@ export default function Documentos() {
           >
             <View style={styles.storageRow}>
               <View style={styles.storageIconContainer}>
-                {Platform.OS === 'ios' ? (
-                  <SymbolView name="folder.fill" size={24} tintColor="#1d8d28" />
-                ) : (
-                  <Text style={{ fontSize: 20 }}>📁</Text>
-                )}
+                {/* CORRIGIDO: objeto com ios + android em vez de ternário com emoji */}
+                <SymbolView
+                  name={sym('folder.fill')}
+                  size={24}
+                  tintColor="#1d8d28"
+                />
               </View>
               <View style={styles.storageTextContainer}>
                 <Text style={[styles.storageTitle, { fontSize: getFontSize(17) }]}>Meus Documentos</Text>
                 <Text style={[styles.storageSubtitle, { fontSize: getFontSize(14) }]}>{savedDocuments.length} {savedDocumentsLabel} · {formatSize(totalSize)} de 5 MB</Text>
               </View>
               <View style={styles.chevronIcon}>
-                {Platform.OS === 'ios' ? (
-                  <SymbolView name={showSavedDocuments ? "chevron.down" : "chevron.right"} size={20} tintColor="#314158" />
-                ) : (
-                  <Text style={{ fontSize: 20 }}>{showSavedDocuments ? "⌄" : "›"}</Text>
-                )}
+                {/* CORRIGIDO: chevron condicional com Material Symbol no Android */}
+                <SymbolView
+                  name={sym(showSavedDocuments ? 'chevron.down' : 'chevron.right')}
+                  size={20}
+                  tintColor="#314158"
+                />
               </View>
             </View>
             <View style={styles.progressBarContainer}>
@@ -265,13 +326,13 @@ export default function Documentos() {
             <View style={styles.savedDocumentsPanel}>
               {savedDocuments.length > 0 ? (
                 savedDocuments.map((doc) => (
-                  <View key={doc.id_documento} style={styles.savedDocumentRow}>
+                  <View key={doc.id} style={styles.savedDocumentRow}>
                     <View style={styles.savedDocumentInfo}>
                       <Text style={[styles.savedDocumentTitle, { fontSize: getFontSize(15) }]} numberOfLines={1}>
                         {doc.title}
                       </Text>
                       <Text style={[styles.savedDocumentMeta, { fontSize: getFontSize(13) }]} numberOfLines={1}>
-                        {doc.meta} · {formatSize(doc.size || 0)}
+                        {doc.fileName || doc.meta || "Arquivo salvo"} · {formatSize(doc.size || 0)}
                       </Text>
                     </View>
                     <TouchableOpacity
@@ -281,11 +342,12 @@ export default function Documentos() {
                       accessibilityLabel={`Compartilhar ${doc.title}`}
                       onPress={() => handleCompartilhar(doc)}
                     >
-                      {Platform.OS === 'ios' ? (
-                        <SymbolView name="square.and.arrow.up.fill" size={16} tintColor="#ffffff" />
-                      ) : (
-                        <Text style={{ fontSize: 14, color: "#ffffff" }}>↗</Text>
-                      )}
+                      {/* CORRIGIDO: share icon com Material Symbol no Android */}
+                      <SymbolView
+                        name={sym('square.and.arrow.up.fill')}
+                        size={16}
+                        tintColor="#ffffff"
+                      />
                       <Text style={[styles.shareButtonText, { fontSize: getFontSize(13) }]}>Compartilhar</Text>
                     </TouchableOpacity>
                   </View>
@@ -300,11 +362,12 @@ export default function Documentos() {
 
           {/* SearchBar */}
           <View style={styles.searchBar}>
-            {Platform.OS === 'ios' ? (
-              <SymbolView name="magnifyingglass" size={20} tintColor="#90a1b9" />
-            ) : (
-              <Text style={{ fontSize: 16 }}>🔍</Text>
-            )}
+            {/* CORRIGIDO: lupa com Material Symbol no Android */}
+            <SymbolView
+              name={sym('magnifyingglass')}
+              size={20}
+              tintColor="#90a1b9"
+            />
             <TextInput
               style={[styles.searchInput, { fontSize: getFontSize(16) }]}
               placeholder="Buscar documento..."
@@ -318,12 +381,12 @@ export default function Documentos() {
           <View style={styles.docsList}>
             {filteredDocs.map(doc => (
               <DocCard 
-                key={doc.title}
+                key={doc.id}
                 title={doc.title}
                 description={doc.description}
                 meta={doc.meta}
                 color={doc.color}
-                symbolName={doc.symbolName as any}
+                symbolName={doc.symbolName}
                 hasFile={!!doc.uri && doc.uri !== ""}
                 onBaixar={() => handleBaixar(doc)}
                 onVer={() => handleVer(doc)}
@@ -343,7 +406,7 @@ function DocCard({ title, description, meta, color, symbolName, hasFile = false,
   description: string;
   meta: string;
   color: string;
-  symbolName: SFSymbol;
+  symbolName: string; // era SFSymbol — agora string, pois vem do banco
   hasFile?: boolean;
   onBaixar: () => void;
   onVer: () => void;
@@ -355,12 +418,14 @@ function DocCard({ title, description, meta, color, symbolName, hasFile = false,
   return (
     <View style={styles.docCard}>
       <View style={styles.docRow}>
-        <View style={[styles.docIconContainer, { backgroundColor: `${color}1A` }]}>
-          {Platform.OS === 'ios' ? (
-            <SymbolView name={symbolName} size={24} tintColor={color} />
-          ) : (
-            <Text style={{ fontSize: 20 }}>📄</Text>
-          )}
+        <View style={[styles.docIconContainer, { backgroundColor: `${color}1A` /* ~10% opacity */ }]}>
+          {/* CORRIGIDO: ícone do documento com fallback para símbolo desconhecido */}
+          <SymbolView
+            name={sym(symbolName)}
+            size={24}
+            tintColor={color}
+            fallback={<Text style={{ fontSize: 20 }}>📄</Text>}
+          />
         </View>
         <View style={styles.docTextContainer}>
           <Text style={[styles.docTitle, { fontSize: getFontSize(18) }]}>{title}</Text>
@@ -376,11 +441,8 @@ function DocCard({ title, description, meta, color, symbolName, hasFile = false,
           activeOpacity={!hasFile ? 1 : 0.7}
           onPress={!hasFile ? undefined : onVer}
         >
-          {Platform.OS === 'ios' ? (
-            <SymbolView name="eye.fill" size={16} tintColor={btnColor} />
-          ) : (
-            <Text style={{ fontSize: 14 }}>👁</Text>
-          )}
+          {/* CORRIGIDO: olho com Material Symbol no Android */}
+          <SymbolView name={sym('eye.fill')} size={16} tintColor={btnColor} />
           <Text style={[styles.actionBtnOutlineText, { color: btnColor, fontSize: getFontSize(15) }]}>Ver</Text>
         </TouchableOpacity>
         
@@ -390,11 +452,8 @@ function DocCard({ title, description, meta, color, symbolName, hasFile = false,
             activeOpacity={0.7}
             onPress={onRemover}
           >
-            {Platform.OS === 'ios' ? (
-              <SymbolView name="trash.fill" size={16} tintColor="#fff" />
-            ) : (
-              <Text style={{ fontSize: 14 }}>🗑</Text>
-            )}
+            {/* CORRIGIDO: lixeira com Material Symbol no Android */}
+            <SymbolView name={sym('trash.fill')} size={16} tintColor="#fff" />
             <Text style={[styles.actionBtnSolidText, { fontSize: getFontSize(15) }]}>Remover</Text>
           </TouchableOpacity>
         ) : (
@@ -403,11 +462,8 @@ function DocCard({ title, description, meta, color, symbolName, hasFile = false,
             activeOpacity={0.7}
             onPress={onBaixar}
           >
-            {Platform.OS === 'ios' ? (
-              <SymbolView name="arrow.down.doc.fill" size={16} tintColor="#fff" />
-            ) : (
-              <Text style={{ fontSize: 14 }}>⬇</Text>
-            )}
+            {/* CORRIGIDO: download com Material Symbol no Android */}
+            <SymbolView name={sym('arrow.down.doc.fill')} size={16} tintColor="#fff" />
             <Text style={[styles.actionBtnSolidText, { fontSize: getFontSize(15) }]}>Baixar</Text>
           </TouchableOpacity>
         )}
@@ -427,7 +483,7 @@ const styles = StyleSheet.create({
   header: {
     paddingTop: 40,
     paddingHorizontal: 20,
-    paddingRight: 80, 
+    paddingRight: 80, // espaço para o botão flutuante Aa
     marginBottom: 24,
   },
   subtitle: {
