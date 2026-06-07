@@ -4,6 +4,10 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SQLiteProvider, type SQLiteDatabase } from 'expo-sqlite';
 import { useState } from "react";
 import { TextSizeProvider, useTextSize } from "@/contexts/TextSizeContext";
+import CustomSplashScreen from "@/components/SplashScreen";
+import * as SplashScreenNative from 'expo-splash-screen';
+
+SplashScreenNative.preventAutoHideAsync();
 
 import { initializeDatabase } from "../../database/dbinit";
 
@@ -13,17 +17,24 @@ const TEXT_SIZE_DIALOG_WIDTH = 302;
 const TEXT_SIZE_DIALOG_TOP_OFFSET = ACCESSIBILITY_BUTTON_SIZE + 8;
 
 export default function RootLayout() {
+  const [isSplashVisible, setIsSplashVisible] = useState(true);
+
   return (
-    <SQLiteProvider databaseName="documents.db" onInit={initializeDatabase}>
-      <TextSizeProvider>
-        <View style={styles.container}>
-          <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          </Stack>
-          <AccessibilityButton />
-        </View>
-      </TextSizeProvider>
-    </SQLiteProvider>
+    <>
+      <SQLiteProvider databaseName="documents.db" onInit={initializeDatabase}>
+        <TextSizeProvider>
+          <View style={styles.container}>
+            <Stack>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            </Stack>
+            <AccessibilityButton />
+          </View>
+        </TextSizeProvider>
+      </SQLiteProvider>
+      {isSplashVisible && (
+        <CustomSplashScreen onFinish={() => setIsSplashVisible(false)} />
+      )}
+    </>
   );
 }
 
