@@ -103,6 +103,7 @@ export async function initializeDatabase(db: SQLiteDatabase) {
     `);
 
 
+
     await popularGradeHorariaMock(db);
 
   } catch (error) {

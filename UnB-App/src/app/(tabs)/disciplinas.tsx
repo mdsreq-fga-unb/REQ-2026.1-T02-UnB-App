@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { useState, useCallback } from 'react';
 import { useSQLiteContext } from 'expo-sqlite';
-import { buscarGradePorDia, type AulaCard } from '../../../database/queries/gradeQueries';
+import { buscarGradePorDia, temGradeCadastrada, type AulaCard } from '../../../database/queries/gradeQueries';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useFocusEffect } from 'expo-router';
 import { useTextSize } from "@/contexts/TextSizeContext";
@@ -27,11 +27,18 @@ export default function DisciplinasScreen() {
   });
   
   const [aulas, setAulas] = useState<AulaCard[]>([]);
+  const [hasGrade, setHasGrade] = useState<boolean | null>(null);
 
   const carregarAulas = useCallback(async () => {
     try {
-      const data = await buscarGradePorDia(db, diaSelecionado);
-      setAulas(data);
+      const gradeExiste = await temGradeCadastrada(db);
+      setHasGrade(gradeExiste);
+      if (gradeExiste) {
+        const data = await buscarGradePorDia(db, diaSelecionado);
+        setAulas(data);
+      } else {
+        setAulas([]);
+      }
     } catch (error) {
       console.error('Erro ao buscar grade:', error);
     }
@@ -57,6 +64,23 @@ export default function DisciplinasScreen() {
       </View>
     </View>
   );
+
+  if (hasGrade === false) {
+    return (
+      <View style={[styles.container, { paddingTop: Math.max(insets.top, 20) }]}>
+        <Text style={[styles.title, { fontSize: getFontSize(24) }]}>Grade Horária</Text>
+        <View style={styles.emptyGlobalContainer}>
+          <Text style={[styles.emptyGlobalTitle, { fontSize: getFontSize(18) }]}>Nenhuma disciplina encontrada</Text>
+          <Text style={[styles.emptyGlobalDesc, { fontSize: getFontSize(14) }]}>
+            Para carregar sua grade, por favor faça o upload da declaração ou histórico escolar. Se você não tiver disciplinas no semestre, tudo bem também.
+          </Text>
+          <TouchableOpacity style={styles.uploadButton}>
+            <Text style={[styles.uploadButtonText, { fontSize: getFontSize(15) }]}>Upload: NOMEAR DOCUMENTO</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
 
   return (
     <View style={[styles.container, { paddingTop: Math.max(insets.top, 20) }]}>
@@ -115,4 +139,9 @@ const styles = StyleSheet.create({
   location: { color: '#334155', fontWeight: '500', marginBottom: 4 },
   docente: { color: '#64748b' },
   emptyText: { textAlign: 'center', color: '#64748b', marginTop: 40 },
+  emptyGlobalContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 30, paddingBottom: 60 },
+  emptyGlobalTitle: { fontWeight: 'bold', color: '#0f172b', marginBottom: 12, textAlign: 'center' },
+  emptyGlobalDesc: { color: '#64748b', textAlign: 'center', marginBottom: 30, lineHeight: 22 },
+  uploadButton: { backgroundColor: '#1d8d28', paddingVertical: 14, paddingHorizontal: 24, borderRadius: 12, elevation: 2, shadowColor: '#1d8d28', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 8 },
+  uploadButtonText: { color: '#ffffff', fontWeight: 'bold', textAlign: 'center' },
 });

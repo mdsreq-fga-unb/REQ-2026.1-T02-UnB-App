@@ -5,6 +5,11 @@ const MATRICULA_MOCK = '240000000';
 const ANO_MOCK = 2026;
 const PERIODO_MOCK = 1;
 
+export async function temGradeCadastrada(db: SQLiteDatabase): Promise<boolean> {
+  const result = await db.getFirstAsync<{ count: number }>('SELECT count(*) as count FROM Aula');
+  return !!result && result.count > 0;
+}
+
 export async function popularGradeHorariaMock(db: SQLiteDatabase) {
   const result = await db.getFirstAsync<{ count: number }>('SELECT count(*) as count FROM Disciplina');
   if (result && result.count > 0) return;
