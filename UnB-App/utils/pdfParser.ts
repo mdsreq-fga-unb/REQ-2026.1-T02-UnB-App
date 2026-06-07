@@ -60,9 +60,8 @@ export function extrairDadosDoPDF(texto: string): { aluno: InfoAluno | null; dis
       // O bloco vai até o início da próxima disciplina, ou até o fim de "Tabela de Horários:" ou fim do texto.
       let end = i + 1 < blocosIniciais.length ? blocosIniciais[i + 1].index : texto.length;
       
-      const textoTabelaHorarios = texto.indexOf("TABELA DE HORÁRIOS");
-      if (textoTabelaHorarios > start && textoTabelaHorarios < end) {
-         end = textoTabelaHorarios;
+      if (textoTabelaHorariosIndex !== -1 && textoTabelaHorariosIndex > start && textoTabelaHorariosIndex < end) {
+         end = textoTabelaHorariosIndex;
       }
 
       const bloco = texto.substring(start, end).trim();
