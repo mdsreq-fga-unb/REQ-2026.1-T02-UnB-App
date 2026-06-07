@@ -42,12 +42,15 @@ export function extrairDadosDoPDF(texto: string): { aluno: InfoAluno | null; dis
     // Procuramos o padrão: Código da Disciplina (ex: FGA0003 ou CIC0004), seguido do Nome, Docente, Tipo, Local, Turma, Status, Horários.
     // Como a ordem no texto pode variar dependendo do PDFBox/PDFKit, vamos usar blocos baseados no código.
     
-    // Identifica todos os códigos de disciplina
+    // Identifica todos os códigos de disciplina apenas ANTES da Tabela de Horários
+    const textoTabelaHorariosIndex = texto.toUpperCase().indexOf("TABELA DE HORÁRIOS");
+    const textoParaBusca = textoTabelaHorariosIndex !== -1 ? texto.substring(0, textoTabelaHorariosIndex) : texto;
+
     const regexCodigo = /([A-Z]{3}\d{4})/g;
     let match;
     const blocosIniciais: { index: number; codigo: string }[] = [];
     
-    while ((match = regexCodigo.exec(texto)) !== null) {
+    while ((match = regexCodigo.exec(textoParaBusca)) !== null) {
       blocosIniciais.push({ index: match.index, codigo: match[1] });
     }
 
@@ -210,14 +213,17 @@ export function extrairDadosDoPDF(texto: string): { aluno: InfoAluno | null; dis
       if (docentes.length === 0) docentes = ['A definir'];
 
       if (codigo && nome) {
-         disciplinas.push({
-           codigo,
-           nome,
-           turma,
-           docentes,
-           local,
-           horarios
-         });
+         const existingIndex = disciplinas.findIndex(d => d.codigo === codigo);
+         if (existingIndex === -1) {
+            disciplinas.push({
+              codigo,
+              nome,
+              turma,
+              docentes,
+              local,
+              horarios
+            });
+         }
       }
     }
   } catch (err) {
