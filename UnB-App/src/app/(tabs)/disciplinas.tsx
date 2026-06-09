@@ -112,7 +112,7 @@ export default function DisciplinasScreen() {
   );
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView style={styles.safeArea} edges={["top"]}>
       <FlatList
         data={filteredDisciplinas}
         contentInsetAdjustmentBehavior="automatic"

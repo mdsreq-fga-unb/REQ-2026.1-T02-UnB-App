@@ -278,7 +278,7 @@ export default function Documentos() {
   const savedDocumentsLabel = savedDocuments.length === 1 ? "documento" : "documentos";
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView style={styles.safeArea} edges={["top"]}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         {/* Header */}
         <View style={styles.header}>
