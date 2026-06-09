@@ -126,6 +126,20 @@ export default function DisciplinasScreen() {
                 <Text style={[styles.subtitle, { fontSize: getFontSize(15) }]}>Semestre 2026.1</Text>
                 <Text style={[styles.title, { fontSize: getFontSize(28) }]}>Minhas Disciplinas</Text>
               </View>
+              <TouchableOpacity 
+                style={styles.headerButton}
+                onPress={handleUpload} 
+                disabled={isProcessing}
+                accessibilityRole="button"
+                accessibilityLabel="Atualizar disciplinas"
+              >
+                <SymbolView 
+                  name={{ ios: "arrow.triangle.2.circlepath", android: "sync", web: "sync" } as any} 
+                  size={20} 
+                  tintColor="#1d8d28" 
+                  fallback={<Text style={{ fontSize: 16 }}>🔄</Text>} 
+                />
+              </TouchableOpacity>
             </View>
 
             <View style={styles.searchContainer}>
@@ -190,6 +204,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  headerButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: '#e8f5ea',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   subtitle: {
     color: '#62748e',
