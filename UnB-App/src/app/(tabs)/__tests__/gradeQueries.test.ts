@@ -27,7 +27,7 @@ describe('Integração com Banco de Dados: gradeQueries', () => {
       // retornos da função auxiliar getDefaultParams()
       mockDb.getFirstAsync.mockResolvedValueOnce({ matricula: '123456789' }); // Aluno
       mockDb.getFirstAsync.mockResolvedValueOnce({ ano: 2026, periodo: 1 });  // Periodo Letivo
-      
+
       // Eetorno da query principal de Turmas
       mockDb.getAllAsync.mockResolvedValueOnce([{
         id_turma: 1,
@@ -38,11 +38,11 @@ describe('Integração com Banco de Dados: gradeQueries', () => {
       }]);
 
       // Retorno da query secundária de Aulas
-      mockDb.getAllAsync.mockResolvedValueOnce([{ 
-        dia_semana: 2, 
-        local: 'FGA - Sala I8', 
-        hora_inicio: '14:00', 
-        hora_fim: '15:50' 
+      mockDb.getAllAsync.mockResolvedValueOnce([{
+        dia_semana: 2,
+        local: 'FGA - Sala I8',
+        hora_inicio: '14:00',
+        hora_fim: '15:50'
       }]);
 
       const resultado = await buscarTodasDisciplinas(mockDb as any);
@@ -73,9 +73,10 @@ describe('Integração com Banco de Dados: gradeQueries', () => {
         nome: 'Requisitos de Software',
         turma: 'A',
         docentes: ['Prof. Georgin Marisca'],
-        horarios: ['24T23'], 
+        horarios: ['24T23'],
         local: 'Sala I8'
       }];
+
 
       mockDb.getFirstAsync.mockImplementation(async (query: string) => {
         if (query.includes('last_insert_rowid()')) return { id_turma: 10 };
@@ -88,14 +89,41 @@ describe('Integração com Banco de Dados: gradeQueries', () => {
 
       // Valida se a transação atômica foi iniciada
       expect(mockDb.withTransactionAsync).toHaveBeenCalledTimes(1);
-      
+
       // Valida se os deletes/inserts ocorreram
       expect(mockDb.runAsync).toHaveBeenCalled();
-      
-      // Capturam os comandos executados para atestar as exclusões 
-      const queriesExecutadas = mockDb.runAsync.mock.calls.map(call => call[0]);
-      expect(queriesExecutadas).toContain('DELETE FROM Aula');
-      expect(queriesExecutadas).toContain('INSERT OR IGNORE INTO Aluno (matricula, nome, curso, CPF) VALUES (?, ?, ?, ?)');
+    });
+
+    it('CT04: Deve rejeitar a promessa e repassar erro caso o INSERT falhe na transação', async () => {
+        const alunoMock = { matricula: '123456789', nome: 'Marco', curso: 'Eng. de Software', ano: 2026, semestre: 1 };
+        const disciplinasMock = [{
+          codigo: 'FGA0138',
+          nome: 'Requisitos de Software',
+          turma: 'A',
+          docentes: ['Prof. Georgin Marisca'],
+          horarios: ['24T23'],
+          local: 'Sala I8'
+        }];
+
+        mockDb.runAsync.mockRejectedValueOnce(new Error('SQLite Constraint Error'));
+
+        await expect(popularGradePorDados(mockDb as any, alunoMock as any, disciplinasMock as any))
+          .rejects.toThrow('SQLite Constraint Error');
+      });
+
+      it('CT05: Deve lidar com array de disciplinas vazio sem quebrar (Edge Case)', async () => {
+        const alunoMock = { matricula: '123456789', nome: 'Marco', curso: 'Eng. de Software', ano: 2026, semestre: 1 };
+        const disciplinasVazias: any[] = [];
+
+        jest.clearAllMocks();
+
+        await popularGradePorDados(mockDb as any, alunoMock as any, disciplinasVazias);
+
+        expect(mockDb.withTransactionAsync).toHaveBeenCalledTimes(1)
+
+        const queriesExecutadas = mockDb.runAsync.mock.calls.map(call => call[0]);
+        expect(queriesExecutadas).toContain('DELETE FROM Aula');
+        expect(queriesExecutadas).toContain('INSERT OR IGNORE INTO Aluno (matricula, nome, curso, CPF) VALUES (?, ?, ?, ?)');
+      });
     });
   });
-});
