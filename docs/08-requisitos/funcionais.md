@@ -10,7 +10,7 @@
 | RF02 | Gerar QR Code para Acesso à BCE | O sistema deve gerar um QR Code a partir do CPF do estudante para autenticação e acesso à Biblioteca Central (BCE). |
 | RF03 | Armazenar Carteirinha Estudantil | O sistema deve armazenar localmente a carteirinha estudantil, permitindo seu acesso mesmo sem conexão com a internet. |
 | RF04 | Armazenar Dados de Documentos Enviados | O sistema deve armazenar os dados extraídos dos documentos enviados pelo estudante para uso posterior nas funcionalidades do aplicativo. |
-| RF05 | Processar Dados de Documentos Enviados | O sistema deve processar os documentos enviados pelo estudante, extraindo e interpretando as informações relevantes contidas neles. |
+| RF05 | Processar Dados de Documentos Enviados | O sistema deve processar os documentos enviados pelo estudante, extraindo os dados para alimentar a plataforma e eliminar a necessidade de preenchimento manual de formulários. |
 | RF06 | Extrair Dados do Histórico Escolar | O sistema deve obter automaticamente os dados presentes no Histórico Escolar do usuário. |
 | RF07 | Extrair Dados da Declaração do Passe Livre Estudantil | O sistema deve obter automaticamente os dados presentes na Declaração do Passe Livre Estudantil do usuário. |
 | RF08 | Enviar Perguntas ao Assistente Virtual | O sistema deve permitir que o estudante envie perguntas ao assistente virtual utilizando linguagem natural. |
