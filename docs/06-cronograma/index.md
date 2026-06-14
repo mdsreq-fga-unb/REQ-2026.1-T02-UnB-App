@@ -1,10 +1,51 @@
-# 6 Cronograma e Entregas
+# 6. Cronograma e Entregas
 
-| Fases | Início | Fim | Objetivo Principal | Entregas Esperadas | Validação do Cliente |
-|-------|--------|-----|--------------------|--------------------|----------------------|
-| **Fase 0** | 13/04 | 22/05 | Planejamento e idealização do escopo | Visão do Produto e Projeto com contexto atual, solução proposta, estratégias de engenharia de software e engenharia de requisitos, elicitação e descoberta dos requisitos e formação de Backlog e MVP | Em andamento |
-| **Feature 9** | 23/05 | 30/05 | Centralizar documentos oficiais | Reunindo todos os documentos acadêmicos e estudantis em um único local acessível, facilitando a localização, gestão e apresentação de documentos pelo estudante, economizando tempo e esforço | |
-| **Feature 5** | 31/05 | 08/06 | Exibir fluxos de onboarding | Apresentando as principais funcionalidades e a proposta de valor do aplicativo aos novos usuários, garantindo que o usuário compreenda rapidamente como utilizar a plataforma e sinta-se engajado desde o primeiro uso | |
-| **Feature 7** | 09/06 | 18/06 | Consultar grade horária e ensalamento | Informar as disciplinas, horários e locais de aula mesmo sem internet | |
-| **Feature 2** | 19/06 | 24/06 | Exibir QRCode da BCE | Gerar e apresentar na tela o QR Code criado a partir do CPF do estudante | |
-| **Feature 3** | 25/06 | 30/06 | Exibir e armazenar a carteirinha digital | Funcionalidade de acessar sua carteirinha de forma offline | |
+## Fase 0 — Planejamento e idealização do escopo
+> 📅 13/04 – 22/05
+
+- [x] Visão do Produto e Projeto com contexto atual e solução proposta
+- [x] Estratégias de engenharia de software e engenharia de requisitos
+- [x] Elicitação e descoberta dos requisitos
+- [x] Formação de Backlog e MVP
+- [x] Validação do cliente
+
+---
+
+## Iteração1 — Acesso e Descoberta do Estudante
+> 📅 28/04 – 25/05
+
+- [x] **Feature 9** — Centralizar documentos oficiais
+  - [x] Levantamento de tipos de documentos a reunir
+  - [x] Implementação da tela de listagem de documentos
+  - [x] Funcionalidade de visualização e gestão de documentos
+  - [x] Testes e validação com usuários
+- [x] **Feature 5** — Exibir fluxos de onboarding
+  - [x] Design dos fluxos de onboarding
+  - [x] Implementação das telas de boas-vindas e tutoriais
+  - [x] Testes de engajamento e compreensão com usuários novos
+
+---
+
+## Iteração2 — Informações Acadêmicas Offline
+> 📅 26/05 – 18/06
+
+- [x] **Feature 7** — Consultar grade horária e ensalamento
+  - [x] Integração com fonte de dados de grade horária
+  - [x] Armazenamento local para modo offline
+  - [x] Tela de consulta de grade e ensalamento
+  - [x] Testes offline e validação
+
+---
+
+## Iteração3 — Identidade e Acesso Digital
+> 📅 19/06 – 07/07
+
+- [ ] **Feature 3** — Exibir e armazenar a carteirinha digital
+  - [ ] Design e layout da carteirinha digital
+  - [ ] Armazenamento local para acesso offline
+  - [ ] Tela de exibição da carteirinha
+  - [ ] Testes de acesso offline e validação
+- [ ] **Feature 2** — Exibir QR Code da BCE
+  - [ ] Geração do QR Code a partir do CPF do estudante
+  - [ ] Tela de exibição do QR Code
+  - [ ] Testes de leitura e validação com a BCE
