@@ -3,20 +3,94 @@
 !!! info "Sobre este documento"
     Este site reúne as informações gerais do produto e projeto, refinadas e atualizadas ao longo do ciclo de vida de desenvolvimento. Navegue pelas seções usando o menu acima.
 
+## O Projeto UnB App
+
+O **UnB App** é um produto em desenvolvimento com o objetivo de centralizar e facilitar o acesso a informações e serviços essenciais para a comunidade da Universidade de Brasília. Ele visa resolver problemas de fragmentação e dificuldade de uso dos sistemas atuais, entregando uma experiência unificada, acessível e moderna para estudantes e professores.
+
+## Sobre a Documentação
+
+Nossa documentação foi projetada para cobrir todas as etapas da Engenharia de Requisitos, desde a concepção do produto até a entrega final. Ela é organizada em três pilares principais para facilitar o acompanhamento e entendimento do trabalho:
+
+<div class="vpp-hero" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-bottom: 3rem;">
+  <a href="01-cenario/" class="vpp-hero-card" style="text-decoration: none;">
+    <span class="vpp-section-num">Tópicos 01 a 10</span>
+    <h3>Documentação</h3>
+    <p>Cenário, solução, estratégias, ER, equipe, requisitos e backlog do projeto.</p>
+  </a>
+  <a href="00-reunioes/" class="vpp-hero-card" style="text-decoration: none;">
+    <span class="vpp-section-num">Tópico 00</span>
+    <h3>Evidências</h3>
+    <p>Gravações, transcrições, entregas e resumos dos encontros de acompanhamento.</p>
+  </a>
+  <a href="11-licoes/" class="vpp-hero-card" style="text-decoration: none;">
+    <span class="vpp-section-num">Tópico 11</span>
+    <h3>Lições Aprendidas</h3>
+    <p>Reflexões e aprendizados adquiridos ao longo de cada unidade do projeto.</p>
+  </a>
+</div>
+
 ---
 
-## Identificação
+## Nossa Equipe
+
+<div class="team-grid">
+	<article class="team-card">
+		<img class="team-card__photo" src="https://github.com/RivaFilho.png?size=240" alt="Foto de Rivaldavio no GitHub" loading="lazy" />
+		<h3 class="team-card__name">Rivaldavio Joaquim</h3>
+		<a class="team-card__handle" href="https://github.com/RivaFilho" target="_blank" rel="noopener noreferrer">@RivaFilho</a>
+		<p class="team-card__role">Gerente de Projeto</p>
+	</article>
+
+	<article class="team-card">
+		<img class="team-card__photo" src="https://github.com/cunha-luiss.png?size=240" alt="Foto de Luís Felipe no GitHub" loading="lazy" />
+		<h3 class="team-card__name">Luís Felipe Cunha</h3>
+		<a class="team-card__handle" href="https://github.com/cunha-luiss" target="_blank" rel="noopener noreferrer">@cunha-luiss</a>
+		<p class="team-card__role">Dev Frontend / Analista de Requisitos</p>
+	</article>
+
+	<article class="team-card">
+		<img class="team-card__photo" src="https://github.com/Davi-UnB.png?size=240" alt="Foto de Davi no GitHub" loading="lazy" />
+		<h3 class="team-card__name">Davi Severiano</h3>
+		<a class="team-card__handle" href="https://github.com/Davi-UnB" target="_blank" rel="noopener noreferrer">@Davi-UnB</a>
+		<p class="team-card__role">Desenvolvedor Backend</p>
+	</article>
+
+	<article class="team-card">
+		<img class="team-card__photo" src="https://github.com/PedroGTG.png?size=240" alt="Foto de Pedro no GitHub" loading="lazy" />
+		<h3 class="team-card__name">Pedro Henrique Xavier</h3>
+		<a class="team-card__handle" href="https://github.com/PedroGTG" target="_blank" rel="noopener noreferrer">@PedroGTG</a>
+		<p class="team-card__role">Analista de QA</p>
+	</article>
+
+	<article class="team-card">
+		<img class="team-card__photo" src="https://github.com/Mateus0xC.png?size=240" alt="Foto de Mateus no GitHub" loading="lazy" />
+		<h3 class="team-card__name">Mateus Barreto</h3>
+		<a class="team-card__handle" href="https://github.com/Mateus0xC" target="_blank" rel="noopener noreferrer">@Mateus0xC</a>
+		<p class="team-card__role">Suporte Backend / QA</p>
+	</article>
+
+	<article class="team-card">
+		<img class="team-card__photo" src="https://github.com/IsaacLusca.png?size=240" alt="Foto de Isaac no GitHub" loading="lazy" />
+		<h3 class="team-card__name">Isaac</h3>
+		<a class="team-card__handle" href="https://github.com/IsaacLusca" target="_blank" rel="noopener noreferrer">@IsaacLusca</a>
+		<p class="team-card__role">QA, Acessibilidade e Backend</p>
+	</article>
+</div>
+
+---
+
+## Identificação e Histórico de Revisão
+
+### Identificação
 
 | Campo         | Informação                          |
 |---------------|-------------------------------------|
 | **Produto**   | UnB App                             |
-| **Versão**    | [1.6.1]                               |
+| **Versão**    | [2.0]                               |
 | **Equipe**    | [Rivotril - G7]                     |
 | **Disciplina**| Requisitos de Software — [2026.01]  |
 
----
-
-## Histórico de Revisão
+### Histórico de Revisão
 
 | Data | Versão | Descrição | Autor |
 |------|--------|-----------|-------|
@@ -41,45 +115,7 @@
 | 15/05/2026 | 1.5.3 | Reformulação dos objetivos específicos e das características, além da criação de novos requisitos, destrinchando outros maiores | Davi, Mateus, Pedro e Rivadalvio |
 | 16/05/2026 | 1.6 | Organização e produção da priorização do backlog e quais features entrariam no MVP | Davi, Luís, Mateus, Pedro e Rivadalvio |
 | 18/05/2026 | 1.6.1 | Revisão e finalização da Unidade 2, englobando toda a Visão de Produto e Projeto do UnB App | Davi, Luís, Mateus, Pedro e Rivadalvio |
-
----
-
-## Estrutura do Documento
-
-<div class="vpp-hero">
-  <div class="vpp-hero-card">
-    <span class="vpp-section-num">Seção 0</span>
-    <h3>Reuniões</h3>
-    <p>Gravações, transcrições e resumos dos encontros de acompanhamento do projeto.</p>
-  </div>
-  <div class="vpp-hero-card">
-    <span class="vpp-section-num">Seções 1</span>
-    <h3>Cenário Atual</h3>
-    <p>Cliente, contexto de negócio, rich picture, stakeholders e segmentação.</p>
-  </div>
-  <div class="vpp-hero-card">
-    <span class="vpp-section-num">Seção 2</span>
-    <h3>Solução Proposta</h3>
-    <p>Objetivos, características do produto, tecnologias e análise de viabilidade.</p>
-  </div>
-  <div class="vpp-hero-card">
-    <span class="vpp-section-num">Seção 3</span>
-    <h3>Estratégias ESW</h3>
-    <p>Abordagem, ciclo de vida, processo e justificativa da escolha.</p>
-  </div>
-  <div class="vpp-hero-card">
-    <span class="vpp-section-num">Seção 4</span>
-    <h3>Engenharia de Requisitos</h3>
-    <p>Atividades, técnicas e mapeamento no processo de desenvolvimento.</p>
-  </div>
-  <div class="vpp-hero-card">
-    <span class="vpp-section-num">Seção 5</span>
-    <h3>Cronograma e Entregas</h3>
-    <p>Planejamento temporal, iterações e marcos de entrega do projeto.</p>
-  </div>
-  <div class="vpp-hero-card">
-    <span class="vpp-section-num">Seções 7 – 9</span>
-    <h3>Requisitos, DoR/DoD e Backlog</h3>
-    <p>Requisitos funcionais, não funcionais, critérios e priorização do MVP.</p>
-  </div>
-</div>
+| 18/05/2026 | 1.6.2 | Atualizações na tabela de backlog, transcrições de reuniões e correções gerais | Luís, Pedro |
+| 14/06/2026 | 1.6.3 | Correção na documentação da iteração | Rivadalvio |
+| 15/06/2026 | 1.7 | Adição de membro na equipe (Isaac), definição de papéis do FDD e justificativas técnicas | Luís |
+| 15/06/2026 | 2.0 | Repaginação visual do GitPages, reestruturação da home, seção de evidências e adição de vídeos embed | Luís |

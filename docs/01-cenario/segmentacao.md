@@ -1,6 +1,6 @@
 # 1.7 Segmentação de Clientes
 
-A plataforma atende clientes de várias faixas etárias. No entanto, há um grupo com características específicas que demandam maior atenção: os estudantes da faixa etária 60+ da Universidade de Brasília, grupo que está crescendo após a adição do vestibular 60mais. Esse público emergente possui necessidades distintas no uso de sistemas digitais, com ênfase em usabilidade, acessibilidade e familiaridade com tecnologia.
+A plataforma atende clientes de várias faixas etárias. No entanto, há um grupo com características específicas que demandam maior atenção: os estudantes da faixa etária 60+ da Universidade de Brasília, grupo que está crescendo após a adição do vestibular 60+. Esse público emergente possui necessidades distintas no uso de sistemas digitais, com ênfase em usabilidade, acessibilidade e familiaridade com tecnologia.
 
 ## Perfis identificados
 

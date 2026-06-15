@@ -1,6 +1,6 @@
 ﻿# 3 Intervenção Social
 
-O UnB App representa uma intervenção social de **inclusão digital e promoção de autonomia acadêmica** para um grupo historicamente marginalizado no contexto dos sistemas digitais universitários: os estudantes da faixa etária 60+, ingressantes pelo vestibular 60mais da Universidade de Brasília.
+O UnB App representa uma intervenção social de **inclusão digital e promoção de autonomia acadêmica** para um grupo historicamente marginalizado no contexto dos sistemas digitais universitários: os estudantes da faixa etária 60+, ingressantes pelo vestibular 60+ da Universidade de Brasília.
 
 A intervenção social produzida por essa solução de software se manifesta em três dimensões complementares:
 
