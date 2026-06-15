@@ -1,28 +1,27 @@
 # 9.1 Definition of Ready (DoR)
 
-> Acordo estabelecido pela equipe que indica quando uma Funcionalidade (Feature) está completamente detalhada e preparada para entrar no processo de "Projetar e Construir por Funcionalidade" do FDD.
+> Acordo estabelecido pela equipe que indica quando uma funcionalidade (Feature) está completamente especificada, verificável e preparada para entrar no processo de "Projetar e Construir por Funcionalidade" do FDD.
 
 ---
 
 <div class="vpp-chip-row">
-  <div class="vpp-chip"><span class="icon">✅</span> Informação suficiente para desenvolvimento</div>
-  <div class="vpp-chip"><span class="icon">✅</span> Cabe em uma iteração</div>
-  <div class="vpp-chip"><span class="icon">✅</span> Representado como Feature FDD</div>
-  <div class="vpp-chip"><span class="icon">✅</span> Coberto por critérios de aceite e BDD</div>
-  <div class="vpp-chip"><span class="icon">✅</span> Interface mapeada (quando necessário)</div>
+  <div class="vpp-chip"><span class="icon">✅</span> Critérios explícitos e sem adjetivos</div>
+  <div class="vpp-chip"><span class="icon">✅</span> Esforço máximo de 2 semanas (FDD)</div>
+  <div class="vpp-chip"><span class="icon">✅</span> Formato estrito de Feature FDD</div>
+  <div class="vpp-chip"><span class="icon">✅</span> Modelagem/UI inspecionadas</div>
 </div>
 
 ---
 
 ## Checklist do DoR
 
-| # | Critério | Descrição |
-|---|----------|-----------|
-| 1 | **Informação necessária** | O requisito tem detalhes suficientes para o time entender o que deve ser feito, sem ambiguidades. |
-| 2 | **Cabe em uma iteração** | O requisito é pequeno o bastante para ser concluído em um único ciclo. |
-| 3 | **Declaração de Feature** | O requisito está descrito no formato de Feature list. |
-| 4 | **Critérios de aceite + BDD** | Critérios de aceitação e especificações BDD estão presentes. |
-| 5 | **Interface mapeada** | Se envolve interface, ela está definida e descrita. |
+| # | Critério | Descrição (Critério de Verificabilidade) |
+|---|---|---|
+| 1 | **Informação Base e Critérios de Aceite** | A funcionalidade possui, no mínimo, dois critérios de aceitação validados pelo cliente. O texto da declaração foi verificado e não contém adjetivos vagos. |
+| 2 | **Granularidade FDD (Tempo)** | O esforço da funcionalidade foi estimado pela equipe e pode ser concluído em duas semanas ou menos de desenvolvimento. |
+| 3 | **Formato Estrito de Feature** | O requisito está declarado rigorosamente na sintaxe orientada ao cliente exigida pelo FDD: `<ação> <resultado> <objeto>`. |
+| 4 | **Testabilidade (BDD)** | Os critérios de aceitação foram traduzidos para o formato testável BDD (Dado / Quando / Então), permitindo a futura validação do comportamento. |
+| 5 | **Design Inspecionado** | Se houver interface visual associada, os wireframes/protótipos correspondentes passaram pela etapa de "Design Inspecionado" do FDD e foram aprovados em revisão técnica. |
 
 !!! example "Formato de Feature FDD"
-    **[ação]** **[resultado]** **[objetivo]**.
+    **[ação]** **[resultado]** **[objeto]**.
