@@ -1,6 +1,6 @@
 # 1.5 Desafios do Projeto
 
-Os principais desafios enfrentados pela Universidade de Brasília (UnB) na adequação do SIGAA para o público do processo seletivo 60mais concentram-se em resolver os atritos de usabilidade que prejudicam a experiência educacional. Com base nos dados consolidados da pesquisa de elicitação com os usuários, esses obstáculos podem ser divididos em três áreas fundamentais:
+Os principais desafios enfrentados pela Universidade de Brasília (UnB) na adequação do SIGAA para o público do processo seletivo 60+ concentram-se em resolver os atritos de usabilidade que prejudicam a experiência educacional. Com base nos dados consolidados da pesquisa de elicitação com os usuários, esses obstáculos podem ser divididos em três áreas fundamentais:
 
 ## Desafios Técnicos
 
