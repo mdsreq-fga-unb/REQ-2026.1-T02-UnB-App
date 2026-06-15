@@ -89,7 +89,7 @@ Nossa documentação foi projetada para cobrir todas as etapas da Engenharia de 
 | Campo         | Informação                          |
 |---------------|-------------------------------------|
 | **Produto**   | UnB App                             |
-| **Versão**    | [1.6.1]                               |
+| **Versão**    | [2.0]                               |
 | **Equipe**    | [Rivotril - G7]                     |
 | **Disciplina**| Requisitos de Software — [2026.01]  |
 
@@ -118,5 +118,9 @@ Nossa documentação foi projetada para cobrir todas as etapas da Engenharia de 
 | 15/05/2026 | 1.5.3 | Reformulação dos objetivos específicos e das características, além da criação de novos requisitos, destrinchando outros maiores | Davi, Mateus, Pedro e Rivadalvio |
 | 16/05/2026 | 1.6 | Organização e produção da priorização do backlog e quais features entrariam no MVP | Davi, Luís, Mateus, Pedro e Rivadalvio |
 | 18/05/2026 | 1.6.1 | Revisão e finalização da Unidade 2, englobando toda a Visão de Produto e Projeto do UnB App | Davi, Luís, Mateus, Pedro e Rivadalvio |
+| 18/05/2026 | 1.6.2 | Atualizações na tabela de backlog, transcrições de reuniões e correções gerais | Luís, Pedro |
+| 14/06/2026 | 1.6.3 | Correção na documentação da iteração | Rivadalvio |
+| 15/06/2026 | 1.7 | Adição de membro na equipe (Isaac), definição de papéis do FDD e justificativas técnicas | Luís |
+| 15/06/2026 | 2.0 | Repaginação visual do GitPages, reestruturação da home, seção de evidências e adição de vídeos embed | Luís |
 
 </details>
