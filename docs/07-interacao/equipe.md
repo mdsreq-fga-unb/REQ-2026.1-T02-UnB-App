@@ -16,6 +16,7 @@ A composição da equipe está organizada em cards individuais com papéis princ
 		<ul class="team-card__meta">
 			<li><strong>Responsável por:</strong> alinhamento de prazos e entregas.</li>
 			<li><strong>Atua também em:</strong> desenvolvimento frontend.</li>
+			<li><strong>Papéis FDD:</strong> Project Manager.</li>
 		</ul>
 	</article>
 
@@ -32,6 +33,7 @@ A composição da equipe está organizada em cards individuais com papéis princ
 		<ul class="team-card__meta">
 			<li><strong>Responsável por:</strong> interface, experiência e especificação dos requisitos.</li>
 			<li><strong>Atua também em:</strong> revisão contínua da documentação do projeto.</li>
+			<li><strong>Papéis FDD:</strong> Domain Expert, Chief Programmer, Class Owner, Technical Writer.</li>
 		</ul>
 	</article>
 
@@ -48,6 +50,7 @@ A composição da equipe está organizada em cards individuais com papéis princ
 		<ul class="team-card__meta">
 			<li><strong>Responsável por:</strong> lógica de negócio e integração com serviços.</li>
 			<li><strong>Atua com:</strong> suporte de Mateus e Pedro no backend.</li>
+			<li><strong>Papéis FDD:</strong> Chief Architect, Chief Programmer, Class Owner.</li>
 		</ul>
 	</article>
 
@@ -64,6 +67,7 @@ A composição da equipe está organizada em cards individuais com papéis princ
 		<ul class="team-card__meta">
 			<li><strong>Responsável por:</strong> qualidade, testes e validação das entregas.</li>
 			<li><strong>Atua também em:</strong> apoio técnico ao backend.</li>
+			<li><strong>Papéis FDD:</strong> Tester, Class Owner.</li>
 		</ul>
 	</article>
 
@@ -80,6 +84,7 @@ A composição da equipe está organizada em cards individuais com papéis princ
 		<ul class="team-card__meta">
 			<li><strong>Responsável por:</strong> suporte técnico ao backend e aos testes.</li>
 			<li><strong>Atua também em:</strong> revisão de estrutura e qualidade da documentação.</li>
+			<li><strong>Papéis FDD:</strong> Tester, Class Owner, Technical Writer.</li>
 		</ul>
 	</article>
 
@@ -96,16 +101,30 @@ A composição da equipe está organizada em cards individuais com papéis princ
 		<ul class="team-card__meta">
 			<li><strong>Responsável por:</strong> testes de qualidade e validação das entregas.</li>
 			<li><strong>Atua também em:</strong> apoio técnico ao backend.</li>
+			<li><strong>Papéis FDD:</strong> Tester, Class Owner.</li>
 		</ul>
 	</article>
 </div>
 
-Abaixo, segue uma tabela que indica como formará a composição da nossa equipe de forma mais técnica e menos visual:
+Abaixo, segue uma tabela que indica como formará a composição da nossa equipe de forma mais técnica e menos visual, integrando também os **Papéis do FDD** correspondentes:
 
-| Papel | Descrição | Responsável | Participantes |
-|-------|-----------|-------------|---------------|
-| Gerente de Projeto | Coordena o projeto, garante a comunicação entre cliente e equipe, garante prazos e entregas. | Rivaldavio | - |
-| Desenvolvedor Frontend | Responsável pela interface do usuário, design e implementação das funcionalidades no lado do cliente. | Luís | Rivaldavio |
-| Desenvolvedor Backend | Implementa a lógica de negócios, integração com banco de dados e APIs. | Davi | Mateus, Pedro, Isaac |
-| Analista de QA | Garante a qualidade do produto, executando testes de funcionalidade, performance e usabilidade. | Pedro | Mateus, Isaac |
-| Analista de Requisitos | Define os requisitos funcionais e não funcionais do sistema e garante que eles sejam atendidos. | Luís | Toda a equipe. |
+| Papel | Papéis FDD Correspondentes | Descrição | Responsável | Participantes |
+|-------|----------------------------|-----------|-------------|---------------|
+| Gerente de Projeto | Project Manager | Coordena o projeto, garante a comunicação entre cliente e equipe, garante prazos e entregas. | Rivaldavio | - |
+| Desenvolvedor Frontend | Chief Programmer, Class Owner | Responsável pela interface do usuário, design e implementação das funcionalidades no lado do cliente. | Luís | Rivaldavio |
+| Desenvolvedor Backend | Chief Architect, Chief Programmer, Class Owner | Implementa a lógica de negócios, integração com banco de dados e APIs. | Davi | Mateus, Pedro, Isaac |
+| Analista de QA | Tester | Garante a qualidade do produto, executando testes de funcionalidade, performance e usabilidade. | Pedro | Mateus, Isaac |
+| Analista de Requisitos | Domain Expert | Define os requisitos funcionais e não funcionais do sistema e garante que eles sejam atendidos. | Luís | Toda a equipe. |
+| Documentação e Revisão | Technical Writer | Elaboração, estruturação e revisão contínua da documentação do projeto. | Luís | Mateus |
+
+### 📖 Entendendo os Papéis do FDD (Feature-Driven Development)
+
+Para melhor compreensão da organização ágil do projeto, abaixo está o significado de cada um dos papéis do FDD atribuídos à nossa equipe:
+
+- **Project Manager (Gerente de Projeto):** Líder administrativo do projeto. Coordena o fluxo de trabalho, acompanha cronogramas e entregas, além de atuar como facilitador da comunicação.
+- **Chief Architect (Arquiteto Chefe):** Responsável pelo design global e estruturação da arquitetura do sistema, garantindo a viabilidade técnica e a escalabilidade das soluções.
+- **Chief Programmer (Programador Chefe):** Líder técnico no desenvolvimento. Atua conduzindo as iterações de código, integrando features complexas e orientando os demais desenvolvedores.
+- **Class Owner (Dono de Classe):** Desenvolvedor responsável diretamente por classes, módulos ou componentes específicos. No FDD, a propriedade do código é individual para garantir clareza nas responsabilidades.
+- **Domain Expert (Especialista em Domínio):** Aquele que possui o conhecimento profundo das regras de negócio e requisitos. Guia a equipe sobre o "que" deve ser desenvolvido para entregar valor ao usuário final.
+- **Tester (Testador):** Atua na validação e verificação do sistema, garantindo a qualidade do código entregue através de testes de usabilidade, performance e funcionalidades.
+- **Technical Writer (Escritor Técnico):** Responsável pela organização, revisão e elaboração contínua da documentação técnica e de requisitos do projeto.
