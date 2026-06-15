@@ -117,7 +117,7 @@ Abaixo, segue uma tabela que indica como formará a composição da nossa equipe
 | Analista de Requisitos | Domain Expert | Define os requisitos funcionais e não funcionais do sistema e garante que eles sejam atendidos. | Luís | Toda a equipe. |
 | Documentação e Revisão | Technical Writer | Elaboração, estruturação e revisão contínua da documentação do projeto. | Luís | Mateus |
 
-### 📖 Entendendo os Papéis do FDD (Feature-Driven Development)
+### Obs.: Entendendo os Papéis do FDD (Feature-Driven Development)
 
 Para melhor compreensão da organização ágil do projeto, abaixo está o significado de cada um dos papéis do FDD atribuídos à nossa equipe:
 
