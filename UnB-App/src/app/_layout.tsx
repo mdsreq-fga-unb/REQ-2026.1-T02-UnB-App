@@ -9,47 +9,12 @@ import * as SplashScreenNative from 'expo-splash-screen';
 
 SplashScreenNative.preventAutoHideAsync();
 
+import { initializeDatabase } from "../../database/dbinit";
+
 const ACCESSIBILITY_BUTTON_SIZE = 64;
 const ACCESSIBILITY_BUTTON_RIGHT = 22;
 const TEXT_SIZE_DIALOG_WIDTH = 302;
 const TEXT_SIZE_DIALOG_TOP_OFFSET = ACCESSIBILITY_BUTTON_SIZE + 8;
-
-async function initializeDatabase(db: SQLiteDatabase) {
-  try {
-    await db.execAsync(`
-      PRAGMA journal_mode = WAL;
-      CREATE TABLE IF NOT EXISTS documents (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT NOT NULL,
-        description TEXT,
-        meta TEXT,
-        color TEXT,
-        symbolName TEXT,
-        uri TEXT NOT NULL,
-        fileName TEXT,
-        mimeType TEXT,
-        size INTEGER,
-        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
-      );
-    `);
-
-    const knownTitles = new Set([
-      'Boletim de Notas',
-      'Índice Acadêmico',
-      'Histórico Escolar',
-      'Atestado de Matrícula',
-      'Passe Livre Estudantil'
-    ]);
-    const existing = await db.getAllAsync<{ title: string }>('SELECT title FROM documents');
-    const existingTitles = new Set(existing.map((r) => r.title));
-    const staleTitles = [...existingTitles].filter((t) => !knownTitles.has(t));
-    for (const stale of staleTitles) {
-      await db.runAsync('DELETE FROM documents WHERE title = ?', [stale]);
-    }
-  } catch (error) {
-    console.error('Falha ao inicializar banco de dados:', error);
-  }
-}
 
 export default function RootLayout() {
   const [isSplashVisible, setIsSplashVisible] = useState(true);
@@ -61,6 +26,7 @@ export default function RootLayout() {
           <View style={styles.container}>
             <Stack>
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="grade-modal" options={{ presentation: 'formSheet', sheetAllowedDetents: [0.75, 1.0], headerShown: false }} />
             </Stack>
             <AccessibilityButton />
           </View>
@@ -87,7 +53,7 @@ function AccessibilityButton() {
     { value: "large" as const, label: "Grande", previewSize: 17 },
     { value: "larger" as const, label: "Maior", previewSize: 20 },
   ];
-  
+
   return (
     <>
       {!isDialogVisible ? (
