@@ -8,8 +8,11 @@
 |---------|------|-------------|-----------------------------|-------------|
 | R01 | 13/04/2026 | Luis Felipe Parreira Cunha | [Terminar a primeira entrega .docx](docx/Terminar%20a%20primeira%20entrega%20.docx) | Revisão da Unidade 1 e alinhamento do plano de execução do semestre. |
 | R02 | 18/05/2026 | Luis Felipe Parreira Cunha | [Terminar Unidade 2 (2).docx](docx/Terminar%20Unidade%202%20(2).docx) | Elaboração e consolidação dos tópicos da Unidade 2. |
+| R03 | 15/06/2026 | Luís Felipe Parreira Cunha | [Descrição da Entrega da Unidade 3.docx](???/??????.docx) | Apresentação do que foi realizado na Unidade 3 |
 
 ## R01 · 13/04/2026 (23h59)
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/DkIglkU8HfU" title="Apresentação da Unidade 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 **Duração:** 15m59s
 
@@ -43,6 +46,8 @@
 A transcrição integral está disponível no arquivo [Terminar a primeira entrega .docx](docx/Terminar%20a%20primeira%20entrega%20.docx), armazenado nesta mesma pasta.
 
 ## R02 · 18/05/2026
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/wEUmHxRoNcM" title="Apresentação da Unidade 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 **Duração:** 14m27s
 
