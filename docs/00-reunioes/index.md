@@ -8,5 +8,5 @@ Seção dedicada ao registro das reuniões do projeto, com organização de grav
 |----------|----------|
 | [0.1 Entregas das Unidades](entregas.md) | Links de vídeos de entrega de cada unidade |
 | [0.2 Comprovações e reuniões gerais (gravações)](gravacoes.md) | Links das reuniões gravadas e materiais associados |
-| [0.3 Resumos](resumos.md) | Síntese objetiva dos principais pontos e encaminhamentos |
+| [0.3 Evidências da Implementação](evidencias.md) | Fotos, vídeos e capturas de tela comprovando a implementação das features |
 
