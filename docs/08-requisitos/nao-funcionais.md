@@ -8,7 +8,7 @@
     | ID | Nome | Descrição |
     |----|------|-----------|
     | RNF01 | Aplicar Interface com Tipografia Adaptável | O sistema deve aplicar nativamente uma interface de tipografia adaptável em todas as suas telas, seguindo o padrão ABNT: texto sem serifa e justificado para a esquerda. |
-    | RNF02 | Projetar Navegação de Tarefas Essenciais em Até 2 Cliques | O sistema deve ser projetado de forma que a navegação até tarefas essenciais — como consulta de notas e locais de prova — exija no máximo 2 cliques a partir da tela inicial. |
+    | RNF02 | Projetar Navegação de Tarefas Essenciais em Até 2 Cliques | O sistema deve permitir o acesso às tarefas essenciais do utilizador (aquelas realizadas frequentemente) em, no máximo, 2 cliques. Definem-se como tarefas essenciais: (1) acesso a materiais didáticos, (2) consulta de notas, (3) realização de matrículas, (4) consulta de locais de aula/prova (ensalamento), (5) emissão de documentos e (6) acesso à carteirinha estudantil. |
 
 === "Confiabilidade"
     | ID | Nome | Descrição |
