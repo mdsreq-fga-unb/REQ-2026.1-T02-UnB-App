@@ -73,3 +73,32 @@ A transcrição integral está disponível no arquivo [Terminar a primeira entre
 ### Registro
 
 A transcrição integral está disponível no arquivo [Terminar Unidade 2 (2).docx](docx/Terminar%20Unidade%202%20(2).docx), armazenado nesta mesma pasta.
+
+## R03 · 15/06/2026
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/sUqzIqj841U" title="Apresentação da Unidade 3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+**Duração:** 10m53s
+
+**Participantes com fala registrada:**
+
+- Luis Felipe Parreira Cunha
+- Davi Severiano Freitas
+- Mateus Rodrigues Barreto
+- Pedro Henrique Ferreira Xavier
+- Rivadalvio Joaquim da Silva Filho
+- Isaac Lucas Souza Bezerra
+
+### Tópicos abordados
+
+- Revisão das iterações e cronograma (Iterações 3 e 4).
+- Refatoração e decomposição de requisitos funcionais.
+- Lições aprendidas: consolidação do FDD, priorização para MVP e fundação técnica do aplicativo com React Native/Expo.
+- Pontos de melhoria: sincronização do código com a documentação (MKDocs), padronização de formatação e revisão de PRs.
+- Dificuldades encontradas e superadas (visualização de fórmulas com MathJax, padronização do ambiente local e transição para FDD).
+- Próximos passos: consolidação do fluxo de trabalho, critérios de DoR e DoD aplicados ao código e arquitetura inicial em React.
+- Demonstração do aplicativo em desenvolvimento: interface da Home, visualização de disciplinas/grade horária e fluxo de documentos.
+
+### Registro
+
+A transcrição integral está disponível no arquivo [Terminar Unidade 3.docx](docx/Terminar%20Unidade%203.docx), armazenado nesta mesma pasta.
