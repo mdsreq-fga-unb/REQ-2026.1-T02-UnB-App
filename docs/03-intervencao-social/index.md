@@ -18,5 +18,4 @@ Para validar os dados estatísticos que sustentam a intervenção social do UnB 
 
 A origem do dado de que 80% dos usuários dependem de auxílio de terceiros para navegar no SIGAA, o fato de 90% possuírem familiaridade média ou alta com tecnologia móvel (demonstrando que o problema está no sistema de destino e não na capacidade individual) e a taxa de 60% de relatos de frustração recorrente estão documentados e podem ser inspecionados em:
 
-*   **[Formulário de Acessibilidade SIGAA (PDF)](../assets/anexo/Acessibilidade%20SIGAA%20REQ.%202026.1.pdf)**: consolidação dos dados quantitativos obtidos;
-*   **[Roteiro de Entrevista e Relato de Shadowing](../05-er/atividades.md#roteiro-e-shadowing)**: roteiro qualitativo e evidência empírica das sessões de observação prática.
+*   **[Formulário de Acessibilidade SIGAA (PDF)](../assets/anexo/Acessibilidade%20SIGAA%20REQ.%202026.1.pdf)**: consolidação dos dados quantitativos obtidos.
