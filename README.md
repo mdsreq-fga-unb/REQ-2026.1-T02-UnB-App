@@ -1,6 +1,10 @@
 # REQ-2026.1-T02-UnB-App
 Repositório de projeto da disciplina de REQ-T2, 2026.1.
 
+## Entregas das Unidades 2 e 3
+- Unidade 2: gitPages atual e a branch main
+- Unidade 3: presente na branch feat/entregUnidade3
+
 ## Como usar a documentação
 
 ### 1. Instalar dependências
