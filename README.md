@@ -2,8 +2,8 @@
 Repositório de projeto da disciplina de REQ-T2, 2026.1.
 
 ## Entregas das Unidades 2 e 3
-- Unidade 2: gitPages atual e a branch main
-- Unidade 3: presente na branch feat/entregaUnidade3
+- Unidade 2: branch main e http:///mdsreq-fga-unb.github.io/REQ-2026.1-T02-UnB-App
+- Unidade 3: presente na branch feat/entregaUnidade3 e http:///mdsreq-fga-unb.github.io/REQ-2026.1-T02-UnB-App/entrega3
 
 ## Como usar a documentação
 
