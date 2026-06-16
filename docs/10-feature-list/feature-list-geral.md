@@ -1,4 +1,4 @@
-# 10.1 Backlog Geral
+# 10.1 Feature List Geral
 
 > Lista priorizada de todas as funcionalidades planejadas. Cada Feature é derivada dos Requisitos Funcionais e adota a declaração padrão do FDD: **`[ação] [resultado] [objetivo]`**.
 

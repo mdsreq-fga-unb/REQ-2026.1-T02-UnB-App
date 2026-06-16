@@ -66,7 +66,7 @@ A transcrição integral está disponível no arquivo [Terminar a primeira entre
 - Mapeamento detalhado de 21 requisitos funcionais (assistente, carteirinha, grade e tutoriais) e separação técnica dos 4 principais eixos de não funcionais.
 - Criação e visualização da Árvore de Rastreabilidade alinhada ao objetivo de autonomia do público 60+.
 - Consolidação do Definition of Ready (DoR) com viabilidade e uso de BDD, e do Definition of Done (DoD) com revisão e testes (unitários, integração e funcionais).
-- Detalhamento de Backlog e elaboração das 9 features baseadas nos requisitos (F1 a F9).
+- Detalhamento da Feature List e elaboração das 9 features baseadas nos requisitos (F1 a F9).
 - Definição do MVP por técnica matemática cruzando MoSCoW e Matriz Valor vs Esforço (ROI via chamados do formulário).
 - Reflexão sobre as lições aprendidas (refatoração pelo FDD, importância do controle rigoroso via DoR/DoD para conter refações nos Pull Requests).
 

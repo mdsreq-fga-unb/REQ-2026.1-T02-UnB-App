@@ -1,4 +1,4 @@
-# 10.2 Priorização do Backlog e MVP
+# 10.2 Priorização de Features e MVP
 
 ## Matriz de Valor de Negócio x Esforço
 
@@ -36,7 +36,7 @@ $$
 
 ## Metodologias de Priorização
 
-A classificação do *Backlog* utiliza a união entre **MoSCoW** (para medir a indispensabilidade) e a **Matriz de Valor x Esforço** (para determinar a viabilidade e sequência de ataque). 
+A classificação da *Feature List* utiliza a união entre **MoSCoW** (para medir a indispensabilidade) e a **Matriz de Valor x Esforço** (para determinar a viabilidade e sequência de ataque). 
 
 ### 1. MoSCoW
 * **Must Have:** Mínimo Viável; indispensável para o software funcionar (MVP) e entregar seu valor principal.

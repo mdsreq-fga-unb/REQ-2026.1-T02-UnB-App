@@ -6,7 +6,7 @@
 - [x] Visão do Produto e Projeto com contexto atual e solução proposta
 - [x] Estratégias de engenharia de software e engenharia de requisitos
 - [x] Elicitação e descoberta dos requisitos
-- [x] Formação de Backlog e MVP
+- [x] Formação da Feature List, Priorização de Features e MVP
 - [x] Validação do cliente
 
 ---

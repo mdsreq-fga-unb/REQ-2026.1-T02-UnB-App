@@ -15,7 +15,7 @@ Nossa documentação foi projetada para cobrir todas as etapas da Engenharia de 
   <a href="01-cenario/" class="vpp-hero-card" style="text-decoration: none;">
     <span class="vpp-section-num">Tópicos 01 a 10</span>
     <h3>Documentação</h3>
-    <p>Cenário, solução, estratégias, ER, equipe, requisitos e backlog do projeto.</p>
+    <p>Cenário, solução, estratégias, ER, equipe, requisitos e feature list do projeto.</p>
   </a>
   <a href="00-reunioes/" class="vpp-hero-card" style="text-decoration: none;">
     <span class="vpp-section-num">Tópico 00</span>
@@ -113,9 +113,9 @@ Nossa documentação foi projetada para cobrir todas as etapas da Engenharia de 
 | 13/05/2026 | 1.5.1 | Criação da matriz de rastreabilidade dos requisitos e da matriz de valor de negócio e esforço para definição do MVP | Davi, Luís, Mateus, Pedro e Rivadalvio |
 | 14/05/2026 | 1.5.2 | Correção do que foi apresentado em sala como característica de produto unificada e diminuição de 1:1 de características para requisitos | Davi, Luís, Mateus, Pedro e Rivadalvio |
 | 15/05/2026 | 1.5.3 | Reformulação dos objetivos específicos e das características, além da criação de novos requisitos, destrinchando outros maiores | Davi, Mateus, Pedro e Rivadalvio |
-| 16/05/2026 | 1.6 | Organização e produção da priorização do backlog e quais features entrariam no MVP | Davi, Luís, Mateus, Pedro e Rivadalvio |
+| 16/05/2026 | 1.6 | Organização e produção da priorização de features e quais features entrariam no MVP | Davi, Luís, Mateus, Pedro e Rivadalvio |
 | 18/05/2026 | 1.6.1 | Revisão e finalização da Unidade 2, englobando toda a Visão de Produto e Projeto do UnB App | Davi, Luís, Mateus, Pedro e Rivadalvio |
-| 18/05/2026 | 1.6.2 | Atualizações na tabela de backlog, transcrições de reuniões e correções gerais | Luís, Pedro |
+| 18/05/2026 | 1.6.2 | Atualizações na feature list, transcrições de reuniões e correções gerais | Luís, Pedro |
 | 14/06/2026 | 1.6.3 | Correção na documentação da iteração | Rivadalvio |
 | 15/06/2026 | 1.7 | Adição de membro na equipe (Isaac), definição de papéis do FDD e justificativas técnicas | Luís |
 | 15/06/2026 | 2.0 | Repaginação visual do GitPages, reestruturação da home, seção de evidências e adição de vídeos embed | Luís |

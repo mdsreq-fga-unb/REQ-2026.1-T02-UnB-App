@@ -1,6 +1,6 @@
 # 9.2 Definition of Done (DoD)
 
-> Acordo que define as condições de aceitação de cada item de backlog. Um item que não cumpre o DoD **não deve ser apresentado na validação de entrega para o cliente (Demonstração de Feature)**.
+> Acordo que define as condições de aceitação de cada item da feature list. Um item que não cumpre o DoD **não deve ser apresentado na validação de entrega para o cliente (Demonstração de Feature)**.
 
 ---
 
