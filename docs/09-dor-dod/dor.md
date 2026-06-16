@@ -25,4 +25,4 @@
 | 5 | **Interface mapeada** | Se envolve interface, o protótipo de telas está anexo e descrito. |
 
 !!! example "Formato de Feature FDD"
-    **[ação]** **[resultado]** **[objetivo]**.
+    **[ação]** **[resultado]** **[objeto]**.

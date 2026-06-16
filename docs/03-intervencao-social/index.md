@@ -1,4 +1,4 @@
-﻿# 3 Intervenção Social
+# 3 Intervenção Social
 
 O UnB App representa uma intervenção social de **inclusão digital e promoção de autonomia acadêmica** para um grupo historicamente marginalizado no contexto dos sistemas digitais universitários: os estudantes da faixa etária 60+, ingressantes pelo vestibular 60+ da Universidade de Brasília.
 
@@ -9,3 +9,13 @@ A intervenção social produzida por essa solução de software se manifesta em 
 *   **Fortalecimento da política de inclusão social da UnB.** O vestibular 60+ representa um avanço institucional significativo no acesso ao ensino superior para pessoas idosas. Contudo, o acesso ao ambiente físico da universidade não é suficiente se os sistemas digitais que sustentam a vida acadêmica continuam inacessíveis. O UnB App atua como uma extensão tecnológica dessa política pública de inclusão, garantindo que o gesto institucional de abertura das portas da universidade seja acompanhado de um ecossistema digital que de fato acolha e sustente esses estudantes. Dessa forma, a solução contribui para a consolidação de uma universidade mais equitativa, onde a faixa etária não seja um fator de exclusão digital.
 
 Em síntese, o UnB App não se limita a resolver um problema de usabilidade: ele intervém em uma cadeia de exclusão que afeta diretamente a permanência, a autonomia e a dignidade acadêmica de um grupo em crescimento na UnB, alinhando tecnologia à responsabilidade social da instituição.
+
+---
+
+## Fundamentação Metodológica da Coleta de Dados
+
+Para validar os dados estatísticos que sustentam a intervenção social do UnB App, a equipe realizou uma **Pesquisa de Elicitação** composta por questionários e observações estruturadas aplicados diretamente a 10 (dez) discentes da faixa etária 60+ da Universidade de Brasília. Esse processo de investigação e modelagem de requisitos seguiu os princípios fundamentais de **Entendimento Compartilhado** — estabelecendo um canal direto e horizontal de comunicação para mitigar as barreiras geracionais de linguagem — e de **Orientação a Valor** — concentrando os esforços do projeto naquilo que de fato traz independência e dignidade aos usuários, mitigando custos de funcionalidades desnecessárias.
+
+A origem do dado de que 80% dos usuários dependem de auxílio de terceiros para navegar no SIGAA, o fato de 90% possuírem familiaridade média ou alta com tecnologia móvel (demonstrando que o problema está no sistema de destino e não na capacidade individual) e a taxa de 60% de relatos de frustração recorrente estão documentados e podem ser inspecionados em:
+
+*   **[Formulário de Acessibilidade SIGAA (PDF)](../assets/anexo/Acessibilidade%20SIGAA%20REQ.%202026.1.pdf)**: consolidação dos dados quantitativos obtidos.
