@@ -11,6 +11,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect, Link } from 'expo-router';
 import { useTextSize } from "@/contexts/TextSizeContext";
 import { SymbolView } from "expo-symbols";
+import { toast } from 'react-native-pretty-toast';
 
 export default function DisciplinasScreen() {
   const db = useSQLiteContext();
@@ -46,24 +47,24 @@ export default function DisciplinasScreen() {
       const extractResult = await extractTextWithInfo(fileUri);
       
       if (!extractResult.success) {
-         alert('Falha ao extrair texto do PDF. Tente novamente ou use outro arquivo.');
+         toast.error('Falha na Extração', { message: 'Tente novamente ou use outro arquivo.' });
          setIsProcessing(false);
          return;
       }
 
       const { aluno, disciplinas: parsedDisciplinas } = extrairDadosDoPDF(extractResult.text);
       if (parsedDisciplinas.length === 0) {
-         alert('Não foi possível encontrar disciplinas válidas neste PDF.');
+         toast.error('PDF Inválido', { message: 'Não foi possível encontrar disciplinas válidas neste PDF.' });
          setIsProcessing(false);
          return;
       }
 
       await popularGradePorDados(db, aluno, parsedDisciplinas);
       
-      alert('Grade importada com sucesso!');
+      toast.success('Grade importada com sucesso!');
       await carregarDisciplinas();
     } catch (error: any) {
-       alert(`Erro ao processar o arquivo: ${error.message}`);
+       toast.error('Erro ao processar', { message: error.message });
     } finally {
        setIsProcessing(false);
     }

@@ -8,6 +8,7 @@ import Animated, { FadeIn, FadeOut, Easing, withTiming } from 'react-native-rean
 import { TextSizeProvider, useTextSize } from "@/contexts/TextSizeContext";
 import CustomSplashScreen from "@/components/SplashScreen";
 import * as SplashScreenNative from 'expo-splash-screen';
+import { ToastProvider } from 'react-native-pretty-toast';
 
 SplashScreenNative.preventAutoHideAsync();
 
@@ -37,17 +38,19 @@ export default function RootLayout() {
 
   return (
     <>
-      <SQLiteProvider databaseName="documents.db" onInit={initializeDatabase}>
-        <TextSizeProvider>
-          <View style={styles.container}>
-            <Stack>
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen name="grade-modal" options={{ presentation: 'formSheet', sheetAllowedDetents: [0.75, 1.0], headerShown: false }} />
-            </Stack>
-            <AccessibilityButton />
-          </View>
-        </TextSizeProvider>
-      </SQLiteProvider>
+      <ToastProvider>
+        <SQLiteProvider databaseName="documents.db" onInit={initializeDatabase}>
+          <TextSizeProvider>
+            <View style={styles.container}>
+              <Stack>
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                <Stack.Screen name="grade-modal" options={{ presentation: 'formSheet', sheetAllowedDetents: [0.75, 1.0], headerShown: false }} />
+              </Stack>
+              <AccessibilityButton />
+            </View>
+          </TextSizeProvider>
+        </SQLiteProvider>
+      </ToastProvider>
       {isSplashVisible && (
         <CustomSplashScreen onFinish={() => setIsSplashVisible(false)} />
       )}
