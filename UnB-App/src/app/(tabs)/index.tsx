@@ -175,7 +175,10 @@ export default function Index() {
 
   useFocusEffect(
     useCallback(() => {
-      carregarDisciplinas();
+      const timeoutId = setTimeout(() => {
+        carregarDisciplinas();
+      }, 200); // 200ms para aguardar a transição da aba
+      return () => clearTimeout(timeoutId);
     }, [carregarDisciplinas])
   );
 
