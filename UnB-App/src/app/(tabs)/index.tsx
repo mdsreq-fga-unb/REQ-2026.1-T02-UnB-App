@@ -2,6 +2,7 @@ import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import ScalePressable from "@/components/ScalePressable";
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useState, useCallback } from 'react';
+import { useIsFocused } from '@react-navigation/native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SymbolView } from "expo-symbols";
 import { useTextSize } from "@/contexts/TextSizeContext";
@@ -161,6 +162,7 @@ function FooterShortcut({ title, icon, onPress }: FooterShortcutProps) {
 export default function Index() {
   const { getFontSize } = useTextSize();
   const router = useRouter();
+  const isFocused = useIsFocused();
   const db = useSQLiteContext();
   const [disciplinas, setDisciplinas] = useState<DisciplinaInfo[]>([]);
 
@@ -184,10 +186,11 @@ export default function Index() {
 
   return (
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
-      <ScrollView style={styles.container}>
-        <ScrollView
-          contentContainerStyle={styles.scrollContent}
-        >
+      <ScrollView 
+        style={styles.container}
+        contentContainerStyle={styles.scrollContent}
+        scrollsToTop={isFocused}
+      >
           {/* AppBar */}
           <View style={styles.appBar}>
             <View style={styles.logoBadge}>
@@ -442,7 +445,6 @@ export default function Index() {
               />
             </View>
           </View>
-        </ScrollView>
       </ScrollView>
     </SafeAreaView>
   );
