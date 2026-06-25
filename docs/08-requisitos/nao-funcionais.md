@@ -19,7 +19,9 @@
 === "Desempenho"
     | ID | Nome | Descrição |
     |----|------|-----------|
-    | - | N/A | Nenhum requisito de desempenho mapeado até o momento. |
+    | RNF10 | Limitar Durações de Animações de Interface a 300ms | Todas as animações de elementos de interface (ex: modais, diálogos e transições) devem ter duração máxima de 300ms, assegurando que o sistema seja percebido como imediato e não atrase as interações do usuário. |
+    | RNF11 | Omitir Animações de Entrada em Telas de Alta Frequência | Telas e fluxos essenciais (acessados dezenas de vezes ao dia, como as abas principais) não devem possuir animações de entrada (entrance animations), priorizando o acesso direto à informação sem intervalos decorativos. |
+    | RNF12 | Utilizar Aceleração por Hardware em Animações | As transições visuais devem ser otimizadas para rodar na GPU (utilizando estritamente propriedades como `transform` e `opacity`), evitando recálculos de layout para garantir fluidez constante sem queda de quadros (frame drops). |
 
 === "Suportabilidade"
     | ID | Nome | Descrição |
