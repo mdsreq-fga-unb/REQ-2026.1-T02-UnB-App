@@ -1,8 +1,10 @@
 import { Stack } from "expo-router";
-import { Pressable, View, TouchableOpacity, Text, StyleSheet, useWindowDimensions } from "react-native";
+import { Pressable, View, Text, StyleSheet, useWindowDimensions } from "react-native";
+import ScalePressable from "@/components/ScalePressable";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SQLiteProvider, type SQLiteDatabase } from 'expo-sqlite';
 import { useState } from "react";
+import Animated, { FadeIn, FadeOut, Easing, withTiming } from 'react-native-reanimated';
 import { TextSizeProvider, useTextSize } from "@/contexts/TextSizeContext";
 import CustomSplashScreen from "@/components/SplashScreen";
 import * as SplashScreenNative from 'expo-splash-screen';
@@ -15,6 +17,20 @@ const ACCESSIBILITY_BUTTON_SIZE = 64;
 const ACCESSIBILITY_BUTTON_RIGHT = 22;
 const TEXT_SIZE_DIALOG_WIDTH = 302;
 const TEXT_SIZE_DIALOG_TOP_OFFSET = ACCESSIBILITY_BUTTON_SIZE + 8;
+
+const customEnter = () => {
+  'worklet';
+  return {
+    initialValues: {
+      opacity: 0,
+      transform: [{ scale: 0.95 }],
+    },
+    animations: {
+      opacity: withTiming(1, { duration: 200, easing: Easing.bezier(0.23, 1, 0.32, 1) }),
+      transform: [{ scale: withTiming(1, { duration: 200, easing: Easing.bezier(0.23, 1, 0.32, 1) }) }],
+    },
+  };
+};
 
 export default function RootLayout() {
   const [isSplashVisible, setIsSplashVisible] = useState(true);
@@ -57,37 +73,41 @@ function AccessibilityButton() {
   return (
     <>
       {!isDialogVisible ? (
-        <TouchableOpacity
+        <ScalePressable
           style={[
             styles.accessibilityButton,
             { top: buttonTop }
           ]}
-          activeOpacity={0.8}
           accessibilityRole="button"
           accessibilityLabel="Alterar tamanho do texto"
           onPress={() => setIsDialogVisible(true)}
         >
           <Text style={styles.accessibilityButtonText}>Aa</Text>
-        </TouchableOpacity>
+        </ScalePressable>
       ) : null}
 
       {isDialogVisible ? (
-        <View style={styles.textSizeOverlay}>
+        <Animated.View 
+          style={styles.textSizeOverlay}
+          entering={FadeIn.duration(200)}
+          exiting={FadeOut.duration(150)}
+        >
           <Pressable style={StyleSheet.absoluteFill} onPress={() => setIsDialogVisible(false)} />
-          <TouchableOpacity
+          <ScalePressable
             style={[
               styles.accessibilityButton,
               styles.accessibilityButtonInModal,
               { top: buttonTop }
             ]}
-            activeOpacity={0.8}
             accessibilityRole="button"
             accessibilityLabel="Fechar opções de tamanho do texto"
             onPress={() => setIsDialogVisible(false)}
           >
             <Text style={styles.accessibilityButtonCloseText}>×</Text>
-          </TouchableOpacity>
-          <View
+          </ScalePressable>
+          <Animated.View
+            entering={customEnter}
+            exiting={FadeOut.duration(150)}
             style={[
               styles.textSizeDialog,
               {
@@ -104,13 +124,12 @@ function AccessibilityButton() {
                 const isSelected = textSize === option.value;
 
                 return (
-                  <TouchableOpacity
+                  <ScalePressable
                     key={option.value}
                     style={[
                       styles.textSizeOption,
                       isSelected ? styles.textSizeOptionSelected : styles.textSizeOptionDefault,
                     ]}
-                    activeOpacity={0.8}
                     accessibilityRole="button"
                     accessibilityState={{ selected: isSelected }}
                     onPress={() => {
@@ -140,12 +159,12 @@ function AccessibilityButton() {
                     >
                       {option.label}
                     </Text>
-                  </TouchableOpacity>
+                  </ScalePressable>
                 );
               })}
             </View>
-          </View>
-        </View>
+          </Animated.View>
+        </Animated.View>
       ) : null}
     </>
   );

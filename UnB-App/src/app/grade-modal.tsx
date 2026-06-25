@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
+import ScalePressable from "@/components/ScalePressable";
 import { useSQLiteContext } from 'expo-sqlite';
 import { buscarGradePorDia, temGradeCadastrada, popularGradePorDados, type AulaCard } from '../../database/queries/gradeQueries';
 import { extrairDadosDoPDF } from '../../utils/pdfParser';
@@ -116,9 +117,9 @@ export default function GradeHorariaModalScreen() {
   return (
     <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']}>
       <View style={styles.header}>
-          <TouchableOpacity onPress={() => router.back()} style={styles.closeBtn}>
+          <ScalePressable onPress={() => router.back()} style={styles.closeBtn}>
               <SymbolView name={{ ios: "xmark", android: "close", web: "close" } as any} size={24} tintColor="#0f172b" fallback={<Text style={{fontSize: 20}}>X</Text>} />
-          </TouchableOpacity>
+          </ScalePressable>
           <Text style={[styles.title, { fontSize: getFontSize(20) }]}>Grade Horária</Text>
           <View style={{ width: 24 }} />
       </View>
@@ -129,17 +130,17 @@ export default function GradeHorariaModalScreen() {
               <Text style={[styles.emptyGlobalDesc, { fontSize: getFontSize(14) }]}>
                   Para carregar sua grade, por favor faça o upload da declaração ou histórico escolar. Se você não tiver disciplinas no semestre, tudo bem também.
               </Text>
-              <TouchableOpacity style={styles.uploadButton} onPress={handleUpload} disabled={isProcessing}>
+              <ScalePressable style={styles.uploadButton} onPress={handleUpload} disabled={isProcessing}>
                   <Text style={[styles.uploadButtonText, { fontSize: getFontSize(15) }]}>
                     {isProcessing ? 'PROCESSANDO...' : 'FAZER UPLOAD DA MATRÍCULA'}
                   </Text>
-              </TouchableOpacity>
+              </ScalePressable>
           </View>
       ) : (
           <View style={{ flex: 1 }}>
               <View style={styles.daysContainer}>
                   {DIAS_SEMANA.map((dia) => (
-                  <TouchableOpacity
+                  <ScalePressable
                       key={dia.id}
                       style={[
                       styles.dayButton,
@@ -154,7 +155,7 @@ export default function GradeHorariaModalScreen() {
                       ]}>
                       {dia.nome}
                       </Text>
-                  </TouchableOpacity>
+                  </ScalePressable>
                   ))}
               </View>
 

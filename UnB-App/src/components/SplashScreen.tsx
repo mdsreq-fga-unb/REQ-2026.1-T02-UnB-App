@@ -9,7 +9,8 @@ import Animated, {
   withTiming, 
   withSequence, 
   withDelay,
-  runOnJS
+  runOnJS,
+  Easing
 } from 'react-native-reanimated';
 import * as SplashScreenNative from 'expo-splash-screen';
 
@@ -25,8 +26,8 @@ const Dot = ({ color, delay }: { color: string, delay: number }) => {
   useEffect(() => {
     translateY.value = withDelay(delay, withRepeat(
       withSequence(
-        withTiming(-8, { duration: 300 }),
-        withTiming(0, { duration: 300 })
+        withTiming(-8, { duration: 300, easing: Easing.bezier(0.77, 0, 0.175, 1) }),
+        withTiming(0, { duration: 300, easing: Easing.bezier(0.77, 0, 0.175, 1) })
       ),
       -1,
       true
@@ -55,7 +56,7 @@ export default function CustomSplashScreen({ onFinish }: Props) {
     // Ensure the splash screen stays visible for at least 2.5 seconds
     const timer = setTimeout(() => {
       setIsHiding(true);
-      opacity.value = withTiming(0, { duration: 400 }, (finished) => {
+      opacity.value = withTiming(0, { duration: 250, easing: Easing.bezier(0.23, 1, 0.32, 1) }, (finished) => {
         if (finished && onFinish) {
           runOnJS(onFinish)();
         }
@@ -102,8 +103,8 @@ export default function CustomSplashScreen({ onFinish }: Props) {
       {/* Loader */}
       <View style={styles.loaderContainer}>
         <Dot color="#5ee9b5" delay={0} />
-        <Dot color="#00d492" delay={150} />
-        <Dot color="#009966" delay={300} />
+        <Dot color="#00d492" delay={50} />
+        <Dot color="#009966" delay={100} />
       </View>
     </Animated.View>
   );

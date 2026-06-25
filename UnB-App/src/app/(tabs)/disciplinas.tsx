@@ -1,4 +1,6 @@
-import { View, Text, StyleSheet, FlatList, TextInput, Platform, Pressable, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TextInput, Platform, TouchableOpacity } from 'react-native';
+import ScalePressable from "@/components/ScalePressable";
+import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useState, useCallback } from 'react';
 import { useSQLiteContext } from 'expo-sqlite';
 import { buscarTodasDisciplinas, popularGradePorDados, type DisciplinaInfo } from '../../../database/queries/gradeQueries';
@@ -78,8 +80,11 @@ export default function DisciplinasScreen() {
     d.codigo_disciplina.toLowerCase().includes(search.toLowerCase())
   );
 
-  const renderCard = ({ item }: { item: DisciplinaInfo }) => (
-    <View style={styles.card}>
+  const renderCard = ({ item, index }: { item: DisciplinaInfo; index: number }) => (
+    <Animated.View 
+      style={styles.card}
+      entering={FadeInDown.delay(index * 40).duration(400).springify()}
+    >
       <View style={styles.cardHeader}>
         <View style={styles.iconContainer}>
           <SymbolView name={{ ios: "book.pages.fill", android: "menu_book", web: "menu_book" } as any} size={24} tintColor="#1d8d28" fallback={<Text style={{ fontSize: 20 }}>📖</Text>} />
@@ -108,7 +113,7 @@ export default function DisciplinasScreen() {
         <Text style={[styles.footerLabel, { fontSize: getFontSize(14) }]}>Professor(es):</Text>
         <Text style={[styles.footerValue, { fontSize: getFontSize(14) }]} numberOfLines={1} selectable>{item.docente_nome}</Text>
       </View>
-    </View>
+    </Animated.View>
   );
 
   return (
@@ -126,7 +131,7 @@ export default function DisciplinasScreen() {
                 <Text style={[styles.subtitle, { fontSize: getFontSize(15) }]}>Semestre 2026.1</Text>
                 <Text style={[styles.title, { fontSize: getFontSize(28) }]}>Minhas Disciplinas</Text>
               </View>
-              <TouchableOpacity 
+              <ScalePressable 
                 style={styles.headerButton}
                 onPress={handleUpload} 
                 disabled={isProcessing}
@@ -139,7 +144,7 @@ export default function DisciplinasScreen() {
                   tintColor="#1d8d28" 
                   fallback={<Text style={{ fontSize: 16 }}>🔄</Text>} 
                 />
-              </TouchableOpacity>
+              </ScalePressable>
             </View>
 
             <View style={styles.searchContainer}>
@@ -157,7 +162,7 @@ export default function DisciplinasScreen() {
 
             <View style={{ paddingBottom: 16 }}>
               <Link href="/grade-modal" asChild>
-                <Pressable>
+                <ScalePressable>
                   {({ pressed }) => (
                     <View style={[styles.gradeCard, pressed && { opacity: 0.72 }]}>
                       <View style={styles.gradeIconContainer}>
@@ -170,7 +175,7 @@ export default function DisciplinasScreen() {
                       <SymbolView name={{ ios: "chevron.right", android: "chevron_right", web: "chevron_right" } as any} size={20} tintColor="#1d8d28" fallback={<Text style={{ fontSize: 16, color: '#1d8d28' }}>›</Text>} />
                     </View>
                   )}
-                </Pressable>
+                </ScalePressable>
               </Link>
             </View>
           </>
@@ -181,11 +186,11 @@ export default function DisciplinasScreen() {
               <Text style={[styles.emptyGlobalDesc, { fontSize: getFontSize(14) }]}>
                   Para carregar sua grade, por favor faça o upload da declaração ou histórico escolar. Se você não tiver disciplinas no semestre, tudo bem também.
               </Text>
-              <TouchableOpacity style={styles.uploadButton} onPress={handleUpload} disabled={isProcessing}>
+              <ScalePressable style={styles.uploadButton} onPress={handleUpload} disabled={isProcessing}>
                   <Text style={[styles.uploadButtonText, { fontSize: getFontSize(15) }]}>
                     {isProcessing ? 'PROCESSANDO...' : 'FAZER UPLOAD DA MATRÍCULA'}
                   </Text>
-              </TouchableOpacity>
+              </ScalePressable>
           </View>
         }
       />
