@@ -133,8 +133,11 @@ function AccessibilityButton() {
                     accessibilityRole="button"
                     accessibilityState={{ selected: isSelected }}
                     onPress={() => {
-                      setTextSize(option.value);
                       setIsDialogVisible(false);
+                      // Aguarda a animação de FadeOut (150ms) terminar antes de causar o re-render global
+                      setTimeout(() => {
+                        setTextSize(option.value);
+                      }, 160);
                     }}
                   >
                     <Text
