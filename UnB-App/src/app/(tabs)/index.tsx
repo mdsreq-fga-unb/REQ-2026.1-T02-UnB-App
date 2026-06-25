@@ -54,7 +54,6 @@ function ActionTile({ title, icon, badge, onPress, index }: ActionTileProps) {
 
   return (
     <Animated.View 
-      entering={FadeInDown.delay(index * 50).duration(400).springify()}
       style={{ flexBasis: "48%", flexGrow: 1 }}
     >
       <ScalePressable
@@ -97,7 +96,7 @@ function CourseRow({ name, meta, onPress, index = 0 }: CourseRowProps) {
   const { getFontSize } = useTextSize();
 
   return (
-    <Animated.View entering={FadeInDown.delay(index * 40).duration(400).springify()}>
+    <Animated.View>
       <ScalePressable
         onPress={onPress}
         style={({ pressed }) => [styles.courseRow, pressed && styles.rowPressed]}

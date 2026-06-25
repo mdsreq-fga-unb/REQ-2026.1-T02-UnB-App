@@ -83,7 +83,6 @@ export default function DisciplinasScreen() {
   const renderCard = ({ item, index }: { item: DisciplinaInfo; index: number }) => (
     <Animated.View 
       style={styles.card}
-      entering={FadeInDown.delay(index * 40).duration(400).springify()}
     >
       <View style={styles.cardHeader}>
         <View style={styles.iconContainer}>

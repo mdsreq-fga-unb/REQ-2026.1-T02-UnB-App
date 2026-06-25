@@ -33,7 +33,7 @@ export default function ScalePressable({
 
   const handlePressOut = useCallback((e: any) => {
     setIsPressed(false);
-    scale.value = withTiming(1, { duration: 250, easing: Easing.bezier(0.23, 1, 0.32, 1) });
+    scale.value = withTiming(1, { duration: 100, easing: Easing.bezier(0.23, 1, 0.32, 1) });
     if (typeof onPressOut === 'function') {
       onPressOut(e);
     }

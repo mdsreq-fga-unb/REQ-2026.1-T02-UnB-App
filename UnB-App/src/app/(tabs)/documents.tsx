@@ -420,7 +420,6 @@ function DocCard({ title, description, meta, color, symbolName, hasFile = false,
   return (
     <Animated.View 
       style={styles.docCard}
-      entering={FadeInDown.delay((index || 0) * 40).duration(400).springify()}
     >
       <View style={styles.docRow}>
         <View style={[styles.docIconContainer, { backgroundColor: `${color}1A` /* ~10% opacity */ }]}>
