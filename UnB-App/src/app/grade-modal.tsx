@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
+import ScalePressable from "@/components/ScalePressable";
 import { useSQLiteContext } from 'expo-sqlite';
 import { buscarGradePorDia, temGradeCadastrada, popularGradePorDados, type AulaCard } from '../../database/queries/gradeQueries';
 import { extrairDadosDoPDF } from '../../utils/pdfParser';
@@ -32,6 +33,12 @@ export default function GradeHorariaModalScreen() {
   const [aulas, setAulas] = useState<AulaCard[]>([]);
   const [hasGrade, setHasGrade] = useState<boolean | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setIsReady(true), 250);
+    return () => clearTimeout(timeout);
+  }, []);
 
   const handleUpload = async () => {
     try {
@@ -89,8 +96,10 @@ export default function GradeHorariaModalScreen() {
   }, [db, diaSelecionado]);
 
   useEffect(() => {
-    carregarAulas();
-  }, [carregarAulas]);
+    if (isReady) {
+      carregarAulas();
+    }
+  }, [carregarAulas, isReady]);
 
   const renderCard = ({ item }: { item: AulaCard }) => (
     <View style={styles.card}>
@@ -116,9 +125,9 @@ export default function GradeHorariaModalScreen() {
   return (
     <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']}>
       <View style={styles.header}>
-          <TouchableOpacity onPress={() => router.back()} style={styles.closeBtn}>
+          <ScalePressable onPress={() => router.back()} style={styles.closeBtn}>
               <SymbolView name={{ ios: "xmark", android: "close", web: "close" } as any} size={24} tintColor="#0f172b" fallback={<Text style={{fontSize: 20}}>X</Text>} />
-          </TouchableOpacity>
+          </ScalePressable>
           <Text style={[styles.title, { fontSize: getFontSize(20) }]}>Grade Horária</Text>
           <View style={{ width: 24 }} />
       </View>
@@ -129,17 +138,17 @@ export default function GradeHorariaModalScreen() {
               <Text style={[styles.emptyGlobalDesc, { fontSize: getFontSize(14) }]}>
                   Para carregar sua grade, por favor faça o upload da declaração ou histórico escolar. Se você não tiver disciplinas no semestre, tudo bem também.
               </Text>
-              <TouchableOpacity style={styles.uploadButton} onPress={handleUpload} disabled={isProcessing}>
+              <ScalePressable style={styles.uploadButton} onPress={handleUpload} disabled={isProcessing}>
                   <Text style={[styles.uploadButtonText, { fontSize: getFontSize(15) }]}>
                     {isProcessing ? 'PROCESSANDO...' : 'FAZER UPLOAD DA MATRÍCULA'}
                   </Text>
-              </TouchableOpacity>
+              </ScalePressable>
           </View>
       ) : (
           <View style={{ flex: 1 }}>
               <View style={styles.daysContainer}>
                   {DIAS_SEMANA.map((dia) => (
-                  <TouchableOpacity
+                  <ScalePressable
                       key={dia.id}
                       style={[
                       styles.dayButton,
@@ -154,22 +163,28 @@ export default function GradeHorariaModalScreen() {
                       ]}>
                       {dia.nome}
                       </Text>
-                  </TouchableOpacity>
+                  </ScalePressable>
                   ))}
               </View>
 
-              <FlatList
-                  data={aulas}
-                  keyExtractor={(item) => item.id_horario.toString()}
-                  renderItem={renderCard}
-                  contentContainerStyle={styles.listContainer}
-                  ListEmptyComponent={
-                  <View style={styles.emptyContainer}>
-                    <SymbolView name={{ ios: "sparkles", android: "auto_awesome", web: "auto_awesome" } as any} size={28} tintColor="#1d8d28" fallback={<Text style={{ fontSize: 24 }}>✨</Text>} />
-                    <Text style={[styles.emptyText, { fontSize: getFontSize(16) }]}>Nenhuma aula neste dia. Aproveite o descanso!</Text>
-                  </View>
-                  }
-              />
+              {!isReady ? (
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                  <ActivityIndicator size="large" color="#1d8d28" />
+                </View>
+              ) : (
+                <FlatList
+                    data={aulas}
+                    keyExtractor={(item) => item.id_horario.toString()}
+                    renderItem={renderCard}
+                    contentContainerStyle={styles.listContainer}
+                    ListEmptyComponent={
+                    <View style={styles.emptyContainer}>
+                      <SymbolView name={{ ios: "sparkles", android: "auto_awesome", web: "auto_awesome" } as any} size={28} tintColor="#1d8d28" fallback={<Text style={{ fontSize: 24 }}>✨</Text>} />
+                      <Text style={[styles.emptyText, { fontSize: getFontSize(16) }]}>Nenhuma aula neste dia. Aproveite o descanso!</Text>
+                    </View>
+                    }
+                />
+              )}
           </View>
       )}
     </SafeAreaView>

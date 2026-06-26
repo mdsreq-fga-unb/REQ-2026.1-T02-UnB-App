@@ -1,5 +1,8 @@
-import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import ScalePressable from "@/components/ScalePressable";
+import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useState, useCallback } from 'react';
+import { useIsFocused } from '@react-navigation/native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SymbolView } from "expo-symbols";
 import { useTextSize } from "@/contexts/TextSizeContext";
@@ -15,12 +18,14 @@ type ActionTileProps = {
   icon: SymbolName;
   badge?: string;
   onPress?: () => void;
+  index: number;
 };
 
 type CourseRowProps = {
   name: string;
   meta: string;
   onPress?: () => void;
+  index?: number;
 };
 
 type FooterShortcutProps = {
@@ -45,17 +50,21 @@ const COLORS = {
 
 const FONT = "Inter";
 
-function ActionTile({ title, icon, badge, onPress }: ActionTileProps) {
+function ActionTile({ title, icon, badge, onPress, index }: ActionTileProps) {
   const { getFontSize } = useTextSize();
 
   return (
-    <Pressable
-      onPress={onPress}
-      style={({ pressed }) => [
-        styles.tile,
-        pressed && styles.tilePressed,
-      ]}
+    <Animated.View 
+      style={{ flexBasis: "48%", flexGrow: 1 }}
     >
+      <ScalePressable
+        onPress={onPress}
+        style={({ pressed }) => [
+          styles.tile,
+          { flexBasis: 'auto', flexGrow: 0 },
+          pressed && styles.tilePressed,
+        ]}
+      >
       <View style={styles.tileIconWrapper}>
         {/* name recebe o objeto diretamente — iOS usa SF Symbol, Android usa Material Symbol */}
         <SymbolView
@@ -79,18 +88,20 @@ function ActionTile({ title, icon, badge, onPress }: ActionTileProps) {
           </Text>
         </View>
       ) : null}
-    </Pressable>
+    </ScalePressable>
+    </Animated.View>
   );
 }
 
-function CourseRow({ name, meta, onPress }: CourseRowProps) {
+function CourseRow({ name, meta, onPress, index = 0 }: CourseRowProps) {
   const { getFontSize } = useTextSize();
 
   return (
-    <Pressable
-      onPress={onPress}
-      style={({ pressed }) => [styles.courseRow, pressed && styles.rowPressed]}
-    >
+    <Animated.View>
+      <ScalePressable
+        onPress={onPress}
+        style={({ pressed }) => [styles.courseRow, pressed && styles.rowPressed]}
+      >
       <View style={styles.courseText}>
         <Text
           style={[
@@ -117,7 +128,8 @@ function CourseRow({ name, meta, onPress }: CourseRowProps) {
         size={22}
         tintColor={COLORS.textPlaceholder}
       />
-    </Pressable>
+      </ScalePressable>
+    </Animated.View>
   );
 }
 
@@ -125,7 +137,7 @@ function FooterShortcut({ title, icon, onPress }: FooterShortcutProps) {
   const { getFontSize } = useTextSize();
 
   return (
-    <Pressable
+    <ScalePressable
       onPress={onPress}
       style={({ pressed }) => [
         styles.shortcut,
@@ -143,13 +155,14 @@ function FooterShortcut({ title, icon, onPress }: FooterShortcutProps) {
       >
         {title}
       </Text>
-    </Pressable>
+    </ScalePressable>
   );
 }
 
 export default function Index() {
   const { getFontSize } = useTextSize();
   const router = useRouter();
+  const isFocused = useIsFocused();
   const db = useSQLiteContext();
   const [disciplinas, setDisciplinas] = useState<DisciplinaInfo[]>([]);
 
@@ -164,16 +177,20 @@ export default function Index() {
 
   useFocusEffect(
     useCallback(() => {
-      carregarDisciplinas();
+      const timeoutId = setTimeout(() => {
+        carregarDisciplinas();
+      }, 200); // 200ms para aguardar a transição da aba
+      return () => clearTimeout(timeoutId);
     }, [carregarDisciplinas])
   );
 
   return (
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
-      <ScrollView style={styles.container}>
-        <ScrollView
-          contentContainerStyle={styles.scrollContent}
-        >
+      <ScrollView 
+        style={styles.container}
+        contentContainerStyle={styles.scrollContent}
+        scrollsToTop={isFocused}
+      >
           {/* AppBar */}
           <View style={styles.appBar}>
             <View style={styles.logoBadge}>
@@ -227,7 +244,7 @@ export default function Index() {
           {/* Main content */}
           <View style={styles.mainContent}>
             {/* Profile header card */}
-            <Pressable
+            <ScalePressable
               onPress={() => router.navigate("/ajustes")}
               style={({ pressed }) => [
                 styles.profileCard,
@@ -272,26 +289,29 @@ export default function Index() {
                   Campus UnB Gama
                 </Text>
               </View>
-            </Pressable>
+            </ScalePressable>
 
             {/* Quick action tiles */}
             <View style={styles.tilesGrid}>
-              {/* Cada tile agora passa o objeto { ios, android } explicitamente */}
               <ActionTile
+                index={0}
                 title="Minhas Disciplinas"
                 icon={{ ios: "book.closed.fill", android: "menu_book", web: "menu_book" }}
                 onPress={() => router.push("/disciplinas")}
               />
               <ActionTile
+                index={1}
                 title="Minhas Atividades"
                 icon={{ ios: "person.text.rectangle.fill", android: "badge", web: "badge" }}
               />
               <ActionTile
+                index={2}
                 title="Meus Documentos"
                 icon={{ ios: "doc.text.fill", android: "description", web: "description" }}
                 onPress={() => router.push("/documents")}
               />
               <ActionTile
+                index={3}
                 title="Fórum do Curso"
                 icon={{ ios: "bubble.left.and.bubble.right.fill", android: "forum", web: "forum" }}
                 badge="2"
@@ -335,7 +355,7 @@ export default function Index() {
                 >
                   Novo tópico no Aula: Apresentação do plano de ensino e formação das equipes de desenvolvimento.
                 </Text>
-                <Pressable
+                <ScalePressable
                   onPress={() => router.push("/disciplinas")}
                   style={({ pressed }) => [
                     styles.primaryButton,
@@ -350,7 +370,7 @@ export default function Index() {
                   >
                     Ver Turma
                   </Text>
-                </Pressable>
+                </ScalePressable>
               </View>
             </View>
 
@@ -378,6 +398,7 @@ export default function Index() {
                 {disciplinas.slice(0, 4).map((disciplina, index) => (
                   <View key={disciplina.id_turma.toString()}>
                     <CourseRow
+                      index={index}
                       name={disciplina.nome_disciplina}
                       meta={`2026.1 · ${disciplina.codigo_disciplina}${disciplina.horarios_formatados ? ` · ${disciplina.horarios_formatados}` : ''}`}
                       onPress={() => router.push("/disciplinas")}
@@ -392,7 +413,7 @@ export default function Index() {
                 )}
               </View>
 
-              <Pressable
+              <ScalePressable
                 onPress={() => router.push("/disciplinas")}
                 style={({ pressed }) => [
                   styles.outlineButton,
@@ -407,7 +428,7 @@ export default function Index() {
                 >
                   Ver todas as disciplinas
                 </Text>
-              </Pressable>
+              </ScalePressable>
             </View>
 
             {/* Footer shortcuts */}
@@ -424,7 +445,6 @@ export default function Index() {
               />
             </View>
           </View>
-        </ScrollView>
       </ScrollView>
     </SafeAreaView>
   );

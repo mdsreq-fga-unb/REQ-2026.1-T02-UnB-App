@@ -1,5 +1,7 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { ScrollView, Text, View, StyleSheet, TextInput, TouchableOpacity, Platform, Alert } from "react-native";
+import { ScrollView, Text, View, StyleSheet, TextInput, Platform, Alert } from "react-native";
+import ScalePressable from "@/components/ScalePressable";
+import Animated, { FadeInDown } from 'react-native-reanimated';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SymbolView, SFSymbol } from "expo-symbols";
 import { useSQLiteContext } from 'expo-sqlite';
@@ -288,9 +290,8 @@ export default function Documentos() {
 
         <View style={styles.mainContent}>
           {/* StorageCard */}
-          <TouchableOpacity
+          <ScalePressable
             style={styles.storageCard}
-            activeOpacity={0.82}
             accessibilityRole="button"
             accessibilityLabel="Ver documentos salvos"
             onPress={() => setShowSavedDocuments((visible) => !visible)}
@@ -320,7 +321,7 @@ export default function Documentos() {
             <View style={styles.progressBarContainer}>
               <View style={[styles.progressBarFill, { width: `${Math.min((totalSize / (5 * 1024 * 1024)) * 100, 100)}%` }]} />
             </View>
-          </TouchableOpacity>
+          </ScalePressable>
 
           {showSavedDocuments ? (
             <View style={styles.savedDocumentsPanel}>
@@ -335,9 +336,8 @@ export default function Documentos() {
                         {doc.fileName || doc.meta || "Arquivo salvo"} · {formatSize(doc.size || 0)}
                       </Text>
                     </View>
-                    <TouchableOpacity
+                    <ScalePressable
                       style={styles.shareButton}
-                      activeOpacity={0.75}
                       accessibilityRole="button"
                       accessibilityLabel={`Compartilhar ${doc.title}`}
                       onPress={() => handleCompartilhar(doc)}
@@ -349,7 +349,7 @@ export default function Documentos() {
                         tintColor="#ffffff"
                       />
                       <Text style={[styles.shareButtonText, { fontSize: getFontSize(13) }]}>Compartilhar</Text>
-                    </TouchableOpacity>
+                    </ScalePressable>
                   </View>
                 ))
               ) : (
@@ -379,9 +379,10 @@ export default function Documentos() {
 
           {/* Docs List */}
           <View style={styles.docsList}>
-            {filteredDocs.map(doc => (
+            {filteredDocs.map((doc, index) => (
               <DocCard 
                 key={doc.id}
+                index={index}
                 title={doc.title}
                 description={doc.description}
                 meta={doc.meta}
@@ -401,7 +402,7 @@ export default function Documentos() {
   );
 }
 
-function DocCard({ title, description, meta, color, symbolName, hasFile = false, onBaixar, onVer, onRemover, getFontSize }: {
+function DocCard({ title, description, meta, color, symbolName, hasFile = false, onBaixar, onVer, onRemover, getFontSize, index }: {
   title: string;
   description: string;
   meta: string;
@@ -412,11 +413,14 @@ function DocCard({ title, description, meta, color, symbolName, hasFile = false,
   onVer: () => void;
   onRemover: () => void;
   getFontSize: (baseSize: number) => number;
+  index?: number;
 }) {
   const btnColor = color;
 
   return (
-    <View style={styles.docCard}>
+    <Animated.View 
+      style={styles.docCard}
+    >
       <View style={styles.docRow}>
         <View style={[styles.docIconContainer, { backgroundColor: `${color}1A` /* ~10% opacity */ }]}>
           {/* CORRIGIDO: ícone do documento com fallback para símbolo desconhecido */}
@@ -436,39 +440,36 @@ function DocCard({ title, description, meta, color, symbolName, hasFile = false,
       {meta ? <Text style={[styles.docMeta, { fontSize: getFontSize(13) }]}>{meta}</Text> : null}
       
       <View style={styles.actionsRow}>
-        <TouchableOpacity 
+        <ScalePressable 
           style={[styles.actionBtnOutline, { borderColor: btnColor, opacity: hasFile ? 1 : 0.5 }]} 
-          activeOpacity={!hasFile ? 1 : 0.7}
           onPress={!hasFile ? undefined : onVer}
         >
           {/* CORRIGIDO: olho com Material Symbol no Android */}
           <SymbolView name={sym('eye.fill')} size={16} tintColor={btnColor} />
           <Text style={[styles.actionBtnOutlineText, { color: btnColor, fontSize: getFontSize(15) }]}>Ver</Text>
-        </TouchableOpacity>
+        </ScalePressable>
         
         {hasFile ? (
-          <TouchableOpacity 
+          <ScalePressable 
             style={[styles.actionBtnSolid, { backgroundColor: "#ef4444" }]} 
-            activeOpacity={0.7}
             onPress={onRemover}
           >
             {/* CORRIGIDO: lixeira com Material Symbol no Android */}
             <SymbolView name={sym('trash.fill')} size={16} tintColor="#fff" />
             <Text style={[styles.actionBtnSolidText, { fontSize: getFontSize(15) }]}>Remover</Text>
-          </TouchableOpacity>
+          </ScalePressable>
         ) : (
-          <TouchableOpacity 
+          <ScalePressable 
             style={[styles.actionBtnSolid, { backgroundColor: btnColor }]} 
-            activeOpacity={0.7}
             onPress={onBaixar}
           >
             {/* CORRIGIDO: download com Material Symbol no Android */}
             <SymbolView name={sym('arrow.down.doc.fill')} size={16} tintColor="#fff" />
             <Text style={[styles.actionBtnSolidText, { fontSize: getFontSize(15) }]}>Baixar</Text>
-          </TouchableOpacity>
+          </ScalePressable>
         )}
       </View>
-    </View>
+    </Animated.View>
   );
 }
 

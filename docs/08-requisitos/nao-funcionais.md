@@ -19,7 +19,14 @@
 === "Desempenho"
     | ID | Nome | Descrição |
     |----|------|-----------|
-    | - | N/A | Nenhum requisito de desempenho mapeado até o momento. |
+    | RNF10 | Limitar Durações de Animações de Interface a 300ms | Todas as animações de elementos de interface (ex: modais, diálogos e transições) devem ter duração máxima de 300ms, assegurando que o sistema seja percebido como imediato e não atrase as interações do usuário. |
+    | RNF11 | Omitir Animações de Entrada em Telas de Alta Frequência | Telas e fluxos essenciais (acessados dezenas de vezes ao dia, como as abas principais) não devem possuir animações de entrada (entrance animations), priorizando o acesso direto à informação sem intervalos decorativos. |
+    | RNF12 | Utilizar Aceleração por Hardware em Animações | As transições visuais devem ser otimizadas para rodar na GPU (utilizando estritamente propriedades como `transform` e `opacity`), evitando recálculos de layout para garantir fluidez constante sem queda de quadros (frame drops). |
+    | RNF13 | Limitar Tempo de Processamento de Arquivos Locais | O processamento, extração de texto e parse estrutural de um histórico escolar em formato PDF deve ser concluído em no máximo 2 segundos, sendo executado de forma assíncrona para não causar engasgos (freezes) na interface. |
+    | RNF14 | Garantir Resposta Imediata do Banco de Dados Local | Consultas corriqueiras ao cache local via SQLite (como carregar a grade horária do dia ou listar os documentos baixados) devem ter um tempo de resposta inferior a 50ms, garantindo a percepção de instantaneidade ao trocar de abas. |
+    | RNF15 | Otimizar Tempo de Inicialização (Cold Start) | O aplicativo deve apresentar a primeira tela renderizada e estar completamente interativo (Time-to-Interactive) em até 2,5 segundos a partir de uma inicialização a frio. |
+    | RNF16 | Limitar Uso de Armazenamento Local | O aplicativo deve manter uma pegada de armazenamento (storage footprint) otimizada, garantindo que o banco de dados SQLite e o cache de documentos baixados não ultrapassem um limite nominal de 50 MB, visando poupar recursos dos dispositivos móveis. |
+    | RNF17 | Executar Sincronização Web sem Bloqueio de UI | As rotinas de web scraping e sincronização de dados divergentes devem rodar estritamente em segundo plano, sem ocupar ou bloquear a thread principal, mantendo a navegação em 60 FPS ininterruptos. |
 
 === "Suportabilidade"
     | ID | Nome | Descrição |
