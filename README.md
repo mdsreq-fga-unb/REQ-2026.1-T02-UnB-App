@@ -1,6 +1,10 @@
 # REQ-2026.1-T02-UnB-App
 Repositório de projeto da disciplina de REQ-T2, 2026.1.
 
+## Entregas das Unidades 2 e 3
+- Unidade 2: branch main e <a href="http:///mdsreq-fga-unb.github.io/REQ-2026.1-T02-UnB-App">Link Entrega Unidade 2</a>
+- Unidade 3: presente na branch feat/entregaUnidade3 e <a href="http:///mdsreq-fga-unb.github.io/REQ-2026.1-T02-UnB-App/entrega3">Link Entrega Unidade 3</a>
+
 ## Como usar a documentação
 
 ### 1. Instalar dependências
