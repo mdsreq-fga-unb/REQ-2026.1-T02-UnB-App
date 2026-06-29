@@ -143,6 +143,7 @@ nav:
       - Visão Geral: 10-feature-list/index.md
       - "10.1 Feature List Geral": 10-feature-list/feature-list-geral.md
       - "10.2 Priorização e MVP": 10-feature-list/priorizacao.md
+      - "10.3 Acompanhamento por Feature": 10-feature-list/acompanhamento.md
   - "Lições Aprendidas":
     - Visão Geral: 11-licoes/index.md
     - Unidade 1: 11-licoes/unidade1.md
