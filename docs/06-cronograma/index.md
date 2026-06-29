@@ -50,7 +50,8 @@
 >
 > Formação da Splash Screen e telas de primeiro uso ensinando como usar a aplicação
 
-- [ ] RF07 - Exibir Fluxos de Onboarding para Plataformas Oficiais
+- [ ] RF22 - Exibir Fluxo de Onboarding para o SIGAA
+- [ ] RF23 - Exibir Fluxo de Onboarding para o Aprender 3
 - [ ] RNF01 - Aplicar Interface com Tipografia Adaptável
 - [ ] RNF02 - Projetar Navegação de Tarefas Essenciais em Até 2 Cliques
 
