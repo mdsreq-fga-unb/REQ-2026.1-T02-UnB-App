@@ -133,8 +133,9 @@ nav:
     - "8·Requisitos":
       - Visão Geral: 08-requisitos/index.md
       - "8.1 Requisitos Funcionais": 08-requisitos/funcionais.md
-      - "8.2 Requisitos Não Funcionais": 08-requisitos/nao-funcionais.md
-      - "8.3 Rastreabilidade": 08-requisitos/rastreabilidade.md
+      - "8.2 Critérios de Aceite": 08-requisitos/criterios-aceite.md
+      - "8.3 Requisitos Não Funcionais": 08-requisitos/nao-funcionais.md
+      - "8.4 Rastreabilidade": 08-requisitos/rastreabilidade.md
     - "9·DoR e DoD":
       - Visão Geral: 09-dor-dod/index.md
       - "9.1 Definition of Ready": 09-dor-dod/dor.md
