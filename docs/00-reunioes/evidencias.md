@@ -1,6 +1,8 @@
 # 0.3 Evidências da Implementação
 
 > Página reservada para documentar e demonstrar a implementação prática das features desenvolvidas ao longo do projeto, validando o uso do framework Feature-Driven Development (FDD).
+>
+> 📌 Para uma visão **consolidada por processo FDD** (status, features, decisões técnicas e pendências), consulte também **[5.3 Evidências de Execução do Processo de ESW](../05-er/evidencias-execucao.md)**.
 
 ---
 
