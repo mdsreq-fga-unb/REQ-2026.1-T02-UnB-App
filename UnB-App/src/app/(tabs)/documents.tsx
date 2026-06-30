@@ -10,6 +10,7 @@ import * as DocumentPicker from 'expo-document-picker';
 import * as Sharing from 'expo-sharing';
 import * as IntentLauncher from 'expo-intent-launcher';
 import { useTextSize } from '@/contexts/TextSizeContext';
+import { useFocusEffect } from 'expo-router';
 
 // Mapeamento: SF Symbol (iOS) → Material Symbol (Android / Web)
 type CrossPlatformSymbol = {
@@ -145,9 +146,11 @@ export default function Documentos() {
     }
   }, [db, syncDefaultDocuments]);
 
-  useEffect(() => {
-    loadDocuments();
-  }, [loadDocuments]);
+  useFocusEffect(
+    useCallback(() => {
+      loadDocuments();
+    }, [loadDocuments])
+  );
 
   const handleBaixar = async (doc: DocumentRecord) => {
     if (doc.uri && doc.uri !== "") {
@@ -162,25 +165,24 @@ export default function Documentos() {
 
       if (!result.canceled && result.assets && result.assets.length > 0) {
         const asset = result.assets[0];
-        const fileName = `${doc.id}_${asset.name || 'documento.pdf'}`;
-        const newUri = FileSystem.documentDirectory + fileName;
         
-        await FileSystem.copyAsync({
-          from: asset.uri,
-          to: newUri
-        });
-
-        const extension = asset.name?.split('.').pop()?.toUpperCase() || 'ARQUIVO';
-        const newMeta = `Baixado em ${new Date().toLocaleDateString('pt-BR')} · ${extension}`;
+        const { processAndSaveDocument } = await import('../../../utils/documentProcessor');
         
-        const bindName = asset.name ?? 'documento.pdf';
-        const bindMimeType = asset.mimeType ?? null;
-        const bindSize = asset.size ?? null;
-
-        await db.runAsync(
-          'UPDATE documents SET uri = ?, fileName = ?, mimeType = ?, size = ?, meta = ? WHERE id = ?',
-          [newUri, bindName, bindMimeType, bindSize, newMeta, doc.id]
+        const res = await processAndSaveDocument(
+          db, 
+          asset.uri, 
+          asset.name, 
+          asset.mimeType, 
+          asset.size,
+          doc.id // Garante que ele salva exatamente no slot que o usuário clicou (ex: Declaração de Aluno Regular)
         );
+
+        if (res.success) {
+          Alert.alert('Documento Processado', res.message);
+        } else {
+          // Se o documento foi salvo mas a extração falhou (ex: Declaração comum), avisa o usuário.
+          Alert.alert('Salvo (Sem Processamento)', res.message);
+        }
 
         loadDocuments();
       }
