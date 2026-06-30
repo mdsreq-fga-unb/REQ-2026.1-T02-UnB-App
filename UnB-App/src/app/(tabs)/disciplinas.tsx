@@ -12,6 +12,7 @@ import { useFocusEffect, Link } from 'expo-router';
 import { useTextSize } from "@/contexts/TextSizeContext";
 import { SymbolView } from "expo-symbols";
 import * as FileSystem from 'expo-file-system/legacy';
+import { SigaaSync } from "../../components/SigaaSync";
 
 export default function DisciplinasScreen() {
   const db = useSQLiteContext();
@@ -117,6 +118,8 @@ export default function DisciplinasScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
+      <SigaaSync />
+
       <FlatList
         data={filteredDisciplinas}
         contentInsetAdjustmentBehavior="automatic"
