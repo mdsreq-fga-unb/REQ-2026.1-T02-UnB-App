@@ -9,28 +9,54 @@ export async function temGradeCadastrada(db: SQLiteDatabase): Promise<boolean> {
 
 export async function popularGradePorDados(db: SQLiteDatabase, aluno: InfoAluno | null, disciplinas: DisciplinaExtraida[]) {
   await db.withTransactionAsync(async () => {
-    // 1. Limpar dados anteriores (ou de uma vez só se for o único usuário)
-    await db.runAsync('DELETE FROM Aula');
-    await db.runAsync('DELETE FROM Turma_Docente');
-    await db.runAsync('DELETE FROM Turma_Aluno');
-    await db.runAsync('DELETE FROM Turma');
-    await db.runAsync('DELETE FROM Periodo_Letivo');
-    await db.runAsync('DELETE FROM Aluno');
-
-    // 2. Inserir Aluno
+    // 2. Inserir Aluno (com atualização de dados se já existir)
     const matricula = aluno?.matricula || '000000000';
     const ano = aluno?.ano || new Date().getFullYear();
     const periodo = aluno?.semestre || 1;
 
+    // GARANTIA DE USUÁRIO ÚNICO (SINGLE-USER APP)
+    // Se estivermos importando os dados de um aluno diferente do que já está no banco,
+    // limpamos o banco inteiro para não misturar matérias de duas pessoas.
+    const currentAluno = await db.getFirstAsync<{matricula: string}>('SELECT matricula FROM Aluno LIMIT 1');
+    if (currentAluno && currentAluno.matricula !== matricula) {
+      await db.runAsync('DELETE FROM Aula');
+      await db.runAsync('DELETE FROM Turma_Docente');
+      await db.runAsync('DELETE FROM Turma_Aluno');
+      await db.runAsync('DELETE FROM Turma');
+      await db.runAsync('DELETE FROM Periodo_Letivo');
+      await db.runAsync('DELETE FROM Aluno');
+    }
+
     await db.runAsync(
-      'INSERT OR IGNORE INTO Aluno (matricula, nome, curso, CPF) VALUES (?, ?, ?, ?)',
-      [matricula, aluno?.nome || 'ALUNO NÃO IDENTIFICADO', aluno?.curso || 'CURSO NÃO IDENTIFICADO', '']
+      `INSERT INTO Aluno (matricula, nome, curso, CPF) 
+       VALUES (?, ?, ?, ?) 
+       ON CONFLICT(matricula) DO UPDATE SET 
+         nome = excluded.nome, 
+         curso = excluded.curso,
+         CPF = CASE WHEN excluded.CPF != '' THEN excluded.CPF ELSE Aluno.CPF END`,
+      [matricula, aluno?.nome || 'ALUNO NÃO IDENTIFICADO', aluno?.curso || 'CURSO NÃO IDENTIFICADO', aluno?.cpf || '']
     );
 
     // 3. Inserir Período Letivo
     await db.runAsync(
       'INSERT OR IGNORE INTO Periodo_Letivo (ano, periodo, data_inicio, data_fim) VALUES (?, ?, ?, ?)',
       [ano, periodo, '', '']
+    );
+
+    // Salvar o Aluno e Semestre Ativos nas configurações (Cria a tabela se não existir dinamicamente)
+    await db.runAsync(`CREATE TABLE IF NOT EXISTS AppSettings (key TEXT PRIMARY KEY, value TEXT NOT NULL)`);
+    
+    await db.runAsync(
+      'INSERT INTO AppSettings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value=excluded.value',
+      ['active_matricula', matricula]
+    );
+    await db.runAsync(
+      'INSERT INTO AppSettings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value=excluded.value',
+      ['active_ano', ano.toString()]
+    );
+    await db.runAsync(
+      'INSERT INTO AppSettings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value=excluded.value',
+      ['active_periodo', periodo.toString()]
     );
 
     // 4. Inserir Disciplinas, Turmas, Docentes e Aulas
@@ -40,13 +66,35 @@ export async function popularGradePorDados(db: SQLiteDatabase, aluno: InfoAluno 
         [item.codigo, item.nome]
       );
 
-      await db.runAsync(
-        'INSERT INTO Turma (codigo_disciplina, numero_turma, ano, periodo) VALUES (?, ?, ?, ?)',
-        [item.codigo, item.turma, ano, periodo]
+      // Checa se a turma já existe para este aluno neste semestre
+      // Isso evita duplicações caso o "Histórico" leia a turma como "02" e o "Passe Livre" leia como "T02" ou caia no regex errado.
+      // Afinal, um aluno só pode estar em UMA turma da mesma matéria por semestre.
+      let idTurma: number | undefined;
+      const turmaExistente = await db.getFirstAsync<{ id_turma: number }>(
+        `SELECT t.id_turma 
+         FROM Turma t 
+         LEFT JOIN Turma_Aluno ta ON t.id_turma = ta.id_turma 
+         WHERE t.codigo_disciplina = ? AND t.ano = ? AND t.periodo = ? 
+         AND (ta.matricula_aluno = ? OR ta.matricula_aluno IS NULL)`,
+        [item.codigo, ano, periodo, matricula]
       );
-      
-      const turmaResult = await db.getFirstAsync<{ id_turma: number }>('SELECT last_insert_rowid() as id_turma');
-      const idTurma = turmaResult?.id_turma;
+
+      if (turmaExistente) {
+        idTurma = turmaExistente.id_turma;
+        
+        // Se a turma atual lida for mais confiável que a salva, podemos atualizar o número da turma.
+        // Assumimos que '00', '01' ou vazio podem ser defaults do parser, então atualizamos se vier algo melhor
+        if (item.turma && item.turma !== '00' && item.turma !== '01' && item.turma !== '--') {
+           await db.runAsync('UPDATE Turma SET numero_turma = ? WHERE id_turma = ?', [item.turma, idTurma]);
+        }
+      } else {
+        await db.runAsync(
+          'INSERT INTO Turma (codigo_disciplina, numero_turma, ano, periodo) VALUES (?, ?, ?, ?)',
+          [item.codigo, item.turma, ano, periodo]
+        );
+        const turmaResult = await db.getFirstAsync<{ id_turma: number }>('SELECT last_insert_rowid() as id_turma');
+        idTurma = turmaResult?.id_turma;
+      }
 
       if (idTurma) {
         await db.runAsync(
@@ -55,6 +103,7 @@ export async function popularGradePorDados(db: SQLiteDatabase, aluno: InfoAluno 
         );
 
         for (const professorNome of item.docentes) {
+          if (!professorNome) continue;
           await db.runAsync(
             'INSERT OR IGNORE INTO Docente (nome_docente) VALUES (?)',
             [professorNome]
@@ -69,14 +118,19 @@ export async function popularGradePorDados(db: SQLiteDatabase, aluno: InfoAluno 
           }
         }
 
-        const horariosStr = item.horarios.join(' ');
-        const horariosParsados = parseHorarioUnB(horariosStr, item.local);
-        
-        for (const h of horariosParsados) {
-          await db.runAsync(
-            'INSERT INTO Aula (id_turma, dia_semana, local, hora_inicio, hora_fim) VALUES (?, ?, ?, ?, ?)',
-            [idTurma, h.diaSemana, h.local, h.horaInicio, h.horaFim]
-          );
+        // Apenas substitui as aulas se o documento fornecer horários (Passe Livre)
+        if (item.horarios && item.horarios.length > 0) {
+          await db.runAsync('DELETE FROM Aula WHERE id_turma = ?', [idTurma]);
+          
+          const horariosStr = item.horarios.join(' ');
+          const horariosParsados = parseHorarioUnB(horariosStr, item.local);
+          
+          for (const h of horariosParsados) {
+            await db.runAsync(
+              'INSERT INTO Aula (id_turma, dia_semana, local, hora_inicio, hora_fim) VALUES (?, ?, ?, ?, ?)',
+              [idTurma, h.diaSemana, h.local, h.horaInicio, h.horaFim]
+            );
+          }
         }
       }
     }
@@ -105,13 +159,33 @@ export type DisciplinaInfo = {
 };
 
 async function getDefaultParams(db: SQLiteDatabase) {
+  let matricula = '000000000';
+  let ano = new Date().getFullYear();
+  let periodo = 1;
+
+  try {
+    const matriculaSetting = await db.getFirstAsync<{value: string}>("SELECT value FROM AppSettings WHERE key = 'active_matricula'");
+    const anoSetting = await db.getFirstAsync<{value: string}>("SELECT value FROM AppSettings WHERE key = 'active_ano'");
+    const periodoSetting = await db.getFirstAsync<{value: string}>("SELECT value FROM AppSettings WHERE key = 'active_periodo'");
+
+    if (matriculaSetting?.value && anoSetting?.value && periodoSetting?.value) {
+      return {
+        matricula: matriculaSetting.value,
+        ano: parseInt(anoSetting.value, 10),
+        periodo: parseInt(periodoSetting.value, 10)
+      };
+    }
+  } catch (error) {
+    // Tabela AppSettings pode não existir ainda
+  }
+
   const aluno = await db.getFirstAsync<{matricula: string}>('SELECT matricula FROM Aluno LIMIT 1');
   const periodoLetivo = await db.getFirstAsync<{ano: number, periodo: number}>('SELECT ano, periodo FROM Periodo_Letivo LIMIT 1');
   
   return {
-    matricula: aluno?.matricula || '000000000',
-    ano: periodoLetivo?.ano || new Date().getFullYear(),
-    periodo: periodoLetivo?.periodo || 1
+    matricula: aluno?.matricula || matricula,
+    ano: periodoLetivo?.ano || ano,
+    periodo: periodoLetivo?.periodo || periodo
   };
 }
 
