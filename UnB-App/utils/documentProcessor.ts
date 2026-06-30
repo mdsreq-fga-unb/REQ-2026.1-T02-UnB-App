@@ -3,6 +3,7 @@ import { extractTextWithInfo } from 'expo-pdf-text-extract';
 import * as FileSystem from 'expo-file-system/legacy';
 import { popularGradePorDados } from '../database/queries/gradeQueries';
 import { extrairDadosDoPDF } from './pdfParser';
+import { extrairDadosDoHistorico } from './historicoParser';
 
 export async function processAndSaveDocument(
   db: SQLiteDatabase,
@@ -72,7 +73,6 @@ export async function processAndSaveDocument(
     
     // Detecção automática de qual documento foi enviado
     if (isHistorico) {
-      const { extrairDadosDoHistorico } = await import('./historicoParser');
       const parsedData = extrairDadosDoHistorico(text);
       
       if (!parsedData || parsedData.disciplinas.length === 0) {
