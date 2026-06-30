@@ -61,14 +61,22 @@ export async function popularGradePorDados(db: SQLiteDatabase, aluno: InfoAluno 
 
     // 4. Inserir Disciplinas, Turmas, Docentes e Aulas
     for (const item of disciplinas) {
+      const turmaAno = item.ano || ano;
+      const turmaPeriodo = item.periodo || periodo;
+      const situacao = item.situacao || 'MATR';
+
+      // Garante que o Período Letivo da matéria exista (necessário pois matérias passadas podem não ter período criado)
+      await db.runAsync(
+        'INSERT OR IGNORE INTO Periodo_Letivo (ano, periodo, data_inicio, data_fim) VALUES (?, ?, ?, ?)',
+        [turmaAno, turmaPeriodo, '', '']
+      );
+
       await db.runAsync(
         'INSERT OR IGNORE INTO Disciplina (codigo_disciplina, nome_disciplina) VALUES (?, ?)',
         [item.codigo, item.nome]
       );
 
       // Checa se a turma já existe para este aluno neste semestre
-      // Isso evita duplicações caso o "Histórico" leia a turma como "02" e o "Passe Livre" leia como "T02" ou caia no regex errado.
-      // Afinal, um aluno só pode estar em UMA turma da mesma matéria por semestre.
       let idTurma: number | undefined;
       const turmaExistente = await db.getFirstAsync<{ id_turma: number }>(
         `SELECT t.id_turma 
@@ -76,30 +84,30 @@ export async function popularGradePorDados(db: SQLiteDatabase, aluno: InfoAluno 
          LEFT JOIN Turma_Aluno ta ON t.id_turma = ta.id_turma 
          WHERE t.codigo_disciplina = ? AND t.ano = ? AND t.periodo = ? 
          AND (ta.matricula_aluno = ? OR ta.matricula_aluno IS NULL)`,
-        [item.codigo, ano, periodo, matricula]
+        [item.codigo, turmaAno, turmaPeriodo, matricula]
       );
 
       if (turmaExistente) {
         idTurma = turmaExistente.id_turma;
         
-        // Se a turma atual lida for mais confiável que a salva, podemos atualizar o número da turma.
-        // Assumimos que '00', '01' ou vazio podem ser defaults do parser, então atualizamos se vier algo melhor
         if (item.turma && item.turma !== '00' && item.turma !== '01' && item.turma !== '--') {
            await db.runAsync('UPDATE Turma SET numero_turma = ? WHERE id_turma = ?', [item.turma, idTurma]);
         }
       } else {
         await db.runAsync(
           'INSERT INTO Turma (codigo_disciplina, numero_turma, ano, periodo) VALUES (?, ?, ?, ?)',
-          [item.codigo, item.turma, ano, periodo]
+          [item.codigo, item.turma, turmaAno, turmaPeriodo]
         );
         const turmaResult = await db.getFirstAsync<{ id_turma: number }>('SELECT last_insert_rowid() as id_turma');
         idTurma = turmaResult?.id_turma;
       }
 
       if (idTurma) {
+        // Insere a associação ou atualiza a situação caso já exista
         await db.runAsync(
-          'INSERT OR IGNORE INTO Turma_Aluno (id_turma, matricula_aluno) VALUES (?, ?)',
-          [idTurma, matricula]
+          `INSERT INTO Turma_Aluno (id_turma, matricula_aluno, situacao) VALUES (?, ?, ?)
+           ON CONFLICT(id_turma, matricula_aluno) DO UPDATE SET situacao = excluded.situacao`,
+          [idTurma, matricula, situacao]
         );
 
         for (const professorNome of item.docentes) {
@@ -209,7 +217,7 @@ export async function buscarGradePorDia(db: SQLiteDatabase, diaSemana: number): 
     INNER JOIN Turma_Aluno ta ON t.id_turma = ta.id_turma
     LEFT JOIN Turma_Docente td ON t.id_turma = td.id_turma
     LEFT JOIN Docente doc ON td.id_docente = doc.id_docente
-    WHERE a.dia_semana = ? AND ta.matricula_aluno = ? AND t.ano = ? AND t.periodo = ?
+    WHERE a.dia_semana = ? AND ta.matricula_aluno = ? AND t.ano = ? AND t.periodo = ? AND ta.situacao = 'MATR'
     GROUP BY 
       a.id_turma, 
       a.dia_semana, 
@@ -278,7 +286,7 @@ export async function buscarTodasDisciplinas(db: SQLiteDatabase): Promise<Discip
     INNER JOIN Turma_Aluno ta ON t.id_turma = ta.id_turma
     LEFT JOIN Turma_Docente td ON t.id_turma = td.id_turma
     LEFT JOIN Docente doc ON td.id_docente = doc.id_docente
-    WHERE ta.matricula_aluno = ? AND t.ano = ? AND t.periodo = ?
+    WHERE ta.matricula_aluno = ? AND t.ano = ? AND t.periodo = ? AND ta.situacao = 'MATR'
     GROUP BY t.id_turma
     ORDER BY d.nome_disciplina ASC
     `,

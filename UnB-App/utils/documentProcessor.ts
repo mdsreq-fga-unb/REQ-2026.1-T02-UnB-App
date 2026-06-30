@@ -100,17 +100,16 @@ export async function processAndSaveDocument(
         }
       }
 
-      const disciplinasAtuais = parsedData.disciplinas.filter(
-        d => d.ano === maxAno && d.periodo === maxPeriodo && d.situacao === 'MATR'
-      );
-
-      const disciplinasFormatadas = disciplinasAtuais.map(d => ({
+      const disciplinasFormatadas = parsedData.disciplinas.map(d => ({
         codigo: d.codigo,
         turma: d.turma,
         nome: d.nome,
         docentes: d.docentes,
         horarios: [], // Histórico não possui horários
-        local: ''     // Histórico não possui local
+        local: '',    // Histórico não possui local
+        situacao: d.situacao,
+        ano: d.ano,
+        periodo: d.periodo
       }));
 
       const alunoInfo = {

@@ -5,6 +5,9 @@ export type DisciplinaExtraida = {
   docentes: string[];
   local: string;
   horarios: string[];
+  situacao?: string;
+  ano?: number;
+  periodo?: number;
 };
 
 export type InfoAluno = {
