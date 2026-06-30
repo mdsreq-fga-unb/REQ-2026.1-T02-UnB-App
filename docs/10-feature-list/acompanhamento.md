@@ -23,7 +23,7 @@
 | **CP** | Chief Programmer | Luís / Davi |
 | **PM** | Project Manager | Rivaldavio |
 | **CA** | Chief Architect | Davi |
-| **CO** | Class Owner | Luís / Davi / Mateus / Isaac |
+| **CO** | Class Owner | Luís / Davi / Mateus / Isaac / Pedro |
 | **DE** | Domain Expert | Luís |
 | **TW** | Technical Writer | Luís / Mateus |
 | **T** | Tester | Pedro / Mateus / Isaac |
@@ -54,10 +54,10 @@
 ┌──────────────────────┬──────────────────────┬──────────────────────┬──────────────────────┐
 │   PLANEJADAS (⬜)    │  EM ANDAMENTO (🟡)   │   CONCLUÍDAS (✅)    │  PENDENTES (🔴)      │
 ├──────────────────────┼──────────────────────┼──────────────────────┼──────────────────────┤
-│ F04 — RF04, RF05,    │ F02 — QRCode BCE     │ (nenhuma concluída   │ F08 — Web Scraping   │
-│ RF07                 │ F03 — Carteirinha    │  integralmente)      │  SIGAA              │
-│ F05 — Onboarding     │ F04 — Histórico      │                      │                      │
-│  SIGAA/Aprender 3    │ F05 — Onboarding     │                      │                      │
+│ F05 — Onboarding     │ F02 — QRCode BCE     │ (nenhuma concluída   │ F08 — Web Scraping   │
+│  SIGAA/Aprender 3    │ F03 — Carteirinha    │  integralmente)      │  SIGAA              │
+│                      │ F04 — Histórico      │                      │                      │
+│                      │ F05 — Onboarding     │                      │                      │
 │                      │  (parcial)           │                      │                      │
 │                      │ F07 — Grade Horária  │                      │                      │
 │                      │  (parcial)           │                      │                      │
@@ -111,7 +111,7 @@ gantt
   - [ ] Fluxo de onboarding SIGAA (RF22)
   - [ ] Fluxo de onboarding Aprender 3 (RF23)
   - [ ] Inspeção visual com usuária 60+
-- **Evidências:** [tela-inicial.png](../../assets/evidencias/tela-inicial.png); captura em `UnB-App/src/screens/Home*`
+- **Evidências:** [tela-inicial.png](../assets/evidencias/tela-inicial.png); captura em `UnB-App/src/screens/Home*`
 - **Critério de pronto:** Ambos os fluxos (SIGAA + Aprender 3) passam pelo [checklist de acessibilidade](../08-requisitos/checklist-acessibilidade.md) e são demonstrados para a cliente.
 
 ---
@@ -151,7 +151,7 @@ gantt
   - [x] Filtros por tipo/data
   - [ ] Testes unitários do parser
   - [ ] Validação com usuária 60+
-- **Evidências:** [Vídeo Buscas e Filtros](https://drive.google.com/file/d/1EOVQwvk7PbyRCCIwI105-FQpBcUWR342/view?usp=drive_link); [tela-documentos.png](../../assets/evidencias/tela-documentos.png)
+- **Evidências:** [Vídeo Buscas e Filtros](https://drive.google.com/file/d/1EOVQwvk7PbyRCCIwI105-FQpBcUWR342/view?usp=drive_link); [tela-documentos.png](../assets/evidencias/tela-documentos.png)
 - **Critério de pronto:** Upload + busca + checklist de acessibilidade aprovados.
 
 ---

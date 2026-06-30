@@ -16,10 +16,10 @@
 
 | Você quer… | Vá para |
 |------------|---------|
-| Ver o **status atual** de cada feature em uma única tabela | [10.1 Feature List Geral §2](feature-list-geral.md#2-backlog-geral--tabela-consolidada-feature-list-como-instrumento-de-acompanhamento) |
-| Consultar **descrição FDD + dependências + evidências** de uma feature específica | [10.1 Feature List Geral §3](feature-list-geral.md#3-cards-por-feature-detalhamento) |
-| Entender o **grafo de dependências** entre features | [10.1 Feature List Geral §4 — Mapa de Dependências](feature-list-geral.md#4-mapa-de-dependências-entre-features) |
-| Conferir o **reflexo do cronograma** dentro da Feature List | [10.1 Feature List Geral §5 — Cronograma × Features](feature-list-geral.md#5-cronograma--features-visão-rápida) |
+| Ver o **status atual** de cada feature em uma única tabela | [10.3 Acompanhamento por Feature](acompanhamento.md) |
+| Consultar **descrição FDD + dependências + evidências** de uma feature específica | [10.1 Feature List Geral](feature-list-geral.md) |
+| Entender o **grafo de dependências** entre features | [10.2 Priorização e MVP](priorizacao.md) |
+| Conferir o **reflexo do cronograma** dentro da Feature List | [10.3 Acompanhamento por Feature](acompanhamento.md) |
 | Ver o **quadro Kanban + cards detalhados** de cada feature | [10.3 Acompanhamento por Feature](acompanhamento.md) |
 | Saber o que **compõe o MVP** e por quê | [10.2 Priorização e MVP](priorizacao.md) |
 | **Rastrear uma feature até os requisitos** que a sustentam | [8.3 Matriz de Rastreabilidade](../08-requisitos/rastreabilidade.md) |
