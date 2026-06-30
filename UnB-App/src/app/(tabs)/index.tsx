@@ -54,7 +54,7 @@ function ActionTile({ title, icon, badge, onPress, index }: ActionTileProps) {
   const { getFontSize } = useTextSize();
 
   return (
-    <Animated.View 
+    <Animated.View
       style={{ flexBasis: "48%", flexGrow: 1 }}
     >
       <ScalePressable
@@ -65,30 +65,30 @@ function ActionTile({ title, icon, badge, onPress, index }: ActionTileProps) {
           pressed && styles.tilePressed,
         ]}
       >
-      <View style={styles.tileIconWrapper}>
-        {/* name recebe o objeto diretamente — iOS usa SF Symbol, Android usa Material Symbol */}
-        <SymbolView
-          name={icon as any}
-          tintColor={COLORS.primary}
-          size={28}
-        />
-      </View>
-      <Text
-        style={[
-          styles.tileTitle,
-          { fontSize: getFontSize(18), lineHeight: getFontSize(22.5) },
-        ]}
-      >
-        {title}
-      </Text>
-      {badge ? (
-        <View style={styles.badge}>
-          <Text style={[styles.badgeText, { fontSize: getFontSize(14) }]}>
-            {badge}
-          </Text>
+        <View style={styles.tileIconWrapper}>
+          {/* name recebe o objeto diretamente — iOS usa SF Symbol, Android usa Material Symbol */}
+          <SymbolView
+            name={icon as any}
+            tintColor={COLORS.primary}
+            size={28}
+          />
         </View>
-      ) : null}
-    </ScalePressable>
+        <Text
+          style={[
+            styles.tileTitle,
+            { fontSize: getFontSize(18), lineHeight: getFontSize(22.5) },
+          ]}
+        >
+          {title}
+        </Text>
+        {badge ? (
+          <View style={styles.badge}>
+            <Text style={[styles.badgeText, { fontSize: getFontSize(14) }]}>
+              {badge}
+            </Text>
+          </View>
+        ) : null}
+      </ScalePressable>
     </Animated.View>
   );
 }
@@ -102,32 +102,32 @@ function CourseRow({ name, meta, onPress, index = 0 }: CourseRowProps) {
         onPress={onPress}
         style={({ pressed }) => [styles.courseRow, pressed && styles.rowPressed]}
       >
-      <View style={styles.courseText}>
-        <Text
-          style={[
-            styles.courseName,
-            { fontSize: getFontSize(17), lineHeight: getFontSize(25.5) },
-          ]}
-          numberOfLines={1}
-        >
-          {name}
-        </Text>
-        <Text
-          style={[
-            styles.courseMeta,
-            { fontSize: getFontSize(14), lineHeight: getFontSize(21) },
-          ]}
-          numberOfLines={1}
-        >
-          {meta}
-        </Text>
-      </View>
+        <View style={styles.courseText}>
+          <Text
+            style={[
+              styles.courseName,
+              { fontSize: getFontSize(17), lineHeight: getFontSize(25.5) },
+            ]}
+            numberOfLines={1}
+          >
+            {name}
+          </Text>
+          <Text
+            style={[
+              styles.courseMeta,
+              { fontSize: getFontSize(14), lineHeight: getFontSize(21) },
+            ]}
+            numberOfLines={1}
+          >
+            {meta}
+          </Text>
+        </View>
 
-      <SymbolView
-        name={{ ios: "chevron.right", android: "chevron_right", web: "chevron_right" }}
-        size={22}
-        tintColor={COLORS.textPlaceholder}
-      />
+        <SymbolView
+          name={{ ios: "chevron.right", android: "chevron_right", web: "chevron_right" }}
+          size={22}
+          tintColor={COLORS.textPlaceholder}
+        />
       </ScalePressable>
     </Animated.View>
   );
@@ -186,266 +186,266 @@ export default function Index() {
 
   return (
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
-      <ScrollView 
+      <ScrollView
         style={styles.container}
         contentContainerStyle={styles.scrollContent}
         scrollsToTop={isFocused}
       >
-          {/* AppBar */}
-          <View style={styles.appBar}>
-            <View style={styles.logoBadge}>
-              <Image
-                source={require("@/../assets/images/icon.png")}
-                style={styles.logoImage}
-                resizeMode="cover"
-              />
-            </View>
-            <View style={styles.appBarText}>
-              <Text
-                style={[
-                  styles.appBarTitle,
-                  { fontSize: getFontSize(18), lineHeight: getFontSize(22.5) },
-                ]}
-              >
-                <Text style={{ color: COLORS.textPrimary }}>UnB </Text>
-                <Text style={{ color: COLORS.primary }}>App</Text>
-              </Text>
-              <Text
-                style={[
-                  styles.appBarSubtitle,
-                  { fontSize: getFontSize(12), lineHeight: getFontSize(15) },
-                ]}
-              >
-                Universidade de Brasília
-              </Text>
-            </View>
+        {/* AppBar */}
+        <View style={styles.appBar}>
+          <View style={styles.logoBadge}>
+            <Image
+              source={require("@/../assets/images/icon.png")}
+              style={styles.logoImage}
+              resizeMode="cover"
+            />
           </View>
-
-          {/* Header greeting */}
-          <View style={styles.header}>
+          <View style={styles.appBarText}>
             <Text
               style={[
-                styles.greeting,
-                { fontSize: getFontSize(15), lineHeight: getFontSize(22.5) },
+                styles.appBarTitle,
+                { fontSize: getFontSize(18), lineHeight: getFontSize(22.5) },
               ]}
             >
-              Bom dia,
+              <Text style={{ color: COLORS.textPrimary }}>UnB </Text>
+              <Text style={{ color: COLORS.primary }}>App</Text>
             </Text>
             <Text
               style={[
-                styles.userName,
-                { fontSize: getFontSize(28), lineHeight: getFontSize(35) },
+                styles.appBarSubtitle,
+                { fontSize: getFontSize(12), lineHeight: getFontSize(15) },
               ]}
             >
-              Olá, Rivadalvio!
+              Universidade de Brasília
             </Text>
           </View>
+        </View>
 
-          {/* Main content */}
-          <View style={styles.mainContent}>
-            {/* Profile header card */}
-            <ScalePressable
-              onPress={() => router.navigate("/ajustes")}
-              style={({ pressed }) => [
-                styles.profileCard,
-                pressed && { opacity: 0.7 }
-              ]}
-            >
-              <View style={styles.profileAvatar}>
+        {/* Header greeting */}
+        <View style={styles.header}>
+          <Text
+            style={[
+              styles.greeting,
+              { fontSize: getFontSize(15), lineHeight: getFontSize(22.5) },
+            ]}
+          >
+            Bom dia,
+          </Text>
+          <Text
+            style={[
+              styles.userName,
+              { fontSize: getFontSize(28), lineHeight: getFontSize(35) },
+            ]}
+          >
+            Olá, Rivadalvio!
+          </Text>
+        </View>
 
-                <SymbolView
-                  name={{ ios: "person.fill", android: "person", web: "person" }}
-                  size={32}
-                  tintColor={COLORS.primary}
-                />
+        {/* Main content */}
+        <View style={styles.mainContent}>
+          {/* Profile header card */}
+          <ScalePressable
+            onPress={() => router.navigate("/ajustes")}
+            style={({ pressed }) => [
+              styles.profileCard,
+              pressed && { opacity: 0.7 }
+            ]}
+          >
+            <View style={styles.profileAvatar}>
 
-              </View>
-              <View style={styles.profileInfo}>
-                <Text
-                  style={[
-                    styles.profileName,
-                    { fontSize: getFontSize(22), lineHeight: getFontSize(27.5) },
-                  ]}
-                  numberOfLines={1}
-                >
-                  Rivadalvio Joaquim
-                </Text>
-                <Text
-                  style={[
-                    styles.profileMeta,
-                    { fontSize: getFontSize(15), lineHeight: getFontSize(20.625) },
-                  ]}
-                  numberOfLines={1}
-                >
-                  Faculdade de Ciências e Tecnologias
-                </Text>
-                <Text
-                  style={[
-                    styles.profileMeta,
-                    { fontSize: getFontSize(15), lineHeight: getFontSize(20.625) },
-                  ]}
-                  numberOfLines={1}
-                >
-                  Campus UnB Gama
-                </Text>
-              </View>
-            </ScalePressable>
+              <SymbolView
+                name={{ ios: "person.fill", android: "person", web: "person" }}
+                size={32}
+                tintColor={COLORS.primary}
+              />
 
-            {/* Quick action tiles */}
-            <View style={styles.tilesGrid}>
-              <ActionTile
-                index={0}
-                title="Minhas Disciplinas"
-                icon={{ ios: "book.closed.fill", android: "menu_book", web: "menu_book" }}
-                onPress={() => router.push("/disciplinas")}
+            </View>
+            <View style={styles.profileInfo}>
+              <Text
+                style={[
+                  styles.profileName,
+                  { fontSize: getFontSize(22), lineHeight: getFontSize(27.5) },
+                ]}
+                numberOfLines={1}
+              >
+                Rivadalvio Joaquim
+              </Text>
+              <Text
+                style={[
+                  styles.profileMeta,
+                  { fontSize: getFontSize(15), lineHeight: getFontSize(20.625) },
+                ]}
+                numberOfLines={1}
+              >
+                Faculdade de Ciências e Tecnologias
+              </Text>
+              <Text
+                style={[
+                  styles.profileMeta,
+                  { fontSize: getFontSize(15), lineHeight: getFontSize(20.625) },
+                ]}
+                numberOfLines={1}
+              >
+                Campus UnB Gama
+              </Text>
+            </View>
+          </ScalePressable>
+
+          {/* Quick action tiles */}
+          <View style={styles.tilesGrid}>
+            <ActionTile
+              index={0}
+              title="Minhas Disciplinas"
+              icon={{ ios: "book.closed.fill", android: "menu_book", web: "menu_book" }}
+              onPress={() => router.push("/disciplinas")}
+            />
+            <ActionTile
+              index={1}
+              title="Meu Acesso"
+              icon={{ ios: "person.text.rectangle.fill", android: "badge", web: "badge" }}
+              onPress={() => router.push("../em-breve-modal")}
+            />
+            <ActionTile
+              index={2}
+              title="Meus Documentos"
+              icon={{ ios: "doc.text.fill", android: "description", web: "description" }}
+              onPress={() => router.push("/documents")}
+            />
+            <ActionTile
+              index={3}
+              title="Fórum do Curso"
+              icon={{ ios: "bubble.left.and.bubble.right.fill", android: "forum", web: "forum" }}
+              badge="2"
+            />
+          </View>
+
+          {/* Latest updates */}
+          <View style={styles.section}>
+            <View style={styles.sectionHeader}>
+
+              <SymbolView
+                name={{ ios: "megaphone.fill", android: "campaign", web: "campaign" }}
+                size={22}
+                tintColor={COLORS.textPrimary}
               />
-              <ActionTile
-                index={1}
-                title="Meu Acesso"
-                icon={{ ios: "person.text.rectangle.fill", android: "badge", web: "badge" }}
-                onPress={() => router.push("/em-breve-modal")}
-              />
-              <ActionTile
-                index={2}
-                title="Meus Documentos"
-                icon={{ ios: "doc.text.fill", android: "description", web: "description" }}
-                onPress={() => router.push("/documents")}
-              />
-              <ActionTile
-                index={3}
-                title="Fórum do Curso"
-                icon={{ ios: "bubble.left.and.bubble.right.fill", android: "forum", web: "forum" }}
-                badge="2"
-              />
+
+              <Text
+                style={[
+                  styles.sectionTitle,
+                  { fontSize: getFontSize(20), lineHeight: getFontSize(30) },
+                ]}
+              >
+                Últimas Atualizações
+              </Text>
             </View>
 
-            {/* Latest updates */}
-            <View style={styles.section}>
-              <View style={styles.sectionHeader}>
-
-                <SymbolView
-                  name={{ ios: "megaphone.fill", android: "campaign", web: "campaign" }}
-                  size={22}
-                  tintColor={COLORS.textPrimary}
-                />
-
-                <Text
-                  style={[
-                    styles.sectionTitle,
-                    { fontSize: getFontSize(20), lineHeight: getFontSize(30) },
-                  ]}
-                >
-                  Últimas Atualizações
-                </Text>
-              </View>
-
-              <View style={styles.updateCard}>
-                <Text
-                  style={[
-                    styles.updateEyebrow,
-                    { fontSize: getFontSize(14), lineHeight: getFontSize(21) },
-                  ]}
-                >
-                  16/03/2026 · QUALIDADE DE SOFTWARE 1
-                </Text>
-                <Text
-                  style={[
-                    styles.updateBody,
-                    { fontSize: getFontSize(17), lineHeight: getFontSize(23.375) },
-                  ]}
-                >
-                  Novo tópico no Aula: Apresentação do plano de ensino e formação das equipes de desenvolvimento.
-                </Text>
-                <ScalePressable
-                  onPress={() => router.push("/disciplinas")}
-                  style={({ pressed }) => [
-                    styles.primaryButton,
-                    pressed && styles.primaryButtonPressed,
-                  ]}
-                >
-                  <Text
-                    style={[
-                      styles.primaryButtonText,
-                      { fontSize: getFontSize(16), lineHeight: getFontSize(24) },
-                    ]}
-                  >
-                    Ver Turma
-                  </Text>
-                </ScalePressable>
-              </View>
-            </View>
-
-            {/* Courses */}
-            <View style={styles.section}>
-              <View style={styles.sectionHeader}>
-
-                <SymbolView
-                  name={{ ios: "books.vertical.fill", android: "library_books", web: "library_books" }}
-                  size={22}
-                  tintColor={COLORS.textPrimary}
-                />
-
-                <Text
-                  style={[
-                    styles.sectionTitle,
-                    { fontSize: getFontSize(20), lineHeight: getFontSize(30) },
-                  ]}
-                >
-                  Minhas Disciplinas
-                </Text>
-              </View>
-
-              <View style={styles.coursesCard}>
-                {disciplinas.slice(0, 4).map((disciplina, index) => (
-                  <View key={disciplina.id_turma.toString()}>
-                    <CourseRow
-                      index={index}
-                      name={disciplina.nome_disciplina}
-                      meta={`2026.1 · ${disciplina.codigo_disciplina}${disciplina.horarios_formatados ? ` · ${disciplina.horarios_formatados}` : ''}`}
-                      onPress={() => router.push("/disciplinas")}
-                    />
-                    {index < Math.min(disciplinas.length, 4) - 1 && <View style={styles.courseDivider} />}
-                  </View>
-                ))}
-                {disciplinas.length === 0 && (
-                  <Text style={{ padding: 16, color: COLORS.textMuted, textAlign: 'center', fontFamily: FONT }}>
-                    Nenhuma disciplina encontrada.
-                  </Text>
-                )}
-              </View>
-
+            <View style={styles.updateCard}>
+              <Text
+                style={[
+                  styles.updateEyebrow,
+                  { fontSize: getFontSize(14), lineHeight: getFontSize(21) },
+                ]}
+              >
+                16/03/2026 · QUALIDADE DE SOFTWARE 1
+              </Text>
+              <Text
+                style={[
+                  styles.updateBody,
+                  { fontSize: getFontSize(17), lineHeight: getFontSize(23.375) },
+                ]}
+              >
+                Novo tópico no Aula: Apresentação do plano de ensino e formação das equipes de desenvolvimento.
+              </Text>
               <ScalePressable
                 onPress={() => router.push("/disciplinas")}
                 style={({ pressed }) => [
-                  styles.outlineButton,
-                  pressed && styles.outlineButtonPressed,
+                  styles.primaryButton,
+                  pressed && styles.primaryButtonPressed,
                 ]}
               >
                 <Text
                   style={[
-                    styles.outlineButtonText,
+                    styles.primaryButtonText,
                     { fontSize: getFontSize(16), lineHeight: getFontSize(24) },
                   ]}
                 >
-                  Ver todas as disciplinas
+                  Ver Turma
                 </Text>
               </ScalePressable>
             </View>
-
-            {/* Footer shortcuts */}
-            <View style={styles.shortcutsRow}>
-
-              <FooterShortcut
-                title="Turmas Anteriores"
-                icon={{ ios: "clock.arrow.circlepath", android: "history", web: "history" }}
-              />
-              <FooterShortcut
-                title="Grade Horária"
-                icon={{ ios: "calendar", android: "calendar_today", web: "calendar_today" }}
-                onPress={() => router.push('/grade-modal')}
-              />
-            </View>
           </View>
+
+          {/* Courses */}
+          <View style={styles.section}>
+            <View style={styles.sectionHeader}>
+
+              <SymbolView
+                name={{ ios: "books.vertical.fill", android: "library_books", web: "library_books" }}
+                size={22}
+                tintColor={COLORS.textPrimary}
+              />
+
+              <Text
+                style={[
+                  styles.sectionTitle,
+                  { fontSize: getFontSize(20), lineHeight: getFontSize(30) },
+                ]}
+              >
+                Minhas Disciplinas
+              </Text>
+            </View>
+
+            <View style={styles.coursesCard}>
+              {disciplinas.slice(0, 4).map((disciplina, index) => (
+                <View key={disciplina.id_turma.toString()}>
+                  <CourseRow
+                    index={index}
+                    name={disciplina.nome_disciplina}
+                    meta={`2026.1 · ${disciplina.codigo_disciplina}${disciplina.horarios_formatados ? ` · ${disciplina.horarios_formatados}` : ''}`}
+                    onPress={() => router.push("/disciplinas")}
+                  />
+                  {index < Math.min(disciplinas.length, 4) - 1 && <View style={styles.courseDivider} />}
+                </View>
+              ))}
+              {disciplinas.length === 0 && (
+                <Text style={{ padding: 16, color: COLORS.textMuted, textAlign: 'center', fontFamily: FONT }}>
+                  Nenhuma disciplina encontrada.
+                </Text>
+              )}
+            </View>
+
+            <ScalePressable
+              onPress={() => router.push("/disciplinas")}
+              style={({ pressed }) => [
+                styles.outlineButton,
+                pressed && styles.outlineButtonPressed,
+              ]}
+            >
+              <Text
+                style={[
+                  styles.outlineButtonText,
+                  { fontSize: getFontSize(16), lineHeight: getFontSize(24) },
+                ]}
+              >
+                Ver todas as disciplinas
+              </Text>
+            </ScalePressable>
+          </View>
+
+          {/* Footer shortcuts */}
+          <View style={styles.shortcutsRow}>
+
+            <FooterShortcut
+              title="Turmas Anteriores"
+              icon={{ ios: "clock.arrow.circlepath", android: "history", web: "history" }}
+            />
+            <FooterShortcut
+              title="Grade Horária"
+              icon={{ ios: "calendar", android: "calendar_today", web: "calendar_today" }}
+              onPress={() => router.push('/grade-modal')}
+            />
+          </View>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
