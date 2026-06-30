@@ -14,6 +14,7 @@ export type InfoAluno = {
   periodoLetivo: string;
   ano: number;
   semestre: number;
+  cpf?: string;
 };
 
 export function extrairDadosDoPDF(texto: string): { aluno: InfoAluno | null; disciplinas: DisciplinaExtraida[] } {
