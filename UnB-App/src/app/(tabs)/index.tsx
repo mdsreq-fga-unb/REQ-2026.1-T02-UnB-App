@@ -301,8 +301,9 @@ export default function Index() {
               />
               <ActionTile
                 index={1}
-                title="Minhas Atividades"
+                title="Meu Acesso"
                 icon={{ ios: "person.text.rectangle.fill", android: "badge", web: "badge" }}
+                onPress={() => router.push("/em-breve-modal")}
               />
               <ActionTile
                 index={2}
