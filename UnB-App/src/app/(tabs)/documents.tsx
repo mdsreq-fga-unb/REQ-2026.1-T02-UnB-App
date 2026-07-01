@@ -60,7 +60,7 @@ interface DocumentRecord {
 const DEFAULT_DOCS = [
   {
     title: "Carteirinha Estudantil",
-    description: "Comprovante oficial de vínculo com a UnB",
+    description: "Identificação oficial do estudante",
     meta: "",
     color: "#b45309",
     symbolName: "person.text.rectangle.fill"
