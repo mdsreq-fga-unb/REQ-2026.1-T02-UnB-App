@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, ScrollView, StyleSheet, Switch } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useRouter } from "expo-router";
 import { useTextSize } from "@/contexts/TextSizeContext";
 import { useUserProfile } from "@/contexts/UserProfileContext";
 import ScalePressable from "@/components/ScalePressable";
@@ -9,6 +10,7 @@ import { SymbolView } from "expo-symbols";
 type SymbolName = { ios: string; android: string; web?: string };
 
 export default function AjustesScreen() {
+  const router = useRouter();
   const { getFontSize, textSize, setTextSize } = useTextSize();
   const { userName, userMatricula, autoSyncPDFData, setAutoSyncPDFData } = useUserProfile();
 
@@ -82,7 +84,7 @@ export default function AjustesScreen() {
         </View>
 
         {/* Profile Card */}
-        <ScalePressable style={styles.card}>
+        <ScalePressable style={styles.card} onPress={() => router.push('/edit-profile-modal')}>
           <View style={styles.profileRow}>
             <View style={[styles.iconContainer, { width: 64, height: 64, borderRadius: 32 }]}>
               <SymbolView 
