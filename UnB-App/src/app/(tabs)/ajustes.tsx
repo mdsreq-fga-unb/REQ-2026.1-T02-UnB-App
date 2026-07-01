@@ -195,7 +195,7 @@ export default function AjustesScreen() {
           <Text style={[styles.sectionLabel, { fontSize: getFontSize(14) }]}>SUPORTE</Text>
           <View style={styles.card}>
             {renderNavRow("Central de ajuda", "Tire suas dúvidas", false, { ios: "questionmark.circle.fill", android: "help", web: "help" }, () => router.push('/em-breve-modal'))}
-            {renderNavRow("Sobre o UnB App", "Versão 1.0.0", true, { ios: "info.circle.fill", android: "info", web: "info" }, () => router.push('/em-breve-modal'))}
+            {renderNavRow("Sobre o UnB App", "Versão 1.0.0", true, { ios: "info.circle.fill", android: "info", web: "info" }, () => router.push('/sobre-modal'))}
           </View>
         </View>
 
@@ -316,6 +316,7 @@ const styles = StyleSheet.create({
   },
   textSizeButtonsContainer: {
     flexDirection: "row",
+    alignSelf: "center",
     gap: 10,
     marginTop: 8,
   },
