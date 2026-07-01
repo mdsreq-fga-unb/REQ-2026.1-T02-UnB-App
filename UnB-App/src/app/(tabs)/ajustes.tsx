@@ -9,7 +9,7 @@ import { SymbolView } from "expo-symbols";
 type SymbolName = { ios: string; android: string; web?: string };
 
 export default function AjustesScreen() {
-  const { getFontSize, fontSizeMultiplier, setFontSizeMultiplier } = useTextSize();
+  const { getFontSize, textSize, setTextSize } = useTextSize();
   const { userName, userMatricula, autoSyncPDFData, setAutoSyncPDFData } = useUserProfile();
 
   const [highContrast, setHighContrast] = useState(false);
@@ -114,22 +114,22 @@ export default function AjustesScreen() {
               <Text style={[styles.rowSubtitle, { fontSize: getFontSize(14), marginBottom: 16 }]}>Ajuste em todas as telas do app</Text>
               <View style={styles.textSizeButtonsContainer}>
                 <ScalePressable 
-                  style={[styles.textSizeButton, fontSizeMultiplier === 1 && styles.textSizeButtonActive]}
-                  onPress={() => setFontSizeMultiplier(1)}
+                  style={[styles.textSizeButton, textSize === "normal" && styles.textSizeButtonActive]}
+                  onPress={() => setTextSize("normal")}
                 >
-                  <Text style={[styles.textSizeButtonText, fontSizeMultiplier === 1 && styles.textSizeButtonTextActive, { fontSize: 14 }]}>Aa</Text>
+                  <Text style={[styles.textSizeButtonText, textSize === "normal" && styles.textSizeButtonTextActive, { fontSize: 14 }]}>Aa</Text>
                 </ScalePressable>
                 <ScalePressable 
-                  style={[styles.textSizeButton, fontSizeMultiplier === 1.15 && styles.textSizeButtonActive]}
-                  onPress={() => setFontSizeMultiplier(1.15)}
+                  style={[styles.textSizeButton, textSize === "large" && styles.textSizeButtonActive]}
+                  onPress={() => setTextSize("large")}
                 >
-                  <Text style={[styles.textSizeButtonText, fontSizeMultiplier === 1.15 && styles.textSizeButtonTextActive, { fontSize: 17 }]}>Aa</Text>
+                  <Text style={[styles.textSizeButtonText, textSize === "large" && styles.textSizeButtonTextActive, { fontSize: 17 }]}>Aa</Text>
                 </ScalePressable>
                 <ScalePressable 
-                  style={[styles.textSizeButton, fontSizeMultiplier === 1.3 && styles.textSizeButtonActive]}
-                  onPress={() => setFontSizeMultiplier(1.3)}
+                  style={[styles.textSizeButton, textSize === "larger" && styles.textSizeButtonActive]}
+                  onPress={() => setTextSize("larger")}
                 >
-                  <Text style={[styles.textSizeButtonText, fontSizeMultiplier === 1.3 && styles.textSizeButtonTextActive, { fontSize: 20 }]}>Aa</Text>
+                  <Text style={[styles.textSizeButtonText, textSize === "larger" && styles.textSizeButtonTextActive, { fontSize: 20 }]}>Aa</Text>
                 </ScalePressable>
               </View>
             </View>
