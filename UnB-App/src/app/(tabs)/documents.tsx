@@ -12,6 +12,7 @@ import * as IntentLauncher from 'expo-intent-launcher';
 import { useTextSize } from '@/contexts/TextSizeContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useFocusEffect } from 'expo-router';
+import { toast } from 'react-native-pretty-toast';
 
 // Mapeamento: SF Symbol (iOS) → Material Symbol (Android / Web)
 type CrossPlatformSymbol = {
@@ -156,11 +157,11 @@ export default function Documentos() {
 
   const handleBaixar = async (doc: DocumentRecord) => {
     if (doc.uri && doc.uri !== "") {
-      Alert.alert('Aviso', 'O documento já foi baixado. Toque em "Ver" para acessá-lo.');
+      toast.info('Aviso', { message: 'O documento já foi baixado. Toque em "Ver" para acessá-lo.' });
       return;
     }
     try {
-      Alert.alert('Simulação de Download', 'Selecione um arquivo local para simular o download deste documento oficial do app da UnB.');
+      toast.info('Simulação de Download', { message: 'Selecione um arquivo local para simular o download deste documento oficial do app da UnB.' });
       const result = await DocumentPicker.getDocumentAsync({
         copyToCacheDirectory: true,
       });
@@ -180,23 +181,23 @@ export default function Documentos() {
         );
 
         if (res.success) {
-          Alert.alert('Documento Processado', res.message);
+          toast.success('Documento Processado', { message: res.message });
         } else {
           // Se o documento foi salvo mas a extração falhou (ex: Declaração comum), avisa o usuário.
-          Alert.alert('Salvo (Sem Processamento)', res.message);
+          toast.success('Salvo (Sem Processamento)', { message: res.message });
         }
 
         loadDocuments();
       }
     } catch (error) {
       console.error(error);
-      Alert.alert('Erro', 'Não foi possível baixar/salvar o arquivo.');
+      toast.error('Erro', { message: 'Não foi possível baixar/salvar o arquivo.' });
     }
   };
 
   const handleVer = async (doc: DocumentRecord) => {
     if (!doc.uri || doc.uri === "") {
-      Alert.alert('Aviso', 'Este documento ainda não foi baixado.');
+      toast.info('Aviso', { message: 'Este documento ainda não foi baixado.' });
       return;
     }
     
@@ -213,18 +214,18 @@ export default function Documentos() {
         if (isAvailable) {
           await Sharing.shareAsync(doc.uri);
         } else {
-          Alert.alert('Acesso', 'Não é possível abrir o arquivo neste dispositivo.');
+          toast.error('Acesso', { message: 'Não é possível abrir o arquivo neste dispositivo.' });
         }
       }
     } catch (error) {
       console.error(error);
-      Alert.alert('Erro', 'Não foi possível visualizar o arquivo.');
+      toast.error('Erro', { message: 'Não foi possível visualizar o arquivo.' });
     }
   };
 
   const handleCompartilhar = async (doc: DocumentRecord) => {
     if (!doc.uri || doc.uri === "") {
-      Alert.alert('Aviso', 'Este documento ainda não foi baixado.');
+      toast.info('Aviso', { message: 'Este documento ainda não foi baixado.' });
       return;
     }
 
@@ -232,7 +233,7 @@ export default function Documentos() {
       const isAvailable = await Sharing.isAvailableAsync();
 
       if (!isAvailable) {
-        Alert.alert('Compartilhar', 'Não é possível compartilhar arquivos neste dispositivo.');
+        toast.error('Compartilhar', { message: 'Não é possível compartilhar arquivos neste dispositivo.' });
         return;
       }
 
@@ -243,7 +244,7 @@ export default function Documentos() {
       });
     } catch (error) {
       console.error(error);
-      Alert.alert('Erro', 'Não foi possível compartilhar o arquivo.');
+      toast.error('Erro', { message: 'Não foi possível compartilhar o arquivo.' });
     }
   };
 
@@ -262,9 +263,10 @@ export default function Documentos() {
       );
 
       loadDocuments();
+      toast.success('Arquivo Removido', { message: 'O documento foi apagado do dispositivo.' });
     } catch (error) {
       console.error(error);
-      Alert.alert('Erro', 'Não foi possível remover o arquivo.');
+      toast.error('Erro', { message: 'Não foi possível remover o arquivo.' });
     }
   };
 
