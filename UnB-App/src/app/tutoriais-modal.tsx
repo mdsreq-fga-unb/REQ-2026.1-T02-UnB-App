@@ -1,13 +1,11 @@
 import React, { useRef, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Dimensions, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, NativeSyntheticEvent, NativeScrollEvent, useWindowDimensions } from 'react-native';
 import Animated, { useAnimatedStyle, withTiming, Easing, FadeInDown, FadeIn } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
 import ScalePressable from '@/components/ScalePressable';
 import { useTextSize } from '@/contexts/TextSizeContext';
-
-const { width } = Dimensions.get('window');
 
 const TUTORIAL_PAGES = [
   {
@@ -42,6 +40,7 @@ function PaginationDot({ isActive }: { isActive: boolean }) {
 }
 
 export default function TutoriaisModalScreen() {
+  const { width } = useWindowDimensions();
   const router = useRouter();
   const { getFontSize } = useTextSize();
   const scrollViewRef = useRef<ScrollView>(null);
