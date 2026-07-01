@@ -4,16 +4,11 @@ import { WebView } from 'react-native-webview';
 import * as Network from 'expo-network';
 import { useSQLiteContext } from 'expo-sqlite';
 import {
-  buscarTodasDisciplinas,
+  buscarAlvosSincronizacaoSigaa,
   sincronizarDisciplinasComSigaa,
+  type AlvoSincronizacaoSigaa,
   type TurmaSigaaExtraida,
 } from '../../database/queries/gradeQueries';
-
-interface TargetDisciplina {
-  codigo_disciplina: string;
-  codigo_turma: string;
-  docente_nome: string;
-}
 
 function parseSigaaPayload(payload: unknown): TurmaSigaaExtraida[] {
   try {
@@ -28,7 +23,7 @@ function parseSigaaPayload(payload: unknown): TurmaSigaaExtraida[] {
 export function SigaaSync() {
   const db = useSQLiteContext();
   const [isNetworkOk, setIsNetworkOk] = useState(false);
-  const [targets, setTargets] = useState<TargetDisciplina[]>([]);
+  const [targets, setTargets] = useState<AlvoSincronizacaoSigaa[]>([]);
   const [isFinished, setIsFinished] = useState(false);
   const webviewRef = useRef<WebView>(null);
 
@@ -37,14 +32,7 @@ export function SigaaSync() {
       const networkState = await Network.getNetworkStateAsync();
       
       if (networkState.isConnected && networkState.isInternetReachable !== false) {
-         const disciplinas = await buscarTodasDisciplinas(db);
-         const alvosValidos: TargetDisciplina[] = disciplinas
-          .filter(d => d.codigo_disciplina && d.codigo_turma)
-          .map(d => ({
-            codigo_disciplina: d.codigo_disciplina,
-            codigo_turma: d.codigo_turma,
-            docente_nome: d.docente_nome || ''
-          }));
+         const alvosValidos = await buscarAlvosSincronizacaoSigaa(db);
          
          if (alvosValidos.length > 0) {
              console.log("🎯 Alvos Carregados para o Robô (Sniper):", alvosValidos.length, "disciplinas.");
@@ -62,6 +50,75 @@ export function SigaaSync() {
     (function() {
       try {
         const TARGETS = ${JSON.stringify(targets)};
+        const PERIODO_ALVO = TARGETS.length > 0 ? (TARGETS[0].ano + '.' + TARGETS[0].periodo) : '';
+        const MAPA_HORARIOS = {
+          M: {
+            1: ['08:00', '08:55'],
+            2: ['08:55', '09:50'],
+            3: ['10:00', '10:55'],
+            4: ['10:55', '11:50'],
+            5: ['12:00', '12:55']
+          },
+          T: {
+            1: ['12:55', '13:50'],
+            2: ['14:00', '14:55'],
+            3: ['14:55', '15:50'],
+            4: ['16:00', '16:55'],
+            5: ['16:55', '17:50'],
+            6: ['18:00', '18:55']
+          },
+          N: {
+            1: ['19:00', '19:50'],
+            2: ['19:50', '20:40'],
+            3: ['20:50', '21:40'],
+            4: ['21:40', '22:30']
+          }
+        };
+
+        function normalizarTexto(value) {
+          return (value || '')
+            .normalize('NFD')
+            .replace(/[\\u0300-\\u036f]/g, '')
+            .replace(/\\s*\\(\\d+\\s*h\\)\\s*/gi, '')
+            .replace(/\\s+/g, ' ')
+            .trim()
+            .toUpperCase();
+        }
+
+        function docentesCorrespondem(alvo, textoSigaa) {
+          const sigaa = normalizarTexto(textoSigaa);
+          if (!sigaa) return false;
+          return (alvo || '')
+            .split(/\\s*[\\/;\\n,]+\\s*/)
+            .map(normalizarTexto)
+            .filter(Boolean)
+            .some(docente => sigaa.includes(docente) || docente.includes(sigaa));
+        }
+
+        function assinaturaHorarioSigaa(horarioTexto) {
+          const codigos = (horarioTexto || '').split('(')[0].match(/\\d+[MTN]\\d+/gi) || [];
+          const partes = [];
+
+          codigos.forEach(codigo => {
+            const match = codigo.match(/^(\\d+)([MTN])(\\d+)$/i);
+            if (!match) return;
+
+            const dias = match[1].split('').map(Number);
+            const turno = match[2].toUpperCase();
+            const blocos = match[3].split('').map(Number);
+
+            dias.forEach(dia => {
+              blocos.forEach(bloco => {
+                const faixa = MAPA_HORARIOS[turno] && MAPA_HORARIOS[turno][bloco];
+                if (faixa) {
+                  partes.push([dia, faixa[0], faixa[1]].join('|'));
+                }
+              });
+            });
+          });
+
+          return partes.sort().join('||');
+        }
         
         // Dicionário de Mapeamento UnB (Prefixo e ID do Departamento)
         const MAPA_UNIDADES = {
@@ -87,6 +144,7 @@ export function SigaaSync() {
         });
 
         let found = JSON.parse(sessionStorage.getItem('unb_found') || '{}');
+        let foundScores = JSON.parse(sessionStorage.getItem('unb_found_scores') || '{}');
         let currentIndex = parseInt(sessionStorage.getItem('unb_index') || '0');
         
         const allFound = TARGETS.every(t => found[t.codigo_disciplina]);
@@ -112,28 +170,42 @@ export function SigaaSync() {
               else if (linha.classList.contains('linhaPar') || linha.classList.contains('linhaImpar')) {
                  const targetObj = TARGETS.find(t => t.codigo_disciplina === currentCode);
                  
-                 if (targetObj && !found[currentCode]) {
+                 if (targetObj) {
                     const tdTurma = linha.querySelector('.turma');
                     const tds = linha.querySelectorAll('td');
+                    const anoPeriodoTxt = (linha.querySelector('.anoPeriodo') || tds[1])?.innerText.trim();
                     
-                    if (tdTurma && tds.length >= 4) {
+                    if (tdTurma && tds.length >= 4 && anoPeriodoTxt === PERIODO_ALVO) {
                        const turmaNum = tdTurma.innerText.trim();
-                       const profTexto = tds[2].innerText.toUpperCase();
-                       const profAlvo = targetObj.docente_nome ? targetObj.docente_nome.toUpperCase().split(' ')[0] : '';
-                       
-                       const isExactMatch = (turmaNum === targetObj.codigo_turma) || (profAlvo && profTexto.includes(profAlvo));
-                       
-                       if (isExactMatch) {
-                          const horarioTxt = tds[3].innerText.trim();
-                          const horarioLimpo = horarioTxt.split('(')[0].trim(); 
-                          const localTxt = tds.length > 0 ? tds[tds.length - 1].innerText.trim() : 'A designar';
+                       const docenteTxt = tds[2].innerText.trim();
+                       const horarioTxt = tds[3].innerText.trim();
+                       const horarioLimpo = horarioTxt.split('(')[0].trim();
+                       const localTxt = tds.length > 0 ? tds[tds.length - 1].innerText.trim() : 'A designar';
+                       const assinaturaHorario = assinaturaHorarioSigaa(horarioTxt);
 
+                       const turmaConfere = normalizarTexto(turmaNum) === normalizarTexto(targetObj.codigo_turma);
+                       const docenteConfere = docentesCorrespondem(targetObj.docente_nome, docenteTxt);
+                       const horarioConfere = !!targetObj.horarios_assinatura && targetObj.horarios_assinatura === assinaturaHorario;
+
+                       let score = 0;
+                       if (turmaConfere) score += 3;
+                       if (docenteConfere) score += 2;
+                       if (horarioConfere) score += 2;
+
+                       const matchConfiavel =
+                         (turmaConfere && (docenteConfere || horarioConfere)) ||
+                         (docenteConfere && horarioConfere);
+
+                       if (matchConfiavel && score > (foundScores[currentCode] || 0)) {
+                          foundScores[currentCode] = score;
                           found[currentCode] = {
                              codigo_disciplina: currentCode,
                              turma: turmaNum,
-                             docente_nome: tds[2].innerText.trim(),
+                             docente_nome: docenteTxt,
                              horario_sigaa: horarioLimpo,
-                             local_sigaa: localTxt
+                             local_sigaa: localTxt,
+                             ano: targetObj.ano,
+                             periodo: targetObj.periodo
                           };
                        }
                     }
@@ -142,6 +214,7 @@ export function SigaaSync() {
            });
            
            sessionStorage.setItem('unb_found', JSON.stringify(found));
+           sessionStorage.setItem('unb_found_scores', JSON.stringify(foundScores));
            window.location.href = 'https://sigaa.unb.br/sigaa/public/turmas/listar.jsf';
            return;
         }
@@ -149,10 +222,16 @@ export function SigaaSync() {
         // A Pesquisa nos Departamentos
         const form = document.getElementById('formTurma');
         const selectDepto = document.getElementById('formTurma:inputDepto');
+        const inputAno = document.getElementById('formTurma:inputAno');
+        const inputPeriodo = document.getElementById('formTurma:inputPeriodo');
+        const inputNivel = document.getElementById('formTurma:inputNivel');
         
         if (form && selectDepto) {
            if (currentIndex < unidadesParaPesquisar.length) {
               selectDepto.value = unidadesParaPesquisar[currentIndex]; // Insere o ID exato!
+              if (inputAno && TARGETS[0]?.ano) inputAno.value = String(TARGETS[0].ano);
+              if (inputPeriodo && TARGETS[0]?.periodo) inputPeriodo.value = String(TARGETS[0].periodo);
+              if (inputNivel) inputNivel.value = 'G';
               sessionStorage.setItem('unb_index', currentIndex + 1);
               
               const botoes = document.querySelectorAll('input[type="submit"]');

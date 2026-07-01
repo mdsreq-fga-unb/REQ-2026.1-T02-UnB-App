@@ -2,6 +2,30 @@ import { SQLiteDatabase } from 'expo-sqlite';
 import { parseHorarioUnB } from '../../utils/horarioParser';
 import { type InfoAluno, type DisciplinaExtraida } from '../../utils/pdfParser';
 
+/**
+ * Limpa os dados academicos usados pela grade/SIGAA (exceto schema,
+ * documentos e configuracoes internas do app).
+ */
+export async function clearDatabase(db: SQLiteDatabase): Promise<void> {
+  try {
+    await db.withTransactionAsync(async () => {
+      // Ordem importa: respeitar foreign keys
+      await db.runAsync('DELETE FROM Aula');
+      await db.runAsync('DELETE FROM Turma_Docente');
+      await db.runAsync('DELETE FROM Turma_Aluno');
+      await db.runAsync('DELETE FROM Turma');
+      await db.runAsync('DELETE FROM Docente');
+      await db.runAsync('DELETE FROM Disciplina');
+      await db.runAsync('DELETE FROM Periodo_Letivo');
+      await db.runAsync('DELETE FROM Aluno');
+    });
+    console.log('🗑️  Banco de dados limpo com sucesso!');
+  } catch (error) {
+    console.error('❌ Erro ao limpar o banco:', error);
+    throw error;
+  }
+}
+
 export async function temGradeCadastrada(db: SQLiteDatabase): Promise<boolean> {
   const result = await db.getFirstAsync<{ count: number }>('SELECT count(*) as count FROM Aula');
   return !!result && result.count > 0;
@@ -172,6 +196,17 @@ export type TurmaSigaaExtraida = {
   docente_nome: string;
   horario_sigaa: string;
   local_sigaa: string;
+  ano?: number;
+  periodo?: number;
+};
+
+export type AlvoSincronizacaoSigaa = {
+  codigo_disciplina: string;
+  codigo_turma: string;
+  docente_nome: string;
+  ano: number;
+  periodo: number;
+  horarios_assinatura: string;
 };
 
 export type ResultadoSincronizacaoSigaa = {
@@ -218,6 +253,47 @@ function montarAssinaturaAulas(aulas: Array<{
     .join('||');
 }
 
+function montarAssinaturaHorario(aulas: Array<{
+  dia_semana?: number;
+  diaSemana?: number;
+  hora_inicio?: string;
+  horaInicio?: string;
+  hora_fim?: string;
+  horaFim?: string;
+}>) {
+  return aulas
+    .map((aula) => [
+      aula.dia_semana ?? aula.diaSemana,
+      aula.hora_inicio ?? aula.horaInicio,
+      aula.hora_fim ?? aula.horaFim,
+    ].join('|'))
+    .sort()
+    .join('||');
+}
+
+function formatarLocais(locais: string[]) {
+  const locaisUnicos = Array.from(new Set(locais));
+  if (locaisUnicos.length <= 1) {
+    return locaisUnicos.join('');
+  }
+
+  const partes = locaisUnicos.map((local) => {
+    const [prefixo, ...resto] = local.split(' - ');
+    return {
+      prefixo: prefixo.trim(),
+      sala: resto.join(' - ').trim(),
+      original: local,
+    };
+  });
+
+  const mesmoPrefixo = partes.every((parte) => parte.prefixo && parte.sala && parte.prefixo === partes[0].prefixo);
+  if (!mesmoPrefixo) {
+    return locaisUnicos.join(' / ');
+  }
+
+  return `${partes[0].prefixo} - ${partes.map((parte) => parte.sala).join(' / ')}`;
+}
+
 async function getDefaultParams(db: SQLiteDatabase) {
   let matricula = '000000000';
   let ano = new Date().getFullYear();
@@ -249,6 +325,57 @@ async function getDefaultParams(db: SQLiteDatabase) {
   };
 }
 
+export async function buscarAlvosSincronizacaoSigaa(db: SQLiteDatabase): Promise<AlvoSincronizacaoSigaa[]> {
+  const { matricula, ano, periodo } = await getDefaultParams(db);
+
+  const turmas = await db.getAllAsync<{
+    id_turma: number;
+    codigo_disciplina: string;
+    codigo_turma: string;
+    docente_nome: string;
+  }>(
+    `
+    SELECT
+      t.id_turma,
+      t.codigo_disciplina,
+      t.numero_turma as codigo_turma,
+      GROUP_CONCAT(DISTINCT doc.nome_docente) as docente_nome
+    FROM Turma t
+    INNER JOIN Turma_Aluno ta ON t.id_turma = ta.id_turma
+    LEFT JOIN Turma_Docente td ON t.id_turma = td.id_turma
+    LEFT JOIN Docente doc ON td.id_docente = doc.id_docente
+    WHERE ta.matricula_aluno = ? AND t.ano = ? AND t.periodo = ? AND ta.situacao = 'MATR'
+    GROUP BY t.id_turma
+    ORDER BY t.codigo_disciplina ASC
+    `,
+    [matricula, ano, periodo]
+  );
+
+  const alvos: AlvoSincronizacaoSigaa[] = [];
+
+  for (const turma of turmas) {
+    const aulas = await db.getAllAsync<{
+      dia_semana: number;
+      hora_inicio: string;
+      hora_fim: string;
+    }>(
+      'SELECT dia_semana, hora_inicio, hora_fim FROM Aula WHERE id_turma = ? ORDER BY dia_semana ASC, hora_inicio ASC',
+      [turma.id_turma]
+    );
+
+    alvos.push({
+      codigo_disciplina: turma.codigo_disciplina,
+      codigo_turma: turma.codigo_turma,
+      docente_nome: turma.docente_nome ? turma.docente_nome.replace(/,/g, ' / ') : '',
+      ano,
+      periodo,
+      horarios_assinatura: montarAssinaturaHorario(aulas),
+    });
+  }
+
+  return alvos;
+}
+
 export async function sincronizarDisciplinasComSigaa(
   db: SQLiteDatabase,
   turmasSigaa: TurmaSigaaExtraida[]
@@ -268,6 +395,14 @@ export async function sincronizarDisciplinasComSigaa(
   await db.withTransactionAsync(async () => {
     for (const turmaSigaa of turmasSigaa) {
       if (!turmaSigaa.codigo_disciplina || !turmaSigaa.turma) {
+        continue;
+      }
+
+      if (
+        (turmaSigaa.ano && turmaSigaa.ano !== ano) ||
+        (turmaSigaa.periodo && turmaSigaa.periodo !== periodo)
+      ) {
+        resultado.naoEncontradas += 1;
         continue;
       }
 
@@ -478,10 +613,10 @@ export async function buscarTodasDisciplinas(db: SQLiteDatabase): Promise<Discip
       [turma.id_turma]
     );
 
-    let local = '';
-    if (aulas.length > 0) {
-      local = aulas[0].local;
-    }
+    const locais = aulas
+      .map((aula) => aula.local?.trim())
+      .filter((local): local is string => !!local);
+    const local = formatarLocais(locais);
 
     const horariosAgrupados: Record<string, string[]> = {};
     for (const aula of aulas) {
