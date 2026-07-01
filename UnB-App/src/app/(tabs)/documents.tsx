@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { ScrollView, Text, View, StyleSheet, TextInput, Platform, Alert } from "react-native";
+import { ScrollView, Text, View, StyleSheet, TextInput, Platform, Alert, ActivityIndicator } from "react-native";
 import ScalePressable from "@/components/ScalePressable";
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -11,6 +11,7 @@ import * as Sharing from 'expo-sharing';
 import * as IntentLauncher from 'expo-intent-launcher';
 import { useTextSize } from '@/contexts/TextSizeContext';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useUserProfile } from '@/contexts/UserProfileContext';
 import { useFocusEffect } from 'expo-router';
 
 // Mapeamento: SF Symbol (iOS) → Material Symbol (Android / Web)
@@ -99,10 +100,12 @@ export default function Documentos() {
   const db = useSQLiteContext();
   const { getFontSize } = useTextSize();
   const { colors, isDark } = useTheme();
+  const { userName, userMatricula, autoSyncPDFData, updateUserProfile } = useUserProfile();
   const [documents, setDocuments] = useState<DocumentRecord[]>([]);
   const [search, setSearch] = useState("");
   const [totalSize, setTotalSize] = useState(0);
   const [showSavedDocuments, setShowSavedDocuments] = useState(false);
+  const [processingId, setProcessingId] = useState<number | null>(null);
 
   const syncDefaultDocuments = useCallback(async () => {
     const existing = await db.getAllAsync<DocumentRecord>('SELECT * FROM documents');
@@ -178,23 +181,65 @@ export default function Documentos() {
 
         const { processAndSaveDocument } = await import('../../../utils/documentProcessor');
 
-        const res = await processAndSaveDocument(
-          db,
-          asset.uri,
-          asset.name,
-          asset.mimeType,
-          asset.size,
-          doc.id // Garante que ele salva exatamente no slot que o usuário clicou (ex: Declaração de Aluno Regular)
-        );
+        setProcessingId(doc.id);
+        try {
+          const res = await processAndSaveDocument(
+            db,
+            asset.uri,
+            asset.name,
+            asset.mimeType,
+            asset.size,
+            doc.id, // Garante que ele salva exatamente no slot que o usuário clicou (ex: Declaração de Aluno Regular)
+            {
+              onConfirmProfileSync: async (aluno) => {
+                let proceed = true;
+                let shouldSync = autoSyncPDFData;
+                
+                if (aluno && userMatricula && userMatricula !== aluno.matricula) {
+                   proceed = await new Promise((resolve) => {
+                      Alert.alert(
+                        "Documento Inconsistente",
+                        `Este documento pertence a ${aluno.nome} (${aluno.matricula}), que é diferente do seu perfil. Deseja realmente importar?`,
+                        [
+                          { text: "Cancelar", style: "cancel", onPress: () => resolve(false) },
+                          { text: "Importar", style: "destructive", onPress: () => resolve(true) }
+                        ]
+                      );
+                   });
 
-        if (res.success) {
-          Alert.alert('Documento Processado', res.message);
-        } else {
-          const title = res.message.includes('salvo') ? 'Documento Armazenado' : 'Documento não Reconhecido';
-          Alert.alert(title, res.message);
+                   if (proceed) {
+                      shouldSync = await new Promise((resolve) => {
+                         Alert.alert(
+                           "Atualizar Perfil",
+                           "Deseja atualizar seu perfil para usar os dados deste documento?",
+                           [
+                             { text: "Não alterar", style: "cancel", onPress: () => resolve(false) },
+                             { text: "Atualizar", onPress: () => resolve(true) }
+                           ]
+                         );
+                      });
+                   }
+                } else if (!userMatricula && aluno) {
+                   shouldSync = true;
+                }
+
+                return { proceed, shouldSync };
+              },
+              updateUserProfile
+            }
+          );
+
+          if (res.success) {
+            Alert.alert('Documento Processado', res.message);
+          } else {
+            const title = res.message.includes('salvo') ? 'Documento Armazenado' : 'Documento não Reconhecido';
+            Alert.alert(title, res.message);
+          }
+
+          loadDocuments();
+        } finally {
+          setProcessingId(null);
         }
-
-        loadDocuments();
       }
     } catch (error) {
       console.error(error);
@@ -401,6 +446,7 @@ export default function Documentos() {
                 color={doc.color}
                 symbolName={doc.symbolName}
                 hasFile={!!doc.uri && doc.uri !== ""}
+                isProcessing={processingId === doc.id}
                 onUpload={() => handleUpload(doc)}
                 onVer={() => handleVer(doc)}
                 onRemover={() => handleRemover(doc)}
@@ -414,13 +460,14 @@ export default function Documentos() {
   );
 }
 
-function DocCard({ title, description, meta, color, symbolName, hasFile = false, onUpload, onVer, onRemover, getFontSize, index }: {
+function DocCard({ title, description, meta, color, symbolName, hasFile = false, isProcessing = false, onUpload, onVer, onRemover, getFontSize, index }: {
   title: string;
   description: string;
   meta: string;
   color: string;
   symbolName: string; // era SFSymbol — agora string, pois vem do banco
   hasFile?: boolean;
+  isProcessing?: boolean;
   onUpload: () => void;
   onVer: () => void;
   onRemover: () => void;
@@ -429,10 +476,10 @@ function DocCard({ title, description, meta, color, symbolName, hasFile = false,
 }) {
   const { colors, isDark } = useTheme();
   // Se estiver no dark mode, vamos tornar a cor original mais suave ou manter a opacidade
-  const btnColor = color; 
+  const btnColor = color;
 
   return (
-    <Animated.View 
+    <Animated.View
       style={[styles.docCard, { backgroundColor: colors.surface, borderColor: colors.border }]}
     >
       <View style={styles.docRow}>
@@ -472,12 +519,18 @@ function DocCard({ title, description, meta, color, symbolName, hasFile = false,
           </ScalePressable>
         ) : (
           <ScalePressable
-            style={[styles.actionBtnSolid, { backgroundColor: btnColor }]}
-            onPress={onUpload}
+            style={[styles.actionBtnSolid, { backgroundColor: isProcessing ? `${btnColor}80` : btnColor }]}
+            onPress={isProcessing ? undefined : onUpload}
           >
-            {/* CORRIGIDO: upload com Material Symbol no Android */}
-            <SymbolView name={sym('arrow.up.doc.fill')} size={16} tintColor="#fff" />
-            <Text style={[styles.actionBtnSolidText, { fontSize: getFontSize(15) }]}>Upload</Text>
+            {isProcessing ? (
+              <ActivityIndicator size="small" color="#fff" />
+            ) : (
+              <>
+                {/* CORRIGIDO: upload com Material Symbol no Android */}
+                <SymbolView name={sym('arrow.up.doc.fill')} size={16} tintColor="#fff" />
+                <Text style={[styles.actionBtnSolidText, { fontSize: getFontSize(15) }]}>Upload</Text>
+              </>
+            )}
           </ScalePressable>
         )}
       </View>

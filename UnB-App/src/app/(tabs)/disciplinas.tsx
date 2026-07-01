@@ -9,7 +9,7 @@ import { extrairDadosDoPDF } from '../../../utils/pdfParser';
 import * as DocumentPicker from 'expo-document-picker';
 import { extractTextWithInfo } from 'expo-pdf-text-extract';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useFocusEffect } from 'expo-router';
 import { useTextSize } from "@/contexts/TextSizeContext";
 import { useTheme } from '@/contexts/ThemeContext';
 import { SymbolView } from "expo-symbols";
@@ -136,10 +136,12 @@ export default function DisciplinasScreen() {
     }
   };
 
-  // NOTE: removed useFocusEffect from expo-router, using useEffect or fallback
-  useEffect(() => {
-    carregarDisciplinas();
-  }, [carregarDisciplinas]);
+  // Restabelecido useFocusEffect para que atualizações da aba Documentos reflitam aqui imediatamente.
+  useFocusEffect(
+    useCallback(() => {
+      carregarDisciplinas();
+    }, [carregarDisciplinas])
+  );
 
   const filteredDisciplinas = disciplinas.filter(d =>
     d.nome_disciplina.toLowerCase().includes(search.toLowerCase()) ||
