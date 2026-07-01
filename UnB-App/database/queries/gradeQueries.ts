@@ -166,6 +166,58 @@ export type DisciplinaInfo = {
   horarios_formatados: string; 
 };
 
+export type TurmaSigaaExtraida = {
+  codigo_disciplina: string;
+  turma: string;
+  docente_nome: string;
+  horario_sigaa: string;
+  local_sigaa: string;
+};
+
+export type ResultadoSincronizacaoSigaa = {
+  atualizadas: number;
+  equivalentes: number;
+  naoEncontradas: number;
+};
+
+function normalizarTextoComparacao(value: string | null | undefined) {
+  return (value || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toUpperCase();
+}
+
+function separarDocentes(docenteNome: string) {
+  const docentes = docenteNome
+    .split(/\s*[/;\n]\s*/)
+    .map((docente) => docente.replace(/\s*\(\d+\s*h\)\s*$/i, '').trim())
+    .filter(Boolean);
+
+  return docentes.length > 0 ? docentes : ['A definir'];
+}
+
+function montarAssinaturaAulas(aulas: Array<{
+  dia_semana?: number;
+  diaSemana?: number;
+  local: string;
+  hora_inicio?: string;
+  horaInicio?: string;
+  hora_fim?: string;
+  horaFim?: string;
+}>) {
+  return aulas
+    .map((aula) => [
+      aula.dia_semana ?? aula.diaSemana,
+      aula.hora_inicio ?? aula.horaInicio,
+      aula.hora_fim ?? aula.horaFim,
+      normalizarTextoComparacao(aula.local),
+    ].join('|'))
+    .sort()
+    .join('||');
+}
+
 async function getDefaultParams(db: SQLiteDatabase) {
   let matricula = '000000000';
   let ano = new Date().getFullYear();
@@ -195,6 +247,122 @@ async function getDefaultParams(db: SQLiteDatabase) {
     ano: periodoLetivo?.ano || ano,
     periodo: periodoLetivo?.periodo || periodo
   };
+}
+
+export async function sincronizarDisciplinasComSigaa(
+  db: SQLiteDatabase,
+  turmasSigaa: TurmaSigaaExtraida[]
+): Promise<ResultadoSincronizacaoSigaa> {
+  const resultado: ResultadoSincronizacaoSigaa = {
+    atualizadas: 0,
+    equivalentes: 0,
+    naoEncontradas: 0,
+  };
+
+  if (turmasSigaa.length === 0) {
+    return resultado;
+  }
+
+  const { matricula, ano, periodo } = await getDefaultParams(db);
+
+  await db.withTransactionAsync(async () => {
+    for (const turmaSigaa of turmasSigaa) {
+      if (!turmaSigaa.codigo_disciplina || !turmaSigaa.turma) {
+        continue;
+      }
+
+      const turmaAtual = await db.getFirstAsync<{
+        id_turma: number;
+        numero_turma: string;
+      }>(
+        `SELECT t.id_turma, t.numero_turma
+         FROM Turma t
+         INNER JOIN Turma_Aluno ta ON t.id_turma = ta.id_turma
+         WHERE t.codigo_disciplina = ?
+           AND ta.matricula_aluno = ?
+           AND t.ano = ?
+           AND t.periodo = ?
+         LIMIT 1`,
+        [turmaSigaa.codigo_disciplina, matricula, ano, periodo]
+      );
+
+      if (!turmaAtual) {
+        resultado.naoEncontradas += 1;
+        continue;
+      }
+
+      const docentesAtuais = await db.getAllAsync<{ nome_docente: string }>(
+        `SELECT d.nome_docente
+         FROM Docente d
+         INNER JOIN Turma_Docente td ON d.id_docente = td.id_docente
+         WHERE td.id_turma = ?
+         ORDER BY d.nome_docente ASC`,
+        [turmaAtual.id_turma]
+      );
+
+      const aulasAtuais = await db.getAllAsync<{
+        dia_semana: number;
+        local: string;
+        hora_inicio: string;
+        hora_fim: string;
+      }>(
+        `SELECT dia_semana, local, hora_inicio, hora_fim
+         FROM Aula
+         WHERE id_turma = ?
+         ORDER BY dia_semana ASC, hora_inicio ASC`,
+        [turmaAtual.id_turma]
+      );
+
+      const aulasSigaa = parseHorarioUnB(turmaSigaa.horario_sigaa, turmaSigaa.local_sigaa);
+      const docentesSigaa = separarDocentes(turmaSigaa.docente_nome);
+
+      const turmaIgual = normalizarTextoComparacao(turmaAtual.numero_turma) === normalizarTextoComparacao(turmaSigaa.turma);
+      const docentesIguais =
+        normalizarTextoComparacao(docentesAtuais.map((docente) => docente.nome_docente).sort().join(' / ')) ===
+        normalizarTextoComparacao(docentesSigaa.sort().join(' / '));
+      const aulasIguais = montarAssinaturaAulas(aulasAtuais) === montarAssinaturaAulas(aulasSigaa);
+
+      if (turmaIgual && docentesIguais && aulasIguais) {
+        resultado.equivalentes += 1;
+        continue;
+      }
+
+      await db.runAsync(
+        'UPDATE Turma SET numero_turma = ? WHERE id_turma = ?',
+        [turmaSigaa.turma, turmaAtual.id_turma]
+      );
+
+      await db.runAsync('DELETE FROM Turma_Docente WHERE id_turma = ?', [turmaAtual.id_turma]);
+      for (const docenteNome of docentesSigaa) {
+        await db.runAsync('INSERT OR IGNORE INTO Docente (nome_docente) VALUES (?)', [docenteNome]);
+        const docente = await db.getFirstAsync<{ id_docente: number }>(
+          'SELECT id_docente FROM Docente WHERE nome_docente = ? LIMIT 1',
+          [docenteNome]
+        );
+
+        if (docente?.id_docente) {
+          await db.runAsync(
+            'INSERT OR IGNORE INTO Turma_Docente (id_turma, id_docente) VALUES (?, ?)',
+            [turmaAtual.id_turma, docente.id_docente]
+          );
+        }
+      }
+
+      if (aulasSigaa.length > 0) {
+        await db.runAsync('DELETE FROM Aula WHERE id_turma = ?', [turmaAtual.id_turma]);
+        for (const aula of aulasSigaa) {
+          await db.runAsync(
+            'INSERT OR IGNORE INTO Aula (id_turma, dia_semana, local, hora_inicio, hora_fim) VALUES (?, ?, ?, ?, ?)',
+            [turmaAtual.id_turma, aula.diaSemana, aula.local, aula.horaInicio, aula.horaFim]
+          );
+        }
+      }
+
+      resultado.atualizadas += 1;
+    }
+  });
+
+  return resultado;
 }
 
 export async function buscarGradePorDia(db: SQLiteDatabase, diaSemana: number): Promise<AulaCard[]> {

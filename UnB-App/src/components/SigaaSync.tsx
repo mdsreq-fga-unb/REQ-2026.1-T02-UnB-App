@@ -3,12 +3,26 @@ import { View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import * as Network from 'expo-network';
 import { useSQLiteContext } from 'expo-sqlite';
-import { buscarTodasDisciplinas } from '../../database/queries/gradeQueries';
+import {
+  buscarTodasDisciplinas,
+  sincronizarDisciplinasComSigaa,
+  type TurmaSigaaExtraida,
+} from '../../database/queries/gradeQueries';
 
 interface TargetDisciplina {
   codigo_disciplina: string;
   codigo_turma: string;
   docente_nome: string;
+}
+
+function parseSigaaPayload(payload: unknown): TurmaSigaaExtraida[] {
+  try {
+    const parsed = typeof payload === 'string' ? JSON.parse(payload) : payload;
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (error) {
+    console.log('Payload do SIGAA Sync invalido:', error);
+    return [];
+  }
 }
 
 export function SigaaSync() {
@@ -22,7 +36,7 @@ export function SigaaSync() {
     async function init() {
       const networkState = await Network.getNetworkStateAsync();
       
-      if (networkState.isConnected && networkState.isInternetReachable) {
+      if (networkState.isConnected && networkState.isInternetReachable !== false) {
          const disciplinas = await buscarTodasDisciplinas(db);
          const alvosValidos: TargetDisciplina[] = disciplinas
           .filter(d => d.codigo_disciplina && d.codigo_turma)
@@ -42,7 +56,7 @@ export function SigaaSync() {
       }
     }
     init();
-  }, []);
+  }, [db]);
 
   const GHOST_ROBOT_SCRIPT = `
     (function() {
@@ -174,6 +188,16 @@ export function SigaaSync() {
     if (data.type === 'SYNC_SUCCESS') {
       console.log('✅ Extração Sniper Concluída com Sucesso:');
       console.log(JSON.stringify(data.payload, null, 2));
+      const resultado = await sincronizarDisciplinasComSigaa(
+        db,
+        parseSigaaPayload(data.payload)
+      );
+
+      if (resultado.atualizadas > 0) {
+        console.log('Grade atualizada com dados do SIGAA:', resultado);
+      } else {
+        console.log('Grade ja equivalente ao SIGAA:', resultado);
+      }
       setIsFinished(true);
     }
 
