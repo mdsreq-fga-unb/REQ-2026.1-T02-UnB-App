@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, NativeSyntheticEvent, NativeScrollEvent, useWindowDimensions } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, NativeSyntheticEvent, NativeScrollEvent, useWindowDimensions , Platform} from 'react-native';
 import Animated, { useAnimatedStyle, withTiming, Easing, FadeInDown, FadeIn } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
@@ -62,7 +62,7 @@ export default function TutoriaisModalScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']} onLayout={(e) => setLayoutWidth(e.nativeEvent.layout.width)}>
+    <SafeAreaView style={styles.safeArea} edges={Platform.OS === 'ios' ? ['top', 'bottom'] : ['bottom']} onLayout={(e) => setLayoutWidth(e.nativeEvent.layout.width)}>
       <View style={styles.header}>
         <ScalePressable onPress={() => router.dismissAll()} style={styles.closeBtn}>
           <SymbolView name={{ ios: "xmark", android: "close", web: "close" } as any} size={24} tintColor="#0f172b" fallback={<Text style={{fontSize: 20}}>X</Text>} />

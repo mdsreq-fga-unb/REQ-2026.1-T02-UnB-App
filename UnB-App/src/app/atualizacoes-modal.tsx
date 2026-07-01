@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, FlatList, ActivityIndicator , Platform} from 'react-native';
 import ScalePressable from "@/components/ScalePressable";
 import { useSQLiteContext } from 'expo-sqlite';
 import { buscarTodasDisciplinas, type DisciplinaInfo } from '../../database/queries/gradeQueries';
@@ -108,7 +108,7 @@ export default function AtualizacoesModalScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
+    <SafeAreaView style={styles.container} edges={Platform.OS === 'ios' ? ['top', 'bottom'] : ['bottom']}>
       <View style={styles.header}>
         <ScalePressable
           style={styles.closeButton}

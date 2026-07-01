@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView , Platform} from 'react-native';
 import ScalePressable from "@/components/ScalePressable";
 import { useTextSize } from "@/contexts/TextSizeContext";
 import { SymbolView } from "expo-symbols";
@@ -11,7 +11,7 @@ export default function SobreModalScreen() {
   const { getFontSize } = useTextSize();
 
   return (
-    <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']}>
+    <SafeAreaView style={styles.safeArea} edges={Platform.OS === 'ios' ? ['top', 'bottom'] : ['bottom']}>
       <View style={styles.header}>
           <ScalePressable onPress={() => router.back()} style={styles.closeBtn}>
               <SymbolView name={{ ios: "xmark", android: "close", web: "close" } as any} size={24} tintColor="#0f172b" fallback={<Text style={{fontSize: 20}}>X</Text>} />
