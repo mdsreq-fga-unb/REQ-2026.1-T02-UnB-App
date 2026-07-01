@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, NativeSyntheticEvent, NativeScrollEvent, useWindowDimensions , Platform} from 'react-native';
+import { View, Text, StyleSheet, ScrollView, NativeSyntheticEvent, NativeScrollEvent, useWindowDimensions , Platform, Image} from 'react-native';
 import Animated, { useAnimatedStyle, withTiming, Easing, FadeInDown, FadeIn } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
@@ -10,9 +10,21 @@ import { useTheme } from '@/contexts/ThemeContext';
 
 const TUTORIAL_PAGES = [
   {
-    title: 'Conheça o SIGAA',
-    description: 'O SIGAA é o sistema principal da UnB. Você usará para realizar matrículas em disciplinas, acompanhar seu histórico, ver suas notas (menções) finais e emitir declarações oficiais.',
-    icon: { ios: 'graduationcap.fill', android: 'school', web: 'school' },
+    title: 'Acesso ao SIGAA',
+    description: 'O SIGAA é o sistema principal da UnB. Ao abrir o site pela primeira vez, esta é a tela que você verá.',
+    image: require('../../assets/images/sigaa.jpg'),
+    color: '#1d8d28'
+  },
+  {
+    title: 'Onde clicar?',
+    description: 'No celular, você precisará dar um pequeno zoom. Localize a barra amarela na parte superior esquerda. O primeiro botão é o menu "Ensino".',
+    image: require('../../assets/images/lupa.jpg'),
+    color: '#d97706'
+  },
+  {
+    title: 'Emitir Documentos',
+    description: 'Ao clicar em "Ensino", um menu se abrirá com as opções para emitir sua Carteirinha Estudantil, Histórico Escolar e Declaração de Passe Livre.',
+    image: require('../../assets/images/opcoes.jpg'),
     color: '#1d8d28'
   },
   {
@@ -85,9 +97,15 @@ export default function TutoriaisModalScreen() {
       >
         {TUTORIAL_PAGES.map((page, index) => (
           <View key={index} style={[styles.pageContainer, { width: layoutWidth }]}>
-            <Animated.View entering={FadeInDown.delay(100).duration(400).easing(Easing.bezier(0.23, 1, 0.32, 1))} style={[styles.iconContainer, { backgroundColor: `${page.color}15` }]}>
-              <SymbolView name={page.icon as any} size={80} tintColor={page.color} />
-            </Animated.View>
+            {page.image ? (
+              <Animated.View entering={FadeInDown.delay(100).duration(400).easing(Easing.bezier(0.23, 1, 0.32, 1))} style={[styles.imageContainer, { backgroundColor: `${page.color}15` }]}>
+                <Image source={page.image} style={styles.tutorialImage} resizeMode="contain" />
+              </Animated.View>
+            ) : (
+              <Animated.View entering={FadeInDown.delay(100).duration(400).easing(Easing.bezier(0.23, 1, 0.32, 1))} style={[styles.iconContainer, { backgroundColor: `${page.color}15` }]}>
+                <SymbolView name={page.icon as any} size={80} tintColor={page.color} />
+              </Animated.View>
+            )}
             <Animated.Text entering={FadeInDown.delay(150).duration(400).easing(Easing.bezier(0.23, 1, 0.32, 1))} style={[styles.pageTitle, { fontSize: getFontSize(24), color: page.color }]}>
               {page.title}
             </Animated.Text>
@@ -148,6 +166,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 32,
+  },
+  imageContainer: {
+    width: 220,
+    height: 220,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 32,
+    padding: 16,
+  },
+  tutorialImage: {
+    width: '100%',
+    height: '100%',
   },
   pageTitle: {
     fontWeight: 'bold',
