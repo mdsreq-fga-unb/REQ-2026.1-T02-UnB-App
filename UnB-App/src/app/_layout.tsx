@@ -6,6 +6,7 @@ import { SQLiteProvider, type SQLiteDatabase } from 'expo-sqlite';
 import { useState } from "react";
 import Animated, { FadeIn, FadeOut, Easing, withTiming } from 'react-native-reanimated';
 import { TextSizeProvider, useTextSize } from "@/contexts/TextSizeContext";
+import { UserProfileProvider } from "@/contexts/UserProfileContext";
 import CustomSplashScreen from "@/components/SplashScreen";
 import * as SplashScreenNative from 'expo-splash-screen';
 
@@ -38,16 +39,20 @@ export default function RootLayout() {
   return (
     <>
       <SQLiteProvider databaseName="documents.db" onInit={initializeDatabase}>
-        <TextSizeProvider>
-          <View style={styles.container}>
-            <Stack>
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen name="grade-modal" options={{ presentation: 'formSheet', sheetAllowedDetents: [0.75, 1.0], headerShown: false }} />
-              <Stack.Screen name="em-breve-modal" options={{ presentation: 'formSheet', sheetAllowedDetents: [0.75, 1.0], headerShown: false }} />
-            </Stack>
-            <AccessibilityButton />
-          </View>
-        </TextSizeProvider>
+        <UserProfileProvider>
+          <TextSizeProvider>
+            <View style={styles.container}>
+              <Stack>
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                <Stack.Screen name="grade-modal" options={{ presentation: 'formSheet', sheetAllowedDetents: [0.75, 1.0], headerShown: false }} />
+                <Stack.Screen name="em-breve-modal" options={{ presentation: 'formSheet', sheetAllowedDetents: [0.75, 1.0], headerShown: false }} />
+                <Stack.Screen name="welcome-modal" options={{ presentation: 'formSheet', sheetAllowedDetents: [0.5, 1.0], headerShown: false }} />
+                <Stack.Screen name="ajustes" options={{ headerShown: false }} />
+              </Stack>
+              <AccessibilityButton />
+            </View>
+          </TextSizeProvider>
+        </UserProfileProvider>
       </SQLiteProvider>
       {isSplashVisible && (
         <CustomSplashScreen onFinish={() => setIsSplashVisible(false)} />

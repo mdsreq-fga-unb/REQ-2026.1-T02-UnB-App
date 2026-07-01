@@ -1,7 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, FlatList, ActivityIndicator, Alert } from 'react-native';
 import ScalePressable from "@/components/ScalePressable";
 import { useSQLiteContext } from 'expo-sqlite';
+import { useUserProfile } from '../contexts/UserProfileContext';
 import { buscarGradePorDia, temGradeCadastrada, popularGradePorDados, type AulaCard } from '../../database/queries/gradeQueries';
 import { extrairDadosDoPDF } from '../../utils/pdfParser';
 import * as DocumentPicker from 'expo-document-picker';
@@ -24,6 +25,7 @@ export default function GradeHorariaModalScreen() {
   const router = useRouter();
   const db = useSQLiteContext();
   const { getFontSize } = useTextSize();
+  const { userName, userMatricula, autoSyncPDFData, updateUserProfile } = useUserProfile();
   
   const [diaSelecionado, setDiaSelecionado] = useState(() => {
     const hoje = new Date().getDay();
@@ -62,15 +64,57 @@ export default function GradeHorariaModalScreen() {
          return;
       }
 
-      const { aluno, disciplinas } = extrairDadosDoPDF(extractResult.text);
-      if (disciplinas.length === 0) {
+      const data = extrairDadosDoPDF(extractResult.text);
+      if (data.disciplinas.length === 0) {
          alert('Não foi possível encontrar disciplinas válidas neste PDF.');
          setIsProcessing(false);
          return;
       }
 
-      await popularGradePorDados(db, aluno, disciplinas);
+      let shouldSync = autoSyncPDFData;
+      let proceed = true;
+
+      if (data.aluno) {
+        if (userMatricula && userMatricula !== data.aluno.matricula) {
+          proceed = await new Promise((resolve) => {
+            Alert.alert(
+              "Documento Inconsistente",
+              `Este documento pertence a ${data.aluno.nome} (${data.aluno.matricula}), que é diferente do seu perfil. Deseja realmente importar esta grade?`,
+              [
+                { text: "Cancelar", style: "cancel", onPress: () => resolve(false) },
+                { text: "Importar", style: "destructive", onPress: () => resolve(true) }
+              ]
+            );
+          });
+          
+          if (proceed) {
+             shouldSync = await new Promise((resolve) => {
+                Alert.alert(
+                  "Atualizar Perfil",
+                  "Deseja atualizar seu perfil para usar os dados deste documento?",
+                  [
+                    { text: "Não alterar", style: "cancel", onPress: () => resolve(false) },
+                    { text: "Atualizar", onPress: () => resolve(true) }
+                  ]
+                );
+             });
+          }
+        } else if (!userMatricula) {
+          shouldSync = true;
+        }
+      }
+
+      if (!proceed) {
+        setIsProcessing(false);
+        return;
+      }
+
+      await popularGradePorDados(db, data.aluno, data.disciplinas, shouldSync);
       
+      if (shouldSync && data.aluno) {
+         await updateUserProfile(data.aluno.nome, data.aluno.matricula);
+      }
+
       alert('Grade importada com sucesso!');
       await carregarAulas();
     } catch (error: any) {

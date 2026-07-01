@@ -9,6 +9,7 @@ import { useTextSize } from "@/contexts/TextSizeContext";
 import { useRouter, useFocusEffect } from "expo-router";
 import { useSQLiteContext } from 'expo-sqlite';
 import { buscarTodasDisciplinas, type DisciplinaInfo } from '../../../database/queries/gradeQueries';
+import { useUserProfile } from '../../contexts/UserProfileContext';
 
 // Tipo local para ícones multiplataforma
 type SymbolName = { ios: string; android: string; web?: string };
@@ -165,6 +166,17 @@ export default function Index() {
   const isFocused = useIsFocused();
   const db = useSQLiteContext();
   const [disciplinas, setDisciplinas] = useState<DisciplinaInfo[]>([]);
+  const { userName, userMatricula, isProfileLoaded } = useUserProfile();
+  const [hasPrompted, setHasPrompted] = useState(false);
+
+  useEffect(() => {
+    if (isProfileLoaded && !userName && !hasPrompted) {
+      setHasPrompted(true);
+      setTimeout(() => {
+        router.push('../welcome-modal');
+      }, 500);
+    }
+  }, [isProfileLoaded, userName, hasPrompted, router]);
 
   const carregarDisciplinas = useCallback(async () => {
     try {
@@ -237,7 +249,7 @@ export default function Index() {
               { fontSize: getFontSize(28), lineHeight: getFontSize(35) },
             ]}
           >
-            Olá, Rivadalvio!
+            Olá, {userName ? userName.split(' ')[0] : 'Aluno(a)'}!
           </Text>
         </View>
 
@@ -268,7 +280,7 @@ export default function Index() {
                 ]}
                 numberOfLines={1}
               >
-                Rivadalvio Joaquim
+                {userName || 'Nome não definido'}
               </Text>
               <Text
                 style={[
@@ -277,16 +289,7 @@ export default function Index() {
                 ]}
                 numberOfLines={1}
               >
-                Faculdade de Ciências e Tecnologias
-              </Text>
-              <Text
-                style={[
-                  styles.profileMeta,
-                  { fontSize: getFontSize(15), lineHeight: getFontSize(20.625) },
-                ]}
-                numberOfLines={1}
-              >
-                Campus UnB Gama
+                {userMatricula ? `Matrícula: ${userMatricula}` : 'Matrícula não definida'}
               </Text>
             </View>
           </ScalePressable>

@@ -7,9 +7,20 @@ export async function temGradeCadastrada(db: SQLiteDatabase): Promise<boolean> {
   return !!result && result.count > 0;
 }
 
-export async function popularGradePorDados(db: SQLiteDatabase, aluno: InfoAluno | null, disciplinas: DisciplinaExtraida[]) {
+export async function popularGradePorDados(
+    db: SQLiteDatabase, 
+    aluno: InfoAluno | null, 
+    disciplinas: DisciplinaExtraida[],
+    shouldSyncAluno: boolean = true
+) {
   await db.withTransactionAsync(async () => {
     // 1. Limpar dados anteriores (ou de uma vez só se for o único usuário)
+    
+    // Insere o aluno
+    if (aluno && shouldSyncAluno) {
+       await db.runAsync(`INSERT OR REPLACE INTO Aluno (matricula, nome, curso, CPF) VALUES (?, ?, ?, ?)`, [aluno.matricula, aluno.nome, aluno.curso, '']);
+    }
+
     await db.runAsync('DELETE FROM Aula');
     await db.runAsync('DELETE FROM Turma_Docente');
     await db.runAsync('DELETE FROM Turma_Aluno');
