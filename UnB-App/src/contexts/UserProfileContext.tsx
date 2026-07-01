@@ -56,10 +56,37 @@ export function UserProfileProvider({ children }: { children: React.ReactNode })
 
   const updateUserProfile = async (nome: string, matricula: string) => {
     try {
-      await db.runAsync(
-        `INSERT OR REPLACE INTO Aluno (matricula, nome, curso) VALUES (?, ?, COALESCE((SELECT curso FROM Aluno WHERE matricula = ? LIMIT 1), 'Curso não informado'))`,
-        [matricula, nome, matricula]
-      );
+      const alunoAtual = await db.getFirstAsync<{ matricula: string }>(`SELECT matricula FROM Aluno LIMIT 1`);
+
+      if (alunoAtual) {
+        if (alunoAtual.matricula === matricula) {
+          // Apenas mudou o nome (ou nada)
+          await db.runAsync(`UPDATE Aluno SET nome = ? WHERE matricula = ?`, [nome, matricula]);
+        } else {
+          // Mudou a matrícula. Criamos o novo, transferimos dependências e excluímos o antigo.
+          await db.withTransactionAsync(async () => {
+            // 1. Cria o novo aluno copiando o curso do atual
+            await db.runAsync(
+              `INSERT INTO Aluno (matricula, nome, curso) SELECT ?, ?, curso FROM Aluno WHERE matricula = ?`,
+              [matricula, nome, alunoAtual.matricula]
+            );
+            // 2. Transfere as turmas para a nova matrícula
+            await db.runAsync(
+              `UPDATE Turma_Aluno SET matricula_aluno = ? WHERE matricula_aluno = ?`,
+              [matricula, alunoAtual.matricula]
+            );
+            // 3. Remove o aluno antigo
+            await db.runAsync(`DELETE FROM Aluno WHERE matricula = ?`, [alunoAtual.matricula]);
+          });
+        }
+      } else {
+        // Não há aluno cadastrado
+        await db.runAsync(
+          `INSERT INTO Aluno (matricula, nome, curso) VALUES (?, ?, 'Curso não informado')`,
+          [matricula, nome]
+        );
+      }
+
       setUserName(nome);
       setUserMatricula(matricula);
     } catch (error) {
