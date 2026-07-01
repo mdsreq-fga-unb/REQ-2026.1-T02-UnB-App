@@ -116,6 +116,7 @@ describe('Integração com Banco de Dados: gradeQueries', () => {
         const disciplinasVazias: any[] = [];
 
         jest.clearAllMocks();
+        mockDb.getFirstAsync.mockResolvedValueOnce({ matricula: '987654321' }); // Aluno diferente para forçar o DELETE
 
         await popularGradePorDados(mockDb as any, alunoMock as any, disciplinasVazias);
 
@@ -123,7 +124,7 @@ describe('Integração com Banco de Dados: gradeQueries', () => {
 
         const queriesExecutadas = mockDb.runAsync.mock.calls.map(call => call[0]);
         expect(queriesExecutadas).toContain('DELETE FROM Aula');
-        expect(queriesExecutadas).toContain('INSERT OR IGNORE INTO Aluno (matricula, nome, curso, CPF) VALUES (?, ?, ?, ?)');
+        expect(queriesExecutadas.some(q => q.includes('INSERT INTO Aluno') && q.includes('ON CONFLICT(matricula)'))).toBe(true);
       });
     });
   });
