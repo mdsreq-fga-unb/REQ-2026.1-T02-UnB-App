@@ -20,6 +20,7 @@ export default function DisciplinasScreen() {
   const { autoSyncPDFData, userMatricula, updateUserProfile } = useUserProfile();
   const { expand } = useLocalSearchParams<{ expand?: string }>();
   const flatListRef = useRef<FlatList>(null);
+  const hasScrolledRef = useRef(false);
 
   const [disciplinas, setDisciplinas] = useState<DisciplinaInfo[]>([]);
   const [search, setSearch] = useState('');
@@ -31,12 +32,17 @@ export default function DisciplinasScreen() {
     if (expand && disciplinas.length > 0) {
       const id = Number(expand);
       setExpandedId(id);
+      hasScrolledRef.current = false;
       
       const index = disciplinas.findIndex(d => d.id_turma === id);
       if (index !== -1 && flatListRef.current) {
+        // Fallback garantido caso o card demore para renderizar
         setTimeout(() => {
-          flatListRef.current?.scrollToIndex({ index, animated: true, viewPosition: 0.5 });
-        }, 300);
+          if (!hasScrolledRef.current) {
+            hasScrolledRef.current = true;
+            flatListRef.current?.scrollToIndex({ index, animated: true, viewPosition: 0, viewOffset: 20 });
+          }
+        }, 800);
       }
     }
   }, [expand, disciplinas]);
@@ -152,6 +158,15 @@ export default function DisciplinasScreen() {
     return (
       <TouchableOpacity 
         activeOpacity={0.8}
+        onLayout={(e) => {
+          if (isExpanded && expand && !hasScrolledRef.current && flatListRef.current) {
+            hasScrolledRef.current = true;
+            flatListRef.current.scrollToOffset({ 
+              offset: Math.max(0, e.nativeEvent.layout.y - 20), 
+              animated: true 
+            });
+          }
+        }}
         onPress={() => {
           setExpandedId(isExpanded ? null : item.id_turma);
         }}
@@ -234,7 +249,9 @@ export default function DisciplinasScreen() {
         onScrollToIndexFailed={(info) => {
           const wait = new Promise(resolve => setTimeout(resolve, 500));
           wait.then(() => {
-            flatListRef.current?.scrollToIndex({ index: info.index, animated: true, viewPosition: 0.5 });
+            if (flatListRef.current) {
+              flatListRef.current.scrollToIndex({ index: info.index, animated: true, viewPosition: 0, viewOffset: 20 });
+            }
           });
         }}
         contentInsetAdjustmentBehavior="automatic"
