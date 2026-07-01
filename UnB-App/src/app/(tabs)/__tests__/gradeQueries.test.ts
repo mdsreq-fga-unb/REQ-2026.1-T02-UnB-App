@@ -118,9 +118,12 @@ describe('Integração com Banco de Dados: gradeQueries', () => {
         jest.clearAllMocks();
         mockDb.getFirstAsync.mockResolvedValueOnce({ matricula: '987654321' }); // Aluno diferente para forçar o DELETE
 
+        // Simula um aluno diferente já existente para acionar a limpeza de dados
+        mockDb.getFirstAsync.mockResolvedValueOnce({ matricula: '987654321', nome: 'Outro Aluno', curso: 'Outro Curso', CPF: '' });
+
         await popularGradePorDados(mockDb as any, alunoMock as any, disciplinasVazias);
 
-        expect(mockDb.withTransactionAsync).toHaveBeenCalledTimes(1)
+        expect(mockDb.withTransactionAsync).toHaveBeenCalledTimes(1);
 
         const queriesExecutadas = mockDb.runAsync.mock.calls.map(call => call[0]);
         expect(queriesExecutadas).toContain('DELETE FROM Aula');

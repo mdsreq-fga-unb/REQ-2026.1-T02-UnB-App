@@ -24,6 +24,13 @@ jest.mock('react-native-worklets', () => ({
   runOnUISync: (fn: any) => fn,
   scheduleOnUI: (fn: any) => fn,
 }));
+jest.mock('react-native-pretty-toast', () => ({
+  toast: {
+    info: jest.fn(),
+    success: jest.fn(),
+    error: jest.fn(),
+  },
+}), { virtual: true });
 jest.mock('react-native-reanimated', () => require('react-native-reanimated/mock'));
 
 import DisciplinasScreen from '../disciplinas';
@@ -35,11 +42,49 @@ jest.mock('expo-router', () => ({
   useRouter: jest.fn(() => ({ push: jest.fn(), replace: jest.fn() })),
   Link: ({ children }: any) => <>{children}</>,
   useFocusEffect: (callback: any) => require('react').useEffect(callback, []),
+  useLocalSearchParams: jest.fn(() => ({})),
 }));
 
 jest.mock('expo-symbols', () => ({
   SymbolView: ({ fallback }: any) => <>{fallback}</>,
 }));
+
+jest.mock('@/contexts/ThemeContext', () => ({
+  useTheme: () => ({
+    colors: {
+      primary: '#0056b3',
+      secondary: '#6c757d',
+      background: '#ffffff',
+      surface: '#ffffff',
+      textPrimary: '#000000',
+      textSecondary: '#6c757d',
+      border: '#dee2e6',
+      iconBackground: '#f8f9fa',
+      inactiveText: '#888888',
+      danger: '#dc3545',
+    },
+    isDark: false,
+  }),
+}));
+
+jest.mock('react-native-reanimated', () => {
+  return {
+    __esModule: true,
+    default: {
+      createAnimatedComponent: (c: any) => c,
+    },
+    useSharedValue: (val: any) => ({ value: val }),
+    useAnimatedStyle: (cb: any) => ({}),
+    withTiming: (toValue: any, config: any, cb: any) => toValue,
+    Easing: {
+      linear: (x: any) => x,
+      ease: (x: any) => x,
+      inOut: (x: any) => x,
+    },
+  };
+});
+
+jest.mock('react-native-worklets', () => ({}));
 
 const mockDb = {};
 jest.mock('expo-sqlite', () => ({
@@ -53,6 +98,18 @@ jest.mock('expo-pdf-text-extract', () => ({ extractTextWithInfo: jest.fn() }));
 jest.mock('@/contexts/TextSizeContext', () => ({
   useTextSize: () => ({
     getFontSize: (size: number) => size,
+  }),
+}));
+
+jest.mock('@/contexts/UserProfileContext', () => ({
+  useUserProfile: () => ({
+    userName: "Lourdes Ribeiro",
+    userMatricula: "123456789",
+    autoSyncPDFData: true,
+    setAutoSyncPDFData: jest.fn(),
+    clearAllData: jest.fn(),
+    themePreference: "light",
+    setThemePreference: jest.fn(),
   }),
 }));
 
