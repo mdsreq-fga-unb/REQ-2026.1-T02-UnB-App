@@ -5,10 +5,12 @@
   },
   "build": {
     "development": {
+      "node": "24.x",
       "developmentClient": true,
       "distribution": "internal"
     },
     "preview": {
+      "node": "24.x",
       "android": {
         "buildType": "apk"
       },
@@ -16,6 +18,7 @@
       "distribution": "internal"
     },
     "production": {
+      "node": "24.x",
       "autoIncrement": true
     }
   },
