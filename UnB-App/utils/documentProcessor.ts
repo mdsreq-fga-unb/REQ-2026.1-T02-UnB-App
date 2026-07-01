@@ -3,6 +3,7 @@ import { extractTextWithInfo } from 'expo-pdf-text-extract';
 import * as FileSystem from 'expo-file-system/legacy';
 import { popularGradePorDados } from '../database/queries/gradeQueries';
 import { extrairDadosDoPDF } from './pdfParser';
+import { extrairDadosDoHistorico } from './historicoParser';
 
 export async function processAndSaveDocument(
   db: SQLiteDatabase,

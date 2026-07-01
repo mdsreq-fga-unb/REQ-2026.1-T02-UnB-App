@@ -1,5 +1,31 @@
 import React from 'react';
 import { render, waitFor, screen } from '@testing-library/react-native';
+
+// Mocks para Reanimated e Worklets para evitar erro de inicialização nativa no Jest
+jest.mock('react-native-worklets', () => ({
+  createSerializable: (x: any) => x,
+  isSerializableRef: () => false,
+  makeShareable: (x: any) => x,
+  makeShareableCloneOnUIRecursive: (x: any) => x,
+  makeShareableCloneRecursive: (x: any) => x,
+  serializableMappingCache: new Map(),
+  shareableMappingCache: new Map(),
+  RuntimeKind: {
+    ReactNative: 0,
+    Web: 1,
+    Worklet: 2,
+  },
+  Worklets: {
+    createRunInJS: (fn: any) => fn,
+    createRunInWorklet: (fn: any) => fn,
+  },
+  runOnJS: (fn: any) => fn,
+  runOnUI: (fn: any) => fn,
+  runOnUISync: (fn: any) => fn,
+  scheduleOnUI: (fn: any) => fn,
+}));
+jest.mock('react-native-reanimated', () => require('react-native-reanimated/mock'));
+
 import DisciplinasScreen from '../disciplinas';
 
 import * as gradeQueries from '../../../../database/queries/gradeQueries';
