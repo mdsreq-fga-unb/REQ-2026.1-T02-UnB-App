@@ -30,6 +30,8 @@ const SYMBOL_MAP: Record<string, CrossPlatformSymbol> = {
   'eye.fill':                   { ios: 'eye.fill',                   android: 'visibility',      web: 'visibility' },
   'trash.fill':                 { ios: 'trash.fill',                 android: 'delete',          web: 'delete' },
   'arrow.down.doc.fill':        { ios: 'arrow.down.doc.fill',        android: 'download',        web: 'download' },
+  'icloud.and.arrow.up.fill':   { ios: 'icloud.and.arrow.up.fill',   android: 'cloud_upload',    web: 'cloud_upload' },
+  'vcard.fill':                 { ios: 'vcard.fill',                 android: 'badge',           web: 'badge' },
   // Ícones dos documentos (DEFAULT_DOCS)
   'doc.text.fill':              { ios: 'doc.text.fill',              android: 'description',     web: 'description' },
   'chart.bar.doc.horizontal':   { ios: 'chart.bar.doc.horizontal',   android: 'analytics',       web: 'analytics' },
@@ -58,6 +60,13 @@ interface DocumentRecord {
 }
 
 const DEFAULT_DOCS = [
+  {
+    title: "Carteirinha Estudantil",
+    description: "Documento de identificação com foto",
+    meta: "",
+    color: "#2563eb",
+    symbolName: "vcard.fill"
+  },
   {
     title: "Boletim de Notas",
     description: "Notas das disciplinas do semestre 2026.1",
@@ -139,7 +148,14 @@ export default function Documentos() {
   const loadDocuments = useCallback(async () => {
     try {
       await syncDefaultDocuments();
-      const result = await db.getAllAsync<DocumentRecord>('SELECT * FROM documents ORDER BY id ASC');
+      const result = await db.getAllAsync<DocumentRecord>('SELECT * FROM documents');
+      // Ordena de acordo com o index de DEFAULT_DOCS
+      const defaultOrder = DEFAULT_DOCS.map(d => d.title);
+      result.sort((a, b) => {
+        const indexA = defaultOrder.indexOf(a.title);
+        const indexB = defaultOrder.indexOf(b.title);
+        return (indexA === -1 ? 999 : indexA) - (indexB === -1 ? 999 : indexB);
+      });
       setDocuments(result);
       const size = result.reduce((acc, curr) => acc + (curr.size || 0), 0);
       setTotalSize(size);
@@ -156,11 +172,11 @@ export default function Documentos() {
 
   const handleBaixar = async (doc: DocumentRecord) => {
     if (doc.uri && doc.uri !== "") {
-      Alert.alert('Aviso', 'O documento já foi baixado. Toque em "Ver" para acessá-lo.');
+      Alert.alert('Aviso', 'O documento já foi carregado. Toque em "Ver" para acessá-lo.');
       return;
     }
     try {
-      Alert.alert('Simulação de Download', 'Selecione um arquivo local para simular o download deste documento oficial do app da UnB.');
+      Alert.alert('Upload de Documento', 'Selecione um arquivo local para fazer o upload deste documento para o app.');
       const result = await DocumentPicker.getDocumentAsync({
         copyToCacheDirectory: true,
       });
@@ -190,13 +206,13 @@ export default function Documentos() {
       }
     } catch (error) {
       console.error(error);
-      Alert.alert('Erro', 'Não foi possível baixar/salvar o arquivo.');
+      Alert.alert('Erro', 'Não foi possível fazer o upload ou salvar o arquivo.');
     }
   };
 
   const handleVer = async (doc: DocumentRecord) => {
     if (!doc.uri || doc.uri === "") {
-      Alert.alert('Aviso', 'Este documento ainda não foi baixado.');
+      Alert.alert('Aviso', 'Este documento ainda não foi carregado.');
       return;
     }
     
@@ -469,9 +485,9 @@ function DocCard({ title, description, meta, color, symbolName, hasFile = false,
             style={[styles.actionBtnSolid, { backgroundColor: btnColor }]} 
             onPress={onBaixar}
           >
-            {/* CORRIGIDO: download com Material Symbol no Android */}
-            <SymbolView name={sym('arrow.down.doc.fill')} size={16} tintColor="#fff" />
-            <Text style={[styles.actionBtnSolidText, { fontSize: getFontSize(15) }]}>Baixar</Text>
+            {/* CORRIGIDO: upload com Material Symbol no Android */}
+            <SymbolView name={sym('icloud.and.arrow.up.fill')} size={16} tintColor="#fff" />
+            <Text style={[styles.actionBtnSolidText, { fontSize: getFontSize(15) }]}>Upload</Text>
           </ScalePressable>
         )}
       </View>

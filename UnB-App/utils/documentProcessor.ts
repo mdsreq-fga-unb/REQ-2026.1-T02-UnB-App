@@ -64,10 +64,10 @@ export async function processAndSaveDocument(
           [newUri, fileName || 'documento.pdf', mimeType || 'application/pdf', size || 0, newMeta, docRecord.id]
         );
 
-        // Se a chamada veio da aba Documentos (tem overrideDocId) e é um slot "burro",
+        // Se a chamada veio da aba Documentos (tem overrideDocId) e é um slot "burro" (como Carteirinha Estudantil),
         // paramos a execução aqui. Ele salva o arquivo e não altera o banco de dados.
         if (overrideDocId && docRecord.title !== "Histórico Escolar" && docRecord.title !== "Passe Livre Estudantil") {
-           return { success: false, message: 'Documento salvo (Sem Processamento Automático).' };
+           return { success: true, message: 'Documento salvo com sucesso!' };
         }
       }
     } catch (err) {
