@@ -31,9 +31,27 @@ export async function processAndSaveDocument(
     const checkIndice = () => text.includes('ÍNDICES ACADÊMICOS') || text.includes('Índice de Rendimento Acadêmico');
     const checkCarteirinha = () => text.includes('VALIDADE') && (text.includes('Secretário de Administração Acadêmica') || text.includes('Secretaria de Administração Acadêmica'));
 
+    let docRecord: { id: number, title: string } | null = null;
+
     // Salvar o arquivo na tabela de documentos
     try {
-      let docRecord: { id: number, title: string } | null = null;
+      // Garante que os slots padrão existam (caso o banco tenha sido limpo recentemente)
+      const existingDocs = await db.getAllAsync('SELECT id FROM documents LIMIT 1');
+      if (existingDocs.length === 0) {
+        const DEFAULT_DOCS = [
+          { title: "Carteirinha Estudantil", description: "Comprovante oficial de vínculo com a UnB", meta: "", color: "#b45309", symbolName: "person.text.rectangle.fill" },
+          { title: "Histórico Escolar", description: "Todas as disciplinas cursadas", meta: "", color: "#7c3aed", symbolName: "books.vertical.fill" },
+          { title: "Passe Livre Estudantil", description: "Solicitação de gratuidade no transporte", meta: "", color: "#be185d", symbolName: "bus.fill" },
+          { title: "Boletim de Notas", description: "Notas das disciplinas do semestre 2026.1", meta: "", color: "#1d8d28", symbolName: "doc.text.fill" },
+          { title: "Índice Acadêmico", description: "IRA, IECH e CR consolidados", meta: "", color: "#0e7490", symbolName: "chart.bar.doc.horizontal" }
+        ];
+        for (const doc of DEFAULT_DOCS) {
+          await db.runAsync(
+            'INSERT INTO documents (title, description, meta, color, symbolName, uri) VALUES (?, ?, ?, ?, ?, ?)',
+            [doc.title, doc.description, doc.meta, doc.color, doc.symbolName, ""]
+          );
+        }
+      }
 
       if (overrideDocId) {
         docRecord = await db.getFirstAsync<{id: number, title: string}>('SELECT id, title FROM documents WHERE id = ?', [overrideDocId]);
@@ -57,6 +75,9 @@ export async function processAndSaveDocument(
            }
         }
       } else {
+        if (!checkHistorico() && !checkPasseLivre()) {
+          return { success: false, message: 'Por aqui, só é possível importar a sua grade pelo Histórico Escolar ou pelo Passe Livre Estudantil.' };
+        }
         const docTitle = checkHistorico() ? "Histórico Escolar" : "Passe Livre Estudantil";
         docRecord = await db.getFirstAsync<{id: number, title: string}>('SELECT id, title FROM documents WHERE title = ?', [docTitle]);
       }
@@ -99,6 +120,36 @@ export async function processAndSaveDocument(
 
       if (!proceed) {
          return { success: false, message: 'Importação cancelada pelo usuário.' };
+      }
+
+      const currentAluno = await db.getFirstAsync<{ matricula: string }>('SELECT matricula FROM Aluno LIMIT 1');
+      if (currentAluno && currentAluno.matricula !== alunoInfo.matricula && shouldSync) {
+        // Troca de usuário confirmada: apagar documentos do usuário antigo (exceto o recém-inserido)
+        const docsToDelete = await db.getAllAsync<{ uri: string }>('SELECT uri FROM documents WHERE id != ? AND uri != ""', [docRecord?.id || 0]);
+        for (const doc of docsToDelete) {
+           if (doc.uri && FileSystem) {
+              try {
+                 const fileInfo = await FileSystem.getInfoAsync(doc.uri);
+                 if (fileInfo.exists) {
+                    await FileSystem.deleteAsync(doc.uri);
+                 }
+              } catch (e) {
+                 console.error('Erro ao deletar arquivo antigo:', e);
+              }
+           }
+        }
+        
+        if (docRecord) {
+           await db.runAsync(
+              'UPDATE documents SET uri = ?, fileName = ?, mimeType = ?, size = ?, meta = ? WHERE id != ?',
+              ["", null, null, null, "", docRecord.id]
+           );
+        } else {
+           await db.runAsync(
+              'UPDATE documents SET uri = ?, fileName = ?, mimeType = ?, size = ?, meta = ?',
+              ["", null, null, null, ""]
+           );
+        }
       }
 
       await popularGradePorDados(db, alunoInfo, disciplinasFormatadas, shouldSync);
