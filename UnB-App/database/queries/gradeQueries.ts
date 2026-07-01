@@ -2,30 +2,6 @@ import { SQLiteDatabase } from 'expo-sqlite';
 import { parseHorarioUnB } from '../../utils/horarioParser';
 import { type InfoAluno, type DisciplinaExtraida } from '../../utils/pdfParser';
 
-/**
- * Limpa os dados academicos usados pela grade/SIGAA (exceto schema,
- * documentos e configuracoes internas do app).
- */
-export async function clearDatabase(db: SQLiteDatabase): Promise<void> {
-  try {
-    await db.withTransactionAsync(async () => {
-      // Ordem importa: respeitar foreign keys
-      await db.runAsync('DELETE FROM Aula');
-      await db.runAsync('DELETE FROM Turma_Docente');
-      await db.runAsync('DELETE FROM Turma_Aluno');
-      await db.runAsync('DELETE FROM Turma');
-      await db.runAsync('DELETE FROM Docente');
-      await db.runAsync('DELETE FROM Disciplina');
-      await db.runAsync('DELETE FROM Periodo_Letivo');
-      await db.runAsync('DELETE FROM Aluno');
-    });
-    console.log('🗑️  Banco de dados limpo com sucesso!');
-  } catch (error) {
-    console.error('❌ Erro ao limpar o banco:', error);
-    throw error;
-  }
-}
-
 export async function temGradeCadastrada(db: SQLiteDatabase): Promise<boolean> {
   const result = await db.getFirstAsync<{ count: number }>('SELECT count(*) as count FROM Aula');
   return !!result && result.count > 0;
@@ -269,29 +245,6 @@ function montarAssinaturaHorario(aulas: Array<{
     ].join('|'))
     .sort()
     .join('||');
-}
-
-function formatarLocais(locais: string[]) {
-  const locaisUnicos = Array.from(new Set(locais));
-  if (locaisUnicos.length <= 1) {
-    return locaisUnicos.join('');
-  }
-
-  const partes = locaisUnicos.map((local) => {
-    const [prefixo, ...resto] = local.split(' - ');
-    return {
-      prefixo: prefixo.trim(),
-      sala: resto.join(' - ').trim(),
-      original: local,
-    };
-  });
-
-  const mesmoPrefixo = partes.every((parte) => parte.prefixo && parte.sala && parte.prefixo === partes[0].prefixo);
-  if (!mesmoPrefixo) {
-    return locaisUnicos.join(' / ');
-  }
-
-  return `${partes[0].prefixo} - ${partes.map((parte) => parte.sala).join(' / ')}`;
 }
 
 async function getDefaultParams(db: SQLiteDatabase) {
@@ -616,7 +569,7 @@ export async function buscarTodasDisciplinas(db: SQLiteDatabase): Promise<Discip
     const locais = aulas
       .map((aula) => aula.local?.trim())
       .filter((local): local is string => !!local);
-    const local = formatarLocais(locais);
+    const local = Array.from(new Set(locais)).join(' / ');
 
     const horariosAgrupados: Record<string, string[]> = {};
     for (const aula of aulas) {
