@@ -9,7 +9,10 @@
     "userInterfaceStyle": "automatic",
     "ios": {
       "icon": "./assets/expo.icon",
-      "bundleIdentifier": "com.cunha.luiss.unbapp"
+      "bundleIdentifier": "com.cunha.luiss.unbapp",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -39,7 +42,15 @@
       ],
       "expo-image",
       "expo-sqlite",
-      "expo-sharing"
+      "expo-sharing",
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Permita que o UnB-App use o Face ID para proteger seus dados."
+        }
+      ],
+      "expo-web-browser",
+      "expo-system-ui"
     ],
     "experiments": {
       "typedRoutes": true,

@@ -63,6 +63,7 @@ export async function initializeDatabase(db: SQLiteDatabase) {
      CREATE TABLE IF NOT EXISTS Turma_Aluno (
         id_turma INTEGER,
         matricula_aluno TEXT NOT NULL,
+        situacao TEXT DEFAULT 'MATR',
         
         PRIMARY KEY (id_turma, matricula_aluno),
         FOREIGN KEY (id_turma) REFERENCES Turma (id_turma) ON DELETE CASCADE,
@@ -93,9 +94,20 @@ export async function initializeDatabase(db: SQLiteDatabase) {
           mimeType TEXT,
           size INTEGER
       );
+
+      -- 10. Tabela de Configurações do App
+      CREATE TABLE IF NOT EXISTS Configuracoes (
+          chave TEXT PRIMARY KEY,
+          valor TEXT NOT NULL
+      );
     `);
 
-
+    // Migration: Adiciona coluna situacao na tabela Turma_Aluno se não existir
+    try {
+      await db.execAsync(`ALTER TABLE Turma_Aluno ADD COLUMN situacao TEXT DEFAULT 'MATR';`);
+    } catch (e) {
+      // Ignora erro se a coluna já existir
+    }
 
   } catch (error) {
     console.error('Falha ao inicializar banco de dados:', error);

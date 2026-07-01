@@ -9,9 +9,11 @@ import Animated, {
   withTiming, 
   withSequence, 
   withDelay,
-  runOnJS
+  runOnJS,
+  Easing
 } from 'react-native-reanimated';
 import * as SplashScreenNative from 'expo-splash-screen';
+import { useTheme } from '@/contexts/ThemeContext';
 
 const LOGO_IMG = require('../../assets/images/icon.png');
 
@@ -25,8 +27,8 @@ const Dot = ({ color, delay }: { color: string, delay: number }) => {
   useEffect(() => {
     translateY.value = withDelay(delay, withRepeat(
       withSequence(
-        withTiming(-8, { duration: 300 }),
-        withTiming(0, { duration: 300 })
+        withTiming(-8, { duration: 300, easing: Easing.bezier(0.77, 0, 0.175, 1) }),
+        withTiming(0, { duration: 300, easing: Easing.bezier(0.77, 0, 0.175, 1) })
       ),
       -1,
       true
@@ -47,6 +49,7 @@ const Dot = ({ color, delay }: { color: string, delay: number }) => {
 export default function CustomSplashScreen({ onFinish }: Props) {
   const [isHiding, setIsHiding] = useState(false);
   const opacity = useSharedValue(1);
+  const { colors, isDark } = useTheme();
 
   useEffect(() => {
     // Hide the native splash screen immediately so we can show our custom one
@@ -55,7 +58,7 @@ export default function CustomSplashScreen({ onFinish }: Props) {
     // Ensure the splash screen stays visible for at least 2.5 seconds
     const timer = setTimeout(() => {
       setIsHiding(true);
-      opacity.value = withTiming(0, { duration: 400 }, (finished) => {
+      opacity.value = withTiming(0, { duration: 250, easing: Easing.bezier(0.23, 1, 0.32, 1) }, (finished) => {
         if (finished && onFinish) {
           runOnJS(onFinish)();
         }
@@ -72,16 +75,16 @@ export default function CustomSplashScreen({ onFinish }: Props) {
   return (
     <Animated.View style={[styles.container, containerStyle]} pointerEvents={isHiding ? 'none' : 'auto'}>
       <LinearGradient
-        colors={['#E8F5EA', '#FFFFFF', '#E0F2E4']}
+        colors={isDark ? ['#0f172a', '#1e293b', '#0f172a'] : ['#E8F5EA', '#FFFFFF', '#E0F2E4']}
         locations={[0, 0.55, 1]}
         style={StyleSheet.absoluteFillObject}
       />
       
       {/* Background glow effect */}
-      <View style={styles.glow} />
+      <View style={[styles.glow, { backgroundColor: colors.primary }]} />
 
       {/* Logo Container */}
-      <View style={styles.logoContainer}>
+      <View style={[styles.logoContainer, { backgroundColor: colors.surface, shadowColor: isDark ? 'rgba(0,0,0,0.8)' : 'rgba(29, 141, 40, 0.4)' }]}>
         <Image 
           source={LOGO_IMG} 
           style={styles.logo} 
@@ -91,19 +94,19 @@ export default function CustomSplashScreen({ onFinish }: Props) {
 
       {/* Text Container */}
       <View style={styles.textContainer}>
-        <Text style={styles.title}>
-          UnB <Text style={styles.titleHighlight}>App</Text>
+        <Text style={[styles.title, { color: colors.textPrimary }]}>
+          UnB <Text style={[styles.titleHighlight, { color: colors.primary }]}>App</Text>
         </Text>
-        <Text style={styles.subtitle}>
+        <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
           A universidade no seu ritmo
         </Text>
       </View>
 
       {/* Loader */}
       <View style={styles.loaderContainer}>
-        <Dot color="#5ee9b5" delay={0} />
-        <Dot color="#00d492" delay={150} />
-        <Dot color="#009966" delay={300} />
+        <Dot color={isDark ? '#4ade80' : '#5ee9b5'} delay={0} />
+        <Dot color={isDark ? '#22c55e' : '#00d492'} delay={50} />
+        <Dot color={isDark ? '#16a34a' : '#009966'} delay={100} />
       </View>
     </Animated.View>
   );
@@ -121,18 +124,15 @@ const styles = StyleSheet.create({
     width: 320,
     height: 320,
     borderRadius: 160,
-    backgroundColor: '#1d8d28',
     opacity: 0.18,
     top: '30%',
   },
   logoContainer: {
     width: 160,
     height: 160,
-    backgroundColor: '#ffffff',
     borderRadius: 24,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: 'rgba(29, 141, 40, 0.4)',
     shadowOffset: { width: 0, height: 20 },
     shadowOpacity: 1,
     shadowRadius: 25,
@@ -151,15 +151,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 34,
     fontWeight: 'bold',
-    color: '#0f172a',
     letterSpacing: -0.85,
   },
   titleHighlight: {
-    color: '#1d8d28',
   },
   subtitle: {
     fontSize: 16,
-    color: '#45556c',
   },
   loaderContainer: {
     position: 'absolute',

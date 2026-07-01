@@ -1,5 +1,8 @@
-# 8.3 Matriz de Rastreabilidade
+# 8.3 Rastreabilidade
 
+> ⚠️ **Aviso de Migração:** Com a nova reestruturação da documentação (Visão Integrada), a Matriz de Rastreabilidade agora é visual, compacta e encontra-se diretamente na página inicial do site.
+>
+> 📌 Por favor, consulte a matriz na **[Página Inicial (Home)](../index.md#3-matriz-de-rastreabilidade-visual)**.
 > Relacionamento entre Objetivos Específicos (OE), Características de Produto (C), Requisitos Funcionais (RF) e Não Funcionais (RNF).
 
 ---
@@ -11,7 +14,7 @@
 | OE2 | OE3 | C08 | RF08, RF09, RF10, RF11 | - |
 | OE2 | OE1 | C09 | - | RNF01, RNF02, RNF05 |
 | OE3 | OE1 | C01 | - | RNF03, RNF08 |
-| OE3 | OE1 | C04 | RF07, RF12, RF13, RF14, RF15 | - |
+| OE3 | OE1 | C04 | RF12, RF13, RF14, RF15, RF22, RF23 | - |
 | OE3 | - | C05 | RF01, RF02, RF03 | - |
 | OE4 | OE1 | C03 | RF18 | RNF06, RNF09 |
 | OE4 | OE3 | C02 | RF16, RF17, RF19 | RNF04, RNF10 |

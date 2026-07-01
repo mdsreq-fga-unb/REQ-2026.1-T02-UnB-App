@@ -7,7 +7,7 @@
 
 ## O que funcionou bem
 
-- **Consolidação do FDD e Backlog:** A migração completa de User Stories para Features foi concluída, acompanhada do detalhamento extensivo das funcionalidades principais (como F01, F02, F03, F06, e F07) seguindo o novo padrão metodológico.
+- **Consolidação do FDD e Feature List:** A migração completa de User Stories para Features foi concluída, acompanhada do detalhamento extensivo das funcionalidades principais (como F01, F02, F03, F06, e F07) seguindo o novo padrão metodológico.
 - **Métricas e Priorização Avançadas:** A integração do MathJax e a aplicação de fórmulas matemáticas para calcular esforço *vs.* valor de negócio trouxeram uma base empírica e sólida para a priorização do MVP.
 - **Correção do Cronograma e Repriorização:** A adequação do cronograma do projeto, que havia sido estruturado erroneamente por feature, sendo agora reorganizado corretamente por iterações e unidades. Além dessa reestruturação estrutural, houve a alteração na ordem de desenvolvimento, onde a **Feature 07 (Consultar grade horária e ensalamento)** tomou o lugar e foi antecipada em relação à **Feature 05 (Exibir fluxos de onboarding)**, ajustando a ordem lógica e de prioridade das entregas.
 - **Fundação Técnica do App:** O setup inicial do projeto foi realizado com sucesso (via template do Expo/React Native), estruturando o diretório `UnB-App` com configurações de ambiente e scripts iniciais prontos para o desenvolvimento.
@@ -31,5 +31,5 @@
 
 - [ ] Estabelecer um fluxo de trabalho claro (como *Git Flow* ou *GitHub Flow*) ligando as tarefas de desenvolvimento front-end com os IDs das Features (F01, F02, etc);
 - [ ] Aplicar no código as práticas de *Definition of Ready (DoR)* e *Definition of Done (DoD)* formuladas nas unidades anteriores;
-- [ ] Iniciar a implementação contínua das interfaces no aplicativo garantindo alinhamento direto com o backlog e suas funcionalidades;
+- [ ] Iniciar a implementação contínua das interfaces no aplicativo garantindo alinhamento direto com a feature list e suas funcionalidades;
 - [ ] Definir a arquitetura inicial de componentes no React Native e as bibliotecas base para navegação e estado.
