@@ -67,8 +67,6 @@
 <article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
   <h2 style="margin-top: 0;"><a id="i3"></a> 🟡 Iteração 3: Onboarding e Carteirinha (F05, F02, F03)</h2>
 
-  > 📅 **Entrega:** Quinta-feira, 02cat docs/06-cronograma/index.md/07/2026
-
   <h3>Critérios de Aceite</h3>
   <ul>
     <li>Novos usuários devem ver o slider educativo antes da Home.</li>
