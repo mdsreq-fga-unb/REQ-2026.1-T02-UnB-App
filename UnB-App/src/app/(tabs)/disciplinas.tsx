@@ -295,23 +295,20 @@ export default function DisciplinasScreen() {
             </View>
 
             <View style={{ paddingBottom: 16 }}>
-              {/* Added View wrapper instead of Link to avoid navigation issues while keeping design */}
-              <TouchableOpacity onPress={() => router.push('/grade-modal')}>
-                <ScalePressable>
-                  {({ pressed }) => (
-                    <View style={[styles.gradeCard, { backgroundColor: isDark ? 'rgba(29, 141, 40, 0.1)' : '#f0fdf4', borderColor: isDark ? 'rgba(29, 141, 40, 0.3)' : '#a4f4cf' }, pressed && { opacity: 0.72 }]}>
-                      <View style={[styles.gradeIconContainer, { backgroundColor: isDark ? 'rgba(29, 141, 40, 0.2)' : '#ffffff' }]}>
-                        <SymbolView name={{ ios: "calendar", android: "calendar_today", web: "calendar_today" } as any} size={24} tintColor={colors.primary} fallback={<Text style={{ fontSize: 20 }}>📅</Text>} />
-                      </View>
-                      <View style={styles.gradeTextContainer}>
-                        <Text style={[styles.gradeTitle, { fontSize: getFontSize(17), color: colors.textPrimary }]}>Grade Horária</Text>
-                        <Text style={[styles.gradeSubtitle, { fontSize: getFontSize(14), color: colors.textSecondary }]}>Visualizar sua semana</Text>
-                      </View>
-                      <SymbolView name={{ ios: "chevron.right", android: "chevron_right", web: "chevron_right" } as any} size={20} tintColor={colors.primary} fallback={<Text style={{ fontSize: 16, color: colors.primary }}>›</Text>} />
+              <ScalePressable onPress={() => router.push('/grade-modal')}>
+                {({ pressed }) => (
+                  <View style={[styles.gradeCard, { backgroundColor: isDark ? 'rgba(29, 141, 40, 0.1)' : '#f0fdf4', borderColor: isDark ? 'rgba(29, 141, 40, 0.3)' : '#a4f4cf' }, pressed && { opacity: 0.72 }]}>
+                    <View style={[styles.gradeIconContainer, { backgroundColor: isDark ? 'rgba(29, 141, 40, 0.2)' : '#ffffff' }]}>
+                      <SymbolView name={{ ios: "calendar", android: "calendar_today", web: "calendar_today" } as any} size={24} tintColor={colors.primary} fallback={<Text style={{ fontSize: 20 }}>📅</Text>} />
                     </View>
-                  )}
-                </ScalePressable>
-              </TouchableOpacity>
+                    <View style={styles.gradeTextContainer}>
+                      <Text style={[styles.gradeTitle, { fontSize: getFontSize(17), color: colors.textPrimary }]}>Grade Horária</Text>
+                      <Text style={[styles.gradeSubtitle, { fontSize: getFontSize(14), color: colors.textSecondary }]}>Visualizar sua semana</Text>
+                    </View>
+                    <SymbolView name={{ ios: "chevron.right", android: "chevron_right", web: "chevron_right" } as any} size={20} tintColor={colors.primary} fallback={<Text style={{ fontSize: 16, color: colors.primary }}>›</Text>} />
+                  </View>
+                )}
+              </ScalePressable>
             </View>
           </>
         }
