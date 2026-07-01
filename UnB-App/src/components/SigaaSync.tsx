@@ -2,113 +2,197 @@ import React, { useEffect, useState, useRef } from 'react';
 import { View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import * as Network from 'expo-network';
+import { useSQLiteContext } from 'expo-sqlite';
+import { buscarTodasDisciplinas } from '../../database/queries/gradeQueries';
 
-const GHOST_ROBOT_SCRIPT = `
-  (function() {
-    try {
-      // verifica se caiu na tela de Login (Sessão Expirada)
-      if (document.body.innerHTML.includes('Entrar no Sistema') || document.querySelector('input[name="user.login"]')) {
-        window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'AUTH_REQUIRED' }));
-        return;
-      }
-
-      // Procura o painel principal de turmas
-      const painelTurmas = document.getElementById('turmas-portal');
-      
-      if (painelTurmas) {
-        const aulasExtraidas = [];
-        const linhas = painelTurmas.querySelectorAll('tbody tr');
-
-        linhas.forEach(linha => {
-          const nomeEl = linha.querySelector('td.descricao a');
-          const tdInfo = linha.querySelectorAll('td.info');
-
-          if (nomeEl && tdInfo.length >= 2) {
-            let nome = nomeEl.innerText.trim();
-            let local = tdInfo[0].innerText.trim();
-            let horarioTexto = tdInfo[1].innerText.trim();
-            let horarioLimpo = horarioTexto.split('(')[0].trim();
-
-            aulasExtraidas.push({ 
-              nome: nome, 
-              local: local, 
-              horario: horarioLimpo 
-            });
-          }
-        });
-
-        if(aulasExtraidas.length > 0) {
-          window.ReactNativeWebView.postMessage(JSON.stringify({ 
-            type: 'SYNC_SUCCESS', 
-            payload: aulasExtraidas 
-          }));
-        } else {
-           window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'ERROR', error: 'Tabela encontrada, mas vazia.' }));
-        }
-
-      } else {
-        // Força a navegação para a home caso esteja noutro ecrã do SIGAA
-        const btnPortal = document.querySelector('a[href*="/sigaa/portais/discente/discente.jsf"]');
-        if (btnPortal) {
-           btnPortal.click();
-        } else {
-           window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'ERROR', error: 'Painel turmas-portal não encontrado.' }));
-        }
-      }
-    } catch (e) {
-      window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'ERROR', error: e.message }));
-    }
-  })();
-  true;
-`;
+interface TargetDisciplina {
+  codigo_disciplina: string;
+  codigo_turma: string;
+  docente_nome: string;
+}
 
 export function SigaaSync() {
-  const [shouldSync, setShouldSync] = useState(false);
+  const db = useSQLiteContext();
+  const [isNetworkOk, setIsNetworkOk] = useState(false);
+  const [targets, setTargets] = useState<TargetDisciplina[]>([]);
+  const [isFinished, setIsFinished] = useState(false);
   const webviewRef = useRef<WebView>(null);
 
   useEffect(() => {
-    async function checkNetworkAndTrigger() {
+    async function init() {
       const networkState = await Network.getNetworkStateAsync();
+      
       if (networkState.isConnected && networkState.isInternetReachable) {
-        setShouldSync(true);
+         const disciplinas = await buscarTodasDisciplinas(db);
+         const alvosValidos: TargetDisciplina[] = disciplinas
+          .filter(d => d.codigo_disciplina && d.codigo_turma)
+          .map(d => ({
+            codigo_disciplina: d.codigo_disciplina,
+            codigo_turma: d.codigo_turma,
+            docente_nome: d.docente_nome || ''
+          }));
+         
+         if (alvosValidos.length > 0) {
+             console.log("🎯 Alvos Carregados para o Robô (Sniper):", alvosValidos.length, "disciplinas.");
+             setTargets(alvosValidos);
+             setIsNetworkOk(true);
+         } else {
+             setIsFinished(true); 
+         }
       }
     }
-    checkNetworkAndTrigger();
+    init();
   }, []);
+
+  const GHOST_ROBOT_SCRIPT = `
+    (function() {
+      try {
+        const TARGETS = ${JSON.stringify(targets)};
+        
+        // Dicionário de Mapeamento UnB (Prefixo e ID do Departamento)
+        const MAPA_UNIDADES = {
+          'FGA': '673', // CAMPUS UNB GAMA
+          'DSC': '420', // DEPTO SAUDE COLETIVA
+          'MAT': '518', // DEPTO MATEMATICA
+          'IFD': '524', // INSTITUTO DE FISICA
+          'EST': '514', // DEPTO ESTATISTICA
+          'CIC': '508', // DEPTO CIENCIAS DA COMPUTACAO
+          'IQ':  '610'  // INSTITUTO DE QUIMICA
+        };
+
+        // Descobre exatamente quais unidades precisamos pesquisar (Remove duplicatas)
+        let unidadesParaPesquisar = [];
+        TARGETS.forEach(t => {
+           // Pega apenas as letras do código (Ex: "FGA0170" -> "FGA")
+           const prefixo = t.codigo_disciplina.replace(/[0-9]/g, ''); 
+           const idUnidade = MAPA_UNIDADES[prefixo];
+           
+           if (idUnidade && !unidadesParaPesquisar.includes(idUnidade)) {
+               unidadesParaPesquisar.push(idUnidade);
+           }
+        });
+
+        let found = JSON.parse(sessionStorage.getItem('unb_found') || '{}');
+        let currentIndex = parseInt(sessionStorage.getItem('unb_index') || '0');
+        
+        const allFound = TARGETS.every(t => found[t.codigo_disciplina]);
+        if (allFound || unidadesParaPesquisar.length === 0) {
+           window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'SYNC_SUCCESS', payload: Object.values(found) }));
+           sessionStorage.clear();
+           return;
+        }
+
+        // Tabela de Resultados
+        const divResultados = document.getElementById('turmasAbertas');
+        if (divResultados) {
+           const linhas = divResultados.querySelectorAll('tbody tr');
+           let currentCode = '';
+
+           linhas.forEach(linha => {
+              if (linha.classList.contains('agrupador')) {
+                 const titulo = linha.querySelector('.tituloDisciplina');
+                 if (titulo) {
+                     currentCode = titulo.innerText.split(' - ')[0].trim();
+                 }
+              } 
+              else if (linha.classList.contains('linhaPar') || linha.classList.contains('linhaImpar')) {
+                 const targetObj = TARGETS.find(t => t.codigo_disciplina === currentCode);
+                 
+                 if (targetObj && !found[currentCode]) {
+                    const tdTurma = linha.querySelector('.turma');
+                    const tds = linha.querySelectorAll('td');
+                    
+                    if (tdTurma && tds.length >= 4) {
+                       const turmaNum = tdTurma.innerText.trim();
+                       const profTexto = tds[2].innerText.toUpperCase();
+                       const profAlvo = targetObj.docente_nome ? targetObj.docente_nome.toUpperCase().split(' ')[0] : '';
+                       
+                       const isExactMatch = (turmaNum === targetObj.codigo_turma) || (profAlvo && profTexto.includes(profAlvo));
+                       
+                       if (isExactMatch) {
+                          const horarioTxt = tds[3].innerText.trim();
+                          const horarioLimpo = horarioTxt.split('(')[0].trim(); 
+                          const localTxt = tds.length > 0 ? tds[tds.length - 1].innerText.trim() : 'A designar';
+
+                          found[currentCode] = {
+                             codigo_disciplina: currentCode,
+                             turma: turmaNum,
+                             docente_nome: tds[2].innerText.trim(),
+                             horario_sigaa: horarioLimpo,
+                             local_sigaa: localTxt
+                          };
+                       }
+                    }
+                 }
+              }
+           });
+           
+           sessionStorage.setItem('unb_found', JSON.stringify(found));
+           window.location.href = 'https://sigaa.unb.br/sigaa/public/turmas/listar.jsf';
+           return;
+        }
+
+        // A Pesquisa nos Departamentos
+        const form = document.getElementById('formTurma');
+        const selectDepto = document.getElementById('formTurma:inputDepto');
+        
+        if (form && selectDepto) {
+           if (currentIndex < unidadesParaPesquisar.length) {
+              selectDepto.value = unidadesParaPesquisar[currentIndex]; // Insere o ID exato!
+              sessionStorage.setItem('unb_index', currentIndex + 1);
+              
+              const botoes = document.querySelectorAll('input[type="submit"]');
+              let btnSubmit = null;
+              for (let i = 0; i < botoes.length; i++) {
+                 if (botoes[i].value && botoes[i].value.toUpperCase().includes('BUSCAR')) {
+                    btnSubmit = botoes[i];
+                    break;
+                 }
+              }
+
+              if (btnSubmit) {
+                 btnSubmit.click();
+              } else {
+                 window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'ERROR', error: 'Botão Buscar não encontrado.' }));
+              }
+           } else {
+              // Ja pesquisamos os departamentos-alvo
+              window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'SYNC_SUCCESS', payload: Object.values(found) }));
+              sessionStorage.clear();
+           }
+        }
+      } catch(e) {
+          window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'ERROR', error: e.message }));
+      }
+    })();
+    true;
+  `;
 
   const handleWebViewMessage = async (event: any) => {
     const data = JSON.parse(event.nativeEvent.data);
 
-    if (data.type === 'AUTH_REQUIRED') {
-      console.log('Sessão do SIGAA expirou. Por favor, faça o login.');
-    } 
-    
     if (data.type === 'SYNC_SUCCESS') {
-      // Imprime o JSON no terminal 
-      console.log('Dados pegos!');
+      console.log('✅ Extração Sniper Concluída com Sucesso:');
       console.log(JSON.stringify(data.payload, null, 2));
-      
-      // depois implementar a parte de armazenar/atualizar o banco
+      setIsFinished(true);
     }
 
     if (data.type === 'ERROR') {
-      console.log('Erro no Script de Extração:', data.error);
+      console.log('❌ Falha na sincronização:', data.error);
+      setIsFinished(true);
     }
   };
 
-  if (!shouldSync) return null;
+  if (!isNetworkOk || targets.length === 0 || isFinished) return null;
 
   return (
-    // View 
     <View style={{ width: 0, height: 0, opacity: 0 }}>
       <WebView
         ref={webviewRef}
-        source={{ uri: 'https://sig.unb.br/sigaa/portais/discente/discente.jsf' }}
+        source={{ uri: 'https://sigaa.unb.br/sigaa/public/turmas/listar.jsf' }}
         injectedJavaScript={GHOST_ROBOT_SCRIPT}
         onMessage={handleWebViewMessage}
         javaScriptEnabled={true}
-        sharedCookiesEnabled={true} 
-        thirdPartyCookiesEnabled={true}
       />
     </View>
   );
