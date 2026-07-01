@@ -7,6 +7,7 @@ import * as gradeQueries from '../../../../database/queries/gradeQueries';
 // Mocs de navegação nativos
 jest.mock('expo-router', () => ({
   useRouter: jest.fn(() => ({ push: jest.fn(), replace: jest.fn() })),
+  useLocalSearchParams: jest.fn(() => ({})),
   Link: ({ children }: any) => <>{children}</>,
   useFocusEffect: (callback: any) => require('react').useEffect(callback, []),
 }));
@@ -14,6 +15,28 @@ jest.mock('expo-router', () => ({
 jest.mock('expo-symbols', () => ({
   SymbolView: ({ fallback }: any) => <>{fallback}</>,
 }));
+
+jest.mock('react-native-reanimated', () => {
+  const { View } = require('react-native');
+  const fadeInDown: { duration: jest.Mock } = { duration: jest.fn() };
+  fadeInDown.duration.mockReturnValue(fadeInDown);
+
+  return {
+    __esModule: true,
+    default: {
+      View,
+      createAnimatedComponent: (Component: any) => Component,
+    },
+    useSharedValue: jest.fn(() => ({ value: 0 })),
+    useAnimatedStyle: jest.fn(() => ({})),
+    withTiming: jest.fn((value) => value),
+    Easing: {
+      out: jest.fn((value) => value),
+      bezier: jest.fn(() => jest.fn()),
+    },
+    FadeInDown: fadeInDown,
+  };
+});
 
 const mockDb = {};
 jest.mock('expo-sqlite', () => ({
@@ -27,6 +50,34 @@ jest.mock('expo-pdf-text-extract', () => ({ extractTextWithInfo: jest.fn() }));
 jest.mock('@/contexts/TextSizeContext', () => ({
   useTextSize: () => ({
     getFontSize: (size: number) => size,
+  }),
+}));
+
+jest.mock('@/contexts/ThemeContext', () => ({
+  useTheme: () => ({
+    isDark: false,
+    colors: {
+      primary: '#1D8D28',
+      background: '#f8fafc',
+      surface: '#ffffff',
+      textPrimary: '#0f172b',
+      textSecondary: '#64748b',
+      border: '#d6dfec',
+      success: '#35A92E',
+      danger: '#D4183D',
+      iconBackground: '#e8f5ea',
+      inactiveText: '#64748b',
+      textPlaceholder: '#94a3b8',
+    },
+  }),
+}));
+
+jest.mock('@/contexts/UserProfileContext', () => ({
+  useUserProfile: () => ({
+    userName: 'Aluno Teste',
+    userMatricula: '123456789',
+    autoSyncPDFData: false,
+    updateUserProfile: jest.fn(),
   }),
 }));
 

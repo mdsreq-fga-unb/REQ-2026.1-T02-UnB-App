@@ -122,8 +122,14 @@ describe('Integração com Banco de Dados: gradeQueries', () => {
         expect(mockDb.withTransactionAsync).toHaveBeenCalledTimes(1)
 
         const queriesExecutadas = mockDb.runAsync.mock.calls.map(call => call[0]);
-        expect(queriesExecutadas).toContain('DELETE FROM Aula');
-        expect(queriesExecutadas).toContain('INSERT OR IGNORE INTO Aluno (matricula, nome, curso, CPF) VALUES (?, ?, ?, ?)');
+        expect(queriesExecutadas).not.toContain('DELETE FROM Aula');
+        expect(queriesExecutadas).toEqual(
+          expect.arrayContaining([
+            expect.stringContaining('INSERT INTO Aluno (matricula, nome, curso, CPF)'),
+            'INSERT OR IGNORE INTO Periodo_Letivo (ano, periodo, data_inicio, data_fim) VALUES (?, ?, ?, ?)',
+            'CREATE TABLE IF NOT EXISTS AppSettings (key TEXT PRIMARY KEY, value TEXT NOT NULL)',
+          ])
+        );
       });
     });
   });
