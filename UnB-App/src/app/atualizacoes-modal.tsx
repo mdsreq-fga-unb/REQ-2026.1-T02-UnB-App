@@ -97,15 +97,16 @@ export default function AtualizacoesModalScreen() {
   return (
     <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
       <View style={styles.header}>
-        <Text style={[styles.headerTitle, { fontSize: getFontSize(22) }]}>
-          Atualizações Anteriores
-        </Text>
         <ScalePressable
           style={styles.closeButton}
           onPress={() => router.back()}
         >
           <SymbolView name={{ ios: "xmark.circle.fill", android: "cancel", web: "cancel" }} size={28} tintColor={COLORS.textMuted} />
         </ScalePressable>
+        <Text style={[styles.headerTitle, { fontSize: getFontSize(22) }]}>
+          Atualizações Anteriores
+        </Text>
+        <View style={{ width: 28 }} />
       </View>
 
       {!isReady ? (
