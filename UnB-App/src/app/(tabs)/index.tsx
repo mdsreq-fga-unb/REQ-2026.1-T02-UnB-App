@@ -509,9 +509,8 @@ export default function Index() {
           <View style={styles.shortcutsRow}>
 
             <FooterShortcut
-              title="Atualizações Anteriores"
-              icon={{ ios: "bell.badge", android: "notifications", web: "notifications" }}
-              onPress={() => router.push('../atualizacoes-modal')}
+              title="Turmas Anteriores"
+              icon={{ ios: "clock.arrow.circlepath", android: "history", web: "history" }}
             />
             <FooterShortcut
               title="Grade Horária"
