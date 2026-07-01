@@ -80,7 +80,7 @@ export async function processAndSaveDocument(
         // Se a chamada veio da aba Documentos (tem overrideDocId) e é um slot "burro",
         // paramos a execução aqui. Ele salva o arquivo e não altera o banco de dados.
         if (overrideDocId && docRecord.title !== "Histórico Escolar" && docRecord.title !== "Passe Livre Estudantil") {
-           return { success: false, message: 'Documento salvo (Sem Processamento Automático).' };
+           return { success: false, message: 'O arquivo foi salvo em seus documentos.' };
         }
       }
     } catch (err) {

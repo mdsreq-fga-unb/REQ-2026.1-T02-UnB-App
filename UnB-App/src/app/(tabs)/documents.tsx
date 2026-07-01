@@ -222,8 +222,11 @@ export default function Documentos() {
         if (res.success) {
           toast.success('Documento Processado', { message: res.message });
         } else {
-          // Se o documento foi salvo mas a extração falhou (ex: Declaração comum), avisa o usuário.
-          toast.success('Salvo (Sem Processamento)', { message: res.message });
+          if (res.message.includes('salvo')) {
+            toast.success('Documento Armazenado', { message: res.message });
+          } else {
+            toast.error('Documento não Reconhecido', { message: res.message });
+          }
         }
 
         loadDocuments();
