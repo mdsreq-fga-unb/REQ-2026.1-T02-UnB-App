@@ -113,6 +113,7 @@ export default function RootLayout() {
                 <Stack.Screen name="sobre-modal" options={{ presentation: 'formSheet', sheetAllowedDetents: [0.75, 1.0], headerShown: false }} />
                 <Stack.Screen name="welcome-modal" options={{ presentation: 'formSheet', sheetAllowedDetents: [1.0], headerShown: false }} />
                 <Stack.Screen name="tutoriais-modal" options={{ presentation: 'formSheet', sheetAllowedDetents: [1.0], headerShown: false }} />
+                <Stack.Screen name="turmas-anteriores-modal" options={{ presentation: 'formSheet', sheetAllowedDetents: [0.75, 1.0], headerShown: false }} />
                 <Stack.Screen name="edit-profile-modal" options={{ presentation: 'formSheet', sheetAllowedDetents: [0.75, 1.0], headerShown: false }} />
                 <Stack.Screen name="ajustes" options={{ headerShown: false }} />
                 <Stack.Screen name="senha-e-privacidade" options={{ title: 'Senha e Privacidade', headerBackTitle: 'Ajustes' }} />
