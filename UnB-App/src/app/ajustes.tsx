@@ -138,7 +138,7 @@ export default function AjustesScreen() {
         <View style={styles.menuCard}>
           <MenuLink icon={{ ios: 'lock', android: 'lock', web: 'lock' }} title="Senha e privacidade" onPress={() => router.push('../senha-e-privacidade' as any)} getFontSize={getFontSize} />
           <View style={styles.separator} />
-          <MenuLink icon={{ ios: 'questionmark.circle', android: 'help_outline', web: 'help_outline' }} title="Central de ajuda" onPress={showEmBreve} getFontSize={getFontSize} />
+          <MenuLink icon={{ ios: 'questionmark.circle', android: 'help_outline', web: 'help_outline' }} title="Central de ajuda (Tutoriais)" onPress={() => router.push('../tutoriais-modal' as any)} getFontSize={getFontSize} />
           <View style={styles.separator} />
           <MenuLink icon={{ ios: 'doc.plaintext', android: 'description', web: 'description' }} title="Termos e condições" onPress={showEmBreve} getFontSize={getFontSize} />
           <View style={styles.separator} />

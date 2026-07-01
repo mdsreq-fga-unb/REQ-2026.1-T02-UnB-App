@@ -21,12 +21,12 @@ export default function WelcomeModalScreen() {
       await updateUserProfile(nome.trim(), matricula.trim());
     }
     await setAutoSyncPDFData(syncData);
-    router.back();
+    router.replace('../tutoriais-modal');
   };
 
   const handleSkip = async () => {
     await setAutoSyncPDFData(syncData);
-    router.back();
+    router.replace('../tutoriais-modal');
   };
 
   return (
