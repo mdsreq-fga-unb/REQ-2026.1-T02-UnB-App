@@ -11,6 +11,56 @@ jest.mock('../../../../database/queries/gradeQueries', () => ({
   popularGradePorDados: jest.fn(),
 }));
 
+jest.mock('../../../../utils/historicoParser', () => ({
+  extrairDadosDoHistorico: jest.fn((text) => {
+    if (!text.includes('FGA0138')) {
+      return { disciplinas: [] };
+    }
+    return {
+      nome: 'PEDRO DE ALENCAR SILVA',
+      matricula: '190012345',
+      curso: 'ENGENHARIA DE SOFTWARE',
+      cpf: '123.456.789-00',
+      disciplinas: [
+        {
+          codigo: 'FGA0138',
+          turma: '01',
+          nome: 'Requisitos de Software',
+          docentes: ['GEORGIN MARISCA'],
+          situacao: 'MATR',
+          ano: 2026,
+          periodo: 1,
+        }
+      ]
+    };
+  }),
+}));
+
+jest.mock('../../../../utils/pdfParser', () => ({
+  extrairDadosDoPDF: jest.fn(() => ({
+    aluno: {
+      nome: 'PEDRO DE ALENCAR SILVA',
+      matricula: '190012345',
+      curso: 'ENGENHARIA DE SOFTWARE',
+      ano: 2026,
+      semestre: 1,
+      periodoLetivo: '2026.1',
+      cpf: '123.456.789-00',
+    },
+    disciplinas: [
+      {
+        codigo: 'FGA0138',
+        turma: '01',
+        nome: 'Requisitos de Software',
+        docentes: ['GEORGIN MARISCA'],
+        situacao: 'MATR',
+        ano: 2026,
+        periodo: 1,
+      }
+    ]
+  })),
+}));
+
 // Mock do módulo expo-file-system/legacy
 jest.mock('expo-file-system/legacy', () => ({
   documentDirectory: 'file:///mock-directory/',
@@ -87,7 +137,7 @@ describe('processAndSaveDocument', () => {
           periodo: 1,
         },
       ]
-    );
+    , true);
 
     expect(result.success).toBe(true);
     expect(result.message).toContain('Grade atualizada via Histórico Escolar');

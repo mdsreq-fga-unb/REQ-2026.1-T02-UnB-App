@@ -24,6 +24,13 @@ jest.mock('react-native-worklets', () => ({
   runOnUISync: (fn: any) => fn,
   scheduleOnUI: (fn: any) => fn,
 }));
+jest.mock('react-native-pretty-toast', () => ({
+  toast: {
+    info: jest.fn(),
+    success: jest.fn(),
+    error: jest.fn(),
+  },
+}), { virtual: true });
 jest.mock('react-native-reanimated', () => require('react-native-reanimated/mock'));
 
 import DisciplinasScreen from '../disciplinas';

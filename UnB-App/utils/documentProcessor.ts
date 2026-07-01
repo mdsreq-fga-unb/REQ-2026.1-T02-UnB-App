@@ -111,7 +111,6 @@ export async function processAndSaveDocument(
 
     // Detecção automática de qual documento foi enviado
     if (checkHistorico()) {
-      const { extrairDadosDoHistorico } = await import('./historicoParser');
       const parsedData = extrairDadosDoHistorico(text);
       
       if (!parsedData || parsedData.disciplinas.length === 0) {

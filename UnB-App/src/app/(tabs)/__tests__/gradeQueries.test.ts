@@ -127,11 +127,7 @@ describe('Integração com Banco de Dados: gradeQueries', () => {
 
         const queriesExecutadas = mockDb.runAsync.mock.calls.map(call => call[0]);
         expect(queriesExecutadas).toContain('DELETE FROM Aula');
-<<<<<<< HEAD
-        expect(queriesExecutadas.some(q => q.includes('INSERT INTO Aluno'))).toBe(true);
-=======
         expect(queriesExecutadas.some(q => q.includes('INSERT INTO Aluno') && q.includes('ON CONFLICT(matricula)'))).toBe(true);
->>>>>>> 0bc91256795864f9c8e3ee06d54529ed905da0c4
       });
     });
   });
