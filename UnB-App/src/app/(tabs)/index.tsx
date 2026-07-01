@@ -327,13 +327,11 @@ export default function Index() {
           {/* Latest updates */}
           <View style={styles.section}>
             <View style={styles.sectionHeader}>
-
               <SymbolView
                 name={{ ios: "megaphone.fill", android: "campaign", web: "campaign" }}
                 size={22}
                 tintColor={COLORS.textPrimary}
               />
-
               <Text
                 style={[
                   styles.sectionTitle,
@@ -344,40 +342,80 @@ export default function Index() {
               </Text>
             </View>
 
-            <View style={styles.updateCard}>
-              <Text
-                style={[
-                  styles.updateEyebrow,
-                  { fontSize: getFontSize(14), lineHeight: getFontSize(21) },
-                ]}
+            {disciplinas.length > 0 ? (
+              <ScrollView 
+                horizontal 
+                showsHorizontalScrollIndicator={false}
+                style={{ marginHorizontal: -20 }}
+                contentContainerStyle={{ gap: 16, paddingHorizontal: 20 }}
+                decelerationRate="fast"
+                snapToInterval={316} // width (300) + gap (16)
               >
-                16/03/2026 · QUALIDADE DE SOFTWARE 1
-              </Text>
-              <Text
-                style={[
-                  styles.updateBody,
-                  { fontSize: getFontSize(17), lineHeight: getFontSize(23.375) },
-                ]}
-              >
-                Novo tópico no Aula: Apresentação do plano de ensino e formação das equipes de desenvolvimento.
-              </Text>
-              <ScalePressable
-                onPress={() => router.push("/disciplinas")}
-                style={({ pressed }) => [
-                  styles.primaryButton,
-                  pressed && styles.primaryButtonPressed,
-                ]}
-              >
+                {disciplinas.slice(0, 3).map((disciplina, index) => {
+                  const MOCK_UPDATES = [
+                    "Novo aviso: Apresentação do plano de ensino e cronograma do semestre.",
+                    "Material de apoio adicionado: Slides e textos base para a próxima aula.",
+                    "Lembrete: Atividade avaliativa agendada para a próxima semana.",
+                  ];
+                  const updateText = MOCK_UPDATES[index % MOCK_UPDATES.length];
+                  
+                  // Generate a dynamic date (e.g. today or yesterday)
+                  const date = new Date();
+                  date.setDate(date.getDate() - index);
+                  const dateStr = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
+
+                  return (
+                    <View key={disciplina.id_turma.toString()} style={[styles.updateCard, { width: 300 }]}>
+                      <Text
+                        style={[
+                          styles.updateEyebrow,
+                          { fontSize: getFontSize(14), lineHeight: getFontSize(21) },
+                        ]}
+                        numberOfLines={1}
+                      >
+                        {dateStr} · {disciplina.nome_disciplina.toUpperCase()}
+                      </Text>
+                      <Text
+                        style={[
+                          styles.updateBody,
+                          { fontSize: getFontSize(17), lineHeight: getFontSize(23.375) },
+                        ]}
+                        numberOfLines={3}
+                      >
+                        {updateText}
+                      </Text>
+                      <ScalePressable
+                        onPress={() => router.push("/disciplinas")}
+                        style={({ pressed }) => [
+                          styles.primaryButton,
+                          pressed && styles.primaryButtonPressed,
+                        ]}
+                      >
+                        <Text
+                          style={[
+                            styles.primaryButtonText,
+                            { fontSize: getFontSize(16), lineHeight: getFontSize(24) },
+                          ]}
+                        >
+                          Ver Turma
+                        </Text>
+                      </ScalePressable>
+                    </View>
+                  );
+                })}
+              </ScrollView>
+            ) : (
+              <View style={styles.updateCard}>
                 <Text
                   style={[
-                    styles.primaryButtonText,
-                    { fontSize: getFontSize(16), lineHeight: getFontSize(24) },
+                    styles.updateBody,
+                    { fontSize: getFontSize(16), color: COLORS.textMuted, textAlign: 'center' },
                   ]}
                 >
-                  Ver Turma
+                  Suas atualizações aparecerão aqui após importar suas disciplinas.
                 </Text>
-              </ScalePressable>
-            </View>
+              </View>
+            )}
           </View>
 
           {/* Courses */}
