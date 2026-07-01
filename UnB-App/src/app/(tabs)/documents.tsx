@@ -31,7 +31,7 @@ const SYMBOL_MAP: Record<string, CrossPlatformSymbol> = {
   'trash.fill':                 { ios: 'trash.fill',                 android: 'delete',          web: 'delete' },
   'arrow.down.doc.fill':        { ios: 'arrow.down.doc.fill',        android: 'download',        web: 'download' },
   'icloud.and.arrow.up.fill':   { ios: 'icloud.and.arrow.up.fill',   android: 'cloud_upload',    web: 'cloud_upload' },
-  'vcard.fill':                 { ios: 'vcard.fill',                 android: 'badge',           web: 'badge' },
+  'person.crop.square.fill':    { ios: 'person.crop.square.fill',    android: 'badge',           web: 'badge' },
   // Ícones dos documentos (DEFAULT_DOCS)
   'doc.text.fill':              { ios: 'doc.text.fill',              android: 'description',     web: 'description' },
   'chart.bar.doc.horizontal':   { ios: 'chart.bar.doc.horizontal',   android: 'analytics',       web: 'analytics' },
@@ -65,7 +65,21 @@ const DEFAULT_DOCS = [
     description: "Documento de identificação com foto",
     meta: "",
     color: "#2563eb",
-    symbolName: "vcard.fill"
+    symbolName: "person.crop.square.fill"
+  },
+  {
+    title: "Histórico Escolar",
+    description: "Todas as disciplinas cursadas",
+    meta: "",
+    color: "#7c3aed",
+    symbolName: "books.vertical.fill"
+  },
+  {
+    title: "Passe Livre Estudantil",
+    description: "Solicitação de gratuidade no transporte",
+    meta: "",
+    color: "#be185d",
+    symbolName: "bus.fill"
   },
   {
     title: "Boletim de Notas",
@@ -82,25 +96,11 @@ const DEFAULT_DOCS = [
     symbolName: "chart.bar.doc.horizontal"
   },
   {
-    title: "Histórico Escolar",
-    description: "Todas as disciplinas cursadas",
-    meta: "",
-    color: "#7c3aed",
-    symbolName: "books.vertical.fill"
-  },
-  {
     title: "Atestado de Matrícula",
     description: "Comprovante oficial de vínculo com a UnB",
     meta: "",
     color: "#b45309",
     symbolName: "person.text.rectangle.fill"
-  },
-  {
-    title: "Passe Livre Estudantil",
-    description: "Solicitação de gratuidade no transporte",
-    meta: "",
-    color: "#be185d",
-    symbolName: "bus.fill"
   }
 ];
 
