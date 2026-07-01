@@ -10,6 +10,7 @@ import * as DocumentPicker from 'expo-document-picker';
 import * as Sharing from 'expo-sharing';
 import * as IntentLauncher from 'expo-intent-launcher';
 import { useTextSize } from '@/contexts/TextSizeContext';
+import { useTheme } from '@/contexts/ThemeContext';
 
 // Mapeamento: SF Symbol (iOS) → Material Symbol (Android / Web)
 type CrossPlatformSymbol = {
@@ -96,6 +97,7 @@ const DEFAULT_DOCS = [
 export default function Documentos() {
   const db = useSQLiteContext();
   const { getFontSize } = useTextSize();
+  const { colors, isDark } = useTheme();
   const [documents, setDocuments] = useState<DocumentRecord[]>([]);
   const [search, setSearch] = useState("");
   const [totalSize, setTotalSize] = useState(0);
@@ -280,64 +282,64 @@ export default function Documentos() {
   const savedDocumentsLabel = savedDocuments.length === 1 ? "documento" : "documentos";
 
   return (
-    <SafeAreaView style={styles.safeArea} edges={["top"]}>
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]} edges={["top"]}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={[styles.subtitle, { fontSize: getFontSize(15) }]}>Seus arquivos acadêmicos</Text>
-          <Text style={[styles.title, { fontSize: getFontSize(28) }]}>Documentos</Text>
+          <Text style={[styles.subtitle, { fontSize: getFontSize(15), color: colors.textSecondary }]}>Seus arquivos acadêmicos</Text>
+          <Text style={[styles.title, { fontSize: getFontSize(28), color: colors.textPrimary }]}>Documentos</Text>
         </View>
 
         <View style={styles.mainContent}>
           {/* StorageCard */}
           <ScalePressable
-            style={styles.storageCard}
+            style={[styles.storageCard, { backgroundColor: isDark ? 'rgba(29, 141, 40, 0.1)' : '#f0fdf4', borderColor: isDark ? 'rgba(29, 141, 40, 0.3)' : '#a4f4cf' }]}
             accessibilityRole="button"
             accessibilityLabel="Ver documentos salvos"
             onPress={() => setShowSavedDocuments((visible) => !visible)}
           >
             <View style={styles.storageRow}>
-              <View style={styles.storageIconContainer}>
+              <View style={[styles.storageIconContainer, { backgroundColor: isDark ? 'rgba(29, 141, 40, 0.2)' : '#ffffff' }]}>
                 {/* CORRIGIDO: objeto com ios + android em vez de ternário com emoji */}
                 <SymbolView
                   name={sym('folder.fill')}
                   size={24}
-                  tintColor="#1d8d28"
+                  tintColor={colors.primary}
                 />
               </View>
               <View style={styles.storageTextContainer}>
-                <Text style={[styles.storageTitle, { fontSize: getFontSize(17) }]}>Meus Documentos</Text>
-                <Text style={[styles.storageSubtitle, { fontSize: getFontSize(14) }]}>{savedDocuments.length} {savedDocumentsLabel} · {formatSize(totalSize)} de 5 MB</Text>
+                <Text style={[styles.storageTitle, { fontSize: getFontSize(17), color: colors.textPrimary }]}>Meus Documentos</Text>
+                <Text style={[styles.storageSubtitle, { fontSize: getFontSize(14), color: colors.textSecondary }]}>{savedDocuments.length} {savedDocumentsLabel} · {formatSize(totalSize)} de 5 MB</Text>
               </View>
               <View style={styles.chevronIcon}>
                 {/* CORRIGIDO: chevron condicional com Material Symbol no Android */}
                 <SymbolView
                   name={sym(showSavedDocuments ? 'chevron.down' : 'chevron.right')}
                   size={20}
-                  tintColor="#314158"
+                  tintColor={colors.inactiveText}
                 />
               </View>
             </View>
-            <View style={styles.progressBarContainer}>
-              <View style={[styles.progressBarFill, { width: `${Math.min((totalSize / (5 * 1024 * 1024)) * 100, 100)}%` }]} />
+            <View style={[styles.progressBarContainer, { backgroundColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.7)' }]}>
+              <View style={[styles.progressBarFill, { width: `${Math.min((totalSize / (5 * 1024 * 1024)) * 100, 100)}%`, backgroundColor: colors.primary }]} />
             </View>
           </ScalePressable>
 
           {showSavedDocuments ? (
-            <View style={styles.savedDocumentsPanel}>
+            <View style={[styles.savedDocumentsPanel, { backgroundColor: colors.surface, borderColor: colors.border }]}>
               {savedDocuments.length > 0 ? (
                 savedDocuments.map((doc) => (
                   <View key={doc.id} style={styles.savedDocumentRow}>
                     <View style={styles.savedDocumentInfo}>
-                      <Text style={[styles.savedDocumentTitle, { fontSize: getFontSize(15) }]} numberOfLines={1}>
+                      <Text style={[styles.savedDocumentTitle, { fontSize: getFontSize(15), color: colors.textPrimary }]} numberOfLines={1}>
                         {doc.title}
                       </Text>
-                      <Text style={[styles.savedDocumentMeta, { fontSize: getFontSize(13) }]} numberOfLines={1}>
+                      <Text style={[styles.savedDocumentMeta, { fontSize: getFontSize(13), color: colors.textSecondary }]} numberOfLines={1}>
                         {doc.fileName || doc.meta || "Arquivo salvo"} · {formatSize(doc.size || 0)}
                       </Text>
                     </View>
                     <ScalePressable
-                      style={styles.shareButton}
+                      style={[styles.shareButton, { backgroundColor: colors.primary }]}
                       accessibilityRole="button"
                       accessibilityLabel={`Compartilhar ${doc.title}`}
                       onPress={() => handleCompartilhar(doc)}
@@ -353,7 +355,7 @@ export default function Documentos() {
                   </View>
                 ))
               ) : (
-                <Text style={[styles.emptySavedDocumentsText, { fontSize: getFontSize(14) }]}>
+                <Text style={[styles.emptySavedDocumentsText, { fontSize: getFontSize(14), color: colors.textSecondary }]}>
                   Nenhum documento salvo ainda.
                 </Text>
               )}
@@ -361,17 +363,17 @@ export default function Documentos() {
           ) : null}
 
           {/* SearchBar */}
-          <View style={styles.searchBar}>
+          <View style={[styles.searchBar, { backgroundColor: colors.surface, borderColor: colors.border }]}>
             {/* CORRIGIDO: lupa com Material Symbol no Android */}
             <SymbolView
               name={sym('magnifyingglass')}
               size={20}
-              tintColor="#90a1b9"
+              tintColor={colors.inactiveText}
             />
             <TextInput
-              style={[styles.searchInput, { fontSize: getFontSize(16) }]}
+              style={[styles.searchInput, { fontSize: getFontSize(16), color: colors.textPrimary }]}
               placeholder="Buscar documento..."
-              placeholderTextColor="#90a1b9"
+              placeholderTextColor={colors.textPlaceholder}
               value={search}
               onChangeText={setSearch}
             />
@@ -415,14 +417,16 @@ function DocCard({ title, description, meta, color, symbolName, hasFile = false,
   getFontSize: (baseSize: number) => number;
   index?: number;
 }) {
-  const btnColor = color;
+  const { colors, isDark } = useTheme();
+  // Se estiver no dark mode, vamos tornar a cor original mais suave ou manter a opacidade
+  const btnColor = color; 
 
   return (
     <Animated.View 
-      style={styles.docCard}
+      style={[styles.docCard, { backgroundColor: colors.surface, borderColor: colors.border }]}
     >
       <View style={styles.docRow}>
-        <View style={[styles.docIconContainer, { backgroundColor: `${color}1A` /* ~10% opacity */ }]}>
+        <View style={[styles.docIconContainer, { backgroundColor: isDark ? `${color}33` : `${color}1A` }]}>
           {/* CORRIGIDO: ícone do documento com fallback para símbolo desconhecido */}
           <SymbolView
             name={sym(symbolName)}
@@ -432,12 +436,12 @@ function DocCard({ title, description, meta, color, symbolName, hasFile = false,
           />
         </View>
         <View style={styles.docTextContainer}>
-          <Text style={[styles.docTitle, { fontSize: getFontSize(18) }]}>{title}</Text>
-          <Text style={[styles.docDescription, { fontSize: getFontSize(14) }]}>{description}</Text>
+          <Text style={[styles.docTitle, { fontSize: getFontSize(18), color: colors.textPrimary }]}>{title}</Text>
+          <Text style={[styles.docDescription, { fontSize: getFontSize(14), color: colors.textSecondary }]}>{description}</Text>
         </View>
       </View>
       
-      {meta ? <Text style={[styles.docMeta, { fontSize: getFontSize(13) }]}>{meta}</Text> : null}
+      {meta ? <Text style={[styles.docMeta, { fontSize: getFontSize(13), color: colors.textSecondary }]}>{meta}</Text> : null}
       
       <View style={styles.actionsRow}>
         <ScalePressable 
@@ -476,7 +480,6 @@ function DocCard({ title, description, meta, color, symbolName, hasFile = false,
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#f8fafc",
   },
   scrollContent: {
     paddingBottom: 120,
@@ -488,25 +491,20 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   subtitle: {
-    fontSize: 15,
-    color: "#62748e",
+    fontWeight: "400",
     marginBottom: 4,
   },
   title: {
-    fontSize: 28,
     fontWeight: "bold",
-    color: "#0f172b",
   },
   mainContent: {
     paddingHorizontal: 20,
     gap: 16,
   },
   storageCard: {
-    backgroundColor: "#f0fdf4",
     borderRadius: 16,
     padding: 20,
     borderWidth: 0.8,
-    borderColor: "#a4f4cf",
     gap: 16,
   },
   storageRow: {
@@ -517,7 +515,6 @@ const styles = StyleSheet.create({
   storageIconContainer: {
     width: 48,
     height: 48,
-    backgroundColor: "#ffffff",
     borderRadius: 14,
     alignItems: "center",
     justifyContent: "center",
@@ -527,13 +524,10 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   storageTitle: {
-    fontSize: 17,
     fontWeight: "600",
-    color: "#0f172b",
   },
   storageSubtitle: {
-    fontSize: 14,
-    color: "#314158",
+    fontWeight: "400",
   },
   chevronIcon: {
     width: 24,
@@ -541,21 +535,17 @@ const styles = StyleSheet.create({
   },
   progressBarContainer: {
     height: 10,
-    backgroundColor: "rgba(255,255,255,0.7)",
     borderRadius: 5,
     overflow: "hidden",
   },
   progressBarFill: {
     height: "100%",
-    backgroundColor: "#1d8d28",
     borderRadius: 5,
   },
   savedDocumentsPanel: {
-    backgroundColor: "#ffffff",
     borderRadius: 16,
     padding: 12,
     borderWidth: 0.8,
-    borderColor: "#e2e8f0",
     gap: 10,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
@@ -574,11 +564,10 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   savedDocumentTitle: {
-    color: "#0f172b",
     fontWeight: "600",
   },
   savedDocumentMeta: {
-    color: "#62748e",
+    fontWeight: "400",
   },
   shareButton: {
     minHeight: 40,
@@ -588,27 +577,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 6,
-    backgroundColor: "#1d8d28",
   },
   shareButtonText: {
     color: "#ffffff",
     fontWeight: "600",
   },
   emptySavedDocumentsText: {
-    color: "#62748e",
     paddingVertical: 8,
     textAlign: "center",
   },
   searchBar: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#ffffff",
     height: 56,
     borderRadius: 16,
     paddingHorizontal: 16,
     gap: 12,
     borderWidth: 0.8,
-    borderColor: "#e2e8f0",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
@@ -617,19 +602,15 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
-    fontSize: 16,
-    color: "#0f172b",
     height: "100%",
   },
   docsList: {
     gap: 16,
   },
   docCard: {
-    backgroundColor: "#ffffff",
     borderRadius: 16,
     padding: 20,
     borderWidth: 0.8,
-    borderColor: "#e2e8f0",
     gap: 16,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
@@ -654,18 +635,13 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   docTitle: {
-    fontSize: 18,
     fontWeight: "600",
-    color: "#0f172b",
   },
   docDescription: {
-    fontSize: 14,
-    color: "#45556c",
+    fontWeight: "400",
   },
   docMeta: {
-    fontSize: 13,
     fontWeight: "500",
-    color: "#62748e",
   },
   actionsRow: {
     flexDirection: "row",

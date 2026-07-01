@@ -10,6 +10,7 @@ import { useRouter, useFocusEffect } from "expo-router";
 import { useSQLiteContext } from 'expo-sqlite';
 import { buscarTodasDisciplinas, type DisciplinaInfo } from '../../../database/queries/gradeQueries';
 import { useUserProfile } from '../../contexts/UserProfileContext';
+import { useTheme } from '@/contexts/ThemeContext';
 
 // Tipo local para ícones multiplataforma
 type SymbolName = { ios: string; android: string; web?: string };
@@ -34,25 +35,11 @@ type FooterShortcutProps = {
   icon: SymbolName;
   onPress?: () => void;
 };
-
-const COLORS = {
-  background: "#f8fafc",
-  surface: "#ffffff",
-  border: "#e2e8f0",
-  divider: "#f1f5f9",
-  primary: "#1d8d28",
-  primarySoft: "#e8f5ea",
-  textPrimary: "#0f172b",
-  textSecondary: "#45556c",
-  textMuted: "#62748e",
-  textPlaceholder: "#64748b",
-  danger: "#d4183d",
-} as const;
-
 const FONT = "Inter";
 
 function ActionTile({ title, icon, badge, onPress, index }: ActionTileProps) {
   const { getFontSize } = useTextSize();
+  const { colors } = useTheme();
 
   return (
     <Animated.View
@@ -62,29 +49,29 @@ function ActionTile({ title, icon, badge, onPress, index }: ActionTileProps) {
         onPress={onPress}
         style={({ pressed }) => [
           styles.tile,
-          { flexBasis: 'auto', flexGrow: 0 },
+          { flexBasis: 'auto', flexGrow: 0, backgroundColor: colors.surface, borderColor: colors.border },
           pressed && styles.tilePressed,
         ]}
       >
-        <View style={styles.tileIconWrapper}>
+        <View style={[styles.tileIconWrapper, { backgroundColor: colors.iconBackground }]}>
           {/* name recebe o objeto diretamente — iOS usa SF Symbol, Android usa Material Symbol */}
           <SymbolView
             name={icon as any}
-            tintColor={COLORS.primary}
+            tintColor={colors.primary}
             size={28}
           />
         </View>
         <Text
           style={[
             styles.tileTitle,
-            { fontSize: getFontSize(18), lineHeight: getFontSize(22.5) },
+            { fontSize: getFontSize(18), lineHeight: getFontSize(22.5), color: colors.textPrimary },
           ]}
         >
           {title}
         </Text>
         {badge ? (
-          <View style={styles.badge}>
-            <Text style={[styles.badgeText, { fontSize: getFontSize(14) }]}>
+          <View style={[styles.badge, { backgroundColor: colors.danger }]}>
+            <Text style={[styles.badgeText, { fontSize: getFontSize(14), color: "#ffffff" }]}>
               {badge}
             </Text>
           </View>
@@ -96,6 +83,7 @@ function ActionTile({ title, icon, badge, onPress, index }: ActionTileProps) {
 
 function CourseRow({ name, meta, onPress, index = 0 }: CourseRowProps) {
   const { getFontSize } = useTextSize();
+  const { colors } = useTheme();
 
   return (
     <Animated.View>
@@ -107,7 +95,7 @@ function CourseRow({ name, meta, onPress, index = 0 }: CourseRowProps) {
           <Text
             style={[
               styles.courseName,
-              { fontSize: getFontSize(17), lineHeight: getFontSize(25.5) },
+              { fontSize: getFontSize(17), lineHeight: getFontSize(25.5), color: colors.textPrimary },
             ]}
             numberOfLines={1}
           >
@@ -116,7 +104,7 @@ function CourseRow({ name, meta, onPress, index = 0 }: CourseRowProps) {
           <Text
             style={[
               styles.courseMeta,
-              { fontSize: getFontSize(14), lineHeight: getFontSize(21) },
+              { fontSize: getFontSize(14), lineHeight: getFontSize(21), color: colors.textSecondary },
             ]}
             numberOfLines={1}
           >
@@ -127,7 +115,7 @@ function CourseRow({ name, meta, onPress, index = 0 }: CourseRowProps) {
         <SymbolView
           name={{ ios: "chevron.right", android: "chevron_right", web: "chevron_right" }}
           size={22}
-          tintColor={COLORS.textPlaceholder}
+          tintColor={colors.inactiveText}
         />
       </ScalePressable>
     </Animated.View>
@@ -136,22 +124,24 @@ function CourseRow({ name, meta, onPress, index = 0 }: CourseRowProps) {
 
 function FooterShortcut({ title, icon, onPress }: FooterShortcutProps) {
   const { getFontSize } = useTextSize();
+  const { colors } = useTheme();
 
   return (
     <ScalePressable
       onPress={onPress}
       style={({ pressed }) => [
         styles.shortcut,
+        { backgroundColor: colors.surface, borderColor: colors.border },
         pressed && styles.tilePressed,
       ]}
     >
 
-      <SymbolView name={icon as any} size={26} tintColor={COLORS.textPrimary} />
+      <SymbolView name={icon as any} size={26} tintColor={colors.textPrimary} />
 
       <Text
         style={[
           styles.shortcutTitle,
-          { fontSize: getFontSize(17), lineHeight: getFontSize(25.5) },
+          { fontSize: getFontSize(17), lineHeight: getFontSize(25.5), color: colors.textPrimary },
         ]}
       >
         {title}
@@ -165,6 +155,7 @@ export default function Index() {
   const router = useRouter();
   const isFocused = useIsFocused();
   const db = useSQLiteContext();
+  const { colors, isDark } = useTheme();
   const [disciplinas, setDisciplinas] = useState<DisciplinaInfo[]>([]);
   const [unseenUpdates, setUnseenUpdates] = useState<number>(0);
   const [totalUpdates, setTotalUpdates] = useState<number>(0);
@@ -221,15 +212,15 @@ export default function Index() {
   );
 
   return (
-    <SafeAreaView style={styles.safeArea} edges={["top"]}>
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]} edges={["top"]}>
       <ScrollView
-        style={styles.container}
+        style={[styles.container, { backgroundColor: colors.background }]}
         contentContainerStyle={styles.scrollContent}
         scrollsToTop={isFocused}
       >
         {/* AppBar */}
-        <View style={styles.appBar}>
-          <View style={styles.logoBadge}>
+        <View style={[styles.appBar, { backgroundColor: isDark ? 'rgba(15,23,43,0.8)' : 'rgba(248, 250, 252, 0.8)', borderBottomColor: isDark ? 'rgba(49,65,88,0.6)' : 'rgba(226, 232, 240, 0.6)' }]}>
+          <View style={[styles.logoBadge, { backgroundColor: colors.surface, shadowColor: colors.primary }]}>
             <Image
               source={require("@/../assets/images/icon.png")}
               style={styles.logoImage}
@@ -243,13 +234,13 @@ export default function Index() {
                 { fontSize: getFontSize(18), lineHeight: getFontSize(22.5) },
               ]}
             >
-              <Text style={{ color: COLORS.textPrimary }}>UnB </Text>
-              <Text style={{ color: COLORS.primary }}>App</Text>
+              <Text style={{ color: colors.textPrimary }}>UnB </Text>
+              <Text style={{ color: colors.primary }}>App</Text>
             </Text>
             <Text
               style={[
                 styles.appBarSubtitle,
-                { fontSize: getFontSize(12), lineHeight: getFontSize(15) },
+                { fontSize: getFontSize(12), lineHeight: getFontSize(15), color: colors.textSecondary },
               ]}
             >
               Universidade de Brasília
@@ -262,7 +253,7 @@ export default function Index() {
           <Text
             style={[
               styles.greeting,
-              { fontSize: getFontSize(15), lineHeight: getFontSize(22.5) },
+              { fontSize: getFontSize(15), lineHeight: getFontSize(22.5), color: colors.textSecondary },
             ]}
           >
             Bom dia,
@@ -270,7 +261,7 @@ export default function Index() {
           <Text
             style={[
               styles.userName,
-              { fontSize: getFontSize(28), lineHeight: getFontSize(35) },
+              { fontSize: getFontSize(28), lineHeight: getFontSize(35), color: colors.textPrimary },
             ]}
           >
             Olá, {userName ? userName.split(' ')[0] : 'Aluno(a)'}!
@@ -284,21 +275,22 @@ export default function Index() {
             onPress={() => router.navigate("/ajustes")}
             style={({ pressed }) => [
               styles.profileCard,
+              { backgroundColor: colors.surface, borderColor: colors.border },
               pressed && { opacity: 0.7 }
             ]}
           >
-            <View style={styles.profileAvatar}>
+            <View style={[styles.profileAvatar, { backgroundColor: colors.iconBackground }]}>
               <SymbolView
                 name={{ ios: "person.fill", android: "person", web: "person" } as any}
                 size={32}
-                tintColor={COLORS.primary}
+                tintColor={colors.primary}
               />
             </View>
             <View style={styles.profileInfo}>
               <Text
                 style={[
                   styles.profileName,
-                  { fontSize: getFontSize(20), lineHeight: getFontSize(25) },
+                  { fontSize: getFontSize(20), lineHeight: getFontSize(25), color: colors.textPrimary },
                 ]}
               >
                 {userName || 'Usuário'}
@@ -306,7 +298,7 @@ export default function Index() {
               <Text
                 style={[
                   styles.profileMeta,
-                  { fontSize: getFontSize(15), lineHeight: getFontSize(20.625) },
+                  { fontSize: getFontSize(15), lineHeight: getFontSize(20.625), color: colors.textSecondary },
                 ]}
               >
                 {userMatricula ? `Matrícula: ${userMatricula}` : 'Não informada'}
@@ -314,7 +306,7 @@ export default function Index() {
             </View>
             <SymbolView
               name={{ ios: "chevron.right", android: "chevron_right", web: "chevron_right" } as any}
-              tintColor={COLORS.border}
+              tintColor={colors.inactiveText}
               size={20}
               weight="semibold"
             />
@@ -366,12 +358,12 @@ export default function Index() {
               <SymbolView
                 name={{ ios: "megaphone.fill", android: "campaign", web: "campaign" }}
                 size={22}
-                tintColor={COLORS.textPrimary}
+                tintColor={colors.textPrimary}
               />
               <Text
                 style={[
                   styles.sectionTitle,
-                  { fontSize: getFontSize(20), lineHeight: getFontSize(30) },
+                  { fontSize: getFontSize(20), lineHeight: getFontSize(30), color: colors.textPrimary },
                 ]}
               >
                 Últimas Atualizações
@@ -401,11 +393,11 @@ export default function Index() {
                   const dateStr = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
 
                   return (
-                    <View key={disciplina.id_turma.toString()} style={[styles.updateCard, { width: 300 }]}>
+                    <View key={disciplina.id_turma.toString()} style={[styles.updateCard, { width: 300, backgroundColor: colors.surface, borderColor: colors.border }]}>
                       <Text
                         style={[
                           styles.updateEyebrow,
-                          { fontSize: getFontSize(14), lineHeight: getFontSize(21) },
+                          { fontSize: getFontSize(14), lineHeight: getFontSize(21), color: colors.textSecondary },
                         ]}
                         numberOfLines={1}
                       >
@@ -414,7 +406,7 @@ export default function Index() {
                       <Text
                         style={[
                           styles.updateBody,
-                          { fontSize: getFontSize(17), lineHeight: getFontSize(23.375) },
+                          { fontSize: getFontSize(17), lineHeight: getFontSize(23.375), color: colors.textPrimary },
                         ]}
                         numberOfLines={3}
                       >
@@ -424,6 +416,7 @@ export default function Index() {
                         onPress={() => router.push({ pathname: "/disciplinas", params: { expand: disciplina.id_turma } })}
                         style={({ pressed }) => [
                           styles.primaryButton,
+                          { backgroundColor: colors.primary },
                           pressed && styles.primaryButtonPressed,
                         ]}
                       >
@@ -441,11 +434,11 @@ export default function Index() {
                 })}
               </ScrollView>
             ) : (
-              <View style={styles.updateCard}>
+              <View style={[styles.updateCard, { backgroundColor: colors.surface, borderColor: colors.border }]}>
                 <Text
                   style={[
                     styles.updateBody,
-                    { fontSize: getFontSize(16), color: COLORS.textMuted, textAlign: 'center' },
+                    { fontSize: getFontSize(16), color: colors.textSecondary, textAlign: 'center' },
                   ]}
                 >
                   Suas atualizações aparecerão aqui após importar suas disciplinas.
@@ -461,20 +454,20 @@ export default function Index() {
               <SymbolView
                 name={{ ios: "books.vertical.fill", android: "library_books", web: "library_books" }}
                 size={22}
-                tintColor={COLORS.textPrimary}
+                tintColor={colors.textPrimary}
               />
 
               <Text
                 style={[
                   styles.sectionTitle,
-                  { fontSize: getFontSize(20), lineHeight: getFontSize(30) },
+                  { fontSize: getFontSize(20), lineHeight: getFontSize(30), color: colors.textPrimary },
                 ]}
               >
                 Minhas Disciplinas
               </Text>
             </View>
 
-            <View style={styles.coursesCard}>
+            <View style={[styles.coursesCard, { backgroundColor: colors.surface, borderColor: colors.border }]}>
               {disciplinas.slice(0, 4).map((disciplina, index) => (
                 <View key={disciplina.id_turma.toString()}>
                   <CourseRow
@@ -483,11 +476,11 @@ export default function Index() {
                     meta={`2026.1 · ${disciplina.codigo_disciplina}${disciplina.horarios_formatados ? ` · ${disciplina.horarios_formatados}` : ''}`}
                     onPress={() => router.push({ pathname: "/disciplinas", params: { scrollTo: disciplina.id_turma } })}
                   />
-                  {index < Math.min(disciplinas.length, 4) - 1 && <View style={styles.courseDivider} />}
+                  {index < Math.min(disciplinas.length, 4) - 1 && <View style={[styles.courseDivider, { backgroundColor: colors.border }]} />}
                 </View>
               ))}
               {disciplinas.length === 0 && (
-                <Text style={{ padding: 16, color: COLORS.textMuted, textAlign: 'center', fontFamily: FONT }}>
+                <Text style={{ padding: 16, color: colors.textSecondary, textAlign: 'center', fontFamily: FONT }}>
                   Nenhuma disciplina encontrada.
                 </Text>
               )}
@@ -497,13 +490,14 @@ export default function Index() {
               onPress={() => router.push("/disciplinas")}
               style={({ pressed }) => [
                 styles.outlineButton,
+                { borderColor: colors.primary },
                 pressed && styles.outlineButtonPressed,
               ]}
             >
               <Text
                 style={[
                   styles.outlineButtonText,
-                  { fontSize: getFontSize(16), lineHeight: getFontSize(24) },
+                  { fontSize: getFontSize(16), lineHeight: getFontSize(24), color: colors.primary },
                 ]}
               >
                 Ver todas as disciplinas
@@ -533,11 +527,9 @@ export default function Index() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: COLORS.background,
   },
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
   },
   scrollContent: {
     paddingBottom: 120,
@@ -559,10 +551,8 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 16,
-    backgroundColor: COLORS.surface,
     alignItems: "center",
     justifyContent: "center",
-    shadowColor: COLORS.primary,
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.35,
     shadowRadius: 8,
@@ -586,7 +576,6 @@ const styles = StyleSheet.create({
   appBarSubtitle: {
     fontFamily: FONT,
     fontWeight: "400",
-    color: COLORS.textMuted,
   },
 
   // Header
@@ -598,12 +587,10 @@ const styles = StyleSheet.create({
   greeting: {
     fontFamily: FONT,
     fontWeight: "400",
-    color: COLORS.textMuted,
   },
   userName: {
     fontFamily: FONT,
     fontWeight: "700",
-    color: COLORS.textPrimary,
   },
 
   // Main content
@@ -618,22 +605,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 16,
-    backgroundColor: COLORS.surface,
     borderRadius: 16,
+    borderCurve: "continuous",
     borderWidth: 0.8,
-    borderColor: COLORS.border,
     padding: 20.8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 1.5,
-    elevation: 1,
+    boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
   },
   profileAvatar: {
     width: 64,
     height: 64,
-    borderRadius: 26843500,
-    backgroundColor: COLORS.primarySoft,
+    borderRadius: 32,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -643,12 +624,10 @@ const styles = StyleSheet.create({
   profileName: {
     fontFamily: FONT,
     fontWeight: "600",
-    color: COLORS.textPrimary,
   },
   profileMeta: {
     fontFamily: FONT,
     fontWeight: "400",
-    color: COLORS.textSecondary,
   },
 
   // Tiles grid
@@ -661,17 +640,12 @@ const styles = StyleSheet.create({
   tile: {
     flexBasis: "48%",
     flexGrow: 1,
-    backgroundColor: COLORS.surface,
     borderRadius: 16,
+    borderCurve: "continuous",
     borderWidth: 0.8,
-    borderColor: COLORS.border,
     padding: 20.8,
     gap: 12,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 1.5,
-    elevation: 1,
+    boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
     position: "relative",
   },
   tilePressed: {
@@ -681,14 +655,13 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 14,
-    backgroundColor: COLORS.primarySoft,
+    borderCurve: "continuous",
     alignItems: "center",
     justifyContent: "center",
   },
   tileTitle: {
     fontFamily: FONT,
     fontWeight: "600",
-    color: COLORS.textPrimary,
   },
   badge: {
     position: "absolute",
@@ -696,8 +669,7 @@ const styles = StyleSheet.create({
     right: 16,
     minWidth: 28,
     height: 28,
-    borderRadius: 26843500,
-    backgroundColor: COLORS.danger,
+    borderRadius: 14,
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: 8,
@@ -705,7 +677,6 @@ const styles = StyleSheet.create({
   badgeText: {
     fontFamily: FONT,
     fontWeight: "700",
-    color: COLORS.surface,
     lineHeight: 21,
   },
 
@@ -722,38 +693,30 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontFamily: FONT,
     fontWeight: "600",
-    color: COLORS.textPrimary,
   },
 
   // Update card
   updateCard: {
-    backgroundColor: COLORS.surface,
     borderRadius: 16,
+    borderCurve: "continuous",
     borderWidth: 0.8,
-    borderColor: COLORS.border,
     padding: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 1.5,
-    elevation: 1,
+    boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
   },
   updateEyebrow: {
     fontFamily: FONT,
     fontWeight: "600",
-    color: COLORS.textMuted,
     letterSpacing: 0.35,
   },
   updateBody: {
     fontFamily: FONT,
     fontWeight: "400",
-    color: COLORS.textPrimary,
     marginTop: 8,
   },
   primaryButton: {
     height: 48,
     borderRadius: 14,
-    backgroundColor: COLORS.primary,
+    borderCurve: "continuous",
     alignItems: "center",
     justifyContent: "center",
     marginTop: 16,
@@ -764,22 +727,17 @@ const styles = StyleSheet.create({
   primaryButtonText: {
     fontFamily: FONT,
     fontWeight: "600",
-    color: COLORS.surface,
+    color: "white",
     textAlign: "center",
   },
 
   // Courses
   coursesCard: {
-    backgroundColor: COLORS.surface,
     borderRadius: 16,
+    borderCurve: "continuous",
     borderWidth: 0.8,
-    borderColor: COLORS.border,
     paddingHorizontal: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 1.5,
-    elevation: 1,
+    boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
   },
   courseRow: {
     flexDirection: "row",
@@ -789,7 +747,6 @@ const styles = StyleSheet.create({
   },
   courseDivider: {
     height: 0.8,
-    backgroundColor: COLORS.divider,
   },
   rowPressed: {
     opacity: 0.7,
@@ -802,20 +759,17 @@ const styles = StyleSheet.create({
   courseName: {
     fontFamily: FONT,
     fontWeight: "600",
-    color: COLORS.textPrimary,
   },
   courseMeta: {
     fontFamily: FONT,
     fontWeight: "500",
-    color: COLORS.textSecondary,
   },
 
-  // Outline button
   outlineButton: {
     height: 48,
     borderRadius: 14,
+    borderCurve: "continuous",
     borderWidth: 1.6,
-    borderColor: COLORS.primary,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -825,7 +779,6 @@ const styles = StyleSheet.create({
   outlineButtonText: {
     fontFamily: FONT,
     fontWeight: "600",
-    color: COLORS.primary,
     textAlign: "center",
   },
 
@@ -839,21 +792,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 12,
-    backgroundColor: COLORS.surface,
     borderRadius: 16,
+    borderCurve: "continuous",
     borderWidth: 0.8,
-    borderColor: COLORS.border,
     padding: 20.8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 1.5,
-    elevation: 1,
+    boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
   },
   shortcutTitle: {
     fontFamily: FONT,
     fontWeight: "600",
-    color: COLORS.textPrimary,
     flex: 1,
   },
 

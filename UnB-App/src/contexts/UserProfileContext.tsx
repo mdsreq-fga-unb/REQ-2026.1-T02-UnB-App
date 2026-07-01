@@ -1,15 +1,19 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useSQLiteContext } from 'expo-sqlite';
 
+export type ThemePreference = 'light' | 'dark' | 'automatic';
+
 type UserProfileContextType = {
   userName: string | null;
   userMatricula: string | null;
   autoSyncPDFData: boolean;
   appLockEnabled: boolean;
+  themePreference: ThemePreference;
   isProfileLoaded: boolean;
   updateUserProfile: (nome: string, matricula: string) => Promise<void>;
   setAutoSyncPDFData: (value: boolean) => Promise<void>;
   setAppLockEnabled: (value: boolean) => Promise<void>;
+  setThemePreference: (value: ThemePreference) => Promise<void>;
   refreshProfile: () => Promise<void>;
   clearAllData: () => Promise<void>;
 };
@@ -22,6 +26,7 @@ export function UserProfileProvider({ children }: { children: React.ReactNode })
   const [userMatricula, setUserMatricula] = useState<string | null>(null);
   const [autoSyncPDFData, setAutoSyncPDFState] = useState<boolean>(true);
   const [appLockEnabled, setAppLockState] = useState<boolean>(false);
+  const [themePreference, setThemePreferenceState] = useState<ThemePreference>('light');
   const [isProfileLoaded, setIsProfileLoaded] = useState<boolean>(false);
 
   const refreshProfile = useCallback(async () => {
@@ -55,6 +60,15 @@ export function UserProfileProvider({ children }: { children: React.ReactNode })
         setAppLockState(lockConfig.valor === 'true');
       } else {
         setAppLockState(false); // default false
+      }
+
+      const themeConfig = await db.getFirstAsync<{ valor: string }>(
+        `SELECT valor FROM Configuracoes WHERE chave = 'themePreference'`
+      );
+      if (themeConfig && (themeConfig.valor === 'light' || themeConfig.valor === 'dark' || themeConfig.valor === 'automatic')) {
+        setThemePreferenceState(themeConfig.valor as ThemePreference);
+      } else {
+        setThemePreferenceState('light'); // default light
       }
     } catch (error) {
       console.error('Failed to load user profile:', error);
@@ -134,6 +148,19 @@ export function UserProfileProvider({ children }: { children: React.ReactNode })
     }
   };
 
+  const setThemePreference = async (value: ThemePreference) => {
+    try {
+      await db.runAsync(
+        `INSERT OR REPLACE INTO Configuracoes (chave, valor) VALUES ('themePreference', ?)`,
+        [value]
+      );
+      setThemePreferenceState(value);
+    } catch (error) {
+      console.error('Failed to update themePreference config:', error);
+      throw error;
+    }
+  };
+
   const clearAllData = async () => {
     try {
       await db.withTransactionAsync(async () => {
@@ -153,6 +180,7 @@ export function UserProfileProvider({ children }: { children: React.ReactNode })
       setUserMatricula(null);
       setAutoSyncPDFState(true);
       setAppLockState(false);
+      setThemePreferenceState('light');
     } catch (error) {
       console.error('Failed to clear all data:', error);
       throw error;
@@ -166,10 +194,12 @@ export function UserProfileProvider({ children }: { children: React.ReactNode })
         userMatricula,
         autoSyncPDFData,
         appLockEnabled,
+        themePreference,
         isProfileLoaded,
         updateUserProfile,
         setAutoSyncPDFData,
         setAppLockEnabled,
+        setThemePreference,
         refreshProfile,
         clearAllData,
       }}

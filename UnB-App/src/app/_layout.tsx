@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import Animated, { FadeIn, FadeOut, Easing, withTiming } from 'react-native-reanimated';
 import { TextSizeProvider, useTextSize } from "@/contexts/TextSizeContext";
 import { UserProfileProvider, useUserProfile } from "@/contexts/UserProfileContext";
+import { ThemeProvider, useTheme } from "@/contexts/ThemeContext";
 import { SymbolView } from "expo-symbols";
 import * as LocalAuthentication from "expo-local-authentication";
 import CustomSplashScreen from "@/components/SplashScreen";
@@ -41,6 +42,7 @@ function AppLockWrapper({ children }: { children: React.ReactNode }) {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const insets = useSafeAreaInsets();
   const { getFontSize } = useTextSize();
+  const { colors } = useTheme();
 
   useEffect(() => {
     if (appLockEnabled && !unlocked && !isAuthenticating) {
@@ -75,13 +77,13 @@ function AppLockWrapper({ children }: { children: React.ReactNode }) {
 
   if (appLockEnabled && !unlocked) {
     return (
-      <View style={[styles.lockContainer, { paddingTop: insets.top }]}>
+      <View style={[styles.lockContainer, { paddingTop: insets.top, backgroundColor: colors.background }]}>
         <View style={styles.lockContent}>
-          <SymbolView name={{ ios: 'lock.fill', android: 'lock', web: 'lock' } as any} size={64} tintColor="#1d8d28" />
-          <Text style={[styles.lockTitle, { fontSize: getFontSize(24) }]}>App Bloqueado</Text>
-          <Text style={[styles.lockSubtitle, { fontSize: getFontSize(16) }]}>Use a biometria para acessar seus dados.</Text>
+          <SymbolView name={{ ios: 'lock.fill', android: 'lock', web: 'lock' } as any} size={64} tintColor={colors.primary} />
+          <Text style={[styles.lockTitle, { fontSize: getFontSize(24), color: colors.textPrimary }]}>App Bloqueado</Text>
+          <Text style={[styles.lockSubtitle, { fontSize: getFontSize(16), color: colors.textSecondary }]}>Use a biometria para acessar seus dados.</Text>
           
-          <ScalePressable style={styles.unlockButton} onPress={handleAuth} disabled={isAuthenticating}>
+          <ScalePressable style={[styles.unlockButton, { backgroundColor: colors.primary }]} onPress={handleAuth} disabled={isAuthenticating}>
             <Text style={[styles.unlockButtonText, { fontSize: getFontSize(16) }]}>Tentar novamente</Text>
           </ScalePressable>
         </View>
@@ -99,9 +101,10 @@ export default function RootLayout() {
     <>
       <SQLiteProvider databaseName="documents.db" onInit={initializeDatabase}>
         <UserProfileProvider>
-          <TextSizeProvider>
-            <AppLockWrapper>
-              <View style={styles.container}>
+          <ThemeProvider>
+            <TextSizeProvider>
+              <AppLockWrapper>
+                <View style={[styles.container, { backgroundColor: '#0A0A0A' }]}>
               <Stack>
                 <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                 <Stack.Screen name="grade-modal" options={{ presentation: 'formSheet', sheetAllowedDetents: [0.75, 1.0], headerShown: false }} />
@@ -112,12 +115,13 @@ export default function RootLayout() {
                 <Stack.Screen name="tutoriais-modal" options={{ presentation: 'formSheet', sheetAllowedDetents: [1.0], headerShown: false }} />
                 <Stack.Screen name="edit-profile-modal" options={{ presentation: 'formSheet', sheetAllowedDetents: [0.75, 1.0], headerShown: false }} />
                 <Stack.Screen name="ajustes" options={{ headerShown: false }} />
-                <Stack.Screen name="senha-e-privacidade" options={{ title: 'Senha e Privacidade', headerBackTitle: 'Ajustes', headerTintColor: '#1d8d28', headerShadowVisible: false, headerStyle: { backgroundColor: '#f1f5f9' } }} />
+                <Stack.Screen name="senha-e-privacidade" options={{ title: 'Senha e Privacidade', headerBackTitle: 'Ajustes' }} />
               </Stack>
-              <AccessibilityButton />
-            </View>
-            </AppLockWrapper>
-          </TextSizeProvider>
+                <AccessibilityButton />
+              </View>
+              </AppLockWrapper>
+            </TextSizeProvider>
+          </ThemeProvider>
         </UserProfileProvider>
       </SQLiteProvider>
       {isSplashVisible && (
@@ -132,6 +136,7 @@ function AccessibilityButton() {
   const { width } = useWindowDimensions();
   const [isDialogVisible, setIsDialogVisible] = useState(false);
   const { textSize, setTextSize, getFontSize } = useTextSize();
+  const { colors } = useTheme();
   const buttonTop = Math.max(insets.top + 16, 56);
   const dialogWidth = Math.min(TEXT_SIZE_DIALOG_WIDTH, width - ACCESSIBILITY_BUTTON_RIGHT * 2);
   const dialogTop = buttonTop + TEXT_SIZE_DIALOG_TOP_OFFSET;
@@ -148,7 +153,7 @@ function AccessibilityButton() {
         <ScalePressable
           style={[
             styles.accessibilityButton,
-            { top: buttonTop }
+            { top: buttonTop, backgroundColor: colors.primary, borderColor: colors.surface }
           ]}
           accessibilityRole="button"
           accessibilityLabel="Alterar tamanho do texto"
@@ -169,7 +174,7 @@ function AccessibilityButton() {
             style={[
               styles.accessibilityButton,
               styles.accessibilityButtonInModal,
-              { top: buttonTop }
+              { top: buttonTop, backgroundColor: colors.primary, borderColor: colors.surface }
             ]}
             accessibilityRole="button"
             accessibilityLabel="Fechar opções de tamanho do texto"
@@ -186,10 +191,12 @@ function AccessibilityButton() {
                 top: dialogTop,
                 width: dialogWidth,
                 right: ACCESSIBILITY_BUTTON_RIGHT,
+                backgroundColor: colors.surface,
+                borderColor: colors.border,
               }
             ]}
           >
-            <Text style={[styles.textSizeTitle, { fontSize: getFontSize(15) }]}>Tamanho do texto</Text>
+            <Text style={[styles.textSizeTitle, { fontSize: getFontSize(15), color: colors.textPrimary }]}>Tamanho do texto</Text>
 
             <View style={styles.textSizeOptions}>
               {options.map((option) => {
@@ -200,13 +207,12 @@ function AccessibilityButton() {
                     key={option.value}
                     style={[
                       styles.textSizeOption,
-                      isSelected ? styles.textSizeOptionSelected : styles.textSizeOptionDefault,
+                      isSelected ? { backgroundColor: colors.iconBackground, borderColor: colors.primary } : { backgroundColor: colors.surface, borderColor: colors.border },
                     ]}
                     accessibilityRole="button"
                     accessibilityState={{ selected: isSelected }}
                     onPress={() => {
                       setIsDialogVisible(false);
-                      // Aguarda a animação de FadeOut (150ms) terminar antes de causar o re-render global
                       setTimeout(() => {
                         setTextSize(option.value);
                       }, 160);
@@ -216,7 +222,7 @@ function AccessibilityButton() {
                       style={[
                         styles.textSizePreview,
                         {
-                          color: isSelected ? "#1d8d28" : "#475569",
+                          color: isSelected ? colors.primary : colors.textSecondary,
                           fontSize: option.previewSize,
                         },
                       ]}
@@ -227,7 +233,7 @@ function AccessibilityButton() {
                       style={[
                         styles.textSizeOptionLabel,
                         {
-                          color: isSelected ? "#1d8d28" : "#334155",
+                          color: isSelected ? colors.primary : colors.textPrimary,
                           fontSize: getFontSize(15),
                         },
                       ]}
@@ -251,9 +257,6 @@ const styles = StyleSheet.create({
   },
   lockContainer: {
     flex: 1,
-    backgroundColor: "#f8fafc",
-    justifyContent: "center",
-    alignItems: "center",
   },
   lockContent: {
     alignItems: "center",
@@ -261,20 +264,18 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   lockTitle: {
-    color: "#0f172b",
     fontWeight: "bold",
     marginTop: 16,
   },
   lockSubtitle: {
-    color: "#475569",
     textAlign: "center",
     marginBottom: 24,
   },
   unlockButton: {
-    backgroundColor: "#1d8d28",
     paddingVertical: 14,
     paddingHorizontal: 24,
     borderRadius: 14,
+    borderCurve: "continuous",
   },
   unlockButtonText: {
     color: "#ffffff",
@@ -283,24 +284,17 @@ const styles = StyleSheet.create({
   accessibilityButton: {
     position: "absolute",
     right: ACCESSIBILITY_BUTTON_RIGHT,
-    backgroundColor: "#1d8d28",
     width: ACCESSIBILITY_BUTTON_SIZE,
     height: ACCESSIBILITY_BUTTON_SIZE,
     borderRadius: ACCESSIBILITY_BUTTON_SIZE / 2,
     borderWidth: 1.6,
-    borderColor: "#ffffff",
     alignItems: "center",
     justifyContent: "center",
     zIndex: 999,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 7.5,
-    elevation: 5,
+    boxShadow: "0 4px 10px rgba(0,0,0,0.15)",
   },
   accessibilityButtonInModal: {
     zIndex: 1001,
-    elevation: 13,
   },
   accessibilityButtonText: {
     color: "#ffffff",
@@ -317,27 +311,21 @@ const styles = StyleSheet.create({
   textSizeOverlay: {
     ...StyleSheet.absoluteFillObject,
     zIndex: 1000,
-    backgroundColor: "rgba(15, 23, 43, 0.08)",
+    backgroundColor: "rgba(15, 23, 43, 0.4)",
   },
   textSizeDialog: {
     position: "absolute",
     zIndex: 1000,
-    backgroundColor: "#ffffff",
     borderRadius: 16,
+    borderCurve: "continuous",
     borderWidth: 0.8,
-    borderColor: "#e2e8f0",
     paddingHorizontal: 16.8,
     paddingTop: 16.8,
     paddingBottom: 16,
     gap: 12,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 25 },
-    shadowOpacity: 0.25,
-    shadowRadius: 25,
-    elevation: 12,
+    boxShadow: "0 20px 30px rgba(0,0,0,0.25)",
   },
   textSizeTitle: {
-    color: "#0f172b",
     fontWeight: "600",
     lineHeight: 22.5,
   },
@@ -353,14 +341,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-  },
-  textSizeOptionSelected: {
-    backgroundColor: "#e8f5ea",
-    borderColor: "#1d8d28",
-  },
-  textSizeOptionDefault: {
-    backgroundColor: "#ffffff",
-    borderColor: "#e2e8f0",
+    borderCurve: "continuous",
   },
   textSizePreview: {
     fontWeight: "bold",

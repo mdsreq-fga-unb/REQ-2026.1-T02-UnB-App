@@ -4,19 +4,10 @@ import ScalePressable from "@/components/ScalePressable";
 import { useSQLiteContext } from 'expo-sqlite';
 import { buscarTodasDisciplinas, type DisciplinaInfo } from '../../database/queries/gradeQueries';
 import { useTextSize } from "@/contexts/TextSizeContext";
+import { useTheme } from '@/contexts/ThemeContext';
 import { SymbolView } from "expo-symbols";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-
-const COLORS = {
-  background: "#f8fafc",
-  surface: "#ffffff",
-  primary: "#1d4ed8",
-  textPrimary: "#0f172a",
-  textSecondary: "#475569",
-  textMuted: "#94a3b8",
-  border: "#e2e8f0",
-};
 
 const MOCK_UPDATES = [
   "A turma desta disciplina foi alterada no sistema.",
@@ -28,6 +19,7 @@ export default function AtualizacoesModalScreen() {
   const router = useRouter();
   const db = useSQLiteContext();
   const { getFontSize } = useTextSize();
+  const { colors, isDark } = useTheme();
   
   const [disciplinas, setDisciplinas] = useState<DisciplinaInfo[]>([]);
   const [isReady, setIsReady] = useState(false);
@@ -63,26 +55,26 @@ export default function AtualizacoesModalScreen() {
 
     return (
       <View style={styles.subjectContainer}>
-        <View style={styles.subjectHeader}>
-          <View style={styles.subjectIconWrapper}>
+        <View style={[styles.subjectHeader, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+          <View style={[styles.subjectIconWrapper, { backgroundColor: colors.primary }]}>
             <SymbolView name={{ ios: "books.vertical.fill", android: "library_books", web: "library_books" }} size={16} tintColor="#ffffff" />
           </View>
-          <Text style={[styles.subjectTitle, { fontSize: getFontSize(17) }]}>
+          <Text style={[styles.subjectTitle, { fontSize: getFontSize(17), color: colors.textPrimary }]}>
             {item.nome_disciplina}
           </Text>
         </View>
 
         <View style={styles.timeline}>
-          <View style={styles.timelineLine} />
+          <View style={[styles.timelineLine, { backgroundColor: colors.border }]} />
           
           <View style={styles.timelineItem}>
-            <View style={styles.timelineDot} />
-            <View style={styles.updateCard}>
+            <View style={[styles.timelineDot, { backgroundColor: colors.primary, borderColor: colors.background }]} />
+            <View style={[styles.updateCard, { backgroundColor: colors.surface, borderColor: colors.border }]}>
               <View style={styles.updateHeader}>
-                <SymbolView name={{ ios: "info.circle.fill", android: "info", web: "info" }} size={16} tintColor={COLORS.primary} />
-                <Text style={[styles.updateDate, { fontSize: getFontSize(13) }]}>{date1Str}</Text>
+                <SymbolView name={{ ios: "info.circle.fill", android: "info", web: "info" }} size={16} tintColor={colors.primary} />
+                <Text style={[styles.updateDate, { fontSize: getFontSize(13), color: colors.textSecondary }]}>{date1Str}</Text>
               </View>
-              <Text style={[styles.updateBody, { fontSize: getFontSize(15) }]}>
+              <Text style={[styles.updateBody, { fontSize: getFontSize(15), color: colors.textPrimary }]}>
                 {MOCK_UPDATES[index % MOCK_UPDATES.length]}
               </Text>
             </View>
@@ -90,13 +82,13 @@ export default function AtualizacoesModalScreen() {
           
           {index % 2 === 0 && (
             <View style={styles.timelineItem}>
-              <View style={[styles.timelineDot, { backgroundColor: COLORS.textMuted }]} />
-              <View style={styles.updateCard}>
+              <View style={[styles.timelineDot, { backgroundColor: colors.textPlaceholder, borderColor: colors.background }]} />
+              <View style={[styles.updateCard, { backgroundColor: colors.surface, borderColor: colors.border }]}>
                 <View style={styles.updateHeader}>
-                  <SymbolView name={{ ios: "clock.fill", android: "schedule", web: "schedule" }} size={16} tintColor={COLORS.textMuted} />
-                  <Text style={[styles.updateDate, { fontSize: getFontSize(13) }]}>{date2Str}</Text>
+                  <SymbolView name={{ ios: "clock.fill", android: "schedule", web: "schedule" }} size={16} tintColor={colors.inactiveText} />
+                  <Text style={[styles.updateDate, { fontSize: getFontSize(13), color: colors.textSecondary }]}>{date2Str}</Text>
                 </View>
-                <Text style={[styles.updateBody, { fontSize: getFontSize(15), color: COLORS.textMuted }]}>
+                <Text style={[styles.updateBody, { fontSize: getFontSize(15), color: colors.textSecondary }]}>
                   {MOCK_UPDATES[(index + 1) % MOCK_UPDATES.length]}
                 </Text>
               </View>
@@ -108,19 +100,19 @@ export default function AtualizacoesModalScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={Platform.OS === 'ios' ? ['top', 'bottom'] : ['bottom']}>
-      <View style={styles.header}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={Platform.OS === 'ios' ? ['top', 'bottom'] : ['bottom']}>
+      <View style={[styles.header, { backgroundColor: colors.surface, borderBottomColor: colors.border }]}>
         <ScalePressable
           style={styles.closeButton}
           onPress={() => router.back()}
         >
-          <SymbolView name={{ ios: "xmark.circle.fill", android: "cancel", web: "cancel" }} size={28} tintColor={COLORS.textMuted} />
+          <SymbolView name={{ ios: "xmark.circle.fill", android: "cancel", web: "cancel" }} size={28} tintColor={colors.inactiveText} />
         </ScalePressable>
         <View style={{alignItems: 'center'}}>
-            <Text style={[styles.headerTitle, { fontSize: getFontSize(20) }]}>
+            <Text style={[styles.headerTitle, { fontSize: getFontSize(20), color: colors.textPrimary }]}>
             Painel de Notificações
             </Text>
-            <Text style={[styles.headerSubtitle, { fontSize: getFontSize(13) }]}>
+            <Text style={[styles.headerSubtitle, { fontSize: getFontSize(13), color: colors.textSecondary }]}>
             Atualizações por matéria
             </Text>
         </View>
@@ -129,7 +121,7 @@ export default function AtualizacoesModalScreen() {
 
       {!isReady ? (
         <View style={styles.centerContainer}>
-          <ActivityIndicator size="large" color={COLORS.primary} />
+          <ActivityIndicator size="large" color={colors.primary} />
         </View>
       ) : disciplinas.length > 0 ? (
         <FlatList
@@ -143,8 +135,8 @@ export default function AtualizacoesModalScreen() {
         />
       ) : (
         <View style={styles.centerContainer}>
-          <SymbolView name={{ ios: "bell.slash", android: "notifications_off", web: "notifications_off" }} size={48} tintColor={COLORS.textMuted} />
-          <Text style={[styles.emptyText, { fontSize: getFontSize(16) }]}>
+          <SymbolView name={{ ios: "bell.slash", android: "notifications_off", web: "notifications_off" }} size={48} tintColor={colors.inactiveText} />
+          <Text style={[styles.emptyText, { fontSize: getFontSize(16), color: colors.textSecondary }]}>
             Nenhuma atualização encontrada.
           </Text>
         </View>
@@ -156,7 +148,6 @@ export default function AtualizacoesModalScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
   },
   header: {
     flexDirection: 'row',
@@ -164,17 +155,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 20,
     paddingVertical: 16,
-    backgroundColor: COLORS.surface,
     borderBottomWidth: 1,
-    borderBottomColor: COLORS.border,
   },
   headerTitle: {
     fontFamily: "Inter-Bold",
-    color: COLORS.textPrimary,
   },
   headerSubtitle: {
     fontFamily: "Inter-Medium",
-    color: COLORS.textMuted,
     marginTop: 2,
   },
   closeButton: {
@@ -188,7 +175,6 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontFamily: "Inter",
-    color: COLORS.textMuted,
     textAlign: 'center',
     marginTop: 16,
   },
@@ -204,11 +190,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
-    backgroundColor: '#ffffff',
     padding: 12,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: 'rgba(226, 232, 240, 0.8)',
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.04,
@@ -219,13 +203,11 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 10,
-    backgroundColor: COLORS.primary,
     alignItems: 'center',
     justifyContent: 'center',
   },
   subjectTitle: {
     fontFamily: "Inter-Bold",
-    color: COLORS.textPrimary,
     flex: 1,
   },
   timeline: {
@@ -238,7 +220,6 @@ const styles = StyleSheet.create({
     top: 8,
     bottom: -16,
     width: 2,
-    backgroundColor: COLORS.border,
   },
   timelineItem: {
     flexDirection: 'row',
@@ -248,20 +229,16 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: COLORS.primary,
     marginTop: 16,
     marginLeft: -1,
     zIndex: 1,
     borderWidth: 2,
-    borderColor: COLORS.background,
   },
   updateCard: {
     flex: 1,
-    backgroundColor: COLORS.surface,
     borderRadius: 16,
     padding: 16,
     borderWidth: 1,
-    borderColor: 'rgba(226, 232, 240, 0.6)',
     gap: 8,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
@@ -276,11 +253,9 @@ const styles = StyleSheet.create({
   },
   updateDate: {
     fontFamily: "Inter-SemiBold",
-    color: COLORS.textMuted,
   },
   updateBody: {
     fontFamily: "Inter",
-    color: "#334155",
     lineHeight: 22,
   },
 });

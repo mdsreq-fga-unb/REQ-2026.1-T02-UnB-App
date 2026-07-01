@@ -3,6 +3,7 @@ import { View, Text, TextInput, StyleSheet, Alert, Platform } from "react-native
 import { useRouter } from "expo-router";
 import { useUserProfile } from "@/contexts/UserProfileContext";
 import { useTextSize } from "@/contexts/TextSizeContext";
+import { useTheme } from '@/contexts/ThemeContext';
 import ScalePressable from "@/components/ScalePressable";
 import { SymbolView } from "expo-symbols";
 
@@ -10,6 +11,7 @@ export default function EditProfileModal() {
   const router = useRouter();
   const { userName, userMatricula, updateUserProfile } = useUserProfile();
   const { getFontSize } = useTextSize();
+  const { colors } = useTheme();
 
   const [name, setName] = useState(userName || "");
   const [matricula, setMatricula] = useState(userMatricula || "");
@@ -52,14 +54,14 @@ export default function EditProfileModal() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
       <View style={styles.header}>
         <ScalePressable onPress={() => router.back()} style={styles.closeBtn}>
-          <SymbolView name={{ ios: "xmark", android: "close", web: "close" } as any} size={24} tintColor="#0f172b" fallback={<Text style={{fontSize: 20}}>X</Text>} />
+          <SymbolView name={{ ios: "xmark", android: "close", web: "close" } as any} size={24} tintColor={colors.textPrimary} fallback={<Text style={{fontSize: 20}}>X</Text>} />
         </ScalePressable>
         <View style={styles.titleContainer}>
-          <Text style={[styles.title, { fontSize: getFontSize(22) }]}>Editar Perfil</Text>
-          <Text style={[styles.subtitle, { fontSize: getFontSize(15) }]}>
+          <Text style={[styles.title, { fontSize: getFontSize(22), color: colors.textPrimary }]}>Editar Perfil</Text>
+          <Text style={[styles.subtitle, { fontSize: getFontSize(15), color: colors.textSecondary }]}>
             Atualize suas informações de identificação
           </Text>
         </View>
@@ -67,26 +69,26 @@ export default function EditProfileModal() {
 
       <View style={styles.form}>
         <View style={styles.inputGroup}>
-          <Text style={[styles.label, { fontSize: getFontSize(14) }]}>NOME COMPLETO</Text>
+          <Text style={[styles.label, { fontSize: getFontSize(14), color: colors.textSecondary }]}>NOME COMPLETO</Text>
           <TextInput
-            style={[styles.input, { fontSize: getFontSize(16) }]}
+            style={[styles.input, { fontSize: getFontSize(16), backgroundColor: colors.surface, borderColor: colors.border, color: colors.textPrimary }]}
             value={name}
             onChangeText={setName}
             placeholder="Seu nome"
-            placeholderTextColor="#94a3b8"
+            placeholderTextColor={colors.textPlaceholder}
             autoCapitalize="words"
             editable={!isSaving}
           />
         </View>
 
         <View style={styles.inputGroup}>
-          <Text style={[styles.label, { fontSize: getFontSize(14) }]}>MATRÍCULA</Text>
+          <Text style={[styles.label, { fontSize: getFontSize(14), color: colors.textSecondary }]}>MATRÍCULA</Text>
           <TextInput
-            style={[styles.input, { fontSize: getFontSize(16) }]}
+            style={[styles.input, { fontSize: getFontSize(16), backgroundColor: colors.surface, borderColor: colors.border, color: colors.textPrimary }]}
             value={matricula}
             onChangeText={setMatricula}
             placeholder="Sua matrícula (ex: 200000000)"
-            placeholderTextColor="#94a3b8"
+            placeholderTextColor={colors.textPlaceholder}
             keyboardType={Platform.OS === "ios" ? "number-pad" : "numeric"}
             editable={!isSaving}
           />
@@ -95,7 +97,7 @@ export default function EditProfileModal() {
 
       <View style={styles.footer}>
         <ScalePressable
-          style={[styles.saveButton, isSaving && styles.saveButtonDisabled]}
+          style={[styles.saveButton, { backgroundColor: colors.primary }, isSaving && styles.saveButtonDisabled]}
           onPress={handleSave}
           disabled={isSaving}
         >
@@ -111,7 +113,6 @@ export default function EditProfileModal() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffffff",
     padding: 24,
   },
   header: {
@@ -126,11 +127,9 @@ const styles = StyleSheet.create({
   titleContainer: {},
   title: {
     fontWeight: "bold",
-    color: "#0f172b",
     marginBottom: 8,
   },
   subtitle: {
-    color: "#62748e",
     lineHeight: 22,
   },
   form: {
@@ -142,23 +141,18 @@ const styles = StyleSheet.create({
   },
   label: {
     fontWeight: "600",
-    color: "#62748e",
     letterSpacing: 0.5,
   },
   input: {
-    backgroundColor: "#f8fafc",
     borderWidth: 1,
-    borderColor: "#e2e8f0",
     borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 14,
-    color: "#0f172b",
   },
   footer: {
     paddingBottom: Platform.OS === "ios" ? 16 : 0,
   },
   saveButton: {
-    backgroundColor: "#1d8d28",
     borderRadius: 16,
     height: 56,
     justifyContent: "center",

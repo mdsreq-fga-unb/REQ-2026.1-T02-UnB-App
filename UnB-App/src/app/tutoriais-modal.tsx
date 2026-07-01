@@ -6,6 +6,7 @@ import { useRouter } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
 import ScalePressable from '@/components/ScalePressable';
 import { useTextSize } from '@/contexts/TextSizeContext';
+import { useTheme } from '@/contexts/ThemeContext';
 
 const TUTORIAL_PAGES = [
   {
@@ -28,11 +29,12 @@ const TUTORIAL_PAGES = [
   }
 ];
 
-function PaginationDot({ isActive }: { isActive: boolean }) {
+function PaginationDot({ isActive, color }: { isActive: boolean, color: string }) {
+  const { colors } = useTheme();
   const animatedStyle = useAnimatedStyle(() => {
     return {
       width: withTiming(isActive ? 24 : 8, { duration: 250, easing: Easing.bezier(0.77, 0, 0.175, 1) }),
-      backgroundColor: withTiming(isActive ? '#1d8d28' : '#cbd5e1', { duration: 250, easing: Easing.linear }),
+      backgroundColor: withTiming(isActive ? color : colors.border, { duration: 250, easing: Easing.linear }),
     };
   });
 
@@ -44,6 +46,7 @@ export default function TutoriaisModalScreen() {
   const [layoutWidth, setLayoutWidth] = useState(windowWidth);
   const router = useRouter();
   const { getFontSize } = useTextSize();
+  const { colors } = useTheme();
   const scrollViewRef = useRef<ScrollView>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -62,12 +65,12 @@ export default function TutoriaisModalScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea} edges={Platform.OS === 'ios' ? ['top', 'bottom'] : ['bottom']} onLayout={(e) => setLayoutWidth(e.nativeEvent.layout.width)}>
-      <View style={styles.header}>
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]} edges={Platform.OS === 'ios' ? ['top', 'bottom'] : ['bottom']} onLayout={(e) => setLayoutWidth(e.nativeEvent.layout.width)}>
+      <View style={[styles.header, { backgroundColor: colors.surface, borderBottomColor: colors.border }]}>
         <ScalePressable onPress={() => router.dismissAll()} style={styles.closeBtn}>
-          <SymbolView name={{ ios: "xmark", android: "close", web: "close" } as any} size={24} tintColor="#0f172b" fallback={<Text style={{fontSize: 20}}>X</Text>} />
+          <SymbolView name={{ ios: "xmark", android: "close", web: "close" } as any} size={24} tintColor={colors.textPrimary} fallback={<Text style={{fontSize: 20}}>X</Text>} />
         </ScalePressable>
-        <Text style={[styles.headerTitle, { fontSize: getFontSize(17) }]}>Guia das Plataformas</Text>
+        <Text style={[styles.headerTitle, { fontSize: getFontSize(17), color: colors.textPrimary }]}>Guia das Plataformas</Text>
         <View style={{ width: 24 }} />
       </View>
 
@@ -88,7 +91,7 @@ export default function TutoriaisModalScreen() {
             <Animated.Text entering={FadeInDown.delay(150).duration(400).easing(Easing.bezier(0.23, 1, 0.32, 1))} style={[styles.pageTitle, { fontSize: getFontSize(24), color: page.color }]}>
               {page.title}
             </Animated.Text>
-            <Animated.Text entering={FadeInDown.delay(200).duration(400).easing(Easing.bezier(0.23, 1, 0.32, 1))} style={[styles.pageDescription, { fontSize: getFontSize(16) }]}>
+            <Animated.Text entering={FadeInDown.delay(200).duration(400).easing(Easing.bezier(0.23, 1, 0.32, 1))} style={[styles.pageDescription, { fontSize: getFontSize(16), color: colors.textSecondary }]}>
               {page.description}
             </Animated.Text>
           </View>
@@ -98,11 +101,11 @@ export default function TutoriaisModalScreen() {
       <View style={styles.footer}>
         <View style={styles.pagination}>
           {TUTORIAL_PAGES.map((_, index) => (
-            <PaginationDot key={index} isActive={currentIndex === index} />
+            <PaginationDot key={index} isActive={currentIndex === index} color={colors.primary} />
           ))}
         </View>
 
-        <ScalePressable style={styles.primaryButton} onPress={goToNextPage}>
+        <ScalePressable style={[styles.primaryButton, { backgroundColor: colors.primary }]} onPress={goToNextPage}>
           <Text style={[styles.primaryButtonText, { fontSize: getFontSize(16) }]}>
             {currentIndex === TUTORIAL_PAGES.length - 1 ? 'Concluir' : 'Próximo'}
           </Text>
@@ -113,7 +116,7 @@ export default function TutoriaisModalScreen() {
 }
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: '#f8fafc' },
+  safeArea: { flex: 1 },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -121,12 +124,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#e2e8f0',
-    backgroundColor: '#ffffff',
   },
   headerTitle: {
     fontWeight: '600',
-    color: '#0f172b',
   },
   closeBtn: {
     padding: 4,
@@ -155,7 +155,6 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   pageDescription: {
-    color: '#475569',
     textAlign: 'center',
     lineHeight: 24,
   },
@@ -173,14 +172,11 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#cbd5e1',
   },
   activeDot: {
     width: 24,
-    backgroundColor: '#1d8d28',
   },
   primaryButton: {
-    backgroundColor: '#1d8d28',
     padding: 16,
     borderRadius: 14,
     alignItems: 'center',

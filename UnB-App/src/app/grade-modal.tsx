@@ -8,6 +8,7 @@ import { extrairDadosDoPDF } from '../../utils/pdfParser';
 import * as DocumentPicker from 'expo-document-picker';
 import { extractTextWithInfo } from 'expo-pdf-text-extract';
 import { useTextSize } from "@/contexts/TextSizeContext";
+import { useTheme } from '@/contexts/ThemeContext';
 import { SymbolView } from "expo-symbols";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
@@ -25,6 +26,7 @@ export default function GradeHorariaModalScreen() {
   const router = useRouter();
   const db = useSQLiteContext();
   const { getFontSize } = useTextSize();
+  const { colors, isDark } = useTheme();
   const { userName, userMatricula, autoSyncPDFData, updateUserProfile } = useUserProfile();
   
   const [diaSelecionado, setDiaSelecionado] = useState(() => {
@@ -146,43 +148,43 @@ export default function GradeHorariaModalScreen() {
   }, [carregarAulas, isReady]);
 
   const renderCard = ({ item }: { item: AulaCard }) => (
-    <View style={styles.card}>
-      <View style={styles.timeContainer}>
-        <Text style={[styles.timeText, { fontSize: getFontSize(16) }]}>{item.hora_inicio}</Text>
-        <Text style={[styles.timeSubtext, { fontSize: getFontSize(12) }]}>às {item.hora_fim}</Text>
+    <View style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+      <View style={[styles.timeContainer, { borderRightColor: colors.border }]}>
+        <Text style={[styles.timeText, { fontSize: getFontSize(16), color: colors.primary }]}>{item.hora_inicio}</Text>
+        <Text style={[styles.timeSubtext, { fontSize: getFontSize(12), color: colors.textSecondary }]}>às {item.hora_fim}</Text>
       </View>
       <View style={styles.infoContainer}>
-        <Text style={[styles.courseName, { fontSize: getFontSize(15) }]}>{item.nome_disciplina}</Text>
-        <Text style={[styles.courseCode, { fontSize: getFontSize(13) }]}>{item.codigo_disciplina} - Turma {item.codigo_turma}</Text>
+        <Text style={[styles.courseName, { fontSize: getFontSize(15), color: colors.textPrimary }]}>{item.nome_disciplina}</Text>
+        <Text style={[styles.courseCode, { fontSize: getFontSize(13), color: colors.textSecondary }]}>{item.codigo_disciplina} - Turma {item.codigo_turma}</Text>
         <View style={[styles.infoRow, { marginBottom: 4 }]}>
-          <SymbolView name={{ ios: "mappin.and.ellipse", android: "location_on", web: "location_on" } as any} size={14} tintColor="#334155" fallback={<Text style={{ fontSize: 12 }}>📍</Text>} />
-          <Text style={[styles.location, { fontSize: getFontSize(13) }]}>{item.local}</Text>
+          <SymbolView name={{ ios: "mappin.and.ellipse", android: "location_on", web: "location_on" } as any} size={14} tintColor={colors.inactiveText} fallback={<Text style={{ fontSize: 12 }}>📍</Text>} />
+          <Text style={[styles.location, { fontSize: getFontSize(13), color: colors.textPrimary }]}>{item.local}</Text>
         </View>
         <View style={styles.infoRow}>
-          <SymbolView name={{ ios: "person.fill", android: "person", web: "person" } as any} size={14} tintColor="#64748b" fallback={<Text style={{ fontSize: 12 }}>👨‍🏫</Text>} />
-          <Text style={[styles.docente, { fontSize: getFontSize(13) }]}>{item.docente_nome}</Text>
+          <SymbolView name={{ ios: "person.fill", android: "person", web: "person" } as any} size={14} tintColor={colors.inactiveText} fallback={<Text style={{ fontSize: 12 }}>👨‍🏫</Text>} />
+          <Text style={[styles.docente, { fontSize: getFontSize(13), color: colors.textSecondary }]}>{item.docente_nome}</Text>
         </View>
       </View>
     </View>
   );
 
   return (
-    <SafeAreaView style={styles.safeArea} edges={Platform.OS === 'ios' ? ['top', 'bottom'] : ['bottom']}>
-      <View style={styles.header}>
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]} edges={Platform.OS === 'ios' ? ['top', 'bottom'] : ['bottom']}>
+      <View style={[styles.header, { backgroundColor: colors.surface, borderBottomColor: colors.border }]}>
           <ScalePressable onPress={() => router.back()} style={styles.closeBtn}>
-              <SymbolView name={{ ios: "xmark", android: "close", web: "close" } as any} size={24} tintColor="#0f172b" fallback={<Text style={{fontSize: 20}}>X</Text>} />
+              <SymbolView name={{ ios: "xmark", android: "close", web: "close" } as any} size={24} tintColor={colors.textPrimary} fallback={<Text style={{fontSize: 20}}>X</Text>} />
           </ScalePressable>
-          <Text style={[styles.title, { fontSize: getFontSize(20) }]}>Grade Horária</Text>
+          <Text style={[styles.title, { fontSize: getFontSize(20), color: colors.textPrimary }]}>Grade Horária</Text>
           <View style={{ width: 24 }} />
       </View>
 
       {hasGrade === false ? (
           <View style={styles.emptyGlobalContainer}>
-              <Text style={[styles.emptyGlobalTitle, { fontSize: getFontSize(18) }]}>Nenhuma disciplina encontrada</Text>
-              <Text style={[styles.emptyGlobalDesc, { fontSize: getFontSize(14) }]}>
+              <Text style={[styles.emptyGlobalTitle, { fontSize: getFontSize(18), color: colors.textPrimary }]}>Nenhuma disciplina encontrada</Text>
+              <Text style={[styles.emptyGlobalDesc, { fontSize: getFontSize(14), color: colors.textSecondary }]}>
                   Para carregar sua grade, por favor faça o upload da declaração ou histórico escolar. Se você não tiver disciplinas no semestre, tudo bem também.
               </Text>
-              <ScalePressable style={styles.uploadButton} onPress={handleUpload} disabled={isProcessing}>
+              <ScalePressable style={[styles.uploadButton, { backgroundColor: colors.primary, shadowColor: colors.primary }]} onPress={handleUpload} disabled={isProcessing}>
                   <Text style={[styles.uploadButtonText, { fontSize: getFontSize(15) }]}>
                     {isProcessing ? 'PROCESSANDO...' : 'FAZER UPLOAD DA MATRÍCULA'}
                   </Text>
@@ -196,13 +198,14 @@ export default function GradeHorariaModalScreen() {
                       key={dia.id}
                       style={[
                       styles.dayButton,
-                      diaSelecionado === dia.id && styles.dayButtonSelected
+                      { backgroundColor: isDark ? 'rgba(29, 141, 40, 0.2)' : '#e2e8f0' },
+                      diaSelecionado === dia.id && { backgroundColor: colors.primary }
                       ]}
                       onPress={() => setDiaSelecionado(dia.id)}
                   >
                       <Text style={[
                       styles.dayText,
-                      { fontSize: getFontSize(14) },
+                      { fontSize: getFontSize(14), color: colors.textSecondary },
                       diaSelecionado === dia.id && styles.dayTextSelected
                       ]}>
                       {dia.nome}
@@ -213,7 +216,7 @@ export default function GradeHorariaModalScreen() {
 
               {!isReady ? (
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                  <ActivityIndicator size="large" color="#1d8d28" />
+                  <ActivityIndicator size="large" color={colors.primary} />
                 </View>
               ) : (
                 <FlatList
@@ -223,8 +226,8 @@ export default function GradeHorariaModalScreen() {
                     contentContainerStyle={styles.listContainer}
                     ListEmptyComponent={
                     <View style={styles.emptyContainer}>
-                      <SymbolView name={{ ios: "sparkles", android: "auto_awesome", web: "auto_awesome" } as any} size={28} tintColor="#1d8d28" fallback={<Text style={{ fontSize: 24 }}>✨</Text>} />
-                      <Text style={[styles.emptyText, { fontSize: getFontSize(16) }]}>Nenhuma aula neste dia. Aproveite o descanso!</Text>
+                      <SymbolView name={{ ios: "sparkles", android: "auto_awesome", web: "auto_awesome" } as any} size={28} tintColor={colors.primary} fallback={<Text style={{ fontSize: 24 }}>✨</Text>} />
+                      <Text style={[styles.emptyText, { fontSize: getFontSize(16), color: colors.textSecondary }]}>Nenhuma aula neste dia. Aproveite o descanso!</Text>
                     </View>
                     }
                 />
@@ -236,7 +239,7 @@ export default function GradeHorariaModalScreen() {
 }
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: '#f8fafc' },
+  safeArea: { flex: 1 },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -244,35 +247,33 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#e2e8f0',
-    backgroundColor: '#ffffff',
     marginBottom: 16,
   },
   closeBtn: {
     padding: 4,
   },
-  title: { fontWeight: 'bold', color: '#0f172b' },
+  title: { fontWeight: 'bold' },
   daysContainer: { flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20, marginBottom: 20 },
-  dayButton: { paddingVertical: 8, paddingHorizontal: 12, borderRadius: 20, backgroundColor: '#e2e8f0' },
-  dayButtonSelected: { backgroundColor: '#1d8d28' },
-  dayText: { fontWeight: '600', color: '#475569' },
+  dayButton: { paddingVertical: 8, paddingHorizontal: 12, borderRadius: 20 },
+  dayButtonSelected: {},
+  dayText: { fontWeight: '600' },
   dayTextSelected: { color: '#ffffff' },
   listContainer: { paddingHorizontal: 20, paddingBottom: 40 },
-  card: { flexDirection: 'row', backgroundColor: '#ffffff', borderRadius: 16, padding: 16, marginBottom: 16, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 8, elevation: 2, borderWidth: 1, borderColor: '#f1f5f9' },
-  timeContainer: { borderRightWidth: 1, borderRightColor: '#e2e8f0', paddingRight: 16, marginRight: 16, justifyContent: 'center', alignItems: 'center', minWidth: 70 },
-  timeText: { fontWeight: 'bold', color: '#1d8d28' },
-  timeSubtext: { color: '#64748b', marginTop: 4 },
+  card: { flexDirection: 'row', borderRadius: 16, padding: 16, marginBottom: 16, shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 8, elevation: 2, borderWidth: 1 },
+  timeContainer: { borderRightWidth: 1, paddingRight: 16, marginRight: 16, justifyContent: 'center', alignItems: 'center', minWidth: 70 },
+  timeText: { fontWeight: 'bold' },
+  timeSubtext: { marginTop: 4 },
   infoContainer: { flex: 1, justifyContent: 'center' },
   infoRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
-  courseName: { fontWeight: 'bold', color: '#0f172b', marginBottom: 4 },
-  courseCode: { color: '#475569', marginBottom: 8 },
-  location: { color: '#334155', fontWeight: '500' },
-  docente: { color: '#64748b' },
+  courseName: { fontWeight: 'bold', marginBottom: 4 },
+  courseCode: { marginBottom: 8 },
+  location: { fontWeight: '500' },
+  docente: {},
   emptyContainer: { alignItems: 'center', marginTop: 40, gap: 12 },
-  emptyText: { textAlign: 'center', color: '#64748b' },
+  emptyText: { textAlign: 'center' },
   emptyGlobalContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 30, paddingBottom: 60 },
-  emptyGlobalTitle: { fontWeight: 'bold', color: '#0f172b', marginBottom: 12, textAlign: 'center' },
-  emptyGlobalDesc: { color: '#64748b', textAlign: 'center', marginBottom: 30, lineHeight: 22 },
-  uploadButton: { backgroundColor: '#1d8d28', paddingVertical: 14, paddingHorizontal: 24, borderRadius: 12, elevation: 2, shadowColor: '#1d8d28', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 8 },
+  emptyGlobalTitle: { fontWeight: 'bold', marginBottom: 12, textAlign: 'center' },
+  emptyGlobalDesc: { textAlign: 'center', marginBottom: 30, lineHeight: 22 },
+  uploadButton: { paddingVertical: 14, paddingHorizontal: 24, borderRadius: 12, elevation: 2, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 8 },
   uploadButtonText: { color: '#ffffff', fontWeight: 'bold', textAlign: 'center' },
 });
