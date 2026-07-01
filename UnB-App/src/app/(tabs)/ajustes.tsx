@@ -161,22 +161,25 @@ export default function AjustesScreen() {
               <Text style={[styles.rowSubtitle, { fontSize: getFontSize(14), marginBottom: 16, color: colors.textSecondary }]}>Ajuste em todas as telas do app</Text>
               <View style={styles.textSizeButtonsContainer}>
                 <ScalePressable
+                  testID="btn-text-size-normal"
                   style={[styles.textSizeButton, { backgroundColor: colors.background, borderColor: colors.border }, textSize === "normal" && { backgroundColor: colors.iconBackground, borderColor: colors.primary }]}
                   onPress={() => setTextSize("normal")}
                 >
-                  <Text style={[styles.textSizeButtonText, { color: colors.textSecondary }, textSize === "normal" && { color: colors.primary }, { fontSize: 14 }]}>Aa</Text>
+                  <Text testID="txt-text-size-normal" style={[styles.textSizeButtonText, { color: colors.textSecondary }, textSize === "normal" && { color: colors.primary }, { fontSize: 14 }]}>Aa</Text>
                 </ScalePressable>
                 <ScalePressable
+                  testID="btn-text-size-large"
                   style={[styles.textSizeButton, { backgroundColor: colors.background, borderColor: colors.border }, textSize === "large" && { backgroundColor: colors.iconBackground, borderColor: colors.primary }]}
                   onPress={() => setTextSize("large")}
                 >
-                  <Text style={[styles.textSizeButtonText, { color: colors.textSecondary }, textSize === "large" && { color: colors.primary }, { fontSize: 17 }]}>Aa</Text>
+                  <Text testID="txt-text-size-large" style={[styles.textSizeButtonText, { color: colors.textSecondary }, textSize === "large" && { color: colors.primary }, { fontSize: 17 }]}>Aa</Text>
                 </ScalePressable>
                 <ScalePressable
+                  testID="btn-text-size-larger"
                   style={[styles.textSizeButton, { backgroundColor: colors.background, borderColor: colors.border }, textSize === "larger" && { backgroundColor: colors.iconBackground, borderColor: colors.primary }]}
                   onPress={() => setTextSize("larger")}
                 >
-                  <Text style={[styles.textSizeButtonText, { color: colors.textSecondary }, textSize === "larger" && { color: colors.primary }, { fontSize: 20 }]}>Aa</Text>
+                  <Text testID="txt-text-size-larger" style={[styles.textSizeButtonText, { color: colors.textSecondary }, textSize === "larger" && { color: colors.primary }, { fontSize: 20 }]}>Aa</Text>
                 </ScalePressable>
               </View>
             </View>
