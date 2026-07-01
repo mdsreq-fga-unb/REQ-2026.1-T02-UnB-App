@@ -112,4 +112,26 @@ export async function initializeDatabase(db: SQLiteDatabase) {
   } catch (error) {
     console.error('Falha ao inicializar banco de dados:', error);
   }
+
+  // Ensure default documents exist
+  try {
+    const existingDocs = await db.getAllAsync('SELECT id FROM documents LIMIT 1');
+    if (existingDocs.length === 0) {
+      const DEFAULT_DOCS = [
+        { title: "Carteirinha Estudantil", description: "Comprovante oficial de vínculo com a UnB", meta: "", color: "#b45309", symbolName: "person.text.rectangle.fill" },
+        { title: "Histórico Escolar", description: "Todas as disciplinas cursadas", meta: "", color: "#7c3aed", symbolName: "books.vertical.fill" },
+        { title: "Passe Livre Estudantil", description: "Solicitação de gratuidade no transporte", meta: "", color: "#be185d", symbolName: "bus.fill" },
+        { title: "Boletim de Notas", description: "Notas das disciplinas do semestre 2026.1", meta: "", color: "#1d8d28", symbolName: "doc.text.fill" },
+        { title: "Índice Acadêmico", description: "IRA, IECH e CR consolidados", meta: "", color: "#0e7490", symbolName: "chart.bar.doc.horizontal" }
+      ];
+      for (const doc of DEFAULT_DOCS) {
+        await db.runAsync(
+          'INSERT INTO documents (title, description, meta, color, symbolName, uri) VALUES (?, ?, ?, ?, ?, ?)',
+          [doc.title, doc.description, doc.meta, doc.color, doc.symbolName, ""]
+        );
+      }
+    }
+  } catch (e) {
+    console.error('Falha ao inserir documentos padrão:', e);
+  }
 }
