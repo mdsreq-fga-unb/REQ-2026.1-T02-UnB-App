@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, ScrollView, StyleSheet, Switch } from "react-native";
+import { View, Text, ScrollView, StyleSheet, Switch, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { useTextSize } from "@/contexts/TextSizeContext";
@@ -51,8 +51,8 @@ export default function AjustesScreen() {
   );
 
   // Helper function to render a setting row that acts as a button (with a forward arrow)
-  const renderNavRow = (title: string, subtitle: string | null, isLast = false, iconName: SymbolName) => (
-    <ScalePressable style={[styles.row, !isLast && styles.rowBorder]}>
+  const renderNavRow = (title: string, subtitle: string | null, isLast = false, iconName: SymbolName, onPress?: () => void) => (
+    <ScalePressable style={[styles.row, !isLast && styles.rowBorder]} onPress={onPress}>
       <View style={styles.iconContainer}>
         {renderIcon(iconName)}
       </View>
@@ -68,6 +68,21 @@ export default function AjustesScreen() {
       />
     </ScalePressable>
   );
+
+  const handleLogout = () => {
+    Alert.alert(
+      "Sair da conta",
+      "Tem certeza que deseja sair?",
+      [
+        { text: "Cancelar", style: "cancel" },
+        { 
+          text: "Sair", 
+          style: "destructive", 
+          onPress: () => router.push('/welcome-modal') 
+        }
+      ]
+    );
+  };
 
   return (
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
@@ -95,7 +110,7 @@ export default function AjustesScreen() {
             </View>
             <View style={styles.profileTextContainer}>
               <Text style={[styles.profileName, { fontSize: getFontSize(20) }]}>{userName || "Usuário"}</Text>
-              <Text style={[styles.profileMatricula, { fontSize: getFontSize(15) }]}>Matrícula: {userMatricula || "Não informada"}</Text>
+              <Text style={[styles.profileMatricula, { fontSize: getFontSize(15) }]}>{userMatricula || "Não informada"}</Text>
             </View>
             <SymbolView 
               name={{ ios: "chevron.right", android: "chevron_right", web: "chevron_right" } as any} 
@@ -170,8 +185,8 @@ export default function AjustesScreen() {
         <View style={styles.section}>
           <Text style={[styles.sectionLabel, { fontSize: getFontSize(14) }]}>CONTA E SEGURANÇA</Text>
           <View style={styles.card}>
-            {renderNavRow("Senha e privacidade", "Altere sua senha de acesso", false, { ios: "lock.fill", android: "lock", web: "lock" })}
-            {renderNavRow("Idioma", "Português (Brasil)", true, { ios: "globe", android: "language", web: "language" })}
+            {renderNavRow("Senha e privacidade", "Altere sua senha de acesso", false, { ios: "lock.fill", android: "lock", web: "lock" }, () => router.push('/em-breve-modal'))}
+            {renderNavRow("Idioma", "Português (Brasil)", true, { ios: "globe", android: "language", web: "language" }, () => router.push('/em-breve-modal'))}
           </View>
         </View>
 
@@ -179,13 +194,13 @@ export default function AjustesScreen() {
         <View style={styles.section}>
           <Text style={[styles.sectionLabel, { fontSize: getFontSize(14) }]}>SUPORTE</Text>
           <View style={styles.card}>
-            {renderNavRow("Central de ajuda", "Tire suas dúvidas", false, { ios: "questionmark.circle.fill", android: "help", web: "help" })}
-            {renderNavRow("Sobre o UnB App", "Versão 1.0.0", true, { ios: "info.circle.fill", android: "info", web: "info" })}
+            {renderNavRow("Central de ajuda", "Tire suas dúvidas", false, { ios: "questionmark.circle.fill", android: "help", web: "help" }, () => router.push('/em-breve-modal'))}
+            {renderNavRow("Sobre o UnB App", "Versão 1.0.0", true, { ios: "info.circle.fill", android: "info", web: "info" }, () => router.push('/em-breve-modal'))}
           </View>
         </View>
 
         {/* Sair Button */}
-        <ScalePressable style={styles.logoutButton}>
+        <ScalePressable style={styles.logoutButton} onPress={handleLogout}>
           <SymbolView 
             name={{ ios: "rectangle.portrait.and.arrow.right", android: "logout", web: "logout" } as any} 
             tintColor="#b91c1c" 

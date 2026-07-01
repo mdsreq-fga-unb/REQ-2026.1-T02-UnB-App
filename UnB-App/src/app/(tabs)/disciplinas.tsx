@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, FlatList, TextInput, Platform, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TextInput, Platform, TouchableOpacity, Alert } from 'react-native';
 import ScalePressable from "@/components/ScalePressable";
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useState, useCallback } from 'react';
@@ -11,10 +11,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect, Link } from 'expo-router';
 import { useTextSize } from "@/contexts/TextSizeContext";
 import { SymbolView } from "expo-symbols";
+import { useUserProfile } from '../../contexts/UserProfileContext';
 
 export default function DisciplinasScreen() {
   const db = useSQLiteContext();
   const { getFontSize } = useTextSize();
+  const { autoSyncPDFData, userMatricula, updateUserProfile } = useUserProfile();
 
   const [disciplinas, setDisciplinas] = useState<DisciplinaInfo[]>([]);
   const [search, setSearch] = useState('');
@@ -58,7 +60,49 @@ export default function DisciplinasScreen() {
          return;
       }
 
-      await popularGradePorDados(db, aluno, parsedDisciplinas);
+      let shouldSync = autoSyncPDFData;
+      let proceed = true;
+
+      if (aluno) {
+        if (userMatricula && userMatricula !== aluno.matricula) {
+          proceed = await new Promise((resolve) => {
+            Alert.alert(
+              "Documento Inconsistente",
+              `Este documento pertence a ${aluno!.nome} (${aluno!.matricula}), que é diferente do seu perfil. Deseja realmente importar esta grade?`,
+              [
+                { text: "Cancelar", style: "cancel", onPress: () => resolve(false) },
+                { text: "Importar", style: "destructive", onPress: () => resolve(true) }
+              ]
+            );
+          });
+          
+          if (proceed) {
+             shouldSync = await new Promise((resolve) => {
+                Alert.alert(
+                  "Atualizar Perfil",
+                  "Deseja atualizar seu perfil para usar os dados deste documento?",
+                  [
+                    { text: "Não alterar", style: "cancel", onPress: () => resolve(false) },
+                    { text: "Atualizar", onPress: () => resolve(true) }
+                  ]
+                );
+             });
+          }
+        } else if (!userMatricula) {
+          shouldSync = true;
+        }
+      }
+
+      if (!proceed) {
+        setIsProcessing(false);
+        return;
+      }
+
+      await popularGradePorDados(db, aluno, parsedDisciplinas, shouldSync);
+      
+      if (shouldSync && aluno) {
+         await updateUserProfile(aluno.nome, aluno.matricula);
+      }
       
       alert('Grade importada com sucesso!');
       await carregarDisciplinas();

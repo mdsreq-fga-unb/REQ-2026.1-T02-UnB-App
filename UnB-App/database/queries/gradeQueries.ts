@@ -14,12 +14,8 @@ export async function popularGradePorDados(
     shouldSyncAluno: boolean = true
 ) {
   await db.withTransactionAsync(async () => {
-    // 1. Limpar dados anteriores (ou de uma vez só se for o único usuário)
-    
-    // Insere o aluno
-    if (aluno && shouldSyncAluno) {
-       await db.runAsync(`INSERT OR REPLACE INTO Aluno (matricula, nome, curso, CPF) VALUES (?, ?, ?, ?)`, [aluno.matricula, aluno.nome, aluno.curso, '']);
-    }
+    // 1. Obter aluno atual antes de deletar
+    const existingAluno = await db.getFirstAsync<{ matricula: string, nome: string, curso: string, CPF: string }>('SELECT * FROM Aluno LIMIT 1');
 
     await db.runAsync('DELETE FROM Aula');
     await db.runAsync('DELETE FROM Turma_Docente');
@@ -28,14 +24,29 @@ export async function popularGradePorDados(
     await db.runAsync('DELETE FROM Periodo_Letivo');
     await db.runAsync('DELETE FROM Aluno');
 
-    // 2. Inserir Aluno
-    const matricula = aluno?.matricula || '000000000';
+    // 2. Determinar dados do Aluno a serem inseridos
+    let matricula = '000000000';
+    let nome = 'ALUNO NÃO IDENTIFICADO';
+    let curso = 'CURSO NÃO IDENTIFICADO';
+
+    if (existingAluno) {
+        matricula = existingAluno.matricula;
+        nome = existingAluno.nome;
+        curso = existingAluno.curso;
+    }
+
+    if (shouldSyncAluno && aluno) {
+        matricula = aluno.matricula;
+        nome = aluno.nome;
+        curso = aluno.curso;
+    }
+
     const ano = aluno?.ano || new Date().getFullYear();
     const periodo = aluno?.semestre || 1;
 
     await db.runAsync(
       'INSERT OR IGNORE INTO Aluno (matricula, nome, curso, CPF) VALUES (?, ?, ?, ?)',
-      [matricula, aluno?.nome || 'ALUNO NÃO IDENTIFICADO', aluno?.curso || 'CURSO NÃO IDENTIFICADO', '']
+      [matricula, nome, curso, '']
     );
 
     // 3. Inserir Período Letivo
