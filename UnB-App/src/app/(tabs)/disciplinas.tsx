@@ -9,7 +9,7 @@ import { extrairDadosDoPDF } from '../../../utils/pdfParser';
 import * as DocumentPicker from 'expo-document-picker';
 import { extractTextWithInfo } from 'expo-pdf-text-extract';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useLocalSearchParams, useFocusEffect } from 'expo-router';
+import { useLocalSearchParams, useFocusEffect, useRouter } from 'expo-router';
 import { useTextSize } from "@/contexts/TextSizeContext";
 import { useTheme } from '@/contexts/ThemeContext';
 import { SymbolView } from "expo-symbols";
@@ -23,6 +23,7 @@ export default function DisciplinasScreen() {
   const { colors, isDark } = useTheme();
   const { autoSyncPDFData, userMatricula, updateUserProfile } = useUserProfile();
   const { expand, scrollTo } = useLocalSearchParams<{ expand?: string; scrollTo?: string }>();
+  const router = useRouter();
   const flatListRef = useRef<FlatList>(null);
   const hasScrolledRef = useRef(false);
 
@@ -295,7 +296,7 @@ export default function DisciplinasScreen() {
 
             <View style={{ paddingBottom: 16 }}>
               {/* Added View wrapper instead of Link to avoid navigation issues while keeping design */}
-              <TouchableOpacity onPress={() => {/* Handle navigate */}}>
+              <TouchableOpacity onPress={() => router.push('/grade-modal')}>
                 <ScalePressable>
                   {({ pressed }) => (
                     <View style={[styles.gradeCard, { backgroundColor: isDark ? 'rgba(29, 141, 40, 0.1)' : '#f0fdf4', borderColor: isDark ? 'rgba(29, 141, 40, 0.3)' : '#a4f4cf' }, pressed && { opacity: 0.72 }]}>
