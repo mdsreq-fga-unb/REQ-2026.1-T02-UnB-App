@@ -12,7 +12,7 @@
 
 ### <a id="f09"></a> 🟠 F09: Centralizar documentos oficiais
 
-**Prioridade:** Must (MVP) | **Iteração:** [I1](../06-cronograma/index.md#i1) | **Requisitos Relacionados:** [RF20](../08-requisitos/funcionais.md#rf20), [RF21](../08-requisitos/funcionais.md#rf21)
+**Prioridade:** Must (MVP) | **Iteração:** [I1](../06-cronograma/index.md#i1) | **Requisitos Relacionados:** [RF20](../08-requisitos/funcionais.md#rf20), [RF21](../08-requisitos/funcionais.md#rf21) | **Qualidade:** [DoR](../09-dor-dod/dor-aplicacao.md#f09-centralizar-documentos-oficiais) · [DoD](../09-dor-dod/dod-aplicacao.md#f09-centralizar-documentos-oficiais)
 
 #### O que deve ser feito (Ação, Resultado, Objetivo)
 **Ação:** Centralizar documentos oficiais.<br>**Resultado:** Reunir todos os documentos acadêmicos e estudantis em um único local acessível.<br>**Objetivo:** Facilitar a localização, gestão e apresentação de documentos pelo estudante, economizando tempo e esforço.
@@ -31,7 +31,7 @@
 
 ### <a id="f05"></a> 🟡 F05: Exibir fluxos de onboarding
 
-**Prioridade:** Must (MVP) | **Iteração:** [I3](../06-cronograma/index.md#i3) | **Requisitos Relacionados:** [RF22](../08-requisitos/funcionais.md#rf22), [RF23](../08-requisitos/funcionais.md#rf23)
+**Prioridade:** Must (MVP) | **Iteração:** [I3](../06-cronograma/index.md#i3) | **Requisitos Relacionados:** [RF22](../08-requisitos/funcionais.md#rf22), [RF23](../08-requisitos/funcionais.md#rf23) | **Qualidade:** [DoR](../09-dor-dod/dor-aplicacao.md#f05-exibir-fluxos-de-onboarding)
 
 #### O que deve ser feito (Ação, Resultado, Objetivo)
 **Ação:** Exibir fluxos de onboarding.<br>**Resultado:** Apresentar as principais funcionalidades e plataformas oficiais da universidade (SIGAA/Aprender 3).<br>**Objetivo:** Garantir que o usuário compreenda rapidamente como utilizar a plataforma e engajar novos estudantes.
@@ -50,7 +50,7 @@
 
 ### <a id="f07"></a> 🟠 F07: Consultar grade horária e ensalamento
 
-**Prioridade:** Must (MVP) | **Iteração:** [I1](../06-cronograma/index.md#i1) | **Requisitos Relacionados:** [RF16](../08-requisitos/funcionais.md#rf16)
+**Prioridade:** Must (MVP) | **Iteração:** [I1](../06-cronograma/index.md#i1) | **Requisitos Relacionados:** [RF16](../08-requisitos/funcionais.md#rf16) | **Qualidade:** [DoR](../09-dor-dod/dor-aplicacao.md#f07-consultar-grade-horaria-e-ensalamento) · [DoD](../09-dor-dod/dod-aplicacao.md#f07-consultar-grade-horaria-e-ensalamento)
 
 #### O que deve ser feito (Ação, Resultado, Objetivo)
 **Ação:** Consultar grade horária e ensalamento.<br>**Resultado:** Informar as disciplinas, horários e locais de aula mesmo sem internet.<br>**Objetivo:** Reduzir a sobrecarga cognitiva do usuário na localização de espaços físicos e sem depender de conexão.
@@ -69,7 +69,7 @@
 
 ### <a id="f04"></a> 🟠 F04: Extrair e processar Histórico/Passe Livre
 
-**Prioridade:** Should (S) | **Iteração:** [I2](../06-cronograma/index.md#i2) | **Requisitos Relacionados:** [RF04](../08-requisitos/funcionais.md#rf04), [RF05](../08-requisitos/funcionais.md#rf05), [RF06](../08-requisitos/funcionais.md#rf06), [RF07](../08-requisitos/funcionais.md#rf07)
+**Prioridade:** Should (S) | **Iteração:** [I2](../06-cronograma/index.md#i2) | **Requisitos Relacionados:** [RF04](../08-requisitos/funcionais.md#rf04), [RF05](../08-requisitos/funcionais.md#rf05), [RF06](../08-requisitos/funcionais.md#rf06), [RF07](../08-requisitos/funcionais.md#rf07) | **Qualidade:** [DoR](../09-dor-dod/dor-aplicacao.md#f04-extrair-processar-e-armazenar-historico-escolar-passe-livre)
 
 #### O que deve ser feito (Ação, Resultado, Objetivo)
 **Ação:** Extrair e processar Histórico Escolar e/ou Passe Livre.<br>**Resultado:** Obter dados úteis à plataforma de forma automatizada via processamento de arquivos PDF.<br>**Objetivo:** Reduzir o esforço manual do usuário ao evitar o preenchimento de formulários de matérias.
@@ -88,7 +88,7 @@
 
 ### <a id="f08"></a> 🔴 F08: Coletar e atualizar dados acadêmicos (Matrícula)
 
-**Prioridade:** Should (S) | **Iteração:** [I2](../06-cronograma/index.md#i2) | **Requisitos Relacionados:** [RF17](../08-requisitos/funcionais.md#rf17), [RF18](../08-requisitos/funcionais.md#rf18), [RF19](../08-requisitos/funcionais.md#rf19)
+**Prioridade:** Should (S) | **Iteração:** [I2](../06-cronograma/index.md#i2) | **Requisitos Relacionados:** [RF17](../08-requisitos/funcionais.md#rf17), [RF18](../08-requisitos/funcionais.md#rf18), [RF19](../08-requisitos/funcionais.md#rf19) | **Qualidade:** [DoR](../09-dor-dod/dor-aplicacao.md#f08-coletar-e-atualizar-dados-academicos)
 
 #### O que deve ser feito (Ação, Resultado, Objetivo)
 **Ação:** Coletar e atualizar dados acadêmicos (Matrícula e SIGAA).<br>**Resultado:** Manter as informações sincronizadas através de integração web scraping.<br>**Objetivo:** Garantir a precisão e automatizar a coleta de notas, faltas e mudanças de horários.
