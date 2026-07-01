@@ -162,3 +162,4 @@ Esta matriz amarra o **Problema Identificado** à **Feature** que o resolve.
 | 14/06/2026 | 1.6.3 | Correção na documentação da iteração | Rivadalvio |
 | 15/06/2026 | 1.7 | Adição de membro na equipe (Isaac), definição de papéis do FDD e justificativas técnicas | Luís |
 | 15/06/2026 | 2.0 | Repaginação visual do GitPages, reestruturação da home, seção de evidências e adição de vídeos embed | Luís |
+| 29/06/2026 | 2.1 | Correção de consistência do RF22 e RF23, anteriormente representaodos como RF07 | Davi |
