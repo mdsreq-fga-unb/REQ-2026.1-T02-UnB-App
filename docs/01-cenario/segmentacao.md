@@ -8,7 +8,7 @@ A plataforma atende clientes de várias faixas etárias. No entanto, há um grup
     São indivíduos que já possuem certa experiência com tecnologia, seja por atuação profissional na área ou por uso frequente no dia a dia.
 
     - **Comportamento:** conseguem navegar pelo SIGAA com menos dificuldades, mas relatam incômodo com excesso de informações, rótulos de menu que não correspondem à ação esperada, fluxos confusos e necessidade de uso de zoom para leitura.
-    - **Necessidades principais:** fluxos com número de etapas entre a tela inicial e a informação desejada inferior ao atual (threshold a definir na elicitação), agrupamento de informações correlacionadas e tamanho de fonte mínimo de 18sp.
+    - **Necessidades principais:** fluxos com número de etapas entre a tela inicial e a informação desejada (no máximo, 3 passos/telas visíveis, conforme RNF21), agrupamento de informações correlacionadas e tamanho de fonte mínimo de 18sp.
 
 === "Usuários intermediários (adaptáveis)"
     São indivíduos que possuem alguma familiaridade com tecnologia, mas não dominam totalmente sistemas mais complexos como o SIGAA.
@@ -26,4 +26,4 @@ A plataforma atende clientes de várias faixas etárias. No entanto, há um grup
     Além da baixa familiaridade tecnológica, esse grupo enfrenta limitações relacionadas ao envelhecimento, como dificuldades visuais, redução da coordenação motora e maior esforço cognitivo para processar informações.
 
     - **Comportamento:** sofrem impacto direto com letras pequenas (obrigando uso de zoom), razão de contraste entre texto e fundo abaixo de 4,5:1, excesso de informação por tela e fluxos em que o próximo elemento a ser acionado não está identificado visualmente de forma distinta dos demais.
-    - **Necessidades principais:** tamanho de fonte mínimo de 18sp; razão de contraste ≥ 4,5:1 (WCAG 2.1 nível AA); no máximo uma ação de destaque por tela — quantidade a validar com os usuários; e alvos de toque com dimensão mínima de 48×48dp (Android Accessibility Guidelines).
+    - **Necessidades principais:** tamanho de fonte mínimo de 18sp; razão de contraste ≥ 4,5:1 (WCAG 2.1 nível AA); uma única ação primária de destaque por tela (conforme RNF21); e alvos de toque com dimensão mínima de 48×48dp (Android Accessibility Guidelines).

@@ -1,31 +1,73 @@
-# Visão do Produto e Projeto
+# Visão Geral do Produto e Projeto
 
 !!! info "Sobre este documento"
-    Este site reúne as informações gerais do produto e projeto, refinadas e atualizadas ao longo do ciclo de vida de desenvolvimento. Navegue pelas seções usando o menu acima.
+    Bem-vindo ao **UnB App**. Para facilitar o acompanhamento gerencial e evitar redundâncias, concentramos nesta página inicial as **três visões principais** do projeto. Clique nos links de Features, Requisitos e Iterações para acessar os detalhamentos.
 
-## O Projeto UnB App
+---
 
-O **UnB App** é um produto em desenvolvimento com o objetivo de centralizar e facilitar o acesso a informações e serviços essenciais para a comunidade da Universidade de Brasília. Ele visa resolver problemas de fragmentação e dificuldade de uso dos sistemas atuais, entregando uma experiência unificada, acessível e moderna para estudantes e professores.
+## 1. Escopo Mínimo Viável (MVP)
 
-## Sobre a Documentação
+Abaixo estão listadas as funcionalidades que compõem o MVP.
+*Clique na Feature ou no Requisito para ver seu card de detalhamento e protótipo.*
 
-Nossa documentação foi projetada para cobrir todas as etapas da Engenharia de Requisitos, desde a concepção do produto até a entrega final. Ela é organizada em três pilares principais para facilitar o acompanhamento e entendimento do trabalho:
+| Feature | Status Atual | Requisitos Funcionais da Feature |
+| :--- | :--- | :--- |
+| **[F09: Centralizar Documentos Oficiais](10-feature-list/feature-list-geral.md#f09)** | 🟠 Parcial | [RF20](08-requisitos/funcionais.md#rf20), [RF21](08-requisitos/funcionais.md#rf21) |
+| **[F05: Fluxos de Onboarding](10-feature-list/feature-list-geral.md#f05)** | 🟡 Em andamento | [RF22](08-requisitos/funcionais.md#rf22), [RF23](08-requisitos/funcionais.md#rf23) |
+| **[F07: Grade Horária e Ensalamento](10-feature-list/feature-list-geral.md#f07)** | 🟠 Parcial | [RF16](08-requisitos/funcionais.md#rf16) |
 
-<div class="vpp-hero" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-bottom: 3rem;">
-  <a href="01-cenario/" class="vpp-hero-card" style="text-decoration: none;">
-    <span class="vpp-section-num">Tópicos 01 a 10</span>
-    <h3>Documentação</h3>
-    <p>Cenário, solução, estratégias, ER, equipe, requisitos e feature list do projeto.</p>
+---
+
+## 2. Cronograma de Execução
+
+Acompanhamento das iterações do desenvolvimento FDD.
+*Clique na Iteração para visualizar os Critérios de Aceite, DoR, DoD e as evidências (protótipos).*
+
+| Iteração | Datas (Início - Fim) | Resultado Esperado | Features Envolvidas | Técnicas Adotadas (DoR/DoD) | Status |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **[Iteração 1](06-cronograma/index.md#i1)** | 23/05/2026 - 10/06/2026 | Upload local, parser PDF offline e grade horária funcional | [F09](10-feature-list/feature-list-geral.md#f09), [F07](10-feature-list/feature-list-geral.md#f07) | Design Review Figma, Suíte de Testes, Expo Build | 🟠 Parcial |
+| **[Iteração 2](06-cronograma/index.md#i2)** | 11/06/2026 - 24/06/2026 | Extração do Passe Livre e Web Scraping do SIGAA | [F04](10-feature-list/feature-list-geral.md#f04), [F08](10-feature-list/feature-list-geral.md#f08) | Testes Regex, Background Fetch | 🟡 Andamento |
+| **[Iteração 3](06-cronograma/index.md#i3)** | 25/06/2026 - 02/07/2026 | Onboarding, geração de QR Code e carteirinha virtual | [F05](10-feature-list/feature-list-geral.md#f05), [F02](10-feature-list/feature-list-geral.md#f02), [F03](10-feature-list/feature-list-geral.md#f03) | Validação de Acessibilidade (60+), Animações limitadas, SQLite Persistente, Renderização Gráfica | 🟡 Andamento |
+
+---
+
+## 3. Matriz de Rastreabilidade Visual
+
+Esta matriz amarra o **Problema Identificado** à **Feature** que o resolve.
+*Legenda:* ✅ Implementado | 🟡 Parcial/Andamento | 🔴 Pendente/Atrasado
+
+| Problema Identificado | Objetivo | Característica | Requisito | Feature |
+| :--- | :--- | :--- | :--- | :--- |
+| Desorganização de papéis (ex: passe estudantil) | Unificar documentos num local seguro | Acesso offline a PDFs | [RF21](08-requisitos/funcionais.md#rf21) ✅ | [F09](10-feature-list/feature-list-geral.md#f09) 🟠 |
+| Dificuldade em saber o local das aulas no campus | Exibir locais e horários de forma ágil | Interface de mapa/lista rápida | [RF16](08-requisitos/funcionais.md#rf16) 🟡 | [F07](10-feature-list/feature-list-geral.md#f07) 🟠 |
+| Calouros perdidos nas plataformas (SIGAA/Aprender) | Fornecer guia introdutório | Componentes de onboarding educativo | [RF22](08-requisitos/funcionais.md#rf22) 🟡 | [F05](10-feature-list/feature-list-geral.md#f05) 🟡 |
+| Longas filas na Biblioteca Central (BCE) | Agilizar entrada pelas catracas | Leitura otimizada por QR Code | [RF02](08-requisitos/funcionais.md#rf02) 🟡 | [F02](10-feature-list/feature-list-geral.md#f02) 🟡 |
+| Esforço braçal de copiar dados do SIGAA | Automatizar coleta de dados | Integração Web Scraping invisível | [RF17](08-requisitos/funcionais.md#rf17) 🔴 | [F08](10-feature-list/feature-list-geral.md#f08) 🔴 |
+
+---
+
+## 4. Estrutura Completa de Documentação
+
+<div class="vpp-hero" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-top: 1rem; margin-bottom: 3rem;">
+  <a href="08-requisitos/funcionais/" class="vpp-hero-card" style="text-decoration: none;">
+    <span class="vpp-section-num">Tópico 08</span>
+    <h3>Requisitos (Cards)</h3>
+    <p>O que deve ser feito e as tecnologias para implementar.</p>
   </a>
-  <a href="00-reunioes/" class="vpp-hero-card" style="text-decoration: none;">
-    <span class="vpp-section-num">Tópico 00</span>
-    <h3>Evidências</h3>
-    <p>Gravações, transcrições, entregas e resumos dos encontros de acompanhamento.</p>
+  <a href="10-feature-list/feature-list-geral/" class="vpp-hero-card" style="text-decoration: none;">
+    <span class="vpp-section-num">Tópico 10</span>
+    <h3>Features (Cards)</h3>
+    <p>Objetivos da feature, fluxos de uso no app e imagens.</p>
   </a>
-  <a href="11-licoes/" class="vpp-hero-card" style="text-decoration: none;">
-    <span class="vpp-section-num">Tópico 11</span>
-    <h3>Lições Aprendidas</h3>
-    <p>Reflexões e aprendizados adquiridos ao longo de cada unidade do projeto.</p>
+  <a href="06-cronograma/" class="vpp-hero-card" style="text-decoration: none;">
+    <span class="vpp-section-num">Tópico 06</span>
+    <h3>Iterações (Detalhes)</h3>
+    <p>Critérios de aceite, DoR e DoD executados no desenvolvimento.</p>
+  </a>
+  <a href="05-er/evidencias-execucao/" class="vpp-hero-card" style="text-decoration: none;">
+    <span class="vpp-section-num">Tópico 05</span>
+    <h3>Evidências Visuais</h3>
+    <p>Registro formal, prints e PRs organizados por iteração.</p>
   </a>
 </div>
 
@@ -120,3 +162,4 @@ Nossa documentação foi projetada para cobrir todas as etapas da Engenharia de 
 | 15/06/2026 | 1.7 | Adição de membro na equipe (Isaac), definição de papéis do FDD e justificativas técnicas | Luís |
 | 15/06/2026 | 2.0 | Repaginação visual do GitPages, reestruturação da home, seção de evidências e adição de vídeos embed | Luís |
 | 29/06/2026 | 2.1 | Correção de consistência do RF22 e RF23, anteriormente representaodos como RF07 | Davi |
+| 01/07/2026 | 2.2 | Fusão das iterações 3 e 4 e atualização da data de entrega para dia 02| Rivadalvio |
