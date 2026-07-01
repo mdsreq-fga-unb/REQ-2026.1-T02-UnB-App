@@ -5,6 +5,9 @@ export type DisciplinaExtraida = {
   docentes: string[];
   local: string;
   horarios: string[];
+  situacao?: string;
+  ano?: number;
+  periodo?: number;
 };
 
 export type InfoAluno = {
@@ -14,6 +17,7 @@ export type InfoAluno = {
   periodoLetivo: string;
   ano: number;
   semestre: number;
+  cpf?: string;
 };
 
 export function extrairDadosDoPDF(texto: string): { aluno: InfoAluno | null; disciplinas: DisciplinaExtraida[] } {
