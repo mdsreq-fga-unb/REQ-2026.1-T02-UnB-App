@@ -6,6 +6,7 @@ import { useTextSize } from "@/contexts/TextSizeContext";
 import { useTheme } from '@/contexts/ThemeContext';
 import ScalePressable from "@/components/ScalePressable";
 import { SymbolView } from "expo-symbols";
+import { toast } from 'react-native-pretty-toast';
 
 export default function EditProfileModal() {
   const router = useRouter();
@@ -24,7 +25,7 @@ export default function EditProfileModal() {
 
   const handleSave = () => {
     if (!name.trim() || !matricula.trim()) {
-      Alert.alert("Campos obrigatórios", "Por favor, preencha seu nome e matrícula.");
+      toast.error("Campos obrigatórios", { message: "Por favor, preencha seu nome e matrícula." });
       return;
     }
 
@@ -43,7 +44,7 @@ export default function EditProfileModal() {
               router.back();
             } catch (error) {
               console.error(error);
-              Alert.alert("Erro", "Não foi possível salvar as alterações.");
+              toast.error("Erro", { message: "Não foi possível salvar as alterações." });
             } finally {
               setIsSaving(false);
             }

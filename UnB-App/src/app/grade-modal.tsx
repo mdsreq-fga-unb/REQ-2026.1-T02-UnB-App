@@ -12,6 +12,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { SymbolView } from "expo-symbols";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
+import { toast } from 'react-native-pretty-toast';
 
 const DIAS_SEMANA = [
   { id: 2, nome: 'Seg' },
@@ -61,14 +62,14 @@ export default function GradeHorariaModalScreen() {
       const extractResult = await extractTextWithInfo(fileUri);
       
       if (!extractResult.success) {
-         alert('Falha ao extrair texto do PDF. Tente novamente ou use outro arquivo.');
+         toast.error('Falha na Extração', { message: 'Tente novamente ou use outro arquivo.' });
          setIsProcessing(false);
          return;
       }
 
       const data = extrairDadosDoPDF(extractResult.text);
       if (data.disciplinas.length === 0) {
-         alert('Não foi possível encontrar disciplinas válidas neste PDF.');
+         toast.error('PDF Inválido', { message: 'Não foi possível encontrar disciplinas válidas neste PDF.' });
          setIsProcessing(false);
          return;
       }
@@ -117,10 +118,10 @@ export default function GradeHorariaModalScreen() {
          await updateUserProfile(data.aluno.nome, data.aluno.matricula);
       }
 
-      alert('Grade importada com sucesso!');
+      toast.success('Grade importada com sucesso!');
       await carregarAulas();
     } catch (error: any) {
-       alert(`Erro ao processar o arquivo: ${error.message}`);
+       toast.error('Erro ao processar', { message: error.message });
     } finally {
        setIsProcessing(false);
     }

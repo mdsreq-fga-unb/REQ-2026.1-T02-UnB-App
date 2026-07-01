@@ -8,6 +8,7 @@ import { Stack, useRouter } from 'expo-router';
 import { useUserProfile } from '../contexts/UserProfileContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import * as LocalAuthentication from 'expo-local-authentication';
+import { toast } from 'react-native-pretty-toast';
 
 export default function SenhaEPrivacidadeScreen() {
   const insets = useSafeAreaInsets();
@@ -22,9 +23,9 @@ export default function SenhaEPrivacidadeScreen() {
       const isEnrolled = await LocalAuthentication.isEnrolledAsync();
 
       if (!hasHardware || !isEnrolled) {
-        Alert.alert(
+        toast.error(
           'Biometria indisponível',
-          'Seu dispositivo não suporta biometria ou você não tem nenhuma cadastrada.'
+          { message: 'Seu dispositivo não suporta biometria ou você não tem nenhuma cadastrada.' }
         );
         return;
       }

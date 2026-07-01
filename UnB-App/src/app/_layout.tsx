@@ -12,6 +12,7 @@ import { SymbolView } from "expo-symbols";
 import * as LocalAuthentication from "expo-local-authentication";
 import CustomSplashScreen from "@/components/SplashScreen";
 import * as SplashScreenNative from 'expo-splash-screen';
+import { ToastProvider } from 'react-native-pretty-toast';
 
 SplashScreenNative.preventAutoHideAsync();
 
@@ -103,9 +104,10 @@ export default function RootLayout() {
         <UserProfileProvider>
           <ThemeProvider>
             <TextSizeProvider>
-              <AppLockWrapper>
-                <View style={[styles.container, { backgroundColor: '#0A0A0A' }]}>
-              <Stack>
+              <ToastProvider>
+                <AppLockWrapper>
+                  <View style={[styles.container, { backgroundColor: '#0A0A0A' }]}>
+                <Stack>
                 <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                 <Stack.Screen name="grade-modal" options={{ presentation: 'formSheet', sheetAllowedDetents: [0.75, 1.0], headerShown: false }} />
                 <Stack.Screen name="atualizacoes-modal" options={{ presentation: 'formSheet', sheetAllowedDetents: [0.75, 1.0], headerShown: false }} />
@@ -120,7 +122,8 @@ export default function RootLayout() {
               </Stack>
                 <AccessibilityButton />
               </View>
-              </AppLockWrapper>
+                </AppLockWrapper>
+              </ToastProvider>
             </TextSizeProvider>
           </ThemeProvider>
         </UserProfileProvider>

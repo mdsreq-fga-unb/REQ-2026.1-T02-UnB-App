@@ -15,6 +15,7 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { SymbolView } from "expo-symbols";
 import { useUserProfile } from '../../contexts/UserProfileContext';
 import * as FileSystem from 'expo-file-system/legacy';
+import { toast } from 'react-native-pretty-toast';
 
 export default function DisciplinasScreen() {
   const db = useSQLiteContext();
@@ -124,13 +125,14 @@ export default function DisciplinasScreen() {
         }
       );
 
-      alert(res.message);
-      
       if (res.success) {
+        toast.success(res.message);
         await carregarDisciplinas();
+      } else {
+        toast.info(res.message);
       }
     } catch (error: any) {
-       alert(`Erro ao processar o arquivo: ${error.message}`);
+       toast.error('Erro ao processar', { message: error.message });
     } finally {
        setIsProcessing(false);
     }
