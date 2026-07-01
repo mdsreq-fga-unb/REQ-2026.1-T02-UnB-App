@@ -27,8 +27,7 @@ Acompanhamento das iterações do desenvolvimento FDD.
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **[Iteração 1](06-cronograma/index.md#i1)** | 23/05/2026 - 10/06/2026 | Upload local, parser PDF offline e grade horária funcional | [F09](10-feature-list/feature-list-geral.md#f09), [F07](10-feature-list/feature-list-geral.md#f07) | Design Review Figma, Suíte de Testes, Expo Build | 🟠 Parcial |
 | **[Iteração 2](06-cronograma/index.md#i2)** | 11/06/2026 - 24/06/2026 | Extração do Passe Livre e Web Scraping do SIGAA | [F04](10-feature-list/feature-list-geral.md#f04), [F08](10-feature-list/feature-list-geral.md#f08) | Testes Regex, Background Fetch | 🟡 Andamento |
-| **[Iteração 3](06-cronograma/index.md#i3)** | 25/06/2026 - 30/06/2026 | Modais de onboarding e telas iniciais validadas | [F05](10-feature-list/feature-list-geral.md#f05) | Validação de Acessibilidade (60+), Animações limitadas | 🟡 Andamento |
-| **[Iteração 4](06-cronograma/index.md#i4)** | 01/07/2026 - 07/07/2026 | Geração de QR Code e carteirinha virtual armazenada | [F02](10-feature-list/feature-list-geral.md#f02), [F03](10-feature-list/feature-list-geral.md#f03) | SQLite Persistente, Renderização Gráfica | 🟡 Andamento |
+| **[Iteração 3](06-cronograma/index.md#i3)** | 25/06/2026 - 02/07/2026 | Onboarding, geração de QR Code e carteirinha virtual | [F05](10-feature-list/feature-list-geral.md#f05), [F02](10-feature-list/feature-list-geral.md#f02), [F03](10-feature-list/feature-list-geral.md#f03) | Validação de Acessibilidade (60+), Animações limitadas, SQLite Persistente, Renderização Gráfica | 🟡 Andamento |
 
 ---
 
@@ -163,3 +162,4 @@ Esta matriz amarra o **Problema Identificado** à **Feature** que o resolve.
 | 15/06/2026 | 1.7 | Adição de membro na equipe (Isaac), definição de papéis do FDD e justificativas técnicas | Luís |
 | 15/06/2026 | 2.0 | Repaginação visual do GitPages, reestruturação da home, seção de evidências e adição de vídeos embed | Luís |
 | 29/06/2026 | 2.1 | Correção de consistência do RF22 e RF23, anteriormente representaodos como RF07 | Davi |
+| 01/07/2026 | 2.2 | Fusão das iterações 3 e 4 e atualização da data de entrega para 02git add docs/entrega3/06-cronograma/index.md/07/2026 | Rivadalvio |
