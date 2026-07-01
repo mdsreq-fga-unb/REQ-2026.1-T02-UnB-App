@@ -112,7 +112,7 @@ export default function RootLayout() {
                 <Stack.Screen name="tutoriais-modal" options={{ presentation: 'formSheet', sheetAllowedDetents: [0.75, 1.0], headerShown: false }} />
                 <Stack.Screen name="edit-profile-modal" options={{ presentation: 'formSheet', sheetAllowedDetents: [0.75, 1.0], headerShown: false }} />
                 <Stack.Screen name="ajustes" options={{ headerShown: false }} />
-                <Stack.Screen name="senha-e-privacidade" options={{ headerShown: false }} />
+                <Stack.Screen name="senha-e-privacidade" options={{ title: 'Senha e Privacidade', headerBackTitle: 'Ajustes', headerTintColor: '#1d8d28', headerShadowVisible: false, headerStyle: { backgroundColor: '#f1f5f9' } }} />
               </Stack>
               <AccessibilityButton />
             </View>

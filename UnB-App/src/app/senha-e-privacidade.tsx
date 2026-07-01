@@ -43,15 +43,6 @@ export default function SenhaEPrivacidadeScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={[styles.header, { paddingTop: Math.max(insets.top, 16) }]}>
-        <ScalePressable style={styles.backButton} onPress={() => router.back()}>
-          <SymbolView name={{ ios: 'chevron.left', android: 'chevron_left', web: 'chevron_left' } as any} size={24} tintColor="#1d8d28" />
-          <Text style={[styles.backText, { fontSize: getFontSize(17) }]}>Ajustes</Text>
-        </ScalePressable>
-        <Text style={[styles.headerTitle, { fontSize: getFontSize(17) }]}>Senha e Privacidade</Text>
-        <View style={{ width: 90 }} />
-      </View>
-
       <ScrollView
         contentContainerStyle={[styles.scrollContent, { paddingBottom: Math.max(insets.bottom, 24) }]}
         contentInsetAdjustmentBehavior="automatic"
@@ -86,30 +77,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f1f5f9',
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 8,
-    paddingBottom: 12,
-    backgroundColor: '#ffffff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#e2e8f0',
-  },
-  backButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 8,
-    width: 90,
-  },
-  backText: {
-    color: '#1d8d28',
-    marginLeft: 4,
-  },
-  headerTitle: {
-    fontWeight: '600',
-    color: '#0f172b',
   },
   scrollContent: {
     padding: 20,
