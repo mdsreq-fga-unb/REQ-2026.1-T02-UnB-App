@@ -162,4 +162,4 @@ Esta matriz amarra o **Problema Identificado** à **Feature** que o resolve.
 | 15/06/2026 | 1.7 | Adição de membro na equipe (Isaac), definição de papéis do FDD e justificativas técnicas | Luís |
 | 15/06/2026 | 2.0 | Repaginação visual do GitPages, reestruturação da home, seção de evidências e adição de vídeos embed | Luís |
 | 29/06/2026 | 2.1 | Correção de consistência do RF22 e RF23, anteriormente representaodos como RF07 | Davi |
-| 01/07/2026 | 2.2 | Fusão das iterações 3 e 4 e atualização da data de entrega para 02git add docs/entrega3/06-cronograma/index.md/07/2026 | Rivadalvio |
+| 01/07/2026 | 2.2 | Fusão das iterações 3 e 4 e atualização da data de entrega para dia 02| Rivadalvio |
