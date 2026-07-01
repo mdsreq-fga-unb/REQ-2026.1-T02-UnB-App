@@ -63,10 +63,11 @@ export default function TutoriaisModalScreen() {
   return (
     <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']}>
       <View style={styles.header}>
-        <Text style={[styles.headerTitle, { fontSize: getFontSize(17) }]}>Guia das Plataformas</Text>
-        <ScalePressable onPress={() => router.dismissAll()} style={styles.closeButton}>
-          <Text style={[styles.closeText, { fontSize: getFontSize(16) }]}>Fechar</Text>
+        <ScalePressable onPress={() => router.dismissAll()} style={styles.closeBtn}>
+          <SymbolView name={{ ios: "xmark", android: "close", web: "close" } as any} size={24} tintColor="#0f172b" fallback={<Text style={{fontSize: 20}}>X</Text>} />
         </ScalePressable>
+        <Text style={[styles.headerTitle, { fontSize: getFontSize(17) }]}>Guia das Plataformas</Text>
+        <View style={{ width: 24 }} />
       </View>
 
       <ScrollView
@@ -114,23 +115,20 @@ const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: '#f8fafc' },
   header: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    paddingHorizontal: 20,
     paddingVertical: 16,
     borderBottomWidth: 1,
     borderBottomColor: '#e2e8f0',
+    backgroundColor: '#ffffff',
   },
   headerTitle: {
     fontWeight: '600',
     color: '#0f172b',
   },
-  closeButton: {
-    position: 'absolute',
-    right: 16,
-  },
-  closeText: {
-    color: '#64748b',
-    fontWeight: '500',
+  closeBtn: {
+    padding: 4,
   },
   scrollContent: {
     flexGrow: 1,

@@ -4,6 +4,7 @@ import { useRouter } from "expo-router";
 import { useUserProfile } from "@/contexts/UserProfileContext";
 import { useTextSize } from "@/contexts/TextSizeContext";
 import ScalePressable from "@/components/ScalePressable";
+import { SymbolView } from "expo-symbols";
 
 export default function EditProfileModal() {
   const router = useRouter();
@@ -53,10 +54,15 @@ export default function EditProfileModal() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={[styles.title, { fontSize: getFontSize(22) }]}>Editar Perfil</Text>
-        <Text style={[styles.subtitle, { fontSize: getFontSize(15) }]}>
-          Atualize suas informações de identificação
-        </Text>
+        <ScalePressable onPress={() => router.back()} style={styles.closeBtn}>
+          <SymbolView name={{ ios: "xmark", android: "close", web: "close" } as any} size={24} tintColor="#0f172b" fallback={<Text style={{fontSize: 20}}>X</Text>} />
+        </ScalePressable>
+        <View style={styles.titleContainer}>
+          <Text style={[styles.title, { fontSize: getFontSize(22) }]}>Editar Perfil</Text>
+          <Text style={[styles.subtitle, { fontSize: getFontSize(15) }]}>
+            Atualize suas informações de identificação
+          </Text>
+        </View>
       </View>
 
       <View style={styles.form}>
@@ -111,6 +117,13 @@ const styles = StyleSheet.create({
   header: {
     marginBottom: 32,
   },
+  closeBtn: {
+    padding: 4,
+    marginLeft: -4,
+    marginBottom: 16,
+    alignSelf: 'flex-start',
+  },
+  titleContainer: {},
   title: {
     fontWeight: "bold",
     color: "#0f172b",
