@@ -169,13 +169,13 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   imageContainer: {
-    width: 220,
-    height: 220,
+    width: '100%',
+    height: 300,
     borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 32,
-    padding: 16,
+    padding: 12,
   },
   tutorialImage: {
     width: '100%',
