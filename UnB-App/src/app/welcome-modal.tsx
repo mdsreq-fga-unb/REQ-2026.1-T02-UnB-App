@@ -31,7 +31,7 @@ export default function WelcomeModalScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']}>
-      <KeyboardAvoidingView 
+      <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1 }}
       >
@@ -49,7 +49,7 @@ export default function WelcomeModalScreen() {
               <Text style={[styles.label, { fontSize: getFontSize(15) }]}>Nome Completo</Text>
               <TextInput
                 style={[styles.input, { fontSize: getFontSize(16) }]}
-                placeholder="Ex: Rivadalvio Joaquim"
+                placeholder="Ex: José da Silva"
                 placeholderTextColor="#94a3b8"
                 value={nome}
                 onChangeText={setNome}
@@ -61,7 +61,7 @@ export default function WelcomeModalScreen() {
               <Text style={[styles.label, { fontSize: getFontSize(15) }]}>Matrícula</Text>
               <TextInput
                 style={[styles.input, { fontSize: getFontSize(16) }]}
-                placeholder="Ex: 23/0012345"
+                placeholder="Ex: 231012345"
                 placeholderTextColor="#94a3b8"
                 value={matricula}
                 onChangeText={setMatricula}
