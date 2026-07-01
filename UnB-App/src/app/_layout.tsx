@@ -46,7 +46,7 @@ export default function RootLayout() {
                 <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                 <Stack.Screen name="grade-modal" options={{ presentation: 'formSheet', sheetAllowedDetents: [0.75, 1.0], headerShown: false }} />
                 <Stack.Screen name="em-breve-modal" options={{ presentation: 'formSheet', sheetAllowedDetents: [0.75, 1.0], headerShown: false }} />
-                <Stack.Screen name="welcome-modal" options={{ presentation: 'formSheet', sheetAllowedDetents: [0.5, 1.0], headerShown: false }} />
+                <Stack.Screen name="welcome-modal" options={{ presentation: 'formSheet', sheetAllowedDetents: [0.75, 1.0], headerShown: false }} />
                 <Stack.Screen name="ajustes" options={{ headerShown: false }} />
               </Stack>
               <AccessibilityButton />
@@ -93,7 +93,7 @@ function AccessibilityButton() {
       ) : null}
 
       {isDialogVisible ? (
-        <Animated.View 
+        <Animated.View
           style={styles.textSizeOverlay}
           entering={FadeIn.duration(200)}
           exiting={FadeOut.duration(150)}
