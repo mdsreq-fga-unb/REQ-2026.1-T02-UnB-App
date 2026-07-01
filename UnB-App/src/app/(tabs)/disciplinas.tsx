@@ -193,14 +193,14 @@ export default function DisciplinasScreen() {
               <View style={styles.updateDot} />
               <View style={{ flex: 1 }}>
                 <Text style={[styles.updateDate, { fontSize: getFontSize(13) }]}>Há 2 dias</Text>
-                <Text style={[styles.updateText, { fontSize: getFontSize(14) }]}>Material de apoio adicionado: Slides da aula e lista de exercícios.</Text>
+                <Text style={[styles.updateText, { fontSize: getFontSize(14) }]}>Local da aula atualizado pelo sistema.</Text>
               </View>
             </View>
             <View style={styles.updateItem}>
               <View style={styles.updateDot} />
               <View style={{ flex: 1 }}>
                 <Text style={[styles.updateDate, { fontSize: getFontSize(13) }]}>Há 5 dias</Text>
-                <Text style={[styles.updateText, { fontSize: getFontSize(14) }]}>Aviso: Atividade avaliativa agendada para a próxima semana.</Text>
+                <Text style={[styles.updateText, { fontSize: getFontSize(14) }]}>Professor(a) atribuído(a) à turma.</Text>
               </View>
             </View>
           </View>

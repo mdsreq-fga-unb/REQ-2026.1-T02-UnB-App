@@ -353,9 +353,9 @@ export default function Index() {
               >
                 {disciplinas.slice(0, 3).map((disciplina, index) => {
                   const MOCK_UPDATES = [
-                    "Novo aviso: Apresentação do plano de ensino e cronograma do semestre.",
-                    "Material de apoio adicionado: Slides e textos base para a próxima aula.",
-                    "Lembrete: Atividade avaliativa agendada para a próxima semana.",
+                    "A turma desta disciplina foi alterada no sistema.",
+                    "O local das aulas foi atualizado. Verifique a nova sala.",
+                    "Houve uma mudança no quadro de professores desta disciplina.",
                   ];
                   const updateText = MOCK_UPDATES[index % MOCK_UPDATES.length];
                   
