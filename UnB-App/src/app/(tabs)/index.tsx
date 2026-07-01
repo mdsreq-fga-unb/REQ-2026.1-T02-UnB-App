@@ -445,7 +445,7 @@ export default function Index() {
                     index={index}
                     name={disciplina.nome_disciplina}
                     meta={`2026.1 · ${disciplina.codigo_disciplina}${disciplina.horarios_formatados ? ` · ${disciplina.horarios_formatados}` : ''}`}
-                    onPress={() => router.push({ pathname: "/disciplinas", params: { expand: disciplina.id_turma } })}
+                    onPress={() => router.push({ pathname: "/disciplinas", params: { scrollTo: disciplina.id_turma } })}
                   />
                   {index < Math.min(disciplinas.length, 4) - 1 && <View style={styles.courseDivider} />}
                 </View>

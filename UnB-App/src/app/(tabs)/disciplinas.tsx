@@ -18,7 +18,7 @@ export default function DisciplinasScreen() {
   const db = useSQLiteContext();
   const { getFontSize } = useTextSize();
   const { autoSyncPDFData, userMatricula, updateUserProfile } = useUserProfile();
-  const { expand } = useLocalSearchParams<{ expand?: string }>();
+  const { expand, scrollTo } = useLocalSearchParams<{ expand?: string; scrollTo?: string }>();
   const flatListRef = useRef<FlatList>(null);
   const hasScrolledRef = useRef(false);
 
@@ -29,9 +29,12 @@ export default function DisciplinasScreen() {
 
   // Efeito para expandir e focar a disciplina vinda por parâmetro de navegação
   useEffect(() => {
-    if (expand && disciplinas.length > 0) {
-      const id = Number(expand);
-      setExpandedId(id);
+    const targetId = expand || scrollTo;
+    if (targetId && disciplinas.length > 0) {
+      const id = Number(targetId);
+      if (expand) {
+        setExpandedId(id);
+      }
       hasScrolledRef.current = false;
       
       const index = disciplinas.findIndex(d => d.id_turma === id);
@@ -45,7 +48,7 @@ export default function DisciplinasScreen() {
         }, 800);
       }
     }
-  }, [expand, disciplinas]);
+  }, [expand, scrollTo, disciplinas]);
 
   const carregarDisciplinas = useCallback(async () => {
     try {
@@ -159,7 +162,8 @@ export default function DisciplinasScreen() {
       <TouchableOpacity 
         activeOpacity={0.8}
         onLayout={(e) => {
-          if (isExpanded && expand && !hasScrolledRef.current && flatListRef.current) {
+          const targetId = expand || scrollTo;
+          if (targetId && Number(targetId) === item.id_turma && !hasScrolledRef.current && flatListRef.current) {
             hasScrolledRef.current = true;
             flatListRef.current.scrollToOffset({ 
               offset: Math.max(0, e.nativeEvent.layout.y - 20), 
