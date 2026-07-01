@@ -2,14 +2,14 @@ import { View, Text, StyleSheet, FlatList, TextInput, Platform, TouchableOpacity
 
 import ScalePressable from "@/components/ScalePressable";
 import Animated, { FadeInDown } from 'react-native-reanimated';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { useSQLiteContext } from 'expo-sqlite';
 import { buscarTodasDisciplinas, popularGradePorDados, type DisciplinaInfo } from '../../../database/queries/gradeQueries';
 import { extrairDadosDoPDF } from '../../../utils/pdfParser';
 import * as DocumentPicker from 'expo-document-picker';
 import { extractTextWithInfo } from 'expo-pdf-text-extract';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useFocusEffect, Link } from 'expo-router';
+import { useFocusEffect, Link, useLocalSearchParams } from 'expo-router';
 import { useTextSize } from "@/contexts/TextSizeContext";
 import { SymbolView } from "expo-symbols";
 import { useUserProfile } from '../../contexts/UserProfileContext';
@@ -18,11 +18,28 @@ export default function DisciplinasScreen() {
   const db = useSQLiteContext();
   const { getFontSize } = useTextSize();
   const { autoSyncPDFData, userMatricula, updateUserProfile } = useUserProfile();
+  const { expand } = useLocalSearchParams<{ expand?: string }>();
+  const flatListRef = useRef<FlatList>(null);
 
   const [disciplinas, setDisciplinas] = useState<DisciplinaInfo[]>([]);
   const [search, setSearch] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [expandedId, setExpandedId] = useState<string | number | null>(null);
+
+  // Efeito para expandir e focar a disciplina vinda por parâmetro de navegação
+  useEffect(() => {
+    if (expand && disciplinas.length > 0) {
+      const id = Number(expand);
+      setExpandedId(id);
+      
+      const index = disciplinas.findIndex(d => d.id_turma === id);
+      if (index !== -1 && flatListRef.current) {
+        setTimeout(() => {
+          flatListRef.current?.scrollToIndex({ index, animated: true, viewPosition: 0.5 });
+        }, 300);
+      }
+    }
+  }, [expand, disciplinas]);
 
   const carregarDisciplinas = useCallback(async () => {
     try {
@@ -212,7 +229,14 @@ export default function DisciplinasScreen() {
   return (
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
       <FlatList
+        ref={flatListRef}
         data={filteredDisciplinas}
+        onScrollToIndexFailed={(info) => {
+          const wait = new Promise(resolve => setTimeout(resolve, 500));
+          wait.then(() => {
+            flatListRef.current?.scrollToIndex({ index: info.index, animated: true, viewPosition: 0.5 });
+          });
+        }}
         contentInsetAdjustmentBehavior="automatic"
         contentContainerStyle={styles.listContainer}
         keyExtractor={(item) => item.id_turma.toString()}

@@ -385,7 +385,7 @@ export default function Index() {
                         {updateText}
                       </Text>
                       <ScalePressable
-                        onPress={() => router.push("/disciplinas")}
+                        onPress={() => router.push({ pathname: "/disciplinas", params: { expand: disciplina.id_turma } })}
                         style={({ pressed }) => [
                           styles.primaryButton,
                           pressed && styles.primaryButtonPressed,
@@ -445,7 +445,7 @@ export default function Index() {
                     index={index}
                     name={disciplina.nome_disciplina}
                     meta={`2026.1 · ${disciplina.codigo_disciplina}${disciplina.horarios_formatados ? ` · ${disciplina.horarios_formatados}` : ''}`}
-                    onPress={() => router.push("/disciplinas")}
+                    onPress={() => router.push({ pathname: "/disciplinas", params: { expand: disciplina.id_turma } })}
                   />
                   {index < Math.min(disciplinas.length, 4) - 1 && <View style={styles.courseDivider} />}
                 </View>
