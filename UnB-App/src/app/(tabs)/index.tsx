@@ -264,34 +264,36 @@ export default function Index() {
             ]}
           >
             <View style={styles.profileAvatar}>
-
               <SymbolView
-                name={{ ios: "person.fill", android: "person", web: "person" }}
+                name={{ ios: "person.fill", android: "person", web: "person" } as any}
                 size={32}
                 tintColor={COLORS.primary}
               />
-
             </View>
             <View style={styles.profileInfo}>
               <Text
                 style={[
                   styles.profileName,
-                  { fontSize: getFontSize(22), lineHeight: getFontSize(27.5) },
+                  { fontSize: getFontSize(20), lineHeight: getFontSize(25) },
                 ]}
-                numberOfLines={1}
               >
-                {userName || 'Nome não definido'}
+                {userName || 'Usuário'}
               </Text>
               <Text
                 style={[
                   styles.profileMeta,
                   { fontSize: getFontSize(15), lineHeight: getFontSize(20.625) },
                 ]}
-                numberOfLines={1}
               >
-                {userMatricula ? `Matrícula: ${userMatricula}` : 'Matrícula não definida'}
+                {userMatricula ? `Matrícula: ${userMatricula}` : 'Não informada'}
               </Text>
             </View>
+            <SymbolView 
+              name={{ ios: "chevron.right", android: "chevron_right", web: "chevron_right" } as any} 
+              tintColor={COLORS.border} 
+              size={20} 
+              weight="semibold" 
+            />
           </ScalePressable>
 
           {/* Quick action tiles */}
