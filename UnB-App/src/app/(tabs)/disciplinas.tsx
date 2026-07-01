@@ -40,7 +40,7 @@ export default function DisciplinasScreen() {
         setExpandedId(id);
       }
       hasScrolledRef.current = false;
-      
+
       const index = disciplinas.findIndex(d => d.id_turma === id);
       if (index !== -1 && flatListRef.current) {
         // Fallback garantido caso o card demore para renderizar
@@ -78,19 +78,19 @@ export default function DisciplinasScreen() {
 
       const fileUri = result.assets[0].uri;
       const { processAndSaveDocument } = await import('../../../utils/documentProcessor');
-      
+
       const res = await processAndSaveDocument(
-        db, 
-        fileUri, 
-        result.assets[0].name, 
-        result.assets[0].mimeType, 
+        db,
+        fileUri,
+        result.assets[0].name,
+        result.assets[0].mimeType,
         result.assets[0].size,
         undefined,
         {
           onConfirmProfileSync: async (aluno) => {
             let proceed = true;
             let shouldSync = autoSyncPDFData;
-            
+
             if (aluno && userMatricula && userMatricula !== aluno.matricula) {
                proceed = await new Promise((resolve) => {
                   Alert.alert(
@@ -152,17 +152,17 @@ export default function DisciplinasScreen() {
 
   const renderCard = ({ item, index }: { item: DisciplinaInfo; index: number }) => {
     const isExpanded = expandedId === item.id_turma;
-    
+
     return (
-      <TouchableOpacity 
+      <TouchableOpacity
         activeOpacity={0.8}
         onLayout={(e) => {
           const targetId = expand || scrollTo;
           if (targetId && Number(targetId) === item.id_turma && !hasScrolledRef.current && flatListRef.current) {
             hasScrolledRef.current = true;
-            flatListRef.current.scrollToOffset({ 
-              offset: Math.max(0, e.nativeEvent.layout.y - 20), 
-              animated: true 
+            flatListRef.current.scrollToOffset({
+              offset: Math.max(0, e.nativeEvent.layout.y - 20),
+              animated: true
             });
           }
         }}
@@ -179,11 +179,11 @@ export default function DisciplinasScreen() {
             <Text style={[styles.cardTitle, { fontSize: getFontSize(18), color: colors.textPrimary }]} selectable>{item.nome_disciplina}</Text>
             <Text style={[styles.cardSubtitle, { fontSize: getFontSize(14), color: colors.textSecondary }]} selectable>{item.codigo_disciplina} · 2026.1</Text>
           </View>
-          <SymbolView 
-            name={isExpanded ? { ios: "chevron.up", android: "expand_less", web: "expand_less" } as any : { ios: "chevron.right", android: "chevron_right", web: "chevron_right" } as any} 
-            size={24} 
-            tintColor={colors.inactiveText} 
-            fallback={<Text style={{ fontSize: 16 }}>{isExpanded ? '↑' : '›'}</Text>} 
+          <SymbolView
+            name={isExpanded ? { ios: "chevron.up", android: "expand_less", web: "expand_less" } as any : { ios: "chevron.right", android: "chevron_right", web: "chevron_right" } as any}
+            size={24}
+            tintColor={colors.inactiveText}
+            fallback={<Text style={{ fontSize: 16 }}>{isExpanded ? '↑' : '›'}</Text>}
           />
         </View>
 
@@ -208,7 +208,7 @@ export default function DisciplinasScreen() {
         {isExpanded && (
           <View style={styles.expandedContent}>
             <View style={[styles.expandedDivider, { backgroundColor: colors.border }]} />
-            
+
             <Text style={[styles.expandedSectionTitle, { fontSize: getFontSize(16), color: colors.textPrimary }]}>Detalhes da Turma</Text>
             <View style={[styles.detailRow, { borderBottomColor: colors.background }]}>
               <Text style={[styles.detailLabel, { fontSize: getFontSize(14), color: colors.textSecondary }]}>Turma:</Text>
@@ -218,7 +218,7 @@ export default function DisciplinasScreen() {
               <Text style={[styles.detailLabel, { fontSize: getFontSize(14), color: colors.textSecondary }]}>Local:</Text>
               <Text style={[styles.detailValue, { fontSize: getFontSize(14), color: colors.textPrimary }]}>{item.local || 'Não informado'}</Text>
             </View>
-            
+
             <Text style={[styles.expandedSectionTitle, { fontSize: getFontSize(16), marginTop: 16, color: colors.textPrimary }]}>Últimas Atualizações</Text>
             <View style={styles.updateItem}>
               <View style={[styles.updateDot, { backgroundColor: colors.primary }]} />
@@ -264,18 +264,18 @@ export default function DisciplinasScreen() {
                 <Text style={[styles.subtitle, { fontSize: getFontSize(15), color: colors.textSecondary }]}>Semestre 2026.1</Text>
                 <Text style={[styles.title, { fontSize: getFontSize(28), color: colors.textPrimary }]}>Minhas Disciplinas</Text>
               </View>
-              <ScalePressable 
+              <ScalePressable
                 style={[styles.headerButton, { backgroundColor: isDark ? 'rgba(29, 141, 40, 0.2)' : '#e8f5ea' }]}
-                onPress={handleUpload} 
+                onPress={handleUpload}
                 disabled={isProcessing}
                 accessibilityRole="button"
                 accessibilityLabel="Atualizar disciplinas"
               >
-                <SymbolView 
-                  name={{ ios: "arrow.triangle.2.circlepath", android: "sync", web: "sync" } as any} 
-                  size={20} 
-                  tintColor={colors.primary} 
-                  fallback={<Text style={{ fontSize: 16 }}>🔄</Text>} 
+                <SymbolView
+                  name={{ ios: "arrow.triangle.2.circlepath", android: "sync", web: "sync" } as any}
+                  size={20}
+                  tintColor={colors.primary}
+                  fallback={<Text style={{ fontSize: 16 }}>🔄</Text>}
                 />
               </ScalePressable>
             </View>
