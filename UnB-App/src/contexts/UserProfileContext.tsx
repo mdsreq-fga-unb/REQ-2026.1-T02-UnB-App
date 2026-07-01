@@ -11,6 +11,7 @@ type UserProfileContextType = {
   setAutoSyncPDFData: (value: boolean) => Promise<void>;
   setAppLockEnabled: (value: boolean) => Promise<void>;
   refreshProfile: () => Promise<void>;
+  clearAllData: () => Promise<void>;
 };
 
 const UserProfileContext = createContext<UserProfileContextType | undefined>(undefined);
@@ -133,6 +134,31 @@ export function UserProfileProvider({ children }: { children: React.ReactNode })
     }
   };
 
+  const clearAllData = async () => {
+    try {
+      await db.withTransactionAsync(async () => {
+        await db.runAsync(`DELETE FROM Aluno`);
+        await db.runAsync(`DELETE FROM Periodo_Letivo`);
+        await db.runAsync(`DELETE FROM Disciplina`);
+        await db.runAsync(`DELETE FROM Docente`);
+        await db.runAsync(`DELETE FROM Turma`);
+        await db.runAsync(`DELETE FROM Turma_Docente`);
+        await db.runAsync(`DELETE FROM Turma_Aluno`);
+        await db.runAsync(`DELETE FROM Aula`);
+        await db.runAsync(`DELETE FROM documents`);
+        await db.runAsync(`DELETE FROM Configuracoes`);
+      });
+
+      setUserName(null);
+      setUserMatricula(null);
+      setAutoSyncPDFState(true);
+      setAppLockState(false);
+    } catch (error) {
+      console.error('Failed to clear all data:', error);
+      throw error;
+    }
+  };
+
   return (
     <UserProfileContext.Provider
       value={{
@@ -145,6 +171,7 @@ export function UserProfileProvider({ children }: { children: React.ReactNode })
         setAutoSyncPDFData,
         setAppLockEnabled,
         refreshProfile,
+        clearAllData,
       }}
     >
       {children}

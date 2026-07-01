@@ -12,7 +12,7 @@ type SymbolName = { ios: string; android: string; web?: string };
 export default function AjustesScreen() {
   const router = useRouter();
   const { getFontSize, textSize, setTextSize } = useTextSize();
-  const { userName, userMatricula, autoSyncPDFData, setAutoSyncPDFData } = useUserProfile();
+  const { userName, userMatricula, autoSyncPDFData, setAutoSyncPDFData, clearAllData } = useUserProfile();
 
   const [highContrast, setHighContrast] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
@@ -78,7 +78,10 @@ export default function AjustesScreen() {
         {
           text: "Sair",
           style: "destructive",
-          onPress: () => router.push('/welcome-modal')
+          onPress: async () => {
+            await clearAllData();
+            router.navigate('/');
+          }
         }
       ]
     );

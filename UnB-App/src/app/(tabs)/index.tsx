@@ -180,6 +180,12 @@ export default function Index() {
     }
   }, [isProfileLoaded, userName, hasPrompted, router]);
 
+  useEffect(() => {
+    if (userName) {
+      setHasPrompted(false);
+    }
+  }, [userName]);
+
   const carregarDisciplinas = useCallback(async () => {
     try {
       const data = await buscarTodasDisciplinas(db);
