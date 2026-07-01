@@ -79,7 +79,7 @@ export default function GradeHorariaModalScreen() {
           proceed = await new Promise((resolve) => {
             Alert.alert(
               "Documento Inconsistente",
-              `Este documento pertence a ${data.aluno.nome} (${data.aluno.matricula}), que é diferente do seu perfil. Deseja realmente importar esta grade?`,
+              `Este documento pertence a ${data.aluno!.nome} (${data.aluno!.matricula}), que é diferente do seu perfil. Deseja realmente importar esta grade?`,
               [
                 { text: "Cancelar", style: "cancel", onPress: () => resolve(false) },
                 { text: "Importar", style: "destructive", onPress: () => resolve(true) }
