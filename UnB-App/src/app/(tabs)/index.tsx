@@ -517,6 +517,11 @@ export default function Index() {
               icon={{ ios: "calendar", android: "calendar_today", web: "calendar_today" }}
               onPress={() => router.push('/grade-modal')}
             />
+            <FooterShortcut
+              title="Calendário Acadêmico"
+              icon={{ ios: "calendar.badge.clock", android: "event_available", web: "event_available" }}
+              onPress={() => router.push('/calendario-academico')}
+            />
           </View>
         </View>
       </ScrollView>
@@ -785,10 +790,12 @@ const styles = StyleSheet.create({
   // Shortcuts
   shortcutsRow: {
     flexDirection: "row",
+    flexWrap: "wrap",
     gap: 12,
   },
   shortcut: {
-    flex: 1,
+    flexBasis: "48%",
+    flexGrow: 1,
     flexDirection: "row",
     alignItems: "center",
     gap: 12,

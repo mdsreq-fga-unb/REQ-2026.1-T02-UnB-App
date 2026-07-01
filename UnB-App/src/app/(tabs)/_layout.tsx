@@ -1,4 +1,5 @@
 import { NativeTabs } from "expo-router/unstable-native-tabs";
+import { CalendarioAcademicoSync } from "../../components/CalendarioAcademicoSync";
 import { SigaaSync } from "../../components/SigaaSync";
 
 export default function TabLayout() {
@@ -27,6 +28,7 @@ export default function TabLayout() {
       </NativeTabs>
       
       <SigaaSync />
+      <CalendarioAcademicoSync />
     </>
   );
 }
