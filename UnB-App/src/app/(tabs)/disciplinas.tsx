@@ -9,12 +9,13 @@ import { extrairDadosDoPDF } from '../../../utils/pdfParser';
 import * as DocumentPicker from 'expo-document-picker';
 import { extractTextWithInfo } from 'expo-pdf-text-extract';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useFocusEffect } from 'expo-router';
 import { useTextSize } from "@/contexts/TextSizeContext";
 import { useTheme } from '@/contexts/ThemeContext';
 import { SymbolView } from "expo-symbols";
 import { useUserProfile } from '../../contexts/UserProfileContext';
 import * as FileSystem from 'expo-file-system/legacy';
+import { toast } from 'react-native-pretty-toast';
 
 export default function DisciplinasScreen() {
   const db = useSQLiteContext();
@@ -124,22 +125,25 @@ export default function DisciplinasScreen() {
         }
       );
 
-      alert(res.message);
-
       if (res.success) {
+        toast.success(res.message);
         await carregarDisciplinas();
+      } else {
+        toast.info(res.message);
       }
     } catch (error: any) {
-       alert(`Erro ao processar o arquivo: ${error.message}`);
+       toast.error('Erro ao processar', { message: error.message });
     } finally {
        setIsProcessing(false);
     }
   };
 
-  // NOTE: removed useFocusEffect from expo-router, using useEffect or fallback
-  useEffect(() => {
-    carregarDisciplinas();
-  }, [carregarDisciplinas]);
+  // Restabelecido useFocusEffect para que atualizações da aba Documentos reflitam aqui imediatamente.
+  useFocusEffect(
+    useCallback(() => {
+      carregarDisciplinas();
+    }, [carregarDisciplinas])
+  );
 
   const filteredDisciplinas = disciplinas.filter(d =>
     d.nome_disciplina.toLowerCase().includes(search.toLowerCase()) ||
