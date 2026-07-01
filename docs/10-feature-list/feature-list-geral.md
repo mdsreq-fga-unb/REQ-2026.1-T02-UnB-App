@@ -6,6 +6,50 @@
 
 ---
 
+## Legenda de Status
+
+| Ícone | Status | Significado |
+|:-----:|--------|-------------|
+| ⬜ | **Planejada** | Prevista no cronograma, ainda não iniciada. |
+| 🟡 | **Em andamento** | Trabalho ativo na iteração atual. |
+| ✅ | **Concluída** | Implementada, validada e integrada. |
+| 🔴 | **Pendente/Bloqueada** | Aguardando pré-requisito ou decisão. |
+| ❌ | **Fora do escopo** | Não será entregue nesta release (Won't have). |
+
+---
+
+## Legenda de Papéis FDD
+
+| Sigla | Papel | Quem |
+|:-----:|-------|------|
+| **CP** | Chief Programmer | Luís / Davi |
+| **PM** | Project Manager | Rivaldavio |
+| **CA** | Chief Architect | Davi |
+| **CO** | Class Owner | Luís / Davi / Mateus / Isaac / Pedro |
+| **DE** | Domain Expert | Luís |
+| **TW** | Technical Writer | Luís / Mateus |
+| **T** | Tester | Pedro / Mateus / Isaac |
+
+---
+
+## Quadro Consolidado por Feature
+
+> Visão única de todas as features. Cada linha traz o **status atual** e os **links para evidências concretas**.
+
+| # | Feature | RFs | RNFs | MoSCoW | Iteração | Período | Responsáveis (papel) | Status | Evidência Principal |
+|:-:|---------|-----|------|:------:|:--------:|---------|------------------------|:------:|---------------------|
+| **F01** | Conversar com assistente (IA/Voz) | RF08–RF11 | RNF01, RNF08 | Won't | — | — | — | ❌ | Fora do escopo — VB=2 / ES=60h |
+| **F02** | Exibir QRCode da BCE | RF02 | RNF01–RNF03, RNF08 | Could (pós-MVP) | **Iteração 4** | até 07/07/2026 | Luís (CP), Pedro (T) | 🟡 | Branch `feat/qrcode-bce` em desenvolvimento |
+| **F03** | Exibir e armazenar a carteirinha digital | RF01, RF03 | RNF02, RNF03, RNF08 | Could (pós-MVP) | **Iteração 4** | até 07/07/2026 | Luís (CP), Davi (CA), Pedro (T) | 🟡 | Branch `feat/carteirinha-digital` em desenvolvimento |
+| **F04** | Extrair e processar Histórico/Passe Livre | RF04–RF07 | RNF03, RNF08 | Should | **Iteração 2** | até 24/06/2026 | Davi (CP/CA), Mateus (CO), Pedro (T) | 🟡 | RF06 ✅ concluído (parser); RF04/RF05/RF07 ⬜ |
+| **F05** | Exibir fluxos de onboarding | RF22, RF23 | RNF01, RNF02, RNF18–RNF26 | Must (MVP) | **Iteração 3** | até 30/06/2026 | Luís (CP/DE), Isaac (T) | 🟡 | Tela Home implementada; fluxos SIGAA/Aprender 3 ⬜ |
+| **F06** | Listar e reproduzir tutoriais | RF12–RF15 | RNF01, RNF02 | Won't | — | — | — | ❌ | Fora do escopo — VB=2 / ES=15h |
+| **F07** | Consultar grade horária e ensalamento | RF16 | RNF01, RNF02, RNF03, RNF09, RNF18–RNF26 | Must (MVP) | **Iteração 1** | até 08/06/2026 | Luís (CP), Davi (CA), Pedro (T) | 🟡 | Tela Schedule + parser; [vídeo Upload e Grade](https://drive.google.com/file/d/1O405tSUfyaiEHS8nvXzuDSnSpt-c87WK/view?usp=drive_link) |
+| **F08** | Coletar e atualizar dados acadêmicos (Matrícula) | RF17–RF19 | RNF04, RNF06, RNF08, RNF09 | Should | **Iteração 2** | até 24/06/2026 | Davi (CP/CA), Mateus (CO), Isaac (T) | 🔴 | Bloqueada — sem credenciais SIGAA para testes |
+| **F09** | Centralizar documentos oficiais | RF20, RF21 | RNF01, RNF02, RNF03, RNF08, RNF18–RNF26 | Must (MVP) | **Iteração 1** | até 08/06/2026 | Luís (CP), Davi (CA), Mateus (CO), Pedro (T) | 🟡 | Upload + SQLite + busca; [vídeo Buscas e Filtros](https://drive.google.com/file/d/1EOVQwvk7PbyRCCIwI105-FQpBcUWR342/view?usp=drive_link) |
+
+---
+
 <div class="cards-container" style="display: flex; flex-direction: column; gap: 2rem;" markdown="1">
 
 <article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" markdown="1">
@@ -24,6 +68,22 @@
 
 #### Evidência Visual
 <img src="../../assets/evidencias/tela-documentos.png" alt="Tela de Documentos" style="max-width: 250px; display: block; border-radius: 8px;" />
+
+#### Acompanhamento da Implementação
+- **Responsáveis:**
+  - Luís (CP) — UI, busca, filtros
+  - Davi (CA) — upload e armazenamento
+  - Mateus (CO) — suporte técnico
+  - Pedro (T) — testes
+- **Subatividades:**
+  - [x] Upload de PDF (RF20)
+  - [x] Armazenamento local (RF21)
+  - [x] Busca textual
+  - [x] Filtros por tipo/data
+  - [ ] Testes unitários do parser
+  - [ ] Validação com usuária 60+
+- **Critério de pronto:** Upload + busca + checklist de acessibilidade aprovados.
+- **Outras Evidências:** [Vídeo Buscas e Filtros](https://drive.google.com/file/d/1EOVQwvk7PbyRCCIwI105-FQpBcUWR342/view?usp=drive_link)
 
 </article>
 
@@ -44,6 +104,19 @@
 #### Evidência Visual
 <img src="../../assets/evidencias/tela-inicial.png" alt="Tela Inicial do UnB-App" style="max-width: 250px; display: block; border-radius: 8px;" />
 
+#### Acompanhamento da Implementação
+- **Responsáveis:**
+  - Luís (CP/DE) — implementação e copy
+  - Isaac (T) — verificação de acessibilidade (checklist)
+- **Subatividades:**
+  - [x] Splash Screen configurada
+  - [x] Tela inicial implementada com exemplos
+  - [ ] Fluxo de onboarding SIGAA (RF22)
+  - [ ] Fluxo de onboarding Aprender 3 (RF23)
+  - [ ] Inspeção visual com usuária 60+
+- **Critério de pronto:** Ambos os fluxos (SIGAA + Aprender 3) passam pelo [checklist de acessibilidade](../08-requisitos/checklist-acessibilidade.md) e são demonstrados para a cliente.
+- **Outras Evidências:** captura em `UnB-App/src/screens/Home*`
+
 </article>
 
 <article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" markdown="1">
@@ -62,6 +135,20 @@
 
 #### Evidência Visual
 <img src="../../assets/evidencias/tela-inicial.png" alt="Visualização da Grade na Home" style="max-width: 250px; display: block; border-radius: 8px;" />
+
+#### Acompanhamento da Implementação
+- **Responsáveis:**
+  - Luís (CP) — UI, navegação em ≤ 2 cliques
+  - Davi (CA) — integração SQLite offline
+  - Pedro (T) — testes funcionais
+- **Subatividades:**
+  - [x] Tela Home/Disciplinas (RF16)
+  - [x] Parser do histórico em PDF (parcial)
+  - [x] Cache local SQLite
+  - [ ] Sincronização com calendário acadêmico
+  - [ ] Notificação de alteração de horário/sala (RNF09)
+- **Critério de pronto:** Consulta 100% offline + checklist de acessibilidade aprovado.
+- **Outras Evidências:** [Vídeo Upload e Grade](https://drive.google.com/file/d/1O405tSUfyaiEHS8nvXzuDSnSpt-c87WK/view?usp=drive_link)
 
 </article>
 
@@ -82,6 +169,19 @@
 #### Evidência Visual
 *(Funcionalidade operando em background; impacto visual refletido na grade horária)*
 
+#### Acompanhamento da Implementação
+- **Responsáveis:**
+  - Davi (CP/CA) — parser e arquitetura
+  - Mateus (CO) — apoio técnico
+  - Pedro (T) — testes
+- **Subatividades:**
+  - [x] RF06 — Parser do Histórico Escolar
+  - [ ] RF04 — Persistência dos dados extraídos
+  - [ ] RF05 — Processamento genérico de documentos
+  - [ ] RF07 — Parser do Passe Livre
+- **Critério de pronto:** Dados do histórico e do passe livre extraídos automaticamente e salvos no SQLite local.
+- **Outras Evidências:** RF06 commitado; demais pendentes.
+
 </article>
 
 <article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" markdown="1">
@@ -100,6 +200,20 @@
 
 #### Evidência Visual
 *(Feature bloqueada por falta de credenciais do SIGAA; aguardando liberação)*
+
+#### Acompanhamento da Implementação
+- **Responsáveis:**
+  - Davi (CP/CA) — web scraping SIGAA
+  - Mateus (CO) — apoio
+  - Isaac (T) — testes
+- **Subatividades:**
+  - [ ] RF17 — Coleta diária SIGAA
+  - [ ] RF18 — Coleta semanal do calendário
+  - [ ] RF19 — Atualização de matrícula
+  - [ ] RNF09 — Notificações proativas
+- **Bloqueio:** Sem credenciais de homologação do SIGAA para testes.
+- **Plano de mitigação:** Solicitar credenciais à cliente ou mockar dados com `MSW`/fixture para destravar o desenvolvimento.
+- **Critério de pronto:** Dados de matrícula sincronizados do SIGAA com atualização em ≤ 24h.
 
 </article>
 
@@ -120,6 +234,18 @@
 #### Evidência Visual
 *(Mockups em validação)*
 
+#### Acompanhamento da Implementação
+- **Responsáveis:**
+  - Luís (CP) — geração e renderização
+  - Pedro (T) — testes
+- **Subatividades:**
+  - [ ] Geração do QR a partir do CPF
+  - [ ] Renderização com tamanho ajustável
+  - [ ] Suporte offline via cache da imagem
+  - [ ] Inspeção de acessibilidade (rótulo textual, contraste)
+- **Critério de pronto:** QR code legível por catraca da BCE + aprovado no checklist.
+- **Outras Evidências:** Branch em desenvolvimento.
+
 </article>
 
 <article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" markdown="1">
@@ -137,6 +263,19 @@
 
 #### Evidência Visual
 *(Mockups em validação)*
+
+#### Acompanhamento da Implementação
+- **Responsáveis:**
+  - Luís (CP) — UI
+  - Davi (CA) — persistência offline
+  - Pedro (T) — testes
+- **Subatividades:**
+  - [ ] Renderização da carteirinha (foto, nome, matrícula)
+  - [ ] Armazenamento local para acesso offline
+  - [ ] Suporte a leitor de catraca (NFC/QR)
+  - [ ] Validação com usuário 60+
+- **Critério de pronto:** Carteirinha funcional offline + leitura por catraca validada.
+- **Outras Evidências:** Branch em desenvolvimento.
 
 </article>
 
@@ -163,3 +302,21 @@
 </article>
 
 </div>
+
+---
+
+## Resumo Executivo
+
+| Métrica | Valor |
+|---------|:-----:|
+| Features totais | 9 |
+| Features no MVP | 3 (F05, F07, F09) |
+| Features pós-MVP | 2 (F02, F03) |
+| Features Should | 2 (F04, F08) |
+| Features Won't (fora do escopo) | 2 (F01, F06) |
+| ✅ Concluídas | 0 integrais (parciais em todas as MVP) |
+| 🟡 Em andamento | 5 (F02, F03, F04, F05, F07, F09)* |
+| 🔴 Pendentes/Bloqueadas | 1 (F08) |
+| ❌ Fora do escopo | 2 (F01, F06) |
+
+> \* F04, F05, F07 e F09 têm subatividades concluídas e outras em andamento; nenhuma feature está totalmente concluída.

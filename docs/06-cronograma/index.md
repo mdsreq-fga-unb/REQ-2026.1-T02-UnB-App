@@ -4,10 +4,48 @@
 
 ---
 
+## Cronograma × Feature
+
+> Cruzamento entre o cronograma e as features, destacando a entrega do **MVP (F05 + F07 + F09)**.
+
+```mermaid
+gantt
+    title Acompanhamento de Features por Iteração
+    dateFormat  YYYY-MM-DD
+    axisFormat  %d/%m
+
+    section MVP
+    F07 - Grade Horária      :active, f07, 2026-05-23, 17d
+    F09 - Documentos         :active, f09, 2026-05-23, 17d
+    F05 - Onboarding         :         f05, 2026-06-15, 15d
+
+    section Should
+    F08 - Web Scraping       :crit,    f08, 2026-06-09, 15d
+    F04 - Histórico/Passe    :active,  f04, 2026-06-09, 15d
+
+    section Pós-MVP
+    F02 - QRCode BCE         :         f02, 2026-06-24, 13d
+    F03 - Carteirinha        :         f03, 2026-06-24, 13d
+```
+
+---
+
 <div class="iterations-container" style="display: flex; flex-direction: column; gap: 2rem;">
 
 <article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
   <h2 style="margin-top: 0;"><a id="i1"></a> 🟠 Iteração 1: Documentos e Grade (F09, F07)</h2>
+  
+  <p>
+    <strong>RFs:</strong> <a href="../08-requisitos/funcionais/#rf16">RF16</a>, <a href="../08-requisitos/funcionais/#rf20">RF20</a>, <a href="../08-requisitos/funcionais/#rf21">RF21</a> | <strong>RNFs:</strong> <a href="../08-requisitos/nao-funcionais/#rnf01">RNF01</a>, <a href="../08-requisitos/nao-funcionais/#rnf02">RNF02</a>, <a href="../08-requisitos/nao-funcionais/#rnf03">RNF03</a>, <a href="../08-requisitos/nao-funcionais/#rnf08">RNF08</a>, <a href="../08-requisitos/nao-funcionais/#rnf09">RNF09</a>, <a href="../08-requisitos/nao-funcionais/#rnf18">RNF18–RNF26</a><br>
+    <strong>Data Final:</strong> 08/06/2026<br>
+    <strong>Responsáveis:</strong>
+  </p>
+  <ul>
+    <li>Luís (CP) — UI, navegação, busca, filtros</li>
+    <li>Davi (CA) — integração SQLite offline, upload e armazenamento</li>
+    <li>Mateus (CO) — suporte técnico</li>
+    <li>Pedro (T) — testes funcionais</li>
+  </ul>
   
   <h3>Critérios de Aceite</h3>
   <ul>
@@ -41,6 +79,17 @@
 <article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
   <h2 style="margin-top: 0;"><a id="i2"></a> 🟡 Iteração 2: Automação e SIGAA (F04, F08)</h2>
   
+  <p>
+    <strong>RFs:</strong> <a href="../08-requisitos/funcionais/#rf04">RF04–RF07</a>, <a href="../08-requisitos/funcionais/#rf17">RF17–RF19</a> | <strong>RNFs:</strong> <a href="../08-requisitos/nao-funcionais/#rnf03">RNF03</a>, <a href="../08-requisitos/nao-funcionais/#rnf04">RNF04</a>, <a href="../08-requisitos/nao-funcionais/#rnf06">RNF06</a>, <a href="../08-requisitos/nao-funcionais/#rnf08">RNF08</a>, <a href="../08-requisitos/nao-funcionais/#rnf09">RNF09</a><br>
+    <strong>Data Final:</strong> 24/06/2026<br>
+    <strong>Responsáveis:</strong>
+  </p>
+  <ul>
+    <li>Davi (CP/CA) — parser e arquitetura, web scraping SIGAA</li>
+    <li>Mateus (CO) — apoio técnico</li>
+    <li>Pedro e Isaac (T) — testes</li>
+  </ul>
+  
   <h3>Critérios de Aceite</h3>
   <ul>
     <li>Dados do SIGAA devem ser extraídos ou mockados com sucesso.</li>
@@ -66,6 +115,17 @@
 
 <article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
   <h2 style="margin-top: 0;"><a id="i3"></a> 🟡 Iteração 3: Onboarding e Carteirinha (F05, F02, F03)</h2>
+
+  <p>
+    <strong>RFs:</strong> <a href="../08-requisitos/funcionais/#rf01">RF01</a>, <a href="../08-requisitos/funcionais/#rf02">RF02</a>, <a href="../08-requisitos/funcionais/#rf03">RF03</a>, <a href="../08-requisitos/funcionais/#rf22">RF22</a>, <a href="../08-requisitos/funcionais/#rf23">RF23</a> | <strong>RNFs:</strong> <a href="../08-requisitos/nao-funcionais/#rnf01">RNF01–RNF03</a>, <a href="../08-requisitos/nao-funcionais/#rnf08">RNF08</a>, <a href="../08-requisitos/nao-funcionais/#rnf18">RNF18–RNF26</a><br>
+    <strong>Data Final:</strong> 07/07/2026<br>
+    <strong>Responsáveis:</strong>
+  </p>
+  <ul>
+    <li>Luís (CP/DE) — implementação e copy, geração e renderização, UI</li>
+    <li>Davi (CA) — persistência offline</li>
+    <li>Pedro e Isaac (T) — testes e verificação de acessibilidade (checklist)</li>
+  </ul>
 
   <h3>Critérios de Aceite</h3>
   <ul>
