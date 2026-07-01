@@ -631,3 +631,34 @@ export async function buscarTodasDisciplinas(db: SQLiteDatabase): Promise<Discip
 
   return resultado;
 }
+
+export type HistoricoInfo = {
+  ano: number;
+  periodo: number;
+  codigo_disciplina: string;
+  nome_disciplina: string;
+  situacao: string;
+};
+
+export async function buscarHistoricoEscolar(db: SQLiteDatabase): Promise<HistoricoInfo[]> {
+  const { matricula, ano: currentAno, periodo: currentPeriodo } = await getDefaultParams(db);
+
+  const rows = await db.getAllAsync<HistoricoInfo>(
+    `
+    SELECT 
+      t.ano,
+      t.periodo,
+      t.codigo_disciplina,
+      d.nome_disciplina,
+      ta.situacao
+    FROM Turma t
+    INNER JOIN Disciplina d ON t.codigo_disciplina = d.codigo_disciplina
+    INNER JOIN Turma_Aluno ta ON t.id_turma = ta.id_turma
+    WHERE ta.matricula_aluno = ? AND (t.ano < ? OR (t.ano = ? AND t.periodo < ?) OR ta.situacao != 'MATR')
+    ORDER BY t.ano DESC, t.periodo DESC, d.nome_disciplina ASC
+    `,
+    [matricula, currentAno, currentAno, currentPeriodo]
+  );
+
+  return rows;
+}

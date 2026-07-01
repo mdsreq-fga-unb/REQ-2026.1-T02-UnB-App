@@ -511,6 +511,7 @@ export default function Index() {
             <FooterShortcut
               title="Turmas Anteriores"
               icon={{ ios: "clock.arrow.circlepath", android: "history", web: "history" }}
+              onPress={() => router.push('../turmas-anteriores-modal')}
             />
             <FooterShortcut
               title="Grade Horária"
