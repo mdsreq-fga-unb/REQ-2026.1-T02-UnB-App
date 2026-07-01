@@ -136,7 +136,7 @@ export default function DisciplinasScreen() {
           <SymbolView name={{ ios: "book.pages.fill", android: "menu_book", web: "menu_book" } as any} size={24} tintColor="#1d8d28" fallback={<Text style={{ fontSize: 20 }}>📖</Text>} />
         </View>
         <View style={styles.cardTitleContainer}>
-          <Text style={[styles.cardTitle, { fontSize: getFontSize(18) }]} numberOfLines={1} selectable>{item.nome_disciplina}</Text>
+          <Text style={[styles.cardTitle, { fontSize: getFontSize(18) }]} selectable>{item.nome_disciplina}</Text>
           <Text style={[styles.cardSubtitle, { fontSize: getFontSize(14) }]} selectable>{item.codigo_disciplina} · 2026.1</Text>
         </View>
         <SymbolView name={{ ios: "chevron.right", android: "chevron_right", web: "chevron_right" } as any} size={20} tintColor="#90a1b9" fallback={<Text style={{ fontSize: 16 }}>›</Text>} />
@@ -156,8 +156,8 @@ export default function DisciplinasScreen() {
       </View>
 
       <View style={styles.cardFooter}>
-        <Text style={[styles.footerLabel, { fontSize: getFontSize(14) }]}>Professor(es):</Text>
-        <Text style={[styles.footerValue, { fontSize: getFontSize(14) }]} numberOfLines={1} selectable>{item.docente_nome}</Text>
+        <Text style={[styles.footerLabel, { fontSize: getFontSize(14), marginTop: 2 }]}>Professor(es):</Text>
+        <Text style={[styles.footerValue, { fontSize: getFontSize(14) }]} selectable>{item.docente_nome}</Text>
       </View>
     </Animated.View>
   );
@@ -382,7 +382,7 @@ const styles = StyleSheet.create({
   },
   cardFooter: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'space-between',
     paddingTop: 12,
     borderTopWidth: 1,
