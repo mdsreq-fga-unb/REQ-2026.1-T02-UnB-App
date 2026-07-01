@@ -1,8 +1,9 @@
 import React, { useRef, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, NativeSyntheticEvent, NativeScrollEvent, useWindowDimensions , Platform, Image} from 'react-native';
+import { View, Text, StyleSheet, ScrollView, NativeSyntheticEvent, NativeScrollEvent, useWindowDimensions, Platform } from 'react-native';
 import Animated, { useAnimatedStyle, withTiming, Easing, FadeInDown, FadeIn } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
+import { Image } from 'expo-image';
 import { SymbolView } from 'expo-symbols';
 import ScalePressable from '@/components/ScalePressable';
 import { useTextSize } from '@/contexts/TextSizeContext';
@@ -12,19 +13,19 @@ const TUTORIAL_PAGES = [
   {
     title: 'Acesso ao SIGAA',
     description: 'O SIGAA é o sistema principal da UnB. Ao abrir o site pela primeira vez, esta é a tela que você verá.',
-    image: require('../../assets/images/sigaa.jpg'),
+    image: require('../../assets/images/sigaa.jpeg'),
     color: '#1d8d28'
   },
   {
     title: 'Onde clicar?',
     description: 'No celular, você precisará dar um pequeno zoom. Localize a barra amarela na parte superior esquerda. O primeiro botão é o menu "Ensino".',
-    image: require('../../assets/images/lupa.jpg'),
+    image: require('../../assets/images/lupa.jpeg'),
     color: '#d97706'
   },
   {
     title: 'Emitir Documentos',
     description: 'Ao clicar em "Ensino", um menu se abrirá com as opções para emitir sua Carteirinha Estudantil, Histórico Escolar e Declaração de Passe Livre.',
-    image: require('../../assets/images/opcoes.jpg'),
+    image: require('../../assets/images/opcoes.jpeg'),
     color: '#1d8d28'
   },
   {
@@ -80,7 +81,7 @@ export default function TutoriaisModalScreen() {
     <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]} edges={Platform.OS === 'ios' ? ['top', 'bottom'] : ['bottom']} onLayout={(e) => setLayoutWidth(e.nativeEvent.layout.width)}>
       <View style={[styles.header, { backgroundColor: colors.surface, borderBottomColor: colors.border }]}>
         <ScalePressable onPress={() => router.dismissAll()} style={styles.closeBtn}>
-          <SymbolView name={{ ios: "xmark", android: "close", web: "close" } as any} size={24} tintColor={colors.textPrimary} fallback={<Text style={{fontSize: 20}}>X</Text>} />
+          <SymbolView name={{ ios: "xmark", android: "close", web: "close" } as any} size={24} tintColor={colors.textPrimary} fallback={<Text style={{ fontSize: 20 }}>X</Text>} />
         </ScalePressable>
         <Text style={[styles.headerTitle, { fontSize: getFontSize(17), color: colors.textPrimary }]}>Guia das Plataformas</Text>
         <View style={{ width: 24 }} />
@@ -99,7 +100,7 @@ export default function TutoriaisModalScreen() {
           <View key={index} style={[styles.pageContainer, { width: layoutWidth }]}>
             {page.image ? (
               <Animated.View entering={FadeInDown.delay(100).duration(400).easing(Easing.bezier(0.23, 1, 0.32, 1))} style={[styles.imageContainer, { backgroundColor: `${page.color}15` }]}>
-                <Image source={page.image} style={styles.tutorialImage} resizeMode="contain" />
+                <Image source={page.image} style={styles.tutorialImage} contentFit="contain" />
               </Animated.View>
             ) : (
               <Animated.View entering={FadeInDown.delay(100).duration(400).easing(Easing.bezier(0.23, 1, 0.32, 1))} style={[styles.iconContainer, { backgroundColor: `${page.color}15` }]}>
