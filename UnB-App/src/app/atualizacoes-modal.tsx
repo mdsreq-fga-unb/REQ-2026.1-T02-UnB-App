@@ -53,43 +53,56 @@ export default function AtualizacoesModalScreen() {
   }, [carregarDisciplinas, isReady]);
 
   const renderSubjectUpdates = ({ item, index }: { item: DisciplinaInfo; index: number }) => {
-    // Generate some mock dates
     const date1 = new Date();
     date1.setDate(date1.getDate() - (index * 2));
-    const date1Str = `${date1.getDate().toString().padStart(2, '0')}/${(date1.getMonth() + 1).toString().padStart(2, '0')}/${date1.getFullYear()}`;
+    const date1Str = `${date1.getDate().toString().padStart(2, '0')}/${(date1.getMonth() + 1).toString().padStart(2, '0')}`;
     
     const date2 = new Date();
     date2.setDate(date2.getDate() - (index * 2 + 1));
-    const date2Str = `${date2.getDate().toString().padStart(2, '0')}/${(date2.getMonth() + 1).toString().padStart(2, '0')}/${date2.getFullYear()}`;
+    const date2Str = `${date2.getDate().toString().padStart(2, '0')}/${(date2.getMonth() + 1).toString().padStart(2, '0')}`;
 
     return (
       <View style={styles.subjectContainer}>
         <View style={styles.subjectHeader}>
-          <SymbolView
-            name={{ ios: "book.fill", android: "book", web: "book" }}
-            size={20}
-            tintColor={COLORS.primary}
-          />
-          <Text style={[styles.subjectTitle, { fontSize: getFontSize(18) }]}>
+          <View style={styles.subjectIconWrapper}>
+            <SymbolView name={{ ios: "books.vertical.fill", android: "library_books", web: "library_books" }} size={16} tintColor="#ffffff" />
+          </View>
+          <Text style={[styles.subjectTitle, { fontSize: getFontSize(17) }]}>
             {item.nome_disciplina}
           </Text>
         </View>
 
-        <View style={styles.updateCard}>
-          <Text style={[styles.updateDate, { fontSize: getFontSize(14) }]}>{date1Str}</Text>
-          <Text style={[styles.updateBody, { fontSize: getFontSize(16) }]}>
-            {MOCK_UPDATES[index % MOCK_UPDATES.length]}
-          </Text>
-        </View>
-        
-        {index % 2 === 0 && (
-          <View style={styles.updateCard}>
-            <Text style={[styles.updateDate, { fontSize: getFontSize(14) }]}>{date2Str}</Text>
-            <Text style={[styles.updateBody, { fontSize: getFontSize(16) }]}>
-              {MOCK_UPDATES[(index + 1) % MOCK_UPDATES.length]}
-            </Text>
+        <View style={styles.timeline}>
+          <View style={styles.timelineLine} />
+          
+          <View style={styles.timelineItem}>
+            <View style={styles.timelineDot} />
+            <View style={styles.updateCard}>
+              <View style={styles.updateHeader}>
+                <SymbolView name={{ ios: "info.circle.fill", android: "info", web: "info" }} size={16} tintColor={COLORS.primary} />
+                <Text style={[styles.updateDate, { fontSize: getFontSize(13) }]}>{date1Str}</Text>
+              </View>
+              <Text style={[styles.updateBody, { fontSize: getFontSize(15) }]}>
+                {MOCK_UPDATES[index % MOCK_UPDATES.length]}
+              </Text>
+            </View>
           </View>
-        )}
+          
+          {index % 2 === 0 && (
+            <View style={styles.timelineItem}>
+              <View style={[styles.timelineDot, { backgroundColor: COLORS.textMuted }]} />
+              <View style={styles.updateCard}>
+                <View style={styles.updateHeader}>
+                  <SymbolView name={{ ios: "clock.fill", android: "schedule", web: "schedule" }} size={16} tintColor={COLORS.textMuted} />
+                  <Text style={[styles.updateDate, { fontSize: getFontSize(13) }]}>{date2Str}</Text>
+                </View>
+                <Text style={[styles.updateBody, { fontSize: getFontSize(15), color: COLORS.textMuted }]}>
+                  {MOCK_UPDATES[(index + 1) % MOCK_UPDATES.length]}
+                </Text>
+              </View>
+            </View>
+          )}
+        </View>
       </View>
     );
   };
@@ -103,9 +116,14 @@ export default function AtualizacoesModalScreen() {
         >
           <SymbolView name={{ ios: "xmark.circle.fill", android: "cancel", web: "cancel" }} size={28} tintColor={COLORS.textMuted} />
         </ScalePressable>
-        <Text style={[styles.headerTitle, { fontSize: getFontSize(22) }]}>
-          Atualizações Anteriores
-        </Text>
+        <View style={{alignItems: 'center'}}>
+            <Text style={[styles.headerTitle, { fontSize: getFontSize(20) }]}>
+            Painel de Notificações
+            </Text>
+            <Text style={[styles.headerSubtitle, { fontSize: getFontSize(13) }]}>
+            Atualizações por matéria
+            </Text>
+        </View>
         <View style={{ width: 28 }} />
       </View>
 
@@ -120,6 +138,8 @@ export default function AtualizacoesModalScreen() {
           renderItem={renderSubjectUpdates}
           contentContainerStyle={styles.listContent}
           showsVerticalScrollIndicator={false}
+          contentInsetAdjustmentBehavior="automatic"
+          nestedScrollEnabled={true}
         />
       ) : (
         <View style={styles.centerContainer}>
@@ -149,8 +169,13 @@ const styles = StyleSheet.create({
     borderBottomColor: COLORS.border,
   },
   headerTitle: {
-    fontFamily: "Inter-SemiBold",
+    fontFamily: "Inter-Bold",
     color: COLORS.textPrimary,
+  },
+  headerSubtitle: {
+    fontFamily: "Inter-Medium",
+    color: COLORS.textMuted,
+    marginTop: 2,
   },
   closeButton: {
     padding: 4,
@@ -169,37 +194,93 @@ const styles = StyleSheet.create({
   },
   listContent: {
     padding: 20,
-    gap: 24,
+    gap: 32,
+    paddingBottom: 40,
   },
   subjectContainer: {
-    gap: 12,
+    gap: 16,
   },
   subjectHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
-    marginBottom: 4,
+    gap: 10,
+    backgroundColor: '#ffffff',
+    padding: 12,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: 'rgba(226, 232, 240, 0.8)',
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.04,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  subjectIconWrapper: {
+    width: 32,
+    height: 32,
+    borderRadius: 10,
+    backgroundColor: COLORS.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   subjectTitle: {
-    fontFamily: "Inter-SemiBold",
+    fontFamily: "Inter-Bold",
     color: COLORS.textPrimary,
     flex: 1,
   },
+  timeline: {
+    paddingLeft: 16,
+    gap: 16,
+  },
+  timelineLine: {
+    position: 'absolute',
+    left: 19.5,
+    top: 8,
+    bottom: -16,
+    width: 2,
+    backgroundColor: COLORS.border,
+  },
+  timelineItem: {
+    flexDirection: 'row',
+    gap: 16,
+  },
+  timelineDot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: COLORS.primary,
+    marginTop: 16,
+    marginLeft: -1,
+    zIndex: 1,
+    borderWidth: 2,
+    borderColor: COLORS.background,
+  },
   updateCard: {
+    flex: 1,
     backgroundColor: COLORS.surface,
-    borderRadius: 12,
+    borderRadius: 16,
     padding: 16,
     borderWidth: 1,
-    borderColor: COLORS.border,
-    gap: 4,
+    borderColor: 'rgba(226, 232, 240, 0.6)',
+    gap: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.03,
+    shadowRadius: 4,
+    elevation: 1,
+  },
+  updateHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
   },
   updateDate: {
-    fontFamily: "Inter-Medium",
+    fontFamily: "Inter-SemiBold",
     color: COLORS.textMuted,
   },
   updateBody: {
     fontFamily: "Inter",
-    color: COLORS.textSecondary,
+    color: "#334155",
     lineHeight: 22,
   },
 });

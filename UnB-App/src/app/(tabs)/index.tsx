@@ -166,6 +166,8 @@ export default function Index() {
   const isFocused = useIsFocused();
   const db = useSQLiteContext();
   const [disciplinas, setDisciplinas] = useState<DisciplinaInfo[]>([]);
+  const [unseenUpdates, setUnseenUpdates] = useState<number>(0);
+  const [totalUpdates, setTotalUpdates] = useState<number>(0);
   const { userName, userMatricula, isProfileLoaded } = useUserProfile();
   const [hasPrompted, setHasPrompted] = useState(false);
 
@@ -182,6 +184,22 @@ export default function Index() {
     try {
       const data = await buscarTodasDisciplinas(db);
       setDisciplinas(data);
+
+      let total = 0;
+      data.forEach((_, index) => {
+        total += (index % 2 === 0) ? 2 : 1;
+      });
+      setTotalUpdates(total);
+
+      try {
+        const configRow = await db.getFirstAsync<{ valor: string }>(
+          `SELECT valor FROM Configuracoes WHERE chave = 'seenUpdatesCount'`
+        );
+        const seen = configRow ? parseInt(configRow.valor, 10) : 0;
+        setUnseenUpdates(Math.max(0, total - seen));
+      } catch (err) {
+        setUnseenUpdates(total);
+      }
     } catch (error) {
       console.error('Erro ao buscar disciplinas:', error);
     }
@@ -318,9 +336,21 @@ export default function Index() {
             />
             <ActionTile
               index={3}
-              title="Fórum do Curso"
-              icon={{ ios: "bubble.left.and.bubble.right.fill", android: "forum", web: "forum" }}
-              badge="2"
+              title="Atualizações"
+              icon={{ ios: "bell.badge.fill", android: "notifications_active", web: "notifications_active" }}
+              badge={unseenUpdates > 0 ? unseenUpdates.toString() : undefined}
+              onPress={async () => {
+                setUnseenUpdates(0);
+                try {
+                  await db.runAsync(
+                    `INSERT OR REPLACE INTO Configuracoes (chave, valor) VALUES ('seenUpdatesCount', ?);`,
+                    [totalUpdates.toString()]
+                  );
+                } catch (e) {
+                  console.error('Error saving seen updates:', e);
+                }
+                router.push("/atualizacoes-modal");
+              }}
             />
           </View>
 
