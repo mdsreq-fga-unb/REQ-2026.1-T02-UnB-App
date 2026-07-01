@@ -5,9 +5,11 @@ type UserProfileContextType = {
   userName: string | null;
   userMatricula: string | null;
   autoSyncPDFData: boolean;
+  appLockEnabled: boolean;
   isProfileLoaded: boolean;
   updateUserProfile: (nome: string, matricula: string) => Promise<void>;
   setAutoSyncPDFData: (value: boolean) => Promise<void>;
+  setAppLockEnabled: (value: boolean) => Promise<void>;
   refreshProfile: () => Promise<void>;
 };
 
@@ -18,6 +20,7 @@ export function UserProfileProvider({ children }: { children: React.ReactNode })
   const [userName, setUserName] = useState<string | null>(null);
   const [userMatricula, setUserMatricula] = useState<string | null>(null);
   const [autoSyncPDFData, setAutoSyncPDFState] = useState<boolean>(true);
+  const [appLockEnabled, setAppLockState] = useState<boolean>(false);
   const [isProfileLoaded, setIsProfileLoaded] = useState<boolean>(false);
 
   const refreshProfile = useCallback(async () => {
@@ -42,6 +45,15 @@ export function UserProfileProvider({ children }: { children: React.ReactNode })
         setAutoSyncPDFState(configRow.valor === 'true');
       } else {
         setAutoSyncPDFState(true); // default true
+      }
+
+      const lockConfig = await db.getFirstAsync<{ valor: string }>(
+        `SELECT valor FROM Configuracoes WHERE chave = 'appLockEnabled'`
+      );
+      if (lockConfig) {
+        setAppLockState(lockConfig.valor === 'true');
+      } else {
+        setAppLockState(false); // default false
       }
     } catch (error) {
       console.error('Failed to load user profile:', error);
@@ -108,15 +120,30 @@ export function UserProfileProvider({ children }: { children: React.ReactNode })
     }
   };
 
+  const setAppLockEnabled = async (value: boolean) => {
+    try {
+      await db.runAsync(
+        `INSERT OR REPLACE INTO Configuracoes (chave, valor) VALUES ('appLockEnabled', ?)`,
+        [value ? 'true' : 'false']
+      );
+      setAppLockState(value);
+    } catch (error) {
+      console.error('Failed to update appLockEnabled config:', error);
+      throw error;
+    }
+  };
+
   return (
     <UserProfileContext.Provider
       value={{
         userName,
         userMatricula,
         autoSyncPDFData,
+        appLockEnabled,
         isProfileLoaded,
         updateUserProfile,
         setAutoSyncPDFData,
+        setAppLockEnabled,
         refreshProfile,
       }}
     >

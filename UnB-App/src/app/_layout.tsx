@@ -3,10 +3,12 @@ import { Pressable, View, Text, StyleSheet, useWindowDimensions } from "react-na
 import ScalePressable from "@/components/ScalePressable";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SQLiteProvider, type SQLiteDatabase } from 'expo-sqlite';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Animated, { FadeIn, FadeOut, Easing, withTiming } from 'react-native-reanimated';
 import { TextSizeProvider, useTextSize } from "@/contexts/TextSizeContext";
-import { UserProfileProvider } from "@/contexts/UserProfileContext";
+import { UserProfileProvider, useUserProfile } from "@/contexts/UserProfileContext";
+import { SymbolView } from "expo-symbols";
+import * as LocalAuthentication from "expo-local-authentication";
 import CustomSplashScreen from "@/components/SplashScreen";
 import * as SplashScreenNative from 'expo-splash-screen';
 
@@ -33,6 +35,63 @@ const customEnter = () => {
   };
 };
 
+function AppLockWrapper({ children }: { children: React.ReactNode }) {
+  const { appLockEnabled } = useUserProfile();
+  const [unlocked, setUnlocked] = useState(false);
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
+  const insets = useSafeAreaInsets();
+  const { getFontSize } = useTextSize();
+
+  useEffect(() => {
+    if (appLockEnabled && !unlocked && !isAuthenticating) {
+      handleAuth();
+    }
+  }, [appLockEnabled, unlocked]);
+
+  const handleAuth = async () => {
+    setIsAuthenticating(true);
+    try {
+      const hasHardware = await LocalAuthentication.hasHardwareAsync();
+      const isEnrolled = await LocalAuthentication.isEnrolledAsync();
+      
+      if (!hasHardware || !isEnrolled) {
+        setUnlocked(true);
+        return;
+      }
+      
+      const result = await LocalAuthentication.authenticateAsync({
+        promptMessage: 'Desbloqueie o UnB-App',
+        cancelLabel: 'Cancelar',
+        disableDeviceFallback: false,
+      });
+
+      if (result.success) {
+        setUnlocked(true);
+      }
+    } finally {
+      setIsAuthenticating(false);
+    }
+  };
+
+  if (appLockEnabled && !unlocked) {
+    return (
+      <View style={[styles.lockContainer, { paddingTop: insets.top }]}>
+        <View style={styles.lockContent}>
+          <SymbolView name={{ ios: 'lock.fill', android: 'lock', web: 'lock' } as any} size={64} tintColor="#1d8d28" />
+          <Text style={[styles.lockTitle, { fontSize: getFontSize(24) }]}>App Bloqueado</Text>
+          <Text style={[styles.lockSubtitle, { fontSize: getFontSize(16) }]}>Use a biometria para acessar seus dados.</Text>
+          
+          <ScalePressable style={styles.unlockButton} onPress={handleAuth} disabled={isAuthenticating}>
+            <Text style={[styles.unlockButtonText, { fontSize: getFontSize(16) }]}>Tentar novamente</Text>
+          </ScalePressable>
+        </View>
+      </View>
+    );
+  }
+
+  return <>{children}</>;
+}
+
 export default function RootLayout() {
   const [isSplashVisible, setIsSplashVisible] = useState(true);
 
@@ -41,7 +100,8 @@ export default function RootLayout() {
       <SQLiteProvider databaseName="documents.db" onInit={initializeDatabase}>
         <UserProfileProvider>
           <TextSizeProvider>
-            <View style={styles.container}>
+            <AppLockWrapper>
+              <View style={styles.container}>
               <Stack>
                 <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                 <Stack.Screen name="grade-modal" options={{ presentation: 'formSheet', sheetAllowedDetents: [0.75, 1.0], headerShown: false }} />
@@ -54,6 +114,7 @@ export default function RootLayout() {
               </Stack>
               <AccessibilityButton />
             </View>
+            </AppLockWrapper>
           </TextSizeProvider>
         </UserProfileProvider>
       </SQLiteProvider>
@@ -185,6 +246,37 @@ function AccessibilityButton() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  lockContainer: {
+    flex: 1,
+    backgroundColor: "#f8fafc",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  lockContent: {
+    alignItems: "center",
+    padding: 32,
+    gap: 16,
+  },
+  lockTitle: {
+    color: "#0f172b",
+    fontWeight: "bold",
+    marginTop: 16,
+  },
+  lockSubtitle: {
+    color: "#475569",
+    textAlign: "center",
+    marginBottom: 24,
+  },
+  unlockButton: {
+    backgroundColor: "#1d8d28",
+    paddingVertical: 14,
+    paddingHorizontal: 24,
+    borderRadius: 14,
+  },
+  unlockButtonText: {
+    color: "#ffffff",
+    fontWeight: "bold",
   },
   accessibilityButton: {
     position: "absolute",

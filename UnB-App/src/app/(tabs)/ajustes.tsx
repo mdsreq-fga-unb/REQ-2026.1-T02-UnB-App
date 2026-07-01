@@ -60,11 +60,11 @@ export default function AjustesScreen() {
         <Text style={[styles.rowTitle, { fontSize: getFontSize(17) }]}>{title}</Text>
         {subtitle && <Text style={[styles.rowSubtitle, { fontSize: getFontSize(14) }]}>{subtitle}</Text>}
       </View>
-      <SymbolView 
-        name={{ ios: "chevron.right", android: "chevron_right", web: "chevron_right" } as any} 
-        tintColor="#cbd5e1" 
-        size={20} 
-        weight="semibold" 
+      <SymbolView
+        name={{ ios: "chevron.right", android: "chevron_right", web: "chevron_right" } as any}
+        tintColor="#cbd5e1"
+        size={20}
+        weight="semibold"
       />
     </ScalePressable>
   );
@@ -75,10 +75,10 @@ export default function AjustesScreen() {
       "Tem certeza que deseja sair?",
       [
         { text: "Cancelar", style: "cancel" },
-        { 
-          text: "Sair", 
-          style: "destructive", 
-          onPress: () => router.push('/welcome-modal') 
+        {
+          text: "Sair",
+          style: "destructive",
+          onPress: () => router.push('/welcome-modal')
         }
       ]
     );
@@ -86,12 +86,12 @@ export default function AjustesScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
-      <ScrollView 
-        style={styles.container} 
+      <ScrollView
+        style={styles.container}
         contentContainerStyle={styles.contentContainer}
         contentInsetAdjustmentBehavior="automatic"
       >
-        
+
         {/* Header */}
         <View style={styles.header}>
           <Text style={[styles.headerSubtitle, { fontSize: getFontSize(15) }]}>Sua conta e preferências</Text>
@@ -102,21 +102,21 @@ export default function AjustesScreen() {
         <ScalePressable style={styles.card} onPress={() => router.push('/edit-profile-modal')}>
           <View style={styles.profileRow}>
             <View style={[styles.iconContainer, { width: 64, height: 64, borderRadius: 32 }]}>
-              <SymbolView 
-                name={{ ios: "person.fill", android: "person", web: "person" } as any} 
-                tintColor="#1d8d28" 
-                size={32} 
+              <SymbolView
+                name={{ ios: "person.fill", android: "person", web: "person" } as any}
+                tintColor="#1d8d28"
+                size={32}
               />
             </View>
             <View style={styles.profileTextContainer}>
               <Text style={[styles.profileName, { fontSize: getFontSize(20) }]}>{userName || "Usuário"}</Text>
               <Text style={[styles.profileMatricula, { fontSize: getFontSize(15) }]}>{userMatricula || "Não informada"}</Text>
             </View>
-            <SymbolView 
-              name={{ ios: "chevron.right", android: "chevron_right", web: "chevron_right" } as any} 
-              tintColor="#cbd5e1" 
-              size={20} 
-              weight="semibold" 
+            <SymbolView
+              name={{ ios: "chevron.right", android: "chevron_right", web: "chevron_right" } as any}
+              tintColor="#cbd5e1"
+              size={20}
+              weight="semibold"
             />
           </View>
         </ScalePressable>
@@ -130,19 +130,19 @@ export default function AjustesScreen() {
               <Text style={[styles.rowTitle, { fontSize: getFontSize(17), marginBottom: 4 }]}>Tamanho do texto</Text>
               <Text style={[styles.rowSubtitle, { fontSize: getFontSize(14), marginBottom: 16 }]}>Ajuste em todas as telas do app</Text>
               <View style={styles.textSizeButtonsContainer}>
-                <ScalePressable 
+                <ScalePressable
                   style={[styles.textSizeButton, textSize === "normal" && styles.textSizeButtonActive]}
                   onPress={() => setTextSize("normal")}
                 >
                   <Text style={[styles.textSizeButtonText, textSize === "normal" && styles.textSizeButtonTextActive, { fontSize: 14 }]}>Aa</Text>
                 </ScalePressable>
-                <ScalePressable 
+                <ScalePressable
                   style={[styles.textSizeButton, textSize === "large" && styles.textSizeButtonActive]}
                   onPress={() => setTextSize("large")}
                 >
                   <Text style={[styles.textSizeButtonText, textSize === "large" && styles.textSizeButtonTextActive, { fontSize: 17 }]}>Aa</Text>
                 </ScalePressable>
-                <ScalePressable 
+                <ScalePressable
                   style={[styles.textSizeButton, textSize === "larger" && styles.textSizeButtonActive]}
                   onPress={() => setTextSize("larger")}
                 >
@@ -171,11 +171,11 @@ export default function AjustesScreen() {
           <Text style={[styles.sectionLabel, { fontSize: getFontSize(14) }]}>EXTRAÇÃO DE DADOS</Text>
           <View style={styles.card}>
             {renderToggleRow(
-              "Extração automática", 
-              "Extrair dados toda vez que fizer upload do PDF", 
-              autoSyncPDFData, 
-              (v) => setAutoSyncPDFData(v), 
-              true, 
+              "Extração automática",
+              "Extrair dados toda vez que fizer upload do PDF",
+              autoSyncPDFData,
+              (v) => setAutoSyncPDFData(v),
+              true,
               { ios: "doc.text.fill", android: "description", web: "description" }
             )}
           </View>
@@ -185,7 +185,7 @@ export default function AjustesScreen() {
         <View style={styles.section}>
           <Text style={[styles.sectionLabel, { fontSize: getFontSize(14) }]}>CONTA E SEGURANÇA</Text>
           <View style={styles.card}>
-            {renderNavRow("Senha e privacidade", "Altere sua senha de acesso", false, { ios: "lock.fill", android: "lock", web: "lock" }, () => router.push('/em-breve-modal'))}
+            {renderNavRow("Senha e privacidade", "Altere sua senha de acesso", false, { ios: "lock.fill", android: "lock", web: "lock" }, () => router.push('../senha-e-privacidade' as any))}
             {renderNavRow("Idioma", "Português (Brasil)", true, { ios: "globe", android: "language", web: "language" }, () => router.push('/em-breve-modal'))}
           </View>
         </View>
@@ -201,11 +201,11 @@ export default function AjustesScreen() {
 
         {/* Sair Button */}
         <ScalePressable style={styles.logoutButton} onPress={handleLogout}>
-          <SymbolView 
-            name={{ ios: "rectangle.portrait.and.arrow.right", android: "logout", web: "logout" } as any} 
-            tintColor="#b91c1c" 
-            size={20} 
-            style={{ marginRight: 8 }} 
+          <SymbolView
+            name={{ ios: "rectangle.portrait.and.arrow.right", android: "logout", web: "logout" } as any}
+            tintColor="#b91c1c"
+            size={20}
+            style={{ marginRight: 8 }}
           />
           <Text style={[styles.logoutButtonText, { fontSize: getFontSize(17) }]}>Sair da conta</Text>
         </ScalePressable>

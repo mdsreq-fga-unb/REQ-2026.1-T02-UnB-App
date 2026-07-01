@@ -42,7 +42,13 @@
       ],
       "expo-image",
       "expo-sqlite",
-      "expo-sharing"
+      "expo-sharing",
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Permita que o UnB-App use o Face ID para proteger seus dados."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,
