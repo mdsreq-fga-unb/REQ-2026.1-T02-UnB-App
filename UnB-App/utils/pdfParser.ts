@@ -78,12 +78,16 @@ export function extrairDadosDoPDF(texto: string): { aluno: InfoAluno | null; dis
 
       // 2. Extração do Nome (primeira parte) a partir da primeira linha
       const firstLine = linhas[0];
-      const nameRegex = new RegExp(`^${codigo}\\s+(.*?)(?:\\s+\\d{2}\\s+MATRICULADO|\\s+\\d+[MTN]\\d+|$)`, 'i');
+      const nameRegex = new RegExp(`^${codigo}\\s+(.*?)(?:\\s+([A-Z0-9]{1,3})\\s+MATRICULADO|\\s+\\d+[MTN]\\d+|$)`, 'i');
       const matchName = firstLine.match(nameRegex);
       if (matchName && matchName[1]) {
           nome = matchName[1].trim();
           // Remove datas perdidas no final do nome
           nome = nome.replace(/\s*\(\d{2}\/\d{2}\/\d{4}.*$/, '').trim();
+          
+          if (matchName[2]) {
+              turma = matchName[2].toUpperCase();
+          }
       }
       
       // Procurando local
@@ -92,10 +96,12 @@ export function extrairDadosDoPDF(texto: string): { aluno: InfoAluno | null; dis
         local = localMatch[1].trim();
       }
 
-      // Procurando Turma
-      const turmaMatch = bloco.match(/\b(\d{2})\b\s*MATRICULADO/i) || bloco.match(/\b(\d{2})\b/);
-      if (turmaMatch) {
-         turma = turmaMatch[1];
+      // Procurando Turma (fallback se não foi extraído da primeira linha)
+      if (turma === '01') {
+          const turmaMatch = bloco.match(/\b([A-Z0-9]{1,3})\b\s*MATRICULADO/i) || bloco.match(/\b(T\d{2}|\d{2})\b/i);
+          if (turmaMatch) {
+             turma = turmaMatch[1].toUpperCase();
+          }
       }
 
       // Procurando Horários (ex: 24T23, 35M34)

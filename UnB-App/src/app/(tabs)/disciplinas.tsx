@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet, FlatList, TextInput, Platform, TouchableOpacity, Alert } from 'react-native';
+
 import ScalePressable from "@/components/ScalePressable";
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useState, useCallback } from 'react';
@@ -21,6 +22,7 @@ export default function DisciplinasScreen() {
   const [disciplinas, setDisciplinas] = useState<DisciplinaInfo[]>([]);
   const [search, setSearch] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [expandedId, setExpandedId] = useState<string | number | null>(null);
 
   const carregarDisciplinas = useCallback(async () => {
     try {
@@ -127,40 +129,85 @@ export default function DisciplinasScreen() {
     d.codigo_disciplina.toLowerCase().includes(search.toLowerCase())
   );
 
-  const renderCard = ({ item, index }: { item: DisciplinaInfo; index: number }) => (
-    <Animated.View 
-      style={styles.card}
-    >
-      <View style={styles.cardHeader}>
-        <View style={styles.iconContainer}>
-          <SymbolView name={{ ios: "book.pages.fill", android: "menu_book", web: "menu_book" } as any} size={24} tintColor="#1d8d28" fallback={<Text style={{ fontSize: 20 }}>📖</Text>} />
-        </View>
-        <View style={styles.cardTitleContainer}>
-          <Text style={[styles.cardTitle, { fontSize: getFontSize(18) }]} selectable>{item.nome_disciplina}</Text>
-          <Text style={[styles.cardSubtitle, { fontSize: getFontSize(14) }]} selectable>{item.codigo_disciplina} · 2026.1</Text>
-        </View>
-        <SymbolView name={{ ios: "chevron.right", android: "chevron_right", web: "chevron_right" } as any} size={20} tintColor="#90a1b9" fallback={<Text style={{ fontSize: 16 }}>›</Text>} />
-      </View>
-
-      <View style={styles.cardInfoRow}>
-        <View style={styles.infoItem}>
-          <SymbolView name={{ ios: "clock.fill", android: "schedule", web: "schedule" } as any} size={16} tintColor="#1d8d28" fallback={<Text style={{ fontSize: 14 }}>🕒</Text>} />
-          <Text style={[styles.infoText, { fontSize: getFontSize(15) }]} selectable>{item.horarios_formatados}</Text>
-        </View>
-        {item.local ? (
-          <View style={styles.infoItem}>
-            <SymbolView name={{ ios: "mappin.and.ellipse", android: "location_on", web: "location_on" } as any} size={16} tintColor="#1d8d28" fallback={<Text style={{ fontSize: 14 }}>📍</Text>} />
-            <Text style={[styles.infoText, { fontSize: getFontSize(15) }]} selectable>{item.local}</Text>
+  const renderCard = ({ item, index }: { item: DisciplinaInfo; index: number }) => {
+    const isExpanded = expandedId === item.id_turma;
+    
+    return (
+      <TouchableOpacity 
+        activeOpacity={0.8}
+        onPress={() => {
+          setExpandedId(isExpanded ? null : item.id_turma);
+        }}
+        style={styles.card}
+      >
+        <View style={styles.cardHeader}>
+          <View style={styles.iconContainer}>
+            <SymbolView name={{ ios: "book.pages.fill", android: "menu_book", web: "menu_book" } as any} size={24} tintColor="#1d8d28" fallback={<Text style={{ fontSize: 20 }}>📖</Text>} />
           </View>
-        ) : null}
-      </View>
+          <View style={styles.cardTitleContainer}>
+            <Text style={[styles.cardTitle, { fontSize: getFontSize(18) }]} selectable>{item.nome_disciplina}</Text>
+            <Text style={[styles.cardSubtitle, { fontSize: getFontSize(14) }]} selectable>{item.codigo_disciplina} · 2026.1</Text>
+          </View>
+          <SymbolView 
+            name={isExpanded ? { ios: "chevron.up", android: "expand_less", web: "expand_less" } as any : { ios: "chevron.right", android: "chevron_right", web: "chevron_right" } as any} 
+            size={24} 
+            tintColor="#90a1b9" 
+            fallback={<Text style={{ fontSize: 16 }}>{isExpanded ? '↑' : '›'}</Text>} 
+          />
+        </View>
 
-      <View style={styles.cardFooter}>
-        <Text style={[styles.footerLabel, { fontSize: getFontSize(14), marginTop: 2 }]}>Professor(es):</Text>
-        <Text style={[styles.footerValue, { fontSize: getFontSize(14) }]} selectable>{item.docente_nome}</Text>
-      </View>
-    </Animated.View>
-  );
+        <View style={styles.cardInfoRow}>
+          <View style={styles.infoItem}>
+            <SymbolView name={{ ios: "clock.fill", android: "schedule", web: "schedule" } as any} size={16} tintColor="#1d8d28" fallback={<Text style={{ fontSize: 14 }}>🕒</Text>} />
+            <Text style={[styles.infoText, { fontSize: getFontSize(15) }]} selectable>{item.horarios_formatados}</Text>
+          </View>
+          {item.local ? (
+            <View style={styles.infoItem}>
+              <SymbolView name={{ ios: "mappin.and.ellipse", android: "location_on", web: "location_on" } as any} size={16} tintColor="#1d8d28" fallback={<Text style={{ fontSize: 14 }}>📍</Text>} />
+              <Text style={[styles.infoText, { fontSize: getFontSize(15) }]} selectable>{item.local}</Text>
+            </View>
+          ) : null}
+        </View>
+
+        <View style={styles.cardFooter}>
+          <Text style={[styles.footerLabel, { fontSize: getFontSize(14), marginTop: 2 }]}>Professor(es):</Text>
+          <Text style={[styles.footerValue, { fontSize: getFontSize(14) }]} selectable>{item.docente_nome}</Text>
+        </View>
+
+        {isExpanded && (
+          <View style={styles.expandedContent}>
+            <View style={styles.expandedDivider} />
+            
+            <Text style={[styles.expandedSectionTitle, { fontSize: getFontSize(16) }]}>Detalhes da Turma</Text>
+            <View style={styles.detailRow}>
+              <Text style={[styles.detailLabel, { fontSize: getFontSize(14) }]}>Turma:</Text>
+              <Text style={[styles.detailValue, { fontSize: getFontSize(14) }]}>{item.codigo_turma || 'Não informada'}</Text>
+            </View>
+            <View style={styles.detailRow}>
+              <Text style={[styles.detailLabel, { fontSize: getFontSize(14) }]}>Local:</Text>
+              <Text style={[styles.detailValue, { fontSize: getFontSize(14) }]}>{item.local || 'Não informado'}</Text>
+            </View>
+            
+            <Text style={[styles.expandedSectionTitle, { fontSize: getFontSize(16), marginTop: 16 }]}>Últimas Atualizações</Text>
+            <View style={styles.updateItem}>
+              <View style={styles.updateDot} />
+              <View style={{ flex: 1 }}>
+                <Text style={[styles.updateDate, { fontSize: getFontSize(13) }]}>Há 2 dias</Text>
+                <Text style={[styles.updateText, { fontSize: getFontSize(14) }]}>Material de apoio adicionado: Slides da aula e lista de exercícios.</Text>
+              </View>
+            </View>
+            <View style={styles.updateItem}>
+              <View style={styles.updateDot} />
+              <View style={{ flex: 1 }}>
+                <Text style={[styles.updateDate, { fontSize: getFontSize(13) }]}>Há 5 dias</Text>
+                <Text style={[styles.updateText, { fontSize: getFontSize(14) }]}>Aviso: Atividade avaliativa agendada para a próxima semana.</Text>
+              </View>
+            </View>
+          </View>
+        )}
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
@@ -409,4 +456,56 @@ const styles = StyleSheet.create({
   emptyGlobalDesc: { color: '#64748b', textAlign: 'center', marginBottom: 30, lineHeight: 22 },
   uploadButton: { backgroundColor: '#1d8d28', paddingVertical: 14, paddingHorizontal: 24, borderRadius: 12, elevation: 2, shadowColor: '#1d8d28', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 8 },
   uploadButtonText: { color: '#ffffff', fontWeight: 'bold', textAlign: 'center' },
+  expandedContent: {
+    marginTop: 16,
+    overflow: 'hidden',
+  },
+  expandedDivider: {
+    height: 1,
+    backgroundColor: '#f1f5f9',
+    marginBottom: 16,
+    marginHorizontal: -20,
+  },
+  expandedSectionTitle: {
+    fontWeight: '700',
+    color: '#0f172b',
+    marginBottom: 12,
+  },
+  detailRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 6,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f8fafc',
+  },
+  detailLabel: {
+    color: '#62748e',
+    fontWeight: '500',
+  },
+  detailValue: {
+    color: '#0f172b',
+    fontWeight: '600',
+  },
+  updateItem: {
+    flexDirection: 'row',
+    gap: 12,
+    marginBottom: 12,
+    paddingRight: 8,
+  },
+  updateDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#1d8d28',
+    marginTop: 6,
+  },
+  updateDate: {
+    color: '#62748e',
+    fontWeight: '500',
+    marginBottom: 2,
+  },
+  updateText: {
+    color: '#314158',
+    lineHeight: 20,
+  },
 });
