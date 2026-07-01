@@ -10,10 +10,10 @@ import { useTheme } from '@/contexts/ThemeContext';
 import {
   buscarEventosCalendarioAcademico,
   buscarResumoCalendarioAcademico,
-  sincronizarCalendarioAcademico,
   type EventoCalendarioAcademico,
   type TipoEventoCalendario,
 } from '../../database/queries/calendarioQueries';
+import { sincronizarCalendarioAcademicoOnline } from '@/utils/calendarioAcademicoSync';
 
 const FONT = 'Inter';
 
@@ -117,7 +117,7 @@ export default function CalendarioAcademicoScreen() {
   const carregarCalendario = useCallback(async () => {
     try {
       setIsLoading(true);
-      await sincronizarCalendarioAcademico(db);
+      await sincronizarCalendarioAcademicoOnline(db);
       const [eventosData, resumoData] = await Promise.all([
         buscarEventosCalendarioAcademico(db),
         buscarResumoCalendarioAcademico(db),

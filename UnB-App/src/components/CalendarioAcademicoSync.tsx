@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSQLiteContext } from 'expo-sqlite';
-import { sincronizarCalendarioAcademico } from '../../database/queries/calendarioQueries';
+import { sincronizarCalendarioAcademicoOnline } from '@/utils/calendarioAcademicoSync';
 
 export function CalendarioAcademicoSync() {
   const db = useSQLiteContext();
@@ -10,7 +10,7 @@ export function CalendarioAcademicoSync() {
 
     async function sync() {
       try {
-        const resultado = await sincronizarCalendarioAcademico(db);
+        const resultado = await sincronizarCalendarioAcademicoOnline(db);
         if (isMounted && resultado.sincronizado) {
           console.log('Calendario academico atualizado:', resultado);
         }
@@ -28,4 +28,3 @@ export function CalendarioAcademicoSync() {
 
   return null;
 }
-
