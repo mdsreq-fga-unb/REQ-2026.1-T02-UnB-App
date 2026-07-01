@@ -197,7 +197,7 @@ export default function AjustesScreen() {
         <View style={styles.section}>
           <Text style={[styles.sectionLabel, { fontSize: getFontSize(14) }]}>SUPORTE</Text>
           <View style={styles.card}>
-            {renderNavRow("Central de ajuda", "Tire suas dúvidas", false, { ios: "questionmark.circle.fill", android: "help", web: "help" }, () => router.push('/em-breve-modal'))}
+            {renderNavRow("Central de ajuda", "Tire suas dúvidas", false, { ios: "questionmark.circle.fill", android: "help", web: "help" }, () => router.push('/tutoriais-modal'))}
             {renderNavRow("Sobre o UnB App", "Versão 1.0.0", true, { ios: "info.circle.fill", android: "info", web: "info" }, () => router.push('/sobre-modal'))}
           </View>
         </View>

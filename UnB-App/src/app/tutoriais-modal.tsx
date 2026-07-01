@@ -40,7 +40,8 @@ function PaginationDot({ isActive }: { isActive: boolean }) {
 }
 
 export default function TutoriaisModalScreen() {
-  const { width } = useWindowDimensions();
+  const { width: windowWidth } = useWindowDimensions();
+  const [layoutWidth, setLayoutWidth] = useState(windowWidth);
   const router = useRouter();
   const { getFontSize } = useTextSize();
   const scrollViewRef = useRef<ScrollView>(null);
@@ -48,20 +49,20 @@ export default function TutoriaisModalScreen() {
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const scrollPosition = event.nativeEvent.contentOffset.x;
-    const index = Math.round(scrollPosition / width);
+    const index = Math.round(scrollPosition / layoutWidth);
     setCurrentIndex(index);
   };
 
   const goToNextPage = () => {
     if (currentIndex < TUTORIAL_PAGES.length - 1) {
-      scrollViewRef.current?.scrollTo({ x: (currentIndex + 1) * width, animated: true });
+      scrollViewRef.current?.scrollTo({ x: (currentIndex + 1) * layoutWidth, animated: true });
     } else {
       router.dismissAll();
     }
   };
 
   return (
-    <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']}>
+    <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']} onLayout={(e) => setLayoutWidth(e.nativeEvent.layout.width)}>
       <View style={styles.header}>
         <ScalePressable onPress={() => router.dismissAll()} style={styles.closeBtn}>
           <SymbolView name={{ ios: "xmark", android: "close", web: "close" } as any} size={24} tintColor="#0f172b" fallback={<Text style={{fontSize: 20}}>X</Text>} />
@@ -80,7 +81,7 @@ export default function TutoriaisModalScreen() {
         contentContainerStyle={styles.scrollContent}
       >
         {TUTORIAL_PAGES.map((page, index) => (
-          <View key={index} style={[styles.pageContainer, { width }]}>
+          <View key={index} style={[styles.pageContainer, { width: layoutWidth }]}>
             <Animated.View entering={FadeInDown.delay(100).duration(400).easing(Easing.bezier(0.23, 1, 0.32, 1))} style={[styles.iconContainer, { backgroundColor: `${page.color}15` }]}>
               <SymbolView name={page.icon as any} size={80} tintColor={page.color} />
             </Animated.View>
