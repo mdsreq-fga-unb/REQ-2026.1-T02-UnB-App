@@ -14,6 +14,7 @@ import { useTextSize } from "@/contexts/TextSizeContext";
 import { useTheme } from '@/contexts/ThemeContext';
 import { SymbolView } from "expo-symbols";
 import { useUserProfile } from '../../contexts/UserProfileContext';
+import * as FileSystem from 'expo-file-system/legacy';
 
 export default function DisciplinasScreen() {
   const db = useSQLiteContext();
@@ -75,67 +76,59 @@ export default function DisciplinasScreen() {
       }
 
       const fileUri = result.assets[0].uri;
-      const extractResult = await extractTextWithInfo(fileUri);
+      const { processAndSaveDocument } = await import('../../../utils/documentProcessor');
       
-      if (!extractResult.success) {
-         alert('Falha ao extrair texto do PDF. Tente novamente ou use outro arquivo.');
-         setIsProcessing(false);
-         return;
-      }
+      const res = await processAndSaveDocument(
+        db, 
+        fileUri, 
+        result.assets[0].name, 
+        result.assets[0].mimeType, 
+        result.assets[0].size,
+        undefined,
+        {
+          onConfirmProfileSync: async (aluno) => {
+            let proceed = true;
+            let shouldSync = autoSyncPDFData;
+            
+            if (aluno && userMatricula && userMatricula !== aluno.matricula) {
+               proceed = await new Promise((resolve) => {
+                  Alert.alert(
+                    "Documento Inconsistente",
+                    `Este documento pertence a ${aluno.nome} (${aluno.matricula}), que é diferente do seu perfil. Deseja realmente importar esta grade?`,
+                    [
+                      { text: "Cancelar", style: "cancel", onPress: () => resolve(false) },
+                      { text: "Importar", style: "destructive", onPress: () => resolve(true) }
+                    ]
+                  );
+               });
 
-      const { aluno, disciplinas: parsedDisciplinas } = extrairDadosDoPDF(extractResult.text);
-      if (parsedDisciplinas.length === 0) {
-         alert('Não foi possível encontrar disciplinas válidas neste PDF.');
-         setIsProcessing(false);
-         return;
-      }
+               if (proceed) {
+                  shouldSync = await new Promise((resolve) => {
+                     Alert.alert(
+                       "Atualizar Perfil",
+                       "Deseja atualizar seu perfil para usar os dados deste documento?",
+                       [
+                         { text: "Não alterar", style: "cancel", onPress: () => resolve(false) },
+                         { text: "Atualizar", onPress: () => resolve(true) }
+                       ]
+                     );
+                  });
+               }
+            } else if (!userMatricula && aluno) {
+               shouldSync = true;
+            }
 
-      let shouldSync = autoSyncPDFData;
-      let proceed = true;
-
-      if (aluno) {
-        if (userMatricula && userMatricula !== aluno.matricula) {
-          proceed = await new Promise((resolve) => {
-            Alert.alert(
-              "Documento Inconsistente",
-              `Este documento pertence a ${aluno!.nome} (${aluno!.matricula}), que é diferente do seu perfil. Deseja realmente importar esta grade?`,
-              [
-                { text: "Cancelar", style: "cancel", onPress: () => resolve(false) },
-                { text: "Importar", style: "destructive", onPress: () => resolve(true) }
-              ]
-            );
-          });
-          
-          if (proceed) {
-             shouldSync = await new Promise((resolve) => {
-                Alert.alert(
-                  "Atualizar Perfil",
-                  "Deseja atualizar seu perfil para usar os dados deste documento?",
-                  [
-                    { text: "Não alterar", style: "cancel", onPress: () => resolve(false) },
-                    { text: "Atualizar", onPress: () => resolve(true) }
-                  ]
-                );
-             });
-          }
-        } else if (!userMatricula) {
-          shouldSync = true;
+            return { proceed, shouldSync };
+          },
+          updateUserProfile
         }
-      }
+      );
 
-      if (!proceed) {
-        setIsProcessing(false);
-        return;
-      }
-
-      await popularGradePorDados(db, aluno, parsedDisciplinas, shouldSync);
+      alert(res.message);
       
-      if (shouldSync && aluno) {
-         await updateUserProfile(aluno.nome, aluno.matricula);
+      if (res.success) {
+        await carregarDisciplinas();
       }
-      
-      alert('Grade importada com sucesso!');
-      await carregarDisciplinas();
     } catch (error: any) {
        alert(`Erro ao processar o arquivo: ${error.message}`);
     } finally {

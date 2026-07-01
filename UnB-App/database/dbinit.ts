@@ -63,6 +63,7 @@ export async function initializeDatabase(db: SQLiteDatabase) {
      CREATE TABLE IF NOT EXISTS Turma_Aluno (
         id_turma INTEGER,
         matricula_aluno TEXT NOT NULL,
+        situacao TEXT DEFAULT 'MATR',
         
         PRIMARY KEY (id_turma, matricula_aluno),
         FOREIGN KEY (id_turma) REFERENCES Turma (id_turma) ON DELETE CASCADE,
