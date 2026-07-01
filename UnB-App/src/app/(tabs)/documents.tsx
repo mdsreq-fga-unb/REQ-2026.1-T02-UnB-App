@@ -11,6 +11,7 @@ import * as Sharing from 'expo-sharing';
 import * as IntentLauncher from 'expo-intent-launcher';
 import { useTextSize } from '@/contexts/TextSizeContext';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useUserProfile } from '@/contexts/UserProfileContext';
 import { useFocusEffect } from 'expo-router';
 import { toast } from 'react-native-pretty-toast';
 
@@ -60,6 +61,27 @@ interface DocumentRecord {
 
 const DEFAULT_DOCS = [
   {
+    title: "Carteirinha Estudantil",
+    description: "Comprovante oficial de vínculo com a UnB",
+    meta: "",
+    color: "#b45309",
+    symbolName: "person.text.rectangle.fill"
+  },
+  {
+    title: "Histórico Escolar",
+    description: "Todas as disciplinas cursadas",
+    meta: "",
+    color: "#7c3aed",
+    symbolName: "books.vertical.fill"
+  },
+  {
+    title: "Passe Livre Estudantil",
+    description: "Solicitação de gratuidade no transporte",
+    meta: "",
+    color: "#be185d",
+    symbolName: "bus.fill"
+  },
+  {
     title: "Boletim de Notas",
     description: "Notas das disciplinas do semestre 2026.1",
     meta: "",
@@ -72,27 +94,6 @@ const DEFAULT_DOCS = [
     meta: "",
     color: "#0e7490",
     symbolName: "chart.bar.doc.horizontal"
-  },
-  {
-    title: "Histórico Escolar",
-    description: "Todas as disciplinas cursadas",
-    meta: "",
-    color: "#7c3aed",
-    symbolName: "books.vertical.fill"
-  },
-  {
-    title: "Atestado de Matrícula",
-    description: "Comprovante oficial de vínculo com a UnB",
-    meta: "",
-    color: "#b45309",
-    symbolName: "person.text.rectangle.fill"
-  },
-  {
-    title: "Passe Livre Estudantil",
-    description: "Solicitação de gratuidade no transporte",
-    meta: "",
-    color: "#be185d",
-    symbolName: "bus.fill"
   }
 ];
 
@@ -100,6 +101,7 @@ export default function Documentos() {
   const db = useSQLiteContext();
   const { getFontSize } = useTextSize();
   const { colors, isDark } = useTheme();
+  const { userName, userMatricula, autoSyncPDFData, updateUserProfile } = useUserProfile();
   const [documents, setDocuments] = useState<DocumentRecord[]>([]);
   const [search, setSearch] = useState("");
   const [totalSize, setTotalSize] = useState(0);
@@ -155,13 +157,13 @@ export default function Documentos() {
     }, [loadDocuments])
   );
 
-  const handleBaixar = async (doc: DocumentRecord) => {
+  const handleUpload = async (doc: DocumentRecord) => {
     if (doc.uri && doc.uri !== "") {
-      toast.info('Aviso', { message: 'O documento já foi baixado. Toque em "Ver" para acessá-lo.' });
+      toast.info('Aviso', { message: 'O documento já foi enviado. Toque em "Ver" para acessá-lo.' });
       return;
     }
     try {
-      toast.info('Simulação de Download', { message: 'Selecione um arquivo local para simular o download deste documento oficial do app da UnB.' });
+      toast.info('Upload de Arquivo', { message: 'Selecione um arquivo local para fazer o upload deste documento para o app da UnB.' });
       const result = await DocumentPicker.getDocumentAsync({
         copyToCacheDirectory: true,
       });
@@ -177,7 +179,44 @@ export default function Documentos() {
           asset.name, 
           asset.mimeType, 
           asset.size,
-          doc.id // Garante que ele salva exatamente no slot que o usuário clicou (ex: Declaração de Aluno Regular)
+          doc.id, // Garante que ele salva exatamente no slot que o usuário clicou (ex: Declaração de Aluno Regular)
+          {
+            onConfirmProfileSync: async (aluno) => {
+              let proceed = true;
+              let shouldSync = autoSyncPDFData;
+              
+              if (aluno && userMatricula && userMatricula !== aluno.matricula) {
+                 proceed = await new Promise((resolve) => {
+                    Alert.alert(
+                      "Documento Inconsistente",
+                      `Este documento pertence a ${aluno.nome} (${aluno.matricula}), que é diferente do seu perfil. Deseja realmente importar?`,
+                      [
+                        { text: "Cancelar", style: "cancel", onPress: () => resolve(false) },
+                        { text: "Importar", style: "destructive", onPress: () => resolve(true) }
+                      ]
+                    );
+                 });
+
+                 if (proceed) {
+                    shouldSync = await new Promise((resolve) => {
+                       Alert.alert(
+                         "Atualizar Perfil",
+                         "Deseja atualizar seu perfil para usar os dados deste documento?",
+                         [
+                           { text: "Não alterar", style: "cancel", onPress: () => resolve(false) },
+                           { text: "Atualizar", onPress: () => resolve(true) }
+                         ]
+                       );
+                    });
+                 }
+              } else if (!userMatricula && aluno) {
+                 shouldSync = true;
+              }
+
+              return { proceed, shouldSync };
+            },
+            updateUserProfile
+          }
         );
 
         if (res.success) {
@@ -191,13 +230,13 @@ export default function Documentos() {
       }
     } catch (error) {
       console.error(error);
-      toast.error('Erro', { message: 'Não foi possível baixar/salvar o arquivo.' });
+      toast.error('Erro', { message: 'Não foi possível fazer o upload ou salvar o arquivo.' });
     }
   };
 
   const handleVer = async (doc: DocumentRecord) => {
     if (!doc.uri || doc.uri === "") {
-      toast.info('Aviso', { message: 'Este documento ainda não foi baixado.' });
+      toast.info('Aviso', { message: 'Este documento ainda não foi enviado.' });
       return;
     }
     
@@ -225,7 +264,7 @@ export default function Documentos() {
 
   const handleCompartilhar = async (doc: DocumentRecord) => {
     if (!doc.uri || doc.uri === "") {
-      toast.info('Aviso', { message: 'Este documento ainda não foi baixado.' });
+      toast.info('Aviso', { message: 'Este documento ainda não foi enviado.' });
       return;
     }
 
@@ -395,7 +434,7 @@ export default function Documentos() {
                 color={doc.color}
                 symbolName={doc.symbolName}
                 hasFile={!!doc.uri && doc.uri !== ""}
-                onBaixar={() => handleBaixar(doc)}
+                onUpload={() => handleUpload(doc)}
                 onVer={() => handleVer(doc)}
                 onRemover={() => handleRemover(doc)}
                 getFontSize={getFontSize}
@@ -408,14 +447,14 @@ export default function Documentos() {
   );
 }
 
-function DocCard({ title, description, meta, color, symbolName, hasFile = false, onBaixar, onVer, onRemover, getFontSize, index }: {
+function DocCard({ title, description, meta, color, symbolName, hasFile = false, onUpload, onVer, onRemover, getFontSize, index }: {
   title: string;
   description: string;
   meta: string;
   color: string;
   symbolName: string; // era SFSymbol — agora string, pois vem do banco
   hasFile?: boolean;
-  onBaixar: () => void;
+  onUpload: () => void;
   onVer: () => void;
   onRemover: () => void;
   getFontSize: (baseSize: number) => number;
@@ -467,13 +506,13 @@ function DocCard({ title, description, meta, color, symbolName, hasFile = false,
             <Text style={[styles.actionBtnSolidText, { fontSize: getFontSize(15) }]}>Remover</Text>
           </ScalePressable>
         ) : (
-          <ScalePressable 
-            style={[styles.actionBtnSolid, { backgroundColor: btnColor }]} 
-            onPress={onBaixar}
+          <ScalePressable
+            style={[styles.actionBtnSolid, { backgroundColor: btnColor }]}
+            onPress={onUpload}
           >
-            {/* CORRIGIDO: download com Material Symbol no Android */}
-            <SymbolView name={sym('arrow.down.doc.fill')} size={16} tintColor="#fff" />
-            <Text style={[styles.actionBtnSolidText, { fontSize: getFontSize(15) }]}>Baixar</Text>
+            {/* CORRIGIDO: upload com Material Symbol no Android */}
+            <SymbolView name={sym('arrow.up.doc.fill')} size={16} tintColor="#fff" />
+            <Text style={[styles.actionBtnSolidText, { fontSize: getFontSize(15) }]}>Upload</Text>
           </ScalePressable>
         )}
       </View>
