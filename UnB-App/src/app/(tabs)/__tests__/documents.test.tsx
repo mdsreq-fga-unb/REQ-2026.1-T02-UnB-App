@@ -50,6 +50,7 @@ jest.mock('expo-sqlite', () => ({
 jest.mock('expo-file-system/legacy', () => ({
   getInfoAsync: jest.fn(),
   deleteAsync: jest.fn(),
+  getContentUriAsync: jest.fn(),
 }));
 
 jest.mock('expo-document-picker', () => ({ getDocumentAsync: jest.fn() }));
@@ -159,4 +160,133 @@ describe('Documentos Screen - Centralização de Documentos (RF20 e RF21)', () =
       expect(screen.queryByText('Carteirinha Estudantil')).toBeNull();
     });
   });
+
+  it('CT04: Deve permitir remover um documento existente', async () => {
+    const FileSystem = require('expo-file-system/legacy');
+    FileSystem.getInfoAsync.mockResolvedValue({ exists: true });
+    FileSystem.deleteAsync.mockResolvedValue(undefined);
+
+    mockDb.getAllAsync.mockResolvedValue([
+      { id: 1, title: 'Carteirinha Estudantil', description: 'oficial da UnB', meta: 'Importado em 01/07/2026', color: '', symbolName: 'person.text.rectangle.fill', uri: 'file:///mock-directory/1_carteirinha.pdf', size: 1024, fileName: 'carteirinha.pdf', mimeType: 'application/pdf' }
+    ]);
+
+    await render(<Documentos />);
+
+    // Esperar renderizar com o botão Remover
+    let btnRemover: any;
+    await waitFor(() => {
+      btnRemover = screen.getByText('Remover');
+      expect(btnRemover).toBeTruthy();
+    });
+
+    fireEvent.press(btnRemover);
+
+    await waitFor(() => {
+      expect(FileSystem.getInfoAsync).toHaveBeenCalledWith('file:///mock-directory/1_carteirinha.pdf');
+      expect(FileSystem.deleteAsync).toHaveBeenCalledWith('file:///mock-directory/1_carteirinha.pdf');
+      expect(mockDb.runAsync).toHaveBeenCalledWith(
+        'UPDATE documents SET uri = ?, fileName = ?, mimeType = ?, size = ?, meta = ? WHERE id = ?',
+        ['', null, null, null, '', 1]
+      );
+    });
+  });
+
+  it('CT05: Deve abrir documento no Android ao clicar em Ver', async () => {
+    const { Platform } = require('react-native');
+    const FileSystem = require('expo-file-system/legacy');
+    const IntentLauncher = require('expo-intent-launcher');
+
+    const originalOS = Platform.OS;
+    Platform.OS = 'android';
+
+    FileSystem.getContentUriAsync.mockResolvedValue('content://mock-uri');
+
+    mockDb.getAllAsync.mockResolvedValue([
+      { id: 1, title: 'Carteirinha Estudantil', description: 'oficial da UnB', meta: 'Importado', color: '', symbolName: 'person.text.rectangle.fill', uri: 'file:///mock-directory/1_carteirinha.pdf', size: 1024, fileName: 'carteirinha.pdf', mimeType: 'application/pdf' }
+    ]);
+
+    await render(<Documentos />);
+
+    let btnVer: any;
+    await waitFor(() => {
+      btnVer = screen.getByText('Ver');
+      expect(btnVer).toBeTruthy();
+    });
+
+    fireEvent.press(btnVer);
+
+    await waitFor(() => {
+      expect(FileSystem.getContentUriAsync).toHaveBeenCalledWith('file:///mock-directory/1_carteirinha.pdf');
+      expect(IntentLauncher.startActivityAsync).toHaveBeenCalledWith('android.intent.action.VIEW', {
+        data: 'content://mock-uri',
+        flags: 1,
+        type: 'application/pdf'
+      });
+    });
+
+    Platform.OS = originalOS;
+  });
+
+  it('CT06: Deve abrir/compartilhar documento no iOS ao clicar em Ver', async () => {
+    const { Platform } = require('react-native');
+    const Sharing = require('expo-sharing');
+
+    const originalOS = Platform.OS;
+    Platform.OS = 'ios';
+
+    Sharing.isAvailableAsync.mockResolvedValue(true);
+
+    mockDb.getAllAsync.mockResolvedValue([
+      { id: 1, title: 'Carteirinha Estudantil', description: 'oficial da UnB', meta: 'Importado', color: '', symbolName: 'person.text.rectangle.fill', uri: 'file:///mock-directory/1_carteirinha.pdf', size: 1024, fileName: 'carteirinha.pdf', mimeType: 'application/pdf' }
+    ]);
+
+    await render(<Documentos />);
+
+    let btnVer: any;
+    await waitFor(() => {
+      btnVer = screen.getByText('Ver');
+      expect(btnVer).toBeTruthy();
+    });
+
+    fireEvent.press(btnVer);
+
+    await waitFor(() => {
+      expect(Sharing.isAvailableAsync).toHaveBeenCalled();
+      expect(Sharing.shareAsync).toHaveBeenCalledWith('file:///mock-directory/1_carteirinha.pdf');
+    });
+
+    Platform.OS = originalOS;
+  });
+
+  it('CT07: Deve permitir compartilhar o documento através da gaveta de documentos salvos', async () => {
+    const Sharing = require('expo-sharing');
+    Sharing.isAvailableAsync.mockResolvedValue(true);
+
+    mockDb.getAllAsync.mockResolvedValue([
+      { id: 1, title: 'Carteirinha Estudantil', description: 'oficial da UnB', meta: 'Importado', color: '', symbolName: 'person.text.rectangle.fill', uri: 'file:///mock-directory/1_carteirinha.pdf', size: 1024, fileName: 'carteirinha.pdf', mimeType: 'application/pdf' }
+    ]);
+
+    await render(<Documentos />);
+
+    // Expandir painel de salvos
+    const storageCard = screen.getByLabelText('Ver documentos salvos');
+    fireEvent.press(storageCard);
+
+    let btnCompartilhar: any;
+    await waitFor(() => {
+      btnCompartilhar = screen.getByLabelText('Compartilhar Carteirinha Estudantil');
+      expect(btnCompartilhar).toBeTruthy();
+    });
+
+    fireEvent.press(btnCompartilhar);
+
+    await waitFor(() => {
+      expect(Sharing.shareAsync).toHaveBeenCalledWith('file:///mock-directory/1_carteirinha.pdf', {
+        mimeType: 'application/pdf',
+        dialogTitle: 'Carteirinha Estudantil',
+        UTI: 'application/pdf',
+      });
+    });
+  });
 });
+
