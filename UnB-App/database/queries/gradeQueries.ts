@@ -7,24 +7,54 @@ export async function temGradeCadastrada(db: SQLiteDatabase): Promise<boolean> {
   return !!result && result.count > 0;
 }
 
-export async function popularGradePorDados(db: SQLiteDatabase, aluno: InfoAluno | null, disciplinas: DisciplinaExtraida[]) {
+export async function popularGradePorDados(
+    db: SQLiteDatabase, 
+    aluno: InfoAluno | null, 
+    disciplinas: DisciplinaExtraida[],
+    shouldSyncAluno: boolean = true
+) {
   await db.withTransactionAsync(async () => {
-    // 2. Inserir Aluno (com atualização de dados se já existir)
-    const matricula = aluno?.matricula || '000000000';
+    const currentAluno = await db.getFirstAsync<{ matricula: string, nome: string, curso: string, CPF: string }>('SELECT * FROM Aluno LIMIT 1');
+
+    let matriculaFinal = aluno?.matricula || '000000000';
+    let nomeFinal = aluno?.nome || 'ALUNO NÃO IDENTIFICADO';
+    let cursoFinal = aluno?.curso || 'CURSO NÃO IDENTIFICADO';
+    let cpfFinal = aluno?.cpf || '';
+
+    // Se deve manter os dados existentes (shouldSyncAluno = false) e já houver aluno, usa os dados do banco
+    if (!shouldSyncAluno && currentAluno) {
+        matriculaFinal = currentAluno.matricula;
+        nomeFinal = currentAluno.nome;
+        cursoFinal = currentAluno.curso;
+        cpfFinal = currentAluno.CPF;
+    }
+
     const ano = aluno?.ano || new Date().getFullYear();
     const periodo = aluno?.semestre || 1;
 
     // GARANTIA DE USUÁRIO ÚNICO (SINGLE-USER APP)
     // Se estivermos importando os dados de um aluno diferente do que já está no banco,
-    // limpamos o banco inteiro para não misturar matérias de duas pessoas.
-    const currentAluno = await db.getFirstAsync<{matricula: string}>('SELECT matricula FROM Aluno LIMIT 1');
-    if (currentAluno && currentAluno.matricula !== matricula) {
+    // e caso estejamos atualizando o perfil, limpamos o banco inteiro para não misturar matérias.
+    // Ou no caso do FEAT branch, ele sempre limpava tudo, mas o DEV só limpa se mudar de aluno.
+    // Para resolver: limpar os dados antigas se a flag indicar ou se mudar o aluno (e shouldSync = true)
+    if (currentAluno && currentAluno.matricula !== matriculaFinal) {
       await db.runAsync('DELETE FROM Aula');
       await db.runAsync('DELETE FROM Turma_Docente');
       await db.runAsync('DELETE FROM Turma_Aluno');
       await db.runAsync('DELETE FROM Turma');
       await db.runAsync('DELETE FROM Periodo_Letivo');
       await db.runAsync('DELETE FROM Aluno');
+    } else {
+       // Se for o mesmo aluno, também queremos deletar as associações antigas para substituir a grade inteira?
+       // O DEV branch deletava aulas por turma lá embaixo, mas isso não limpa disciplinas removidas.
+       // Vou adotar o comportamento do FEAT branch que resetava a grade toda se for uma importação completa.
+       // MAS, como o Passe Livre não traz histórico e o Histórico não traz horário, precisamos cuidar.
+       // O FEAT limpava:
+       // await db.runAsync('DELETE FROM Aula');
+       // await db.runAsync('DELETE FROM Turma_Docente');
+       // await db.runAsync('DELETE FROM Turma_Aluno');
+       // await db.runAsync('DELETE FROM Turma');
+       // Isso será feito no documentProcessor de forma mais inteligente se necessário.
     }
 
     await db.runAsync(
@@ -34,8 +64,11 @@ export async function popularGradePorDados(db: SQLiteDatabase, aluno: InfoAluno 
          nome = excluded.nome, 
          curso = excluded.curso,
          CPF = CASE WHEN excluded.CPF != '' THEN excluded.CPF ELSE Aluno.CPF END`,
-      [matricula, aluno?.nome || 'ALUNO NÃO IDENTIFICADO', aluno?.curso || 'CURSO NÃO IDENTIFICADO', aluno?.cpf || '']
+      [matriculaFinal, nomeFinal, cursoFinal, cpfFinal]
     );
+
+    // Substituir as próximas instâncias de matricula por matriculaFinal nas queries
+    const matricula = matriculaFinal;
 
     // 3. Inserir Período Letivo
     await db.runAsync(

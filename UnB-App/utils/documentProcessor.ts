@@ -10,7 +10,11 @@ export async function processAndSaveDocument(
   fileName: string | undefined,
   mimeType: string | undefined,
   size: number | undefined,
-  overrideDocId?: number
+  overrideDocId?: number,
+  callbacks?: {
+     onConfirmProfileSync?: (aluno: { nome: string, matricula: string, curso: string }) => Promise<{ proceed: boolean, shouldSync: boolean }>,
+     updateUserProfile?: (nome: string, matricula: string) => Promise<void>
+  }
 ): Promise<{ success: boolean; message: string }> {
   try {
     const extractResult = await extractTextWithInfo(fileUri);
@@ -70,6 +74,27 @@ export async function processAndSaveDocument(
       console.error('Erro ao salvar documento no storage permanente:', err);
     }
     
+    // Helper para prosseguir com a lógica de sync
+    const attemptSync = async (alunoInfo: any, disciplinasFormatadas: any, successMessage: string) => {
+      let proceed = true;
+      let shouldSync = true;
+      if (callbacks?.onConfirmProfileSync) {
+         const result = await callbacks.onConfirmProfileSync(alunoInfo);
+         proceed = result.proceed;
+         shouldSync = result.shouldSync;
+      }
+
+      if (!proceed) {
+         return { success: false, message: 'Importação cancelada pelo usuário.' };
+      }
+
+      await popularGradePorDados(db, alunoInfo, disciplinasFormatadas, shouldSync);
+      if (shouldSync && callbacks?.updateUserProfile) {
+         await callbacks.updateUserProfile(alunoInfo.nome, alunoInfo.matricula);
+      }
+      return { success: true, message: successMessage };
+    };
+
     // Detecção automática de qual documento foi enviado
     if (isHistorico) {
       const { extrairDadosDoHistorico } = await import('./historicoParser');
@@ -100,7 +125,7 @@ export async function processAndSaveDocument(
         }
       }
 
-      const disciplinasFormatadas = parsedData.disciplinas.map(d => ({
+      const disciplinasFormatadas = parsedData.disciplinas.map((d: any) => ({
         codigo: d.codigo,
         turma: d.turma,
         nome: d.nome,
@@ -122,8 +147,7 @@ export async function processAndSaveDocument(
         cpf: parsedData.cpf
       };
 
-      await popularGradePorDados(db, alunoInfo, disciplinasFormatadas);
-      return { success: true, message: `Grade atualizada via Histórico Escolar (Semestre ${maxAno}.${maxPeriodo})! O arquivo foi salvo na aba Documentos.` };
+      return await attemptSync(alunoInfo, disciplinasFormatadas, `Grade atualizada via Histórico Escolar (Semestre ${maxAno}.${maxPeriodo})! O arquivo foi salvo na aba Documentos.`);
 
     } else {
       // Se não for Histórico, assume que é Passe Livre
@@ -132,8 +156,7 @@ export async function processAndSaveDocument(
         return { success: false, message: 'Não foi possível encontrar disciplinas válidas neste PDF.' };
       }
 
-      await popularGradePorDados(db, aluno, parsedDisciplinas);
-      return { success: true, message: 'Grade importada com sucesso via Declaração/Passe Livre! O arquivo foi salvo na aba Documentos.' };
+      return await attemptSync(aluno, parsedDisciplinas, 'Grade importada com sucesso via Declaração/Passe Livre! O arquivo foi salvo na aba Documentos.');
     }
   } catch (error: any) {
     return { success: false, message: `Erro ao processar o arquivo: ${error.message}` };

@@ -94,6 +94,12 @@ export async function initializeDatabase(db: SQLiteDatabase) {
           mimeType TEXT,
           size INTEGER
       );
+
+      -- 10. Tabela de Configurações do App
+      CREATE TABLE IF NOT EXISTS Configuracoes (
+          chave TEXT PRIMARY KEY,
+          valor TEXT NOT NULL
+      );
     `);
 
 
