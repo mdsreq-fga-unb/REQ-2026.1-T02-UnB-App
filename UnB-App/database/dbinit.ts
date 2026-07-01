@@ -102,7 +102,12 @@ export async function initializeDatabase(db: SQLiteDatabase) {
       );
     `);
 
-
+    // Migration: Adiciona coluna situacao na tabela Turma_Aluno se não existir
+    try {
+      await db.execAsync(`ALTER TABLE Turma_Aluno ADD COLUMN situacao TEXT DEFAULT 'MATR';`);
+    } catch (e) {
+      // Ignora erro se a coluna já existir
+    }
 
   } catch (error) {
     console.error('Falha ao inicializar banco de dados:', error);
