@@ -288,11 +288,11 @@ export default function Index() {
                 {userMatricula ? `Matrícula: ${userMatricula}` : 'Não informada'}
               </Text>
             </View>
-            <SymbolView 
-              name={{ ios: "chevron.right", android: "chevron_right", web: "chevron_right" } as any} 
-              tintColor={COLORS.border} 
-              size={20} 
-              weight="semibold" 
+            <SymbolView
+              name={{ ios: "chevron.right", android: "chevron_right", web: "chevron_right" } as any}
+              tintColor={COLORS.border}
+              size={20}
+              weight="semibold"
             />
           </ScalePressable>
 
@@ -343,8 +343,8 @@ export default function Index() {
             </View>
 
             {disciplinas.length > 0 ? (
-              <ScrollView 
-                horizontal 
+              <ScrollView
+                horizontal
                 showsHorizontalScrollIndicator={false}
                 style={{ marginHorizontal: -20 }}
                 contentContainerStyle={{ gap: 16, paddingHorizontal: 20 }}
@@ -358,7 +358,7 @@ export default function Index() {
                     "Houve uma mudança no quadro de professores desta disciplina.",
                   ];
                   const updateText = MOCK_UPDATES[index % MOCK_UPDATES.length];
-                  
+
                   // Generate a dynamic date (e.g. today or yesterday)
                   const date = new Date();
                   date.setDate(date.getDate() - index);
@@ -479,8 +479,9 @@ export default function Index() {
           <View style={styles.shortcutsRow}>
 
             <FooterShortcut
-              title="Turmas Anteriores"
-              icon={{ ios: "clock.arrow.circlepath", android: "history", web: "history" }}
+              title="Atualizações Anteriores"
+              icon={{ ios: "bell.badge", android: "notifications", web: "notifications" }}
+              onPress={() => router.push('../atualizacoes-modal')}
             />
             <FooterShortcut
               title="Grade Horária"

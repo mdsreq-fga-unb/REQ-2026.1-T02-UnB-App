@@ -45,6 +45,7 @@ export default function RootLayout() {
               <Stack>
                 <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                 <Stack.Screen name="grade-modal" options={{ presentation: 'formSheet', sheetAllowedDetents: [0.75, 1.0], headerShown: false }} />
+                <Stack.Screen name="atualizacoes-modal" options={{ presentation: 'formSheet', sheetAllowedDetents: [0.75, 1.0], headerShown: false }} />
                 <Stack.Screen name="em-breve-modal" options={{ presentation: 'formSheet', sheetAllowedDetents: [0.75, 1.0], headerShown: false }} />
                 <Stack.Screen name="sobre-modal" options={{ presentation: 'formSheet', sheetAllowedDetents: [0.75, 1.0], headerShown: false }} />
                 <Stack.Screen name="welcome-modal" options={{ presentation: 'formSheet', sheetAllowedDetents: [0.75, 1.0], headerShown: false }} />
