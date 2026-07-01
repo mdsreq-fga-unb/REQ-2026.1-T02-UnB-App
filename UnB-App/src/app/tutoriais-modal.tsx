@@ -1,8 +1,9 @@
 import React, { useRef, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, NativeSyntheticEvent, NativeScrollEvent, useWindowDimensions , Platform} from 'react-native';
+import { View, Text, StyleSheet, ScrollView, NativeSyntheticEvent, NativeScrollEvent, useWindowDimensions, Platform } from 'react-native';
 import Animated, { useAnimatedStyle, withTiming, Easing, FadeInDown, FadeIn } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
+import { Image } from 'expo-image';
 import { SymbolView } from 'expo-symbols';
 import ScalePressable from '@/components/ScalePressable';
 import { useTextSize } from '@/contexts/TextSizeContext';
@@ -10,9 +11,21 @@ import { useTheme } from '@/contexts/ThemeContext';
 
 const TUTORIAL_PAGES = [
   {
-    title: 'Conheça o SIGAA',
-    description: 'O SIGAA é o sistema principal da UnB. Você usará para realizar matrículas em disciplinas, acompanhar seu histórico, ver suas notas (menções) finais e emitir declarações oficiais.',
-    icon: { ios: 'graduationcap.fill', android: 'school', web: 'school' },
+    title: 'Acesso ao SIGAA',
+    description: 'O SIGAA é o sistema principal da UnB. Ao abrir o site pela primeira vez, esta é a tela que você verá.',
+    image: require('../../assets/images/sigaa.jpeg'),
+    color: '#1d8d28'
+  },
+  {
+    title: 'Onde clicar?',
+    description: 'No celular, você precisará dar um pequeno zoom. Localize a barra amarela na parte superior esquerda. O primeiro botão é o menu "Ensino".',
+    image: require('../../assets/images/lupa.jpeg'),
+    color: '#d97706'
+  },
+  {
+    title: 'Emitir Documentos',
+    description: 'Ao clicar em "Ensino", um menu se abrirá com as opções para emitir sua Carteirinha Estudantil, Histórico Escolar e Declaração de Passe Livre.',
+    image: require('../../assets/images/opcoes.jpeg'),
     color: '#1d8d28'
   },
   {
@@ -68,7 +81,7 @@ export default function TutoriaisModalScreen() {
     <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]} edges={Platform.OS === 'ios' ? ['top', 'bottom'] : ['bottom']} onLayout={(e) => setLayoutWidth(e.nativeEvent.layout.width)}>
       <View style={[styles.header, { backgroundColor: colors.surface, borderBottomColor: colors.border }]}>
         <ScalePressable onPress={() => router.dismissAll()} style={styles.closeBtn}>
-          <SymbolView name={{ ios: "xmark", android: "close", web: "close" } as any} size={24} tintColor={colors.textPrimary} fallback={<Text style={{fontSize: 20}}>X</Text>} />
+          <SymbolView name={{ ios: "xmark", android: "close", web: "close" } as any} size={24} tintColor={colors.textPrimary} fallback={<Text style={{ fontSize: 20 }}>X</Text>} />
         </ScalePressable>
         <Text style={[styles.headerTitle, { fontSize: getFontSize(17), color: colors.textPrimary }]}>Guia das Plataformas</Text>
         <View style={{ width: 24 }} />
@@ -85,9 +98,15 @@ export default function TutoriaisModalScreen() {
       >
         {TUTORIAL_PAGES.map((page, index) => (
           <View key={index} style={[styles.pageContainer, { width: layoutWidth }]}>
-            <Animated.View entering={FadeInDown.delay(100).duration(400).easing(Easing.bezier(0.23, 1, 0.32, 1))} style={[styles.iconContainer, { backgroundColor: `${page.color}15` }]}>
-              <SymbolView name={page.icon as any} size={80} tintColor={page.color} />
-            </Animated.View>
+            {page.image ? (
+              <Animated.View entering={FadeInDown.delay(100).duration(400).easing(Easing.bezier(0.23, 1, 0.32, 1))} style={[styles.imageContainer, { backgroundColor: `${page.color}15` }]}>
+                <Image source={page.image} style={styles.tutorialImage} contentFit="contain" />
+              </Animated.View>
+            ) : (
+              <Animated.View entering={FadeInDown.delay(100).duration(400).easing(Easing.bezier(0.23, 1, 0.32, 1))} style={[styles.iconContainer, { backgroundColor: `${page.color}15` }]}>
+                <SymbolView name={page.icon as any} size={80} tintColor={page.color} />
+              </Animated.View>
+            )}
             <Animated.Text entering={FadeInDown.delay(150).duration(400).easing(Easing.bezier(0.23, 1, 0.32, 1))} style={[styles.pageTitle, { fontSize: getFontSize(24), color: page.color }]}>
               {page.title}
             </Animated.Text>
@@ -148,6 +167,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 32,
+  },
+  imageContainer: {
+    width: '100%',
+    height: 300,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 32,
+    padding: 12,
+  },
+  tutorialImage: {
+    width: '100%',
+    height: '100%',
   },
   pageTitle: {
     fontWeight: 'bold',
