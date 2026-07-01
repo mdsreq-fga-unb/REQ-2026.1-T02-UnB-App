@@ -48,7 +48,8 @@
         {
           "faceIDPermission": "Permita que o UnB-App use o Face ID para proteger seus dados."
         }
-      ]
+      ],
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true,
