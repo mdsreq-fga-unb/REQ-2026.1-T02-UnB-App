@@ -24,9 +24,16 @@ export async function processAndSaveDocument(
     }
 
     const text = extractResult.text;
-    const isHistorico = text.includes('Histórico Escolar');
-    const isPasseLivre = text.includes('PASSE LIVRE ESTUDANTIL') || text.includes('Passe Livre');
     
+    // Funções lazy para não rodar todos os includes desnecessariamente
+    const checkHistorico = () => text.includes('Histórico Escolar');
+    const checkPasseLivre = () => text.includes('PASSE LIVRE ESTUDANTIL') || text.includes('Passe Livre');
+    const checkBoletim = () => text.includes('RELATÓRIO DE NOTAS') || text.includes('Boletim de Notas');
+    const checkIndice = () => text.includes('ÍNDICES ACADÊMICOS') || text.includes('Índice de Rendimento Acadêmico');
+    const checkCarteirinha = () => text.includes('VALIDADE') && (text.includes('Secretário de Administração Acadêmica') || text.includes('Secretaria de Administração Acadêmica'));
+
+    let finalDocTitle = "";
+
     // Salvar o arquivo na tabela de documentos
     try {
       let docRecord: { id: number, title: string } | null = null;
@@ -34,18 +41,38 @@ export async function processAndSaveDocument(
       if (overrideDocId) {
         docRecord = await db.getFirstAsync<{id: number, title: string}>('SELECT id, title FROM documents WHERE id = ?', [overrideDocId]);
         
-        // Validação estrita de tipo de documento
+        // Validação estrita (somente testa a regra do slot atual)
         if (docRecord) {
-           if (docRecord.title === "Histórico Escolar" && !isHistorico) {
-               return { success: false, message: 'O arquivo enviado não parece ser um Histórico Escolar. Verifique se escolheu o slot correto.' };
+           if (docRecord.title === "Histórico Escolar" && !checkHistorico()) {
+               return { success: false, message: 'O arquivo que você enviou não parece ser um Histórico Escolar. Confira se selecionou o PDF correto.' };
            }
-           if (docRecord.title === "Passe Livre Estudantil" && !isPasseLivre) {
-               return { success: false, message: 'O arquivo enviado não parece ser um Passe Livre Estudantil. Verifique se escolheu o slot correto.' };
+           if (docRecord.title === "Passe Livre Estudantil" && !checkPasseLivre()) {
+               return { success: false, message: 'O arquivo que você enviou não parece ser o Passe Livre Estudantil. Confira se selecionou o PDF correto.' };
            }
+           if (docRecord.title === "Boletim de Notas" && !checkBoletim()) {
+               return { success: false, message: 'O arquivo que você enviou não parece ser o Boletim de Notas. Confira se selecionou o PDF correto.' };
+           }
+           if (docRecord.title === "Índice Acadêmico" && !checkIndice()) {
+               return { success: false, message: 'O arquivo que você enviou não parece ser o Índice Acadêmico. Confira se selecionou o PDF correto.' };
+           }
+           if (docRecord.title === "Carteirinha Estudantil" && !checkCarteirinha()) {
+               return { success: false, message: 'O arquivo que você enviou não parece ser a Carteirinha Estudantil. Confira se selecionou o PDF correto.' };
+           }
+           finalDocTitle = docRecord.title;
         }
       } else {
-        const docTitle = isHistorico ? "Histórico Escolar" : "Passe Livre Estudantil";
-        docRecord = await db.getFirstAsync<{id: number, title: string}>('SELECT id, title FROM documents WHERE title = ?', [docTitle]);
+        // Se inserido pelo botão genérico, testa na ordem até achar
+        if (checkHistorico()) finalDocTitle = "Histórico Escolar";
+        else if (checkPasseLivre()) finalDocTitle = "Passe Livre Estudantil";
+        else if (checkCarteirinha()) finalDocTitle = "Carteirinha Estudantil";
+        else if (checkBoletim()) finalDocTitle = "Boletim de Notas";
+        else if (checkIndice()) finalDocTitle = "Índice Acadêmico";
+        
+        if (!finalDocTitle) {
+          return { success: false, message: 'Não conseguimos identificar este documento. Por favor, envie um documento oficial gerado pelo SIGAA da UnB.' };
+        }
+
+        docRecord = await db.getFirstAsync<{id: number, title: string}>('SELECT id, title FROM documents WHERE title = ?', [finalDocTitle]);
       }
       
       if (docRecord) {
@@ -54,9 +81,9 @@ export async function processAndSaveDocument(
         
         let newUri = "";
         if (FileSystem) {
-          const finalFileName = `${docRecord.id}_${fileName || 'documento.pdf'}`;
-          newUri = FileSystem.documentDirectory + finalFileName;
-          await FileSystem.copyAsync({ from: fileUri, to: newUri });
+           const finalFileName = `${docRecord.id}_${fileName || 'documento.pdf'}`;
+           newUri = FileSystem.documentDirectory + finalFileName;
+           await FileSystem.copyAsync({ from: fileUri, to: newUri });
         }
 
         await db.runAsync(
@@ -64,10 +91,9 @@ export async function processAndSaveDocument(
           [newUri, fileName || 'documento.pdf', mimeType || 'application/pdf', size || 0, newMeta, docRecord.id]
         );
 
-        // Se a chamada veio da aba Documentos (tem overrideDocId) e é um slot "burro",
-        // paramos a execução aqui. Ele salva o arquivo e não altera o banco de dados.
-        if (overrideDocId && docRecord.title !== "Histórico Escolar" && docRecord.title !== "Passe Livre Estudantil") {
-           return { success: false, message: 'Documento salvo (Sem Processamento Automático).' };
+        // Bloqueia processamento indevido de documentos "burros"
+        if (finalDocTitle !== "Histórico Escolar" && finalDocTitle !== "Passe Livre Estudantil") {
+           return { success: false, message: 'Documento salvo.' };
         }
       }
     } catch (err) {
@@ -95,13 +121,13 @@ export async function processAndSaveDocument(
       return { success: true, message: successMessage };
     };
 
-    // Detecção automática de qual documento foi enviado
-    if (isHistorico) {
+    // Detecção automática de qual documento foi enviado (apenas Histórico e Passe Livre chegam aqui)
+    if (finalDocTitle === "Histórico Escolar") {
       const { extrairDadosDoHistorico } = await import('./historicoParser');
       const parsedData = extrairDadosDoHistorico(text);
       
       if (!parsedData || parsedData.disciplinas.length === 0) {
-        return { success: false, message: 'Não foi possível encontrar disciplinas válidas neste Histórico.' };
+        return { success: false, message: 'Conseguimos ler o Histórico, mas não encontramos nenhuma disciplina cursada nele.' };
       }
 
       // Descobrir qual é o semestre atual (o maior ano/periodo do histórico)
@@ -153,12 +179,12 @@ export async function processAndSaveDocument(
       // Se não for Histórico, assume que é Passe Livre
       const { aluno, disciplinas: parsedDisciplinas } = extrairDadosDoPDF(text);
       if (parsedDisciplinas.length === 0) {
-        return { success: false, message: 'Não foi possível encontrar disciplinas válidas neste PDF.' };
+        return { success: false, message: 'Conseguimos ler o Passe Livre, mas não encontramos nenhuma disciplina matriculada.' };
       }
 
       return await attemptSync(aluno, parsedDisciplinas, 'Grade importada com sucesso via Declaração/Passe Livre! O arquivo foi salvo na aba Documentos.');
     }
   } catch (error: any) {
-    return { success: false, message: `Erro ao processar o arquivo: ${error.message}` };
+    return { success: false, message: `Ocorreu um erro inesperado ao processar o arquivo: ${error.message}` };
   }
 }

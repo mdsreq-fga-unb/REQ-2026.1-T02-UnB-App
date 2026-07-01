@@ -22,20 +22,20 @@ type CrossPlatformSymbol = {
 
 const SYMBOL_MAP: Record<string, CrossPlatformSymbol> = {
   // Ícones de interface
-  'folder.fill':                { ios: 'folder.fill',                android: 'folder',          web: 'folder' },
-  'chevron.down':               { ios: 'chevron.down',               android: 'expand_more',     web: 'expand_more' },
-  'chevron.right':              { ios: 'chevron.right',              android: 'chevron_right',   web: 'chevron_right' },
-  'square.and.arrow.up.fill':   { ios: 'square.and.arrow.up.fill',   android: 'share',           web: 'share' },
-  'magnifyingglass':            { ios: 'magnifyingglass',            android: 'search',          web: 'search' },
-  'eye.fill':                   { ios: 'eye.fill',                   android: 'visibility',      web: 'visibility' },
-  'trash.fill':                 { ios: 'trash.fill',                 android: 'delete',          web: 'delete' },
-  'arrow.down.doc.fill':        { ios: 'arrow.down.doc.fill',        android: 'download',        web: 'download' },
+  'folder.fill': { ios: 'folder.fill', android: 'folder', web: 'folder' },
+  'chevron.down': { ios: 'chevron.down', android: 'expand_more', web: 'expand_more' },
+  'chevron.right': { ios: 'chevron.right', android: 'chevron_right', web: 'chevron_right' },
+  'square.and.arrow.up.fill': { ios: 'square.and.arrow.up.fill', android: 'share', web: 'share' },
+  'magnifyingglass': { ios: 'magnifyingglass', android: 'search', web: 'search' },
+  'eye.fill': { ios: 'eye.fill', android: 'visibility', web: 'visibility' },
+  'trash.fill': { ios: 'trash.fill', android: 'delete', web: 'delete' },
+  'arrow.up.doc.fill': { ios: 'arrow.up.doc.fill', android: 'upload', web: 'upload' },
   // Ícones dos documentos (DEFAULT_DOCS)
-  'doc.text.fill':              { ios: 'doc.text.fill',              android: 'description',     web: 'description' },
-  'chart.bar.doc.horizontal':   { ios: 'chart.bar.doc.horizontal',   android: 'analytics',       web: 'analytics' },
-  'books.vertical.fill':        { ios: 'books.vertical.fill',        android: 'menu_book',       web: 'menu_book' },
-  'person.text.rectangle.fill': { ios: 'person.text.rectangle.fill', android: 'contact_page',    web: 'contact_page' },
-  'bus.fill':                   { ios: 'bus.fill',                   android: 'directions_bus',  web: 'directions_bus' },
+  'doc.text.fill': { ios: 'doc.text.fill', android: 'description', web: 'description' },
+  'chart.bar.doc.horizontal': { ios: 'chart.bar.doc.horizontal', android: 'analytics', web: 'analytics' },
+  'books.vertical.fill': { ios: 'books.vertical.fill', android: 'menu_book', web: 'menu_book' },
+  'person.text.rectangle.fill': { ios: 'person.text.rectangle.fill', android: 'contact_page', web: 'contact_page' },
+  'bus.fill': { ios: 'bus.fill', android: 'directions_bus', web: 'directions_bus' },
 };
 
 // Helper para obter o objeto cross-platform a partir de um nome de símbolo
@@ -59,6 +59,27 @@ interface DocumentRecord {
 
 const DEFAULT_DOCS = [
   {
+    title: "Carteirinha Estudantil",
+    description: "Comprovante oficial de vínculo com a UnB",
+    meta: "",
+    color: "#b45309",
+    symbolName: "person.text.rectangle.fill"
+  },
+  {
+    title: "Histórico Escolar",
+    description: "Todas as disciplinas cursadas",
+    meta: "",
+    color: "#7c3aed",
+    symbolName: "books.vertical.fill"
+  },
+  {
+    title: "Passe Livre Estudantil",
+    description: "Solicitação de gratuidade no transporte",
+    meta: "",
+    color: "#be185d",
+    symbolName: "bus.fill"
+  },
+  {
     title: "Boletim de Notas",
     description: "Notas das disciplinas do semestre 2026.1",
     meta: "",
@@ -71,27 +92,6 @@ const DEFAULT_DOCS = [
     meta: "",
     color: "#0e7490",
     symbolName: "chart.bar.doc.horizontal"
-  },
-  {
-    title: "Histórico Escolar",
-    description: "Todas as disciplinas cursadas",
-    meta: "",
-    color: "#7c3aed",
-    symbolName: "books.vertical.fill"
-  },
-  {
-    title: "Atestado de Matrícula",
-    description: "Comprovante oficial de vínculo com a UnB",
-    meta: "",
-    color: "#b45309",
-    symbolName: "person.text.rectangle.fill"
-  },
-  {
-    title: "Passe Livre Estudantil",
-    description: "Solicitação de gratuidade no transporte",
-    meta: "",
-    color: "#be185d",
-    symbolName: "bus.fill"
   }
 ];
 
@@ -139,7 +139,16 @@ export default function Documentos() {
   const loadDocuments = useCallback(async () => {
     try {
       await syncDefaultDocuments();
-      const result = await db.getAllAsync<DocumentRecord>('SELECT * FROM documents ORDER BY id ASC');
+      const result = await db.getAllAsync<DocumentRecord>('SELECT * FROM documents');
+
+      // Ordenar com base na posição em DEFAULT_DOCS
+      result.sort((a, b) => {
+        const indexA = DEFAULT_DOCS.findIndex(d => d.title === a.title);
+        const indexB = DEFAULT_DOCS.findIndex(d => d.title === b.title);
+        // Colocar no final se por acaso não achar no DEFAULT_DOCS
+        return (indexA === -1 ? 99 : indexA) - (indexB === -1 ? 99 : indexB);
+      });
+
       setDocuments(result);
       const size = result.reduce((acc, curr) => acc + (curr.size || 0), 0);
       setTotalSize(size);
@@ -154,27 +163,26 @@ export default function Documentos() {
     }, [loadDocuments])
   );
 
-  const handleBaixar = async (doc: DocumentRecord) => {
+  const handleUpload = async (doc: DocumentRecord) => {
     if (doc.uri && doc.uri !== "") {
-      Alert.alert('Aviso', 'O documento já foi baixado. Toque em "Ver" para acessá-lo.');
+      Alert.alert('Aviso', 'O documento já foi enviado. Toque em "Ver" para acessá-lo.');
       return;
     }
     try {
-      Alert.alert('Simulação de Download', 'Selecione um arquivo local para simular o download deste documento oficial do app da UnB.');
       const result = await DocumentPicker.getDocumentAsync({
         copyToCacheDirectory: true,
       });
 
       if (!result.canceled && result.assets && result.assets.length > 0) {
         const asset = result.assets[0];
-        
+
         const { processAndSaveDocument } = await import('../../../utils/documentProcessor');
-        
+
         const res = await processAndSaveDocument(
-          db, 
-          asset.uri, 
-          asset.name, 
-          asset.mimeType, 
+          db,
+          asset.uri,
+          asset.name,
+          asset.mimeType,
           asset.size,
           doc.id // Garante que ele salva exatamente no slot que o usuário clicou (ex: Declaração de Aluno Regular)
         );
@@ -182,15 +190,15 @@ export default function Documentos() {
         if (res.success) {
           Alert.alert('Documento Processado', res.message);
         } else {
-          // Se o documento foi salvo mas a extração falhou (ex: Declaração comum), avisa o usuário.
-          Alert.alert('Salvo (Sem Processamento)', res.message);
+          const title = res.message.includes('salvo') ? 'Documento Armazenado' : 'Documento não Reconhecido';
+          Alert.alert(title, res.message);
         }
 
         loadDocuments();
       }
     } catch (error) {
       console.error(error);
-      Alert.alert('Erro', 'Não foi possível baixar/salvar o arquivo.');
+      Alert.alert('Erro', 'Não foi possível fazer o upload do arquivo.');
     }
   };
 
@@ -199,7 +207,7 @@ export default function Documentos() {
       Alert.alert('Aviso', 'Este documento ainda não foi baixado.');
       return;
     }
-    
+
     try {
       if (Platform.OS === 'android') {
         const contentUri = await FileSystem.getContentUriAsync(doc.uri);
@@ -276,8 +284,8 @@ export default function Documentos() {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 
-  const filteredDocs = documents.filter(d => 
-    d.title.toLowerCase().includes(search.toLowerCase()) || 
+  const filteredDocs = documents.filter(d =>
+    d.title.toLowerCase().includes(search.toLowerCase()) ||
     d.description.toLowerCase().includes(search.toLowerCase())
   );
   const savedDocuments = documents.filter((doc) => doc.uri && doc.uri !== "");
@@ -384,7 +392,7 @@ export default function Documentos() {
           {/* Docs List */}
           <View style={styles.docsList}>
             {filteredDocs.map((doc, index) => (
-              <DocCard 
+              <DocCard
                 key={doc.id}
                 index={index}
                 title={doc.title}
@@ -393,7 +401,7 @@ export default function Documentos() {
                 color={doc.color}
                 symbolName={doc.symbolName}
                 hasFile={!!doc.uri && doc.uri !== ""}
-                onBaixar={() => handleBaixar(doc)}
+                onUpload={() => handleUpload(doc)}
                 onVer={() => handleVer(doc)}
                 onRemover={() => handleRemover(doc)}
                 getFontSize={getFontSize}
@@ -406,14 +414,14 @@ export default function Documentos() {
   );
 }
 
-function DocCard({ title, description, meta, color, symbolName, hasFile = false, onBaixar, onVer, onRemover, getFontSize, index }: {
+function DocCard({ title, description, meta, color, symbolName, hasFile = false, onUpload, onVer, onRemover, getFontSize, index }: {
   title: string;
   description: string;
   meta: string;
   color: string;
   symbolName: string; // era SFSymbol — agora string, pois vem do banco
   hasFile?: boolean;
-  onBaixar: () => void;
+  onUpload: () => void;
   onVer: () => void;
   onRemover: () => void;
   getFontSize: (baseSize: number) => number;
@@ -442,22 +450,20 @@ function DocCard({ title, description, meta, color, symbolName, hasFile = false,
           <Text style={[styles.docDescription, { fontSize: getFontSize(14), color: colors.textSecondary }]}>{description}</Text>
         </View>
       </View>
-      
       {meta ? <Text style={[styles.docMeta, { fontSize: getFontSize(13), color: colors.textSecondary }]}>{meta}</Text> : null}
-      
       <View style={styles.actionsRow}>
-        <ScalePressable 
-          style={[styles.actionBtnOutline, { borderColor: btnColor, opacity: hasFile ? 1 : 0.5 }]} 
+        <ScalePressable
+          style={[styles.actionBtnOutline, { borderColor: btnColor, opacity: hasFile ? 1 : 0.5 }]}
           onPress={!hasFile ? undefined : onVer}
         >
           {/* CORRIGIDO: olho com Material Symbol no Android */}
           <SymbolView name={sym('eye.fill')} size={16} tintColor={btnColor} />
           <Text style={[styles.actionBtnOutlineText, { color: btnColor, fontSize: getFontSize(15) }]}>Ver</Text>
         </ScalePressable>
-        
+
         {hasFile ? (
-          <ScalePressable 
-            style={[styles.actionBtnSolid, { backgroundColor: "#ef4444" }]} 
+          <ScalePressable
+            style={[styles.actionBtnSolid, { backgroundColor: "#ef4444" }]}
             onPress={onRemover}
           >
             {/* CORRIGIDO: lixeira com Material Symbol no Android */}
@@ -465,13 +471,13 @@ function DocCard({ title, description, meta, color, symbolName, hasFile = false,
             <Text style={[styles.actionBtnSolidText, { fontSize: getFontSize(15) }]}>Remover</Text>
           </ScalePressable>
         ) : (
-          <ScalePressable 
-            style={[styles.actionBtnSolid, { backgroundColor: btnColor }]} 
-            onPress={onBaixar}
+          <ScalePressable
+            style={[styles.actionBtnSolid, { backgroundColor: btnColor }]}
+            onPress={onUpload}
           >
-            {/* CORRIGIDO: download com Material Symbol no Android */}
-            <SymbolView name={sym('arrow.down.doc.fill')} size={16} tintColor="#fff" />
-            <Text style={[styles.actionBtnSolidText, { fontSize: getFontSize(15) }]}>Baixar</Text>
+            {/* CORRIGIDO: upload com Material Symbol no Android */}
+            <SymbolView name={sym('arrow.up.doc.fill')} size={16} tintColor="#fff" />
+            <Text style={[styles.actionBtnSolidText, { fontSize: getFontSize(15) }]}>Upload</Text>
           </ScalePressable>
         )}
       </View>
