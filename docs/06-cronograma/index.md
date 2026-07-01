@@ -1,158 +1,72 @@
-# 6. Cronograma Detalhado (Iterações)
+# 6. Cronograma e Entregas
 
-> 📌 **Visão Geral e Rastreabilidade:** A tabela unificada do cronograma com datas, status e responsáveis está na **[Página Inicial (Home)](../index.md)**. Esta página destina-se ao detalhamento profundo de cada iteração, contendo seus Critérios de Aceite, DoR, DoD e Protótipos.
+## Fase 0 — Planejamento e idealização do escopo
+> 📅 13/04 – 22/05
 
----
-
-## Cronograma × Feature
-
-> Cruzamento entre o cronograma e as features, destacando a entrega do **MVP (F05 + F07 + F09)**.
-
-```mermaid
-gantt
-    title Acompanhamento de Features por Iteração
-    dateFormat  YYYY-MM-DD
-    axisFormat  %d/%m
-
-    section MVP
-    F07 - Grade Horária      :active, f07, 2026-05-23, 17d
-    F09 - Documentos         :active, f09, 2026-05-23, 17d
-    F05 - Onboarding         :         f05, 2026-06-15, 15d
-
-    section Should
-    F08 - Web Scraping       :crit,    f08, 2026-06-09, 15d
-    F04 - Histórico/Passe    :active,  f04, 2026-06-09, 15d
-
-    section Pós-MVP
-    F02 - QRCode BCE         :         f02, 2026-06-24, 13d
-    F03 - Carteirinha        :         f03, 2026-06-24, 13d
-```
+- [x] Visão do Produto e Projeto com contexto atual e solução proposta
+- [x] Estratégias de engenharia de software e engenharia de requisitos
+- [x] Elicitação e descoberta dos requisitos
+- [x] Formação da Feature List, Priorização de Features e MVP
+- [x] Validação do cliente
 
 ---
 
-<div class="iterations-container" style="display: flex; flex-direction: column; gap: 2rem;">
+## Iteração 1 - Feature 9 e 7 
+> 📅 Até 08/06/2026 (leve atraso de 2 dias para implementação de testes)
+>
+> Implementação e criação da Feature 9 e do esqueleto da aplicação, além da Feature 7 de ensalamento e consulta da grade horária
 
-<article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
-  <h2 style="margin-top: 0;"><a id="i1"></a> 🟠 Iteração 1: Documentos e Grade (F09, F07)</h2>
-  
-  <p>
-    <strong>RFs:</strong> <a href="../08-requisitos/funcionais/#rf16">RF16</a>, <a href="../08-requisitos/funcionais/#rf20">RF20</a>, <a href="../08-requisitos/funcionais/#rf21">RF21</a> | <strong>RNFs:</strong> <a href="../08-requisitos/nao-funcionais/#rnf01">RNF01</a>, <a href="../08-requisitos/nao-funcionais/#rnf02">RNF02</a>, <a href="../08-requisitos/nao-funcionais/#rnf03">RNF03</a>, <a href="../08-requisitos/nao-funcionais/#rnf08">RNF08</a>, <a href="../08-requisitos/nao-funcionais/#rnf09">RNF09</a>, <a href="../08-requisitos/nao-funcionais/#rnf18">RNF18–RNF26</a><br>
-    <strong>Data Final:</strong> 08/06/2026<br>
-    <strong>Responsáveis:</strong>
-  </p>
-  <ul>
-    <li>Luís (CP) — UI, navegação, busca, filtros</li>
-    <li>Davi (CA) — integração SQLite offline, upload e armazenamento</li>
-    <li>Mateus (CO) — suporte técnico</li>
-    <li>Pedro (T) — testes funcionais</li>
-  </ul>
-  
-  <h3>Critérios de Aceite</h3>
-  <ul>
-    <li>O usuário deve conseguir anexar um PDF pelo celular.</li>
-    <li>O aplicativo deve processar esse PDF offline.</li>
-    <li>A grade horária deve ser renderizada corretamente em formato de calendário.</li>
-  </ul>
+- [x] RF20 - Enviar Documentos Oficiais
+- [x] RF21 - Armazenar Documentos Oficiais para Acesso Offline
+- [x] RF 16 - Consultar Grade Horária e Ensalamento
+- [x] Formação da tela de início para visualização da grade horária, pois a aba disciplinas é apenas para visualização em lista de cada matéria
+- [x] RNF01 - Aplicar Interface com Tipografia Adaptável
+- [x] RNF03 - Permitir Consulta de Informações Institucionais Offline
+- [x] RNF08 - Armazenar Dados Locais com Expo SQLite
+- [x] feat: cria a nova tela de início da aplicação com exemplos fakes de como a aplicação deverá ficar. Ainda temos alguns problemas como o ScrollToTop na home que não está funcionando, mesmo com nenhuma alteração feita e a logo do app que ainda está com o expo
+- [x] RF06 - Extrair Dados do Histórico Escolar
+- [x] RF07 - Extrair Dados da Declaração do Passe Livre Estudantil
 
-  <h3>DoR (Definition of Ready)</h3>
-  <ul>
-    <li>Protótipos de alta fidelidade aprovados.</li>
-    <li>ADR-02 (Uso de SQLite) definida e documentada.</li>
-  </ul>
+---
 
-  <h3>DoD (Definition of Done)</h3>
-  <ul>
-    <li>Código no repositório (branch `feat/entregaUnidade3`).</li>
-    <li>Testes de parseamento passando.</li>
-    <li>App funcional no Expo Go.</li>
-  </ul>
+## Iteração 2 - Feature 8 e 4
+> 📅 Até 24/06/2026
+>
+> Coletar e atualizar dados acadêmicos, junto com a extração, processamento e armazenamento do Histórico Escolar e/ou Passe Livre Estudantil
 
-  <h3>Protótipos / Evidências</h3>
-  <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-    <img src="../../assets/evidencias/tela-documentos.png" alt="Tela de Documentos" style="max-height: 250px; border-radius: 8px;" />
-    <img src="../../assets/evidencias/tela-inicial.png" alt="Tela de Grade" style="max-height: 250px; border-radius: 8px;" />
-  </div>
-  <p>🔗 <a href="https://drive.google.com/file/d/1O405tSUfyaiEHS8nvXzuDSnSpt-c87WK/view" target="_blank">Vídeo do Protótipo Funcional</a></p>
-</article>
+- [ ] RF17 - Coletar Dados de Aulas Diariamente via SIGAA
+- [ ] RF18 - Coletar Dados do Calendário Acadêmico Semanalmente
+- [ ] RF19 - Atualizar Informações de Disciplinas Matriculadas
+- [ ] RF04 - Armazenar Dados de Documentos Enviados
+- [ ] RF05 - Processar Dados de Documentos Enviados
+- [ ] RNF03 - Permitir Consulta de Informações Institucionais Offline
+- [ ] RNF04 - Sincronizar Automaticamente Dados Divergentes
+- [ ] RNF08 - Armazenar Dados Locais com Expo SQLite
+- [ ] RNF09 - Emitir Notificações sobre Eventos e Alterações Acadêmicas
+- [x] RNF06 - Atualizar Calendário Acadêmico e Correções via OTA (antecipado para a Iteração 1 por empolgação para implementação dessa funcionalidade, já que o tema da unidade é Calendarização e a ideia é "Calendarizar oProjeto", mas como era só uma funcionalidade foi possível fazer nessa etapa)
 
+---
 
-<article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
-  <h2 style="margin-top: 0;"><a id="i2"></a> 🟡 Iteração 2: Automação e SIGAA (F04, F08)</h2>
-  
-  <p>
-    <strong>RFs:</strong> <a href="../08-requisitos/funcionais/#rf04">RF04–RF07</a>, <a href="../08-requisitos/funcionais/#rf17">RF17–RF19</a> | <strong>RNFs:</strong> <a href="../08-requisitos/nao-funcionais/#rnf03">RNF03</a>, <a href="../08-requisitos/nao-funcionais/#rnf04">RNF04</a>, <a href="../08-requisitos/nao-funcionais/#rnf06">RNF06</a>, <a href="../08-requisitos/nao-funcionais/#rnf08">RNF08</a>, <a href="../08-requisitos/nao-funcionais/#rnf09">RNF09</a><br>
-    <strong>Data Final:</strong> 24/06/2026<br>
-    <strong>Responsáveis:</strong>
-  </p>
-  <ul>
-    <li>Davi (CP/CA) — parser e arquitetura, web scraping SIGAA</li>
-    <li>Mateus (CO) — apoio técnico</li>
-    <li>Pedro e Isaac (T) — testes</li>
-  </ul>
-  
-  <h3>Critérios de Aceite</h3>
-  <ul>
-    <li>Dados do SIGAA devem ser extraídos ou mockados com sucesso.</li>
-    <li>O parser do Passe Livre Estudantil deve funcionar com 90% de precisão.</li>
-  </ul>
+## Iteração 3 - Feature 5
+> 📅 Até 30/06/2026
+>
+> Formação da Splash Screen e telas de primeiro uso ensinando como usar a aplicação
 
-  <h3>DoR (Definition of Ready)</h3>
-  <ul>
-    <li>Credenciais de homologação do SIGAA disponibilizadas (Bloqueio atual).</li>
-    <li>Regex do Passe Livre homologado.</li>
-  </ul>
+- [ ] RF22 - Exibir Fluxo de Onboarding para o SIGAA
+- [ ] RF23 - Exibir Fluxo de Onboarding para o Aprender 3
+- [ ] RNF01 - Aplicar Interface com Tipografia Adaptável
+- [ ] RNF02 - Projetar Navegação de Tarefas Essenciais em Até 2 Cliques
 
-  <h3>DoD (Definition of Done)</h3>
-  <ul>
-    <li>Notificações em background testadas no celular físico.</li>
-    <li>Atualizações do calendário ocorrendo sem quebrar a UI.</li>
-  </ul>
+---
 
-  <h3>Protótipos / Evidências</h3>
-  <p><em>Iteração bloqueada (F08) ou em andamento (F04). Sem protótipos finais aprovados para exibição ainda.</em></p>
-</article>
+## Iteração 4 - Feature 2 e 3
+> 📅 Até 07/07/2026
+>
+> Exibição de QrCode para RU e a carteirinha estudantil numa nova tab de Acesso
 
-
-<article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
-  <h2 style="margin-top: 0;"><a id="i3"></a> 🟡 Iteração 3: Onboarding e Carteirinha (F05, F02, F03)</h2>
-
-  <p>
-    <strong>RFs:</strong> <a href="../08-requisitos/funcionais/#rf01">RF01</a>, <a href="../08-requisitos/funcionais/#rf02">RF02</a>, <a href="../08-requisitos/funcionais/#rf03">RF03</a>, <a href="../08-requisitos/funcionais/#rf22">RF22</a>, <a href="../08-requisitos/funcionais/#rf23">RF23</a> | <strong>RNFs:</strong> <a href="../08-requisitos/nao-funcionais/#rnf01">RNF01–RNF03</a>, <a href="../08-requisitos/nao-funcionais/#rnf08">RNF08</a>, <a href="../08-requisitos/nao-funcionais/#rnf18">RNF18–RNF26</a><br>
-    <strong>Data Final:</strong> 07/07/2026<br>
-    <strong>Responsáveis:</strong>
-  </p>
-  <ul>
-    <li>Luís (CP/DE) — implementação e copy, geração e renderização, UI</li>
-    <li>Davi (CA) — persistência offline</li>
-    <li>Pedro e Isaac (T) — testes e verificação de acessibilidade (checklist)</li>
-  </ul>
-
-  <h3>Critérios de Aceite</h3>
-  <ul>
-    <li>Novos usuários devem ver o slider educativo antes da Home.</li>
-    <li>Telas de tutorial não devem ser mostradas novamente no segundo acesso.</li>
-    <li>QR Code gerado offline deve ser aceito nas catracas da BCE.</li>
-    <li>Foto e dados do aluno devem aparecer nítidos na tela.</li>
-  </ul>
-
-  <h3>DoR (Definition of Ready)</h3>
-  <ul>
-    <li>Copy (textos) dos tutoriais escritos e validados com a equipe de usabilidade (60+).</li>
-    <li>Assets visuais e ícones exportados em SVG.</li>
-    <li>Padrão de criptografia do QR Code da UnB documentado.</li>
-    <li>Foto do usuário disponível localmente no cache do SQLite.</li>
-  </ul>
-
-  <h3>DoD (Definition of Done)</h3>
-  <ul>
-    <li>Animações nativas rodando a 60fps constantes.</li>
-    <li>Critérios WCAG 2.1 AA atendidos (contraste e foco).</li>
-    <li>Acesso físico simulado ou testado na BCE.</li>
-    <li>Layout responsivo garantido para telas menores.</li>
-  </ul>
-
-  <h3>Protótipos / Evidências</h3>
-  <img src="../../assets/evidencias/tela-inicial.png" alt="Tela Inicial" style="max-height: 250px; border-radius: 8px;" />
-  <p>🔗 <a href="https://drive.google.com/file/d/1J5pvcoWDN1ZcXoa7kzQK8vBnkqCwdqLL/view" target="_blank">Vídeo de Navegação Inicial</a></p>
-  <p><em>Carteirinha/QRCode: branches em andamento. Protótipos em fase final de validação visual.</em></p>
-</article>
+- [ ] RF01 - Exibir Carteirinha Estudantil Digital
+- [ ] RF02 - Gerar QR Code para Acesso à BCE
+- [ ] RF03 - Armazenar Carteirinha Estudantil
+- [ ] RNF01 - Aplicar Interface com Tipografia Adaptável
+- [ ] RNF03 - Permitir Consulta de Informações Institucionais Offline
+- [ ] RNF08 - Armazenar Dados Locais com Expo SQLite
