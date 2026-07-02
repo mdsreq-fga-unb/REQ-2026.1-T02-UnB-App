@@ -4,19 +4,19 @@ O presente projeto tem como objetivo desenvolver uma solução mobile complement
 
 <div class="oe-grid">
   <div class="oe-card">
-    <span class="oe-id">OE1</span>
+    <span id="oe1" class="oe-id">OE1</span>
     <p>Permitir a realização de tarefas acadêmicas, como consulta de notas, locais de prova e emissão de documentos, sem necessidade de ajuda de terceiros (familiares ou funcionários da UnB).</p>
   </div>
   <div class="oe-card">
-    <span class="oe-id">OE2</span>
+    <span id="oe2" class="oe-id">OE2</span>
     <p>Reduzir a sobrecarga de informação e a fadiga visual do usuário por meio de: razão de contraste entre texto e fundo ≥ 4,5:1 (WCAG 2.1 nível AA); tamanho de fonte configurável pelo usuário; e número de toques entre a tela inicial e a conclusão de cada tarefa — threshold a ser definido na validação com os usuários.</p>
   </div>
   <div class="oe-card">
-    <span class="oe-id">OE3</span>
+    <span id="oe3" class="oe-id">OE3</span>
     <p>Permitir que calouros 60+ concluam tarefas acadêmicas básicas no primeiro uso sem precisar recorrer a ajuda externa, por meio de tutoriais passo a passo e guias integrados ao fluxo de cada funcionalidade.</p>
   </div>
   <div class="oe-card">
-    <span class="oe-id">OE4</span>
+    <span id="oe4" class="oe-id">OE4</span>
     <p>Eliminar a necessidade de o aluno buscar ativamente prazos e locais de aula no sistema, por meio de notificações automáticas enviadas antes do vencimento de cada prazo acadêmico.</p>
   </div>
 </div>
