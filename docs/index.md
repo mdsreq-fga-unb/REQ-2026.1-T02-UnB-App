@@ -31,18 +31,21 @@ Acompanhamento das iterações do desenvolvimento FDD.
 
 ---
 
-## 3. Matriz de Rastreabilidade Visual
+## 3. Matriz de Rastreabilidade
 
-Esta matriz amarra o **Problema Identificado** à **Feature** que o resolve.
-*Legenda:* ✅ Implementado | 🟡 Parcial/Andamento | 🔴 Pendente/Atrasado
+> Relacionamento entre Objetivos Específicos (OE), Características de Produto (C), Requisitos Funcionais (RF), Não Funcionais (RNF) e Features FDD.
 
-| Problema Identificado | Objetivo | Característica | Requisito | Feature |
-| :--- | :--- | :--- | :--- | :--- |
-| Desorganização de papéis (ex: passe estudantil) | Unificar documentos num local seguro | Acesso offline a PDFs | [RF21](08-requisitos/funcionais.md#rf21) ✅ | [F09](10-feature-list/feature-list-geral.md#f09) 🟠 |
-| Dificuldade em saber o local das aulas no campus | Exibir locais e horários de forma ágil | Interface de mapa/lista rápida | [RF16](08-requisitos/funcionais.md#rf16) 🟡 | [F07](10-feature-list/feature-list-geral.md#f07) 🟠 |
-| Calouros perdidos nas plataformas (SIGAA/Aprender) | Fornecer guia introdutório | Componentes de onboarding educativo | [RF22](08-requisitos/funcionais.md#rf22) 🟡 | [F05](10-feature-list/feature-list-geral.md#f05) 🟡 |
-| Longas filas na Biblioteca Central (BCE) | Agilizar entrada pelas catracas | Leitura otimizada por QR Code | [RF02](08-requisitos/funcionais.md#rf02) 🟡 | [F02](10-feature-list/feature-list-geral.md#f02) 🟡 |
-| Esforço braçal de copiar dados do SIGAA | Automatizar coleta de dados | Integração Web Scraping invisível | [RF17](08-requisitos/funcionais.md#rf17) 🔴 | [F08](10-feature-list/feature-list-geral.md#f08) 🔴 |
+| Contribuição principal | Contribuição secundária | Característica de Produto | Requisitos Funcionais relacionados | Requisitos Não Funcionais relacionados | Features relacionadas |
+|:---:|:---:|:---:|---|---|---|
+| OE1 | OE2 | C06 | [RF04](08-requisitos/funcionais.md#rf04), [RF05](08-requisitos/funcionais.md#rf05), [RF06](08-requisitos/funcionais.md#rf06), [RF07](08-requisitos/funcionais.md#rf07) | [RNF13](08-requisitos/nao-funcionais.md#rnf13) | [F04](10-feature-list/feature-list-geral.md#f04) |
+| OE1 | OE3 | C07 | [RF20](08-requisitos/funcionais.md#rf20), [RF21](08-requisitos/funcionais.md#rf21) | - | [F09](10-feature-list/feature-list-geral.md#f09) |
+| OE2 | OE3 | C08 | [RF08](08-requisitos/funcionais.md#rf08), [RF09](08-requisitos/funcionais.md#rf09), [RF10](08-requisitos/funcionais.md#rf10), [RF11](08-requisitos/funcionais.md#rf11) | - | [F01](10-feature-list/feature-list-geral.md#f01) |
+| OE2 | OE1 | C09 | - | [RNF01](08-requisitos/nao-funcionais.md#rnf01), [RNF02](08-requisitos/nao-funcionais.md#rnf02), [RNF05](08-requisitos/nao-funcionais.md#rnf05), [RNF10](08-requisitos/nao-funcionais.md#rnf10) a [RNF12](08-requisitos/nao-funcionais.md#rnf12), [RNF18](08-requisitos/nao-funcionais.md#rnf18) a [RNF26](08-requisitos/nao-funcionais.md#rnf26) | Transversal: [F02](10-feature-list/feature-list-geral.md#f02), [F03](10-feature-list/feature-list-geral.md#f03), [F05](10-feature-list/feature-list-geral.md#f05), [F07](10-feature-list/feature-list-geral.md#f07), [F09](10-feature-list/feature-list-geral.md#f09) |
+| OE3 | OE1 | C01 | - | [RNF03](08-requisitos/nao-funcionais.md#rnf03), [RNF08](08-requisitos/nao-funcionais.md#rnf08), [RNF14](08-requisitos/nao-funcionais.md#rnf14) | [F03](10-feature-list/feature-list-geral.md#f03) |
+| OE3 | OE1 | C04 | [RF12](08-requisitos/funcionais.md#rf12), [RF13](08-requisitos/funcionais.md#rf13), [RF14](08-requisitos/funcionais.md#rf14), [RF15](08-requisitos/funcionais.md#rf15), [RF22](08-requisitos/funcionais.md#rf22), [RF23](08-requisitos/funcionais.md#rf23) | - | [F06](10-feature-list/feature-list-geral.md#f06), [F05](10-feature-list/feature-list-geral.md#f05) |
+| OE3 | - | C05 | [RF01](08-requisitos/funcionais.md#rf01), [RF02](08-requisitos/funcionais.md#rf02), [RF03](08-requisitos/funcionais.md#rf03) | - | [F03](10-feature-list/feature-list-geral.md#f03), [F02](10-feature-list/feature-list-geral.md#f02) |
+| OE4 | OE1 | C03 | [RF18](08-requisitos/funcionais.md#rf18) | [RNF06](08-requisitos/nao-funcionais.md#rnf06), [RNF09](08-requisitos/nao-funcionais.md#rnf09) | [F08](10-feature-list/feature-list-geral.md#f08) |
+| OE4 | OE3 | C02 | [RF16](08-requisitos/funcionais.md#rf16), [RF17](08-requisitos/funcionais.md#rf17), [RF19](08-requisitos/funcionais.md#rf19) | [RNF04](08-requisitos/nao-funcionais.md#rnf04), [RNF17](08-requisitos/nao-funcionais.md#rnf17) | [F07](10-feature-list/feature-list-geral.md#f07), [F08](10-feature-list/feature-list-geral.md#f08) |
 
 ---
 
