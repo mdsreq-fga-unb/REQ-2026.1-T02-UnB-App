@@ -41,12 +41,12 @@
 | **F01** | Conversar com assistente (IA/Voz) | [RF08](../08-requisitos/funcionais.md#rf08), [RF09](../08-requisitos/funcionais.md#rf09), [RF10](../08-requisitos/funcionais.md#rf10), [RF11](../08-requisitos/funcionais.md#rf11) | [RNF01](../08-requisitos/nao-funcionais.md#rnf01), [RNF08](../08-requisitos/nao-funcionais.md#rnf08), [RNF18](../08-requisitos/nao-funcionais.md#rnf18) a [RNF26](../08-requisitos/nao-funcionais.md#rnf26) | Won't | — | — | — | ❌ | Fora do escopo — VB=2 / ES=60h |
 | **F02** | Exibir QRCode da BCE | [RF02](../08-requisitos/funcionais.md#rf02) | [RNF01](../08-requisitos/nao-funcionais.md#rnf01), [RNF02](../08-requisitos/nao-funcionais.md#rnf02), [RNF03](../08-requisitos/nao-funcionais.md#rnf03), [RNF08](../08-requisitos/nao-funcionais.md#rnf08), [RNF18](../08-requisitos/nao-funcionais.md#rnf18) a [RNF26](../08-requisitos/nao-funcionais.md#rnf26) | Could (pós-MVP) | **Iteração 3** | até 07/07/2026 | Luís (CP), Pedro (T) | 🟡 | Branch `feat/qrcode-bce` em desenvolvimento |
 | **F03** | Exibir e armazenar a carteirinha digital | [RF01](../08-requisitos/funcionais.md#rf01), [RF03](../08-requisitos/funcionais.md#rf03) | [RNF02](../08-requisitos/nao-funcionais.md#rnf02), [RNF03](../08-requisitos/nao-funcionais.md#rnf03), [RNF08](../08-requisitos/nao-funcionais.md#rnf08), [RNF18](../08-requisitos/nao-funcionais.md#rnf18) a [RNF26](../08-requisitos/nao-funcionais.md#rnf26) | Could (pós-MVP) | **Iteração 3** | até 07/07/2026 | Luís (CP), Davi (CA), Pedro (T) | 🟡 | Branch `feat/carteirinha-digital` em desenvolvimento |
-| **F04** | Extrair e processar Histórico/Passe Livre | [RF04](../08-requisitos/funcionais.md#rf04), [RF05](../08-requisitos/funcionais.md#rf05), [RF06](../08-requisitos/funcionais.md#rf06), [RF07](../08-requisitos/funcionais.md#rf07) | [RNF03](../08-requisitos/nao-funcionais.md#rnf03), [RNF08](../08-requisitos/nao-funcionais.md#rnf08), [RNF13](../08-requisitos/nao-funcionais.md#rnf13), [RNF14](../08-requisitos/nao-funcionais.md#rnf14), [RNF18](../08-requisitos/nao-funcionais.md#rnf18) a [RNF26](../08-requisitos/nao-funcionais.md#rnf26) | Should | **Iteração 2** | até 24/06/2026 | Davi (CP/CA), Mateus (CO), Pedro (T) | 🟡 | RF06 ✅ concluído (parser); RF04/RF05/RF07 ⬜ |
-| **F05** | Exibir fluxos de onboarding | [RF22](../08-requisitos/funcionais.md#rf22), [RF23](../08-requisitos/funcionais.md#rf23) | [RNF01](../08-requisitos/nao-funcionais.md#rnf01), [RNF02](../08-requisitos/nao-funcionais.md#rnf02), [RNF10](../08-requisitos/nao-funcionais.md#rnf10) a [RNF12](../08-requisitos/nao-funcionais.md#rnf12), [RNF18](../08-requisitos/nao-funcionais.md#rnf18) a [RNF26](../08-requisitos/nao-funcionais.md#rnf26) | Must (MVP) | **Iteração 3** | até 30/06/2026 | Luís (CP/DE), Isaac (T) | 🟡 | Tela Home implementada; fluxos SIGAA/Aprender 3 ⬜ |
+| **F04** | Extrair e processar Histórico/Passe Livre | [RF04](../08-requisitos/funcionais.md#rf04), [RF05](../08-requisitos/funcionais.md#rf05), [RF06](../08-requisitos/funcionais.md#rf06), [RF07](../08-requisitos/funcionais.md#rf07) | [RNF03](../08-requisitos/nao-funcionais.md#rnf03), [RNF08](../08-requisitos/nao-funcionais.md#rnf08), [RNF13](../08-requisitos/nao-funcionais.md#rnf13), [RNF14](../08-requisitos/nao-funcionais.md#rnf14), [RNF18](../08-requisitos/nao-funcionais.md#rnf18) a [RNF26](../08-requisitos/nao-funcionais.md#rnf26) | Should | **Iteração 2** | até 24/06/2026 | Davi (CP/CA), Mateus (CO), Pedro (T) | ✅ | Todas as RFs ✅ concluídas |
+| **F05** | Exibir fluxos de onboarding | [RF22](../08-requisitos/funcionais.md#rf22), [RF23](../08-requisitos/funcionais.md#rf23) | [RNF01](../08-requisitos/nao-funcionais.md#rnf01), [RNF02](../08-requisitos/nao-funcionais.md#rnf02), [RNF10](../08-requisitos/nao-funcionais.md#rnf10) a [RNF12](../08-requisitos/nao-funcionais.md#rnf12), [RNF18](../08-requisitos/nao-funcionais.md#rnf18) a [RNF26](../08-requisitos/nao-funcionais.md#rnf26) | Must (MVP) | **Iteração 3** | até 30/06/2026 | Luís (CP/DE), Isaac (T) | ✅ | Tela Home e fluxos implementados ✅ |
 | **F06** | Listar e reproduzir tutoriais | [RF12](../08-requisitos/funcionais.md#rf12), [RF13](../08-requisitos/funcionais.md#rf13), [RF14](../08-requisitos/funcionais.md#rf14), [RF15](../08-requisitos/funcionais.md#rf15) | [RNF01](../08-requisitos/nao-funcionais.md#rnf01), [RNF02](../08-requisitos/nao-funcionais.md#rnf02), [RNF18](../08-requisitos/nao-funcionais.md#rnf18) a [RNF26](../08-requisitos/nao-funcionais.md#rnf26) | Won't | — | — | — | ❌ | Fora do escopo — VB=2 / ES=15h |
-| **F07** | Consultar grade horária e ensalamento | [RF16](../08-requisitos/funcionais.md#rf16) | [RNF01](../08-requisitos/nao-funcionais.md#rnf01), [RNF02](../08-requisitos/nao-funcionais.md#rnf02), [RNF03](../08-requisitos/nao-funcionais.md#rnf03), [RNF09](../08-requisitos/nao-funcionais.md#rnf09), [RNF14](../08-requisitos/nao-funcionais.md#rnf14), [RNF18](../08-requisitos/nao-funcionais.md#rnf18) a [RNF26](../08-requisitos/nao-funcionais.md#rnf26) | Must (MVP) | **Iteração 1** | até 08/06/2026 | Luís (CP), Davi (CA), Pedro (T) | 🟡 | Tela Schedule + parser; [vídeo Upload e Grade](https://drive.google.com/file/d/1O405tSUfyaiEHS8nvXzuDSnSpt-c87WK/view?usp=drive_link) |
-| **F08** | Coletar e atualizar dados acadêmicos (Matrícula) | [RF17](../08-requisitos/funcionais.md#rf17), [RF18](../08-requisitos/funcionais.md#rf18), [RF19](../08-requisitos/funcionais.md#rf19) | [RNF04](../08-requisitos/nao-funcionais.md#rnf04), [RNF06](../08-requisitos/nao-funcionais.md#rnf06), [RNF08](../08-requisitos/nao-funcionais.md#rnf08), [RNF17](../08-requisitos/nao-funcionais.md#rnf17), [RNF18](../08-requisitos/nao-funcionais.md#rnf18) a [RNF26](../08-requisitos/nao-funcionais.md#rnf26) | Should | **Iteração 2** | até 24/06/2026 | Davi (CP/CA), Mateus (CO), Isaac (T) | 🔴 | Bloqueada — sem credenciais SIGAA para testes |
-| **F09** | Centralizar documentos oficiais | [RF20](../08-requisitos/funcionais.md#rf20), [RF21](../08-requisitos/funcionais.md#rf21) | [RNF01](../08-requisitos/nao-funcionais.md#rnf01), [RNF02](../08-requisitos/nao-funcionais.md#rnf02), [RNF03](../08-requisitos/nao-funcionais.md#rnf03), [RNF08](../08-requisitos/nao-funcionais.md#rnf08), [RNF14](../08-requisitos/nao-funcionais.md#rnf14), [RNF18](../08-requisitos/nao-funcionais.md#rnf18) a [RNF26](../08-requisitos/nao-funcionais.md#rnf26) | Must (MVP) | **Iteração 1** | até 08/06/2026 | Luís (CP), Davi (CA), Mateus (CO), Pedro (T) | 🟡 | Upload + SQLite + busca; [vídeo Buscas e Filtros](https://drive.google.com/file/d/1EOVQwvk7PbyRCCIwI105-FQpBcUWR342/view?usp=drive_link) |
+| **F07** | Consultar grade horária e ensalamento | [RF16](../08-requisitos/funcionais.md#rf16) | [RNF01](../08-requisitos/nao-funcionais.md#rnf01), [RNF02](../08-requisitos/nao-funcionais.md#rnf02), [RNF03](../08-requisitos/nao-funcionais.md#rnf03), [RNF09](../08-requisitos/nao-funcionais.md#rnf09), [RNF14](../08-requisitos/nao-funcionais.md#rnf14), [RNF18](../08-requisitos/nao-funcionais.md#rnf18) a [RNF26](../08-requisitos/nao-funcionais.md#rnf26) | Must (MVP) | **Iteração 1** | até 08/06/2026 | Luís (CP), Davi (CA), Pedro (T) | ✅ | Tela Schedule + parser; [vídeo Upload e Grade](https://drive.google.com/file/d/1O405tSUfyaiEHS8nvXzuDSnSpt-c87WK/view?usp=drive_link) |
+| **F08** | Coletar e atualizar dados acadêmicos (Matrícula) | [RF17](../08-requisitos/funcionais.md#rf17), [RF18](../08-requisitos/funcionais.md#rf18), [RF19](../08-requisitos/funcionais.md#rf19) | [RNF04](../08-requisitos/nao-funcionais.md#rnf04), [RNF06](../08-requisitos/nao-funcionais.md#rnf06), [RNF08](../08-requisitos/nao-funcionais.md#rnf08), [RNF17](../08-requisitos/nao-funcionais.md#rnf17), [RNF18](../08-requisitos/nao-funcionais.md#rnf18) a [RNF26](../08-requisitos/nao-funcionais.md#rnf26) | Should | **Iteração 2** | até 24/06/2026 | Davi (CP/CA), Mateus (CO), Isaac (T) | ✅ | Sincronização com SIGAA validada ✅ |
+| **F09** | Centralizar documentos oficiais | [RF20](../08-requisitos/funcionais.md#rf20), [RF21](../08-requisitos/funcionais.md#rf21) | [RNF01](../08-requisitos/nao-funcionais.md#rnf01), [RNF02](../08-requisitos/nao-funcionais.md#rnf02), [RNF03](../08-requisitos/nao-funcionais.md#rnf03), [RNF08](../08-requisitos/nao-funcionais.md#rnf08), [RNF14](../08-requisitos/nao-funcionais.md#rnf14), [RNF18](../08-requisitos/nao-funcionais.md#rnf18) a [RNF26](../08-requisitos/nao-funcionais.md#rnf26) | Must (MVP) | **Iteração 1** | até 08/06/2026 | Luís (CP), Davi (CA), Mateus (CO), Pedro (T) | ✅ | Upload + SQLite + busca; [vídeo Buscas e Filtros](https://drive.google.com/file/d/1EOVQwvk7PbyRCCIwI105-FQpBcUWR342/view?usp=drive_link) |
 
 ---
 
@@ -54,7 +54,7 @@
 
 <article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" markdown="1">
 
-### <a id="f09"></a> 🟠 F09: Centralizar documentos oficiais
+### <a id="f09"></a> ✅ F09: Centralizar documentos oficiais
 
 **Prioridade:** Must (MVP) | **Iteração:** [I1](../06-cronograma/index.md#i1) | **Requisitos Relacionados:** [RF20](../08-requisitos/funcionais.md#rf20), [RF21](../08-requisitos/funcionais.md#rf21) | **Qualidade:** [DoR](../09-dor-dod/dor-aplicacao.md#f09-centralizar-documentos-oficiais) · [DoD](../09-dor-dod/dod-aplicacao.md#f09-centralizar-documentos-oficiais)
 
@@ -111,8 +111,8 @@
   - [x] Armazenamento local (RF21)
   - [x] Busca textual
   - [x] Filtros por tipo/data
-  - [ ] Testes unitários do parser
-  - [ ] Validação com usuária 60+
+  - [x] Testes unitários do parser
+  - [x] Validação com usuária 60+
 - **Critério de pronto:** Upload + busca + checklist de acessibilidade aprovados.
 - **Outras Evidências:** [Vídeo Buscas e Filtros](https://drive.google.com/file/d/1EOVQwvk7PbyRCCIwI105-FQpBcUWR342/view?usp=drive_link)
 
@@ -120,7 +120,7 @@
 
 <article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" markdown="1">
 
-### <a id="f05"></a> 🟡 F05: Exibir fluxos de onboarding
+### <a id="f05"></a> ✅ F05: Exibir fluxos de onboarding
 
 **Prioridade:** Must (MVP) | **Iteração:** [I3](../06-cronograma/index.md#i3) | **Requisitos Relacionados:** [RF22](../08-requisitos/funcionais.md#rf22), [RF23](../08-requisitos/funcionais.md#rf23) | **Qualidade:** [DoR](../09-dor-dod/dor-aplicacao.md#f05-exibir-fluxos-de-onboarding)
 
@@ -157,9 +157,9 @@
 - **Subatividades:**
   - [x] Splash Screen configurada
   - [x] Tela inicial implementada com exemplos
-  - [ ] Fluxo de onboarding SIGAA (RF22)
-  - [ ] Fluxo de onboarding Aprender 3 (RF23)
-  - [ ] Inspeção visual com usuária 60+
+  - [x] Fluxo de onboarding SIGAA (RF22)
+  - [x] Fluxo de onboarding Aprender 3 (RF23)
+  - [x] Inspeção visual com usuária 60+
 - **Critério de pronto:** Ambos os fluxos (SIGAA + Aprender 3) passam pelo [checklist de acessibilidade](../08-requisitos/checklist-acessibilidade.md) e são demonstrados para a cliente.
 - **Outras Evidências:** captura em `UnB-App/src/screens/Home*`
 
@@ -167,7 +167,7 @@
 
 <article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" markdown="1">
 
-### <a id="f07"></a> 🟠 F07: Consultar grade horária e ensalamento
+### <a id="f07"></a> ✅ F07: Consultar grade horária e ensalamento
 
 **Prioridade:** Must (MVP) | **Iteração:** [I1](../06-cronograma/index.md#i1) | **Requisitos Relacionados:** [RF16](../08-requisitos/funcionais.md#rf16) | **Qualidade:** [DoR](../09-dor-dod/dor-aplicacao.md#f07-consultar-grade-horaria-e-ensalamento) · [DoD](../09-dor-dod/dod-aplicacao.md#f07-consultar-grade-horaria-e-ensalamento)
 
@@ -220,8 +220,8 @@
   - [x] Tela Home/Disciplinas (RF16)
   - [x] Parser do histórico em PDF (parcial)
   - [x] Cache local SQLite
-  - [ ] Sincronização com calendário acadêmico
-  - [ ] Notificação de alteração de horário/sala (RNF09)
+  - [x] Sincronização com calendário acadêmico
+  - [x] Notificação de alteração de horário/sala (RNF09)
 - **Critério de pronto:** Consulta 100% offline + checklist de acessibilidade aprovado.
 - **Outras Evidências:** [Vídeo Upload e Grade](https://drive.google.com/file/d/1O405tSUfyaiEHS8nvXzuDSnSpt-c87WK/view?usp=drive_link)
 
@@ -229,7 +229,7 @@
 
 <article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" markdown="1">
 
-### <a id="f04"></a> 🟠 F04: Extrair e processar Histórico/Passe Livre
+### <a id="f04"></a> ✅ F04: Extrair e processar Histórico/Passe Livre
 
 **Prioridade:** Should (S) | **Iteração:** [I2](../06-cronograma/index.md#i2) | **Requisitos Relacionados:** [RF04](../08-requisitos/funcionais.md#rf04), [RF05](../08-requisitos/funcionais.md#rf05), [RF06](../08-requisitos/funcionais.md#rf06), [RF07](../08-requisitos/funcionais.md#rf07) | **Qualidade:** [DoR](../09-dor-dod/dor-aplicacao.md#f04-extrair-processar-e-armazenar-historico-escolar-passe-livre)
 
@@ -269,17 +269,17 @@
   - Pedro (T) — testes
 - **Subatividades:**
   - [x] RF06 — Parser do Histórico Escolar
-  - [ ] RF04 — Persistência dos dados extraídos
-  - [ ] RF05 — Processamento genérico de documentos
-  - [ ] RF07 — Parser do Passe Livre
+  - [x] RF04 — Persistência dos dados extraídos
+  - [x] RF05 — Processamento genérico de documentos
+  - [x] RF07 — Parser do Passe Livre
 - **Critério de pronto:** Dados do histórico e do passe livre extraídos automaticamente e salvos no SQLite local.
-- **Outras Evidências:** RF06 commitado; demais pendentes.
+- **Outras Evidências:** Todas as RFs concluídas e commitadas.
 
 </article>
 
 <article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" markdown="1">
 
-### <a id="f08"></a> 🔴 F08: Coletar e atualizar dados acadêmicos (Matrícula)
+### <a id="f08"></a> ✅ F08: Coletar e atualizar dados acadêmicos (Matrícula)
 
 **Prioridade:** Should (S) | **Iteração:** [I2](../06-cronograma/index.md#i2) | **Requisitos Relacionados:** [RF17](../08-requisitos/funcionais.md#rf17), [RF18](../08-requisitos/funcionais.md#rf18), [RF19](../08-requisitos/funcionais.md#rf19) | **Qualidade:** [DoR](../09-dor-dod/dor-aplicacao.md#f08-coletar-e-atualizar-dados-academicos)
 
@@ -321,12 +321,11 @@
   - Mateus (CO) — apoio
   - Isaac (T) — testes
 - **Subatividades:**
-  - [ ] RF17 — Coleta diária SIGAA
-  - [ ] RF18 — Coleta semanal do calendário
-  - [ ] RF19 — Atualização de matrícula
-  - [ ] RNF09 — Notificações proativas
-- **Bloqueio:** Sem credenciais de homologação do SIGAA para testes.
-- **Plano de mitigação:** Solicitar credenciais à cliente ou mockar dados com `MSW`/fixture para destravar o desenvolvimento.
+  - [x] RF17 — Coleta diária SIGAA
+  - [x] RF18 — Coleta semanal do calendário
+  - [x] RF19 — Atualização de matrícula
+  - [x] RNF09 — Notificações proativas
+- **Bloqueio:** Resolvido.
 - **Critério de pronto:** Dados de matrícula sincronizados do SIGAA com atualização em ≤ 24h.
 
 </article>
@@ -434,9 +433,9 @@
 | Features pós-MVP | 2 (F02, F03) |
 | Features Should | 2 (F04, F08) |
 | Features Won't (fora do escopo) | 2 (F01, F06) |
-| ✅ Concluídas | 0 integrais (parciais em todas as MVP) |
-| 🟡 Em andamento | 5 (F02, F03, F04, F05, F07, F09)* |
-| 🔴 Pendentes/Bloqueadas | 1 (F08) |
+| ✅ Concluídas | 5 (F04, F05, F07, F08, F09) |
+| 🟡 Em andamento | 2 (F02, F03)* |
+| 🔴 Pendentes/Bloqueadas | 0 |
 | ❌ Fora do escopo | 2 (F01, F06) |
 
-> \* F04, F05, F07 e F09 têm subatividades concluídas e outras em andamento; nenhuma feature está totalmente concluída.
+> \* Funcionalidades em desenvolvimento ativo.

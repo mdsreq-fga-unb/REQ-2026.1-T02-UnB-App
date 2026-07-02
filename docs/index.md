@@ -12,9 +12,9 @@ Abaixo estão listadas as funcionalidades que compõem o MVP.
 
 | Feature | Status Atual | Requisitos Funcionais da Feature |
 | :--- | :--- | :--- |
-| **[F09: Centralizar Documentos Oficiais](10-feature-list/feature-list-geral.md#f09)** | 🟠 Parcial | [RF20](08-requisitos/funcionais.md#rf20), [RF21](08-requisitos/funcionais.md#rf21) |
-| **[F05: Fluxos de Onboarding](10-feature-list/feature-list-geral.md#f05)** | 🟡 Em andamento | [RF22](08-requisitos/funcionais.md#rf22), [RF23](08-requisitos/funcionais.md#rf23) |
-| **[F07: Grade Horária e Ensalamento](10-feature-list/feature-list-geral.md#f07)** | 🟠 Parcial | [RF16](08-requisitos/funcionais.md#rf16) |
+| **[F09: Centralizar Documentos Oficiais](10-feature-list/feature-list-geral.md#f09)** | ✅ Concluída | [RF20](08-requisitos/funcionais.md#rf20), [RF21](08-requisitos/funcionais.md#rf21) |
+| **[F05: Fluxos de Onboarding](10-feature-list/feature-list-geral.md#f05)** | ✅ Concluída | [RF22](08-requisitos/funcionais.md#rf22), [RF23](08-requisitos/funcionais.md#rf23) |
+| **[F07: Grade Horária e Ensalamento](10-feature-list/feature-list-geral.md#f07)** | ✅ Concluída | [RF16](08-requisitos/funcionais.md#rf16) |
 
 ---
 
@@ -25,8 +25,8 @@ Acompanhamento das iterações do desenvolvimento FDD.
 
 | Iteração | Datas (Início - Fim) | Resultado Esperado | Features Envolvidas | Técnicas Adotadas (DoR/DoD) | Status |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **[Iteração 1](06-cronograma/index.md#i1)** | 23/05/2026 - 10/06/2026 | Upload local, parser PDF offline e grade horária funcional | [F09](10-feature-list/feature-list-geral.md#f09), [F07](10-feature-list/feature-list-geral.md#f07) | Design Review Figma, Suíte de Testes, Expo Build | 🟠 Parcial |
-| **[Iteração 2](06-cronograma/index.md#i2)** | 11/06/2026 - 24/06/2026 | Extração do Passe Livre e Web Scraping do SIGAA | [F04](10-feature-list/feature-list-geral.md#f04), [F08](10-feature-list/feature-list-geral.md#f08) | Testes Regex, Background Fetch | 🟡 Andamento |
+| **[Iteração 1](06-cronograma/index.md#i1)** | 23/05/2026 - 10/06/2026 | Upload local, parser PDF offline e grade horária funcional | [F09](10-feature-list/feature-list-geral.md#f09), [F07](10-feature-list/feature-list-geral.md#f07) | Design Review Figma, Suíte de Testes, Expo Build | ✅ Concluída |
+| **[Iteração 2](06-cronograma/index.md#i2)** | 11/06/2026 - 24/06/2026 | Extração do Passe Livre e Web Scraping do SIGAA | [F04](10-feature-list/feature-list-geral.md#f04), [F08](10-feature-list/feature-list-geral.md#f08) | Testes Regex, Background Fetch | ✅ Concluída |
 | **[Iteração 3](06-cronograma/index.md#i3)** | 25/06/2026 - 02/07/2026 | Onboarding, geração de QR Code e carteirinha virtual | [F05](10-feature-list/feature-list-geral.md#f05), [F02](10-feature-list/feature-list-geral.md#f02), [F03](10-feature-list/feature-list-geral.md#f03) | Validação de Acessibilidade (60+), Animações limitadas, SQLite Persistente, Renderização Gráfica | 🟡 Andamento |
 
 ---
