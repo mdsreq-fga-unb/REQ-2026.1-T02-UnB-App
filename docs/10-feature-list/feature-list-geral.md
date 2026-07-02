@@ -38,15 +38,15 @@
 
 | # | Feature | RFs | RNFs | MoSCoW | Iteração | Período | Responsáveis (papel) | Status | Evidência Principal |
 |:-:|---------|-----|------|:------:|:--------:|---------|------------------------|:------:|---------------------|
-| **F01** | Conversar com assistente (IA/Voz) | RF08–RF11 | RNF01, RNF08 | Won't | — | — | — | ❌ | Fora do escopo — VB=2 / ES=60h |
-| **F02** | Exibir QRCode da BCE | RF02 | RNF01–RNF03, RNF08 | Could (pós-MVP) | **Iteração 4** | até 07/07/2026 | Luís (CP), Pedro (T) | 🟡 | Branch `feat/qrcode-bce` em desenvolvimento |
-| **F03** | Exibir e armazenar a carteirinha digital | RF01, RF03 | RNF02, RNF03, RNF08 | Could (pós-MVP) | **Iteração 4** | até 07/07/2026 | Luís (CP), Davi (CA), Pedro (T) | 🟡 | Branch `feat/carteirinha-digital` em desenvolvimento |
-| **F04** | Extrair e processar Histórico/Passe Livre | RF04–RF07 | RNF03, RNF08 | Should | **Iteração 2** | até 24/06/2026 | Davi (CP/CA), Mateus (CO), Pedro (T) | 🟡 | RF06 ✅ concluído (parser); RF04/RF05/RF07 ⬜ |
-| **F05** | Exibir fluxos de onboarding | RF22, RF23 | RNF01, RNF02, RNF18–RNF26 | Must (MVP) | **Iteração 3** | até 30/06/2026 | Luís (CP/DE), Isaac (T) | 🟡 | Tela Home implementada; fluxos SIGAA/Aprender 3 ⬜ |
-| **F06** | Listar e reproduzir tutoriais | RF12–RF15 | RNF01, RNF02 | Won't | — | — | — | ❌ | Fora do escopo — VB=2 / ES=15h |
-| **F07** | Consultar grade horária e ensalamento | RF16 | RNF01, RNF02, RNF03, RNF09, RNF18–RNF26 | Must (MVP) | **Iteração 1** | até 08/06/2026 | Luís (CP), Davi (CA), Pedro (T) | 🟡 | Tela Schedule + parser; [vídeo Upload e Grade](https://drive.google.com/file/d/1O405tSUfyaiEHS8nvXzuDSnSpt-c87WK/view?usp=drive_link) |
-| **F08** | Coletar e atualizar dados acadêmicos (Matrícula) | RF17–RF19 | RNF04, RNF06, RNF08, RNF09 | Should | **Iteração 2** | até 24/06/2026 | Davi (CP/CA), Mateus (CO), Isaac (T) | 🔴 | Bloqueada — sem credenciais SIGAA para testes |
-| **F09** | Centralizar documentos oficiais | RF20, RF21 | RNF01, RNF02, RNF03, RNF08, RNF18–RNF26 | Must (MVP) | **Iteração 1** | até 08/06/2026 | Luís (CP), Davi (CA), Mateus (CO), Pedro (T) | 🟡 | Upload + SQLite + busca; [vídeo Buscas e Filtros](https://drive.google.com/file/d/1EOVQwvk7PbyRCCIwI105-FQpBcUWR342/view?usp=drive_link) |
+| **F01** | Conversar com assistente (IA/Voz) | RF08, RF09, RF10, RF11 | RNF01, RNF08, RNF18 a RNF26 | Won't | — | — | — | ❌ | Fora do escopo — VB=2 / ES=60h |
+| **F02** | Exibir QRCode da BCE | RF02 | RNF01, RNF02, RNF03, RNF08, RNF18 a RNF26 | Could (pós-MVP) | **Iteração 4** | até 07/07/2026 | Luís (CP), Pedro (T) | 🟡 | Branch `feat/qrcode-bce` em desenvolvimento |
+| **F03** | Exibir e armazenar a carteirinha digital | RF01, RF03 | RNF02, RNF03, RNF08, RNF18 a RNF26 | Could (pós-MVP) | **Iteração 4** | até 07/07/2026 | Luís (CP), Davi (CA), Pedro (T) | 🟡 | Branch `feat/carteirinha-digital` em desenvolvimento |
+| **F04** | Extrair e processar Histórico/Passe Livre | RF04, RF05, RF06, RF07 | RNF03, RNF08, RNF13, RNF14, RNF18 a RNF26 | Should | **Iteração 2** | até 24/06/2026 | Davi (CP/CA), Mateus (CO), Pedro (T) | 🟡 | RF06 ✅ concluído (parser); RF04/RF05/RF07 ⬜ |
+| **F05** | Exibir fluxos de onboarding | RF22, RF23 | RNF01, RNF02, RNF10 a RNF12, RNF18 a RNF26 | Must (MVP) | **Iteração 3** | até 30/06/2026 | Luís (CP/DE), Isaac (T) | 🟡 | Tela Home implementada; fluxos SIGAA/Aprender 3 ⬜ |
+| **F06** | Listar e reproduzir tutoriais | RF12, RF13, RF14, RF15 | RNF01, RNF02, RNF18 a RNF26 | Won't | — | — | — | ❌ | Fora do escopo — VB=2 / ES=15h |
+| **F07** | Consultar grade horária e ensalamento | RF16 | RNF01, RNF02, RNF03, RNF09, RNF14, RNF18 a RNF26 | Must (MVP) | **Iteração 1** | até 08/06/2026 | Luís (CP), Davi (CA), Pedro (T) | 🟡 | Tela Schedule + parser; [vídeo Upload e Grade](https://drive.google.com/file/d/1O405tSUfyaiEHS8nvXzuDSnSpt-c87WK/view?usp=drive_link) |
+| **F08** | Coletar e atualizar dados acadêmicos (Matrícula) | RF17, RF18, RF19 | RNF04, RNF06, RNF08, RNF17, RNF18 a RNF26 | Should | **Iteração 2** | até 24/06/2026 | Davi (CP/CA), Mateus (CO), Isaac (T) | 🔴 | Bloqueada — sem credenciais SIGAA para testes |
+| **F09** | Centralizar documentos oficiais | RF20, RF21 | RNF01, RNF02, RNF03, RNF08, RNF14, RNF18 a RNF26 | Must (MVP) | **Iteração 1** | até 08/06/2026 | Luís (CP), Davi (CA), Mateus (CO), Pedro (T) | 🟡 | Upload + SQLite + busca; [vídeo Buscas e Filtros](https://drive.google.com/file/d/1EOVQwvk7PbyRCCIwI105-FQpBcUWR342/view?usp=drive_link) |
 
 ---
 
@@ -283,7 +283,7 @@
 
 ### <a id="f06"></a> ❌ F06: Listar e reproduzir tutoriais (Cancelado)
 
-**Prioridade:** Won't (W) | **Iteração:** — | **Requisitos Relacionados:** [RF12](../08-requisitos/funcionais.md#rf12)–[RF15](../08-requisitos/funcionais.md#rf15)
+**Prioridade:** Won't (W) | **Iteração:** — | **Requisitos Relacionados:** [RF12](../08-requisitos/funcionais.md#rf12), [RF13](../08-requisitos/funcionais.md#rf13), [RF14](../08-requisitos/funcionais.md#rf14), [RF15](../08-requisitos/funcionais.md#rf15)
 
 #### O que deve ser feito (Ação, Resultado, Objetivo)
 **Ação:** Listar e reproduzir tutoriais de uso da UnB.<br>**Objetivo:** Reduzir ansiedade de novos alunos.<br>*(Status: Cancelado por ultrapassar o limite de esforço da disciplina (15h, Baixo Valor Relativo).)*
@@ -294,7 +294,7 @@
 
 ### <a id="f01"></a> ❌ F01: Conversar com assistente IA (Cancelado)
 
-**Prioridade:** Won't (W) | **Iteração:** — | **Requisitos Relacionados:** [RF08](../08-requisitos/funcionais.md#rf08)–[RF11](../08-requisitos/funcionais.md#rf11)
+**Prioridade:** Won't (W) | **Iteração:** — | **Requisitos Relacionados:** [RF08](../08-requisitos/funcionais.md#rf08), [RF09](../08-requisitos/funcionais.md#rf09), [RF10](../08-requisitos/funcionais.md#rf10), [RF11](../08-requisitos/funcionais.md#rf11)
 
 #### O que deve ser feito (Ação, Resultado, Objetivo)
 **Ação:** Assistente de voz RAG para dúvidas acadêmicas.<br>**Objetivo:** Ajudar em dúvidas específicas de editais e manuais.<br>*(Status: Cancelado por complexidade arquitetural (60h+ esforço estimado).)*

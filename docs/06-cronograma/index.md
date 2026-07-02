@@ -36,7 +36,7 @@ gantt
   <h2 style="margin-top: 0;"><a id="i1"></a> 🟠 Iteração 1: Documentos e Grade (F09, F07)</h2>
   
   <p>
-    <strong>RFs:</strong> <a href="../08-requisitos/funcionais/#rf16">RF16</a>, <a href="../08-requisitos/funcionais/#rf20">RF20</a>, <a href="../08-requisitos/funcionais/#rf21">RF21</a> | <strong>RNFs:</strong> <a href="../08-requisitos/nao-funcionais/#rnf01">RNF01</a>, <a href="../08-requisitos/nao-funcionais/#rnf02">RNF02</a>, <a href="../08-requisitos/nao-funcionais/#rnf03">RNF03</a>, <a href="../08-requisitos/nao-funcionais/#rnf08">RNF08</a>, <a href="../08-requisitos/nao-funcionais/#rnf09">RNF09</a>, <a href="../08-requisitos/nao-funcionais/#rnf18">RNF18–RNF26</a><br>
+    <strong>RFs:</strong> <a href="../08-requisitos/funcionais/#rf16">RF16</a>, <a href="../08-requisitos/funcionais/#rf20">RF20</a>, <a href="../08-requisitos/funcionais/#rf21">RF21</a> | <strong>RNFs:</strong> <a href="../08-requisitos/nao-funcionais/#rnf01">RNF01</a>, <a href="../08-requisitos/nao-funcionais/#rnf02">RNF02</a>, <a href="../08-requisitos/nao-funcionais/#rnf03">RNF03</a>, <a href="../08-requisitos/nao-funcionais/#rnf08">RNF08</a>, <a href="../08-requisitos/nao-funcionais/#rnf09">RNF09</a>, <a href="../08-requisitos/nao-funcionais/#rnf14">RNF14</a>, <a href="../08-requisitos/nao-funcionais/#rnf18">RNF18 a RNF26</a><br>
     <strong>Data Final:</strong> 08/06/2026<br>
     <strong>Responsáveis:</strong>
   </p>
@@ -80,7 +80,7 @@ gantt
   <h2 style="margin-top: 0;"><a id="i2"></a> 🟡 Iteração 2: Automação e SIGAA (F04, F08)</h2>
   
   <p>
-    <strong>RFs:</strong> <a href="../08-requisitos/funcionais/#rf04">RF04–RF07</a>, <a href="../08-requisitos/funcionais/#rf17">RF17–RF19</a> | <strong>RNFs:</strong> <a href="../08-requisitos/nao-funcionais/#rnf03">RNF03</a>, <a href="../08-requisitos/nao-funcionais/#rnf04">RNF04</a>, <a href="../08-requisitos/nao-funcionais/#rnf06">RNF06</a>, <a href="../08-requisitos/nao-funcionais/#rnf08">RNF08</a>, <a href="../08-requisitos/nao-funcionais/#rnf09">RNF09</a><br>
+    <strong>RFs:</strong> <a href="../08-requisitos/funcionais/#rf04">RF04, RF05, RF06, RF07</a>, <a href="../08-requisitos/funcionais/#rf17">RF17, RF18, RF19</a> | <strong>RNFs:</strong> <a href="../08-requisitos/nao-funcionais/#rnf03">RNF03</a>, <a href="../08-requisitos/nao-funcionais/#rnf04">RNF04</a>, <a href="../08-requisitos/nao-funcionais/#rnf06">RNF06</a>, <a href="../08-requisitos/nao-funcionais/#rnf08">RNF08</a>, <a href="../08-requisitos/nao-funcionais/#rnf13">RNF13</a>, <a href="../08-requisitos/nao-funcionais/#rnf14">RNF14</a>, <a href="../08-requisitos/nao-funcionais/#rnf17">RNF17</a>, <a href="../08-requisitos/nao-funcionais/#rnf18">RNF18 a RNF26</a><br>
     <strong>Data Final:</strong> 24/06/2026<br>
     <strong>Responsáveis:</strong>
   </p>
@@ -117,7 +117,7 @@ gantt
   <h2 style="margin-top: 0;"><a id="i3"></a> 🟡 Iteração 3: Onboarding e Carteirinha (F05, F02, F03)</h2>
 
   <p>
-    <strong>RFs:</strong> <a href="../08-requisitos/funcionais/#rf01">RF01</a>, <a href="../08-requisitos/funcionais/#rf02">RF02</a>, <a href="../08-requisitos/funcionais/#rf03">RF03</a>, <a href="../08-requisitos/funcionais/#rf22">RF22</a>, <a href="../08-requisitos/funcionais/#rf23">RF23</a> | <strong>RNFs:</strong> <a href="../08-requisitos/nao-funcionais/#rnf01">RNF01–RNF03</a>, <a href="../08-requisitos/nao-funcionais/#rnf08">RNF08</a>, <a href="../08-requisitos/nao-funcionais/#rnf18">RNF18–RNF26</a><br>
+    <strong>RFs:</strong> <a href="../08-requisitos/funcionais/#rf01">RF01</a>, <a href="../08-requisitos/funcionais/#rf02">RF02</a>, <a href="../08-requisitos/funcionais/#rf03">RF03</a>, <a href="../08-requisitos/funcionais/#rf22">RF22</a>, <a href="../08-requisitos/funcionais/#rf23">RF23</a> | <strong>RNFs:</strong> <a href="../08-requisitos/nao-funcionais/#rnf01">RNF01, RNF02, RNF03</a>, <a href="../08-requisitos/nao-funcionais/#rnf08">RNF08</a>, <a href="../08-requisitos/nao-funcionais/#rnf10">RNF10 a RNF12</a>, <a href="../08-requisitos/nao-funcionais/#rnf18">RNF18 a RNF26</a><br>
     <strong>Data Final:</strong> 07/07/2026<br>
     <strong>Responsáveis:</strong>
   </p>
