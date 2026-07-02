@@ -1,5 +1,38 @@
 import React from 'react';
 import { render, waitFor, screen } from '@testing-library/react-native';
+
+// Mocks para Reanimated e Worklets para evitar erro de inicialização nativa no Jest
+jest.mock('react-native-worklets', () => ({
+  createSerializable: (x: any) => x,
+  isSerializableRef: () => false,
+  makeShareable: (x: any) => x,
+  makeShareableCloneOnUIRecursive: (x: any) => x,
+  makeShareableCloneRecursive: (x: any) => x,
+  serializableMappingCache: new Map(),
+  shareableMappingCache: new Map(),
+  RuntimeKind: {
+    ReactNative: 0,
+    Web: 1,
+    Worklet: 2,
+  },
+  Worklets: {
+    createRunInJS: (fn: any) => fn,
+    createRunInWorklet: (fn: any) => fn,
+  },
+  runOnJS: (fn: any) => fn,
+  runOnUI: (fn: any) => fn,
+  runOnUISync: (fn: any) => fn,
+  scheduleOnUI: (fn: any) => fn,
+}));
+jest.mock('react-native-pretty-toast', () => ({
+  toast: {
+    info: jest.fn(),
+    success: jest.fn(),
+    error: jest.fn(),
+  },
+}), { virtual: true });
+jest.mock('react-native-reanimated', () => require('react-native-reanimated/mock'));
+
 import DisciplinasScreen from '../disciplinas';
 
 import * as gradeQueries from '../../../../database/queries/gradeQueries';
@@ -9,11 +42,49 @@ jest.mock('expo-router', () => ({
   useRouter: jest.fn(() => ({ push: jest.fn(), replace: jest.fn() })),
   Link: ({ children }: any) => <>{children}</>,
   useFocusEffect: (callback: any) => require('react').useEffect(callback, []),
+  useLocalSearchParams: jest.fn(() => ({})),
 }));
 
 jest.mock('expo-symbols', () => ({
   SymbolView: ({ fallback }: any) => <>{fallback}</>,
 }));
+
+jest.mock('@/contexts/ThemeContext', () => ({
+  useTheme: () => ({
+    colors: {
+      primary: '#0056b3',
+      secondary: '#6c757d',
+      background: '#ffffff',
+      surface: '#ffffff',
+      textPrimary: '#000000',
+      textSecondary: '#6c757d',
+      border: '#dee2e6',
+      iconBackground: '#f8f9fa',
+      inactiveText: '#888888',
+      danger: '#dc3545',
+    },
+    isDark: false,
+  }),
+}));
+
+jest.mock('react-native-reanimated', () => {
+  return {
+    __esModule: true,
+    default: {
+      createAnimatedComponent: (c: any) => c,
+    },
+    useSharedValue: (val: any) => ({ value: val }),
+    useAnimatedStyle: (cb: any) => ({}),
+    withTiming: (toValue: any, config: any, cb: any) => toValue,
+    Easing: {
+      linear: (x: any) => x,
+      ease: (x: any) => x,
+      inOut: (x: any) => x,
+    },
+  };
+});
+
+jest.mock('react-native-worklets', () => ({}));
 
 const mockDb = {};
 jest.mock('expo-sqlite', () => ({
@@ -27,6 +98,18 @@ jest.mock('expo-pdf-text-extract', () => ({ extractTextWithInfo: jest.fn() }));
 jest.mock('@/contexts/TextSizeContext', () => ({
   useTextSize: () => ({
     getFontSize: (size: number) => size,
+  }),
+}));
+
+jest.mock('@/contexts/UserProfileContext', () => ({
+  useUserProfile: () => ({
+    userName: "Lourdes Ribeiro",
+    userMatricula: "123456789",
+    autoSyncPDFData: true,
+    setAutoSyncPDFData: jest.fn(),
+    clearAllData: jest.fn(),
+    themePreference: "light",
+    setThemePreference: jest.fn(),
   }),
 }));
 

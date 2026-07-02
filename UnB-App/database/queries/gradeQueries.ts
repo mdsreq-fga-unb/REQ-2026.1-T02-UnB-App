@@ -111,8 +111,8 @@ export async function popularGradePorDados(
 
       // Checa se a turma já existe para este aluno neste semestre
       let idTurma: number | undefined;
-      const turmaExistente = await db.getFirstAsync<{ id_turma: number }>(
-        `SELECT t.id_turma 
+      const turmasExistentes = await db.getAllAsync<{ id_turma: number, numero_turma: string, situacao: string }>(
+        `SELECT t.id_turma, t.numero_turma, ta.situacao
          FROM Turma t 
          LEFT JOIN Turma_Aluno ta ON t.id_turma = ta.id_turma 
          WHERE t.codigo_disciplina = ? AND t.ano = ? AND t.periodo = ? 
@@ -120,13 +120,28 @@ export async function popularGradePorDados(
         [item.codigo, turmaAno, turmaPeriodo, matricula]
       );
 
-      if (turmaExistente) {
-        idTurma = turmaExistente.id_turma;
-        
-        if (item.turma && item.turma !== '00' && item.turma !== '01' && item.turma !== '--') {
-           await db.runAsync('UPDATE Turma SET numero_turma = ? WHERE id_turma = ?', [item.turma, idTurma]);
+      if (turmasExistentes.length > 0) {
+        let match = turmasExistentes.find(t => 
+             (t.situacao === situacao && (t.numero_turma === item.turma || t.numero_turma === '--' || item.turma === '--' || t.numero_turma === '00' || item.turma === '00')) ||
+             (t.numero_turma === item.turma && item.turma !== '--' && item.turma !== '00')
+        );
+
+        if (!match && turmasExistentes.length === 1) {
+            const t = turmasExistentes[0];
+            if (t.numero_turma === '--' || t.numero_turma === '00' || item.turma === '--' || item.turma === '00') {
+                match = t;
+            }
         }
-      } else {
+
+        if (match) {
+           idTurma = match.id_turma;
+           if (item.turma && item.turma !== '00' && item.turma !== '01' && item.turma !== '--') {
+              await db.runAsync('UPDATE Turma SET numero_turma = ? WHERE id_turma = ?', [item.turma, idTurma]);
+           }
+        }
+      }
+
+      if (!idTurma) {
         await db.runAsync(
           'INSERT INTO Turma (codigo_disciplina, numero_turma, ano, periodo) VALUES (?, ?, ?, ?)',
           [item.codigo, item.turma, turmaAno, turmaPeriodo]
