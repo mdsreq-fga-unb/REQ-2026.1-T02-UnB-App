@@ -20,7 +20,7 @@ Nesta fase inicial de Engenharia de Requisitos (ER), o foco foi na descoberta e 
   - Adoção de **FDD** como processo ágil.
 - **Priorização:**
   - Aplicação de MoSCoW e construção da matriz de Valor de Negócio vs Esforço. 
-  - <a href="../../assets/matriz-priorizacao.png" target="_blank">🖼️ Ver Matriz Priorização</a>
+  - <a href="../assets/matriz-priorizacao.png" target="_blank">🖼️ Ver Matriz Priorização</a>
 
 ---
 
@@ -33,8 +33,8 @@ Foco principal em entregar a infraestrutura offline (SQLite) e as features F09 (
 - **Evidências Visuais e Protótipos:**
   - Protótipos de Baixa/Média fidelidade validados no Figma.
   - Telas iniciais (Home e Documentos) codificadas e renderizadas no Expo.
-  - <a href="../../assets/evidencias/tela-documentos.png" target="_blank">🖼️ Ver Tela Documentos</a>
-  - <a href="../../assets/evidencias/tela-inicial.png" target="_blank">🖼️ Ver Tela Home (Grade)</a>
+  - <a href="../assets/evidencias/tela-documentos.png" target="_blank">🖼️ Ver Tela Documentos</a>
+  - <a href="../assets/evidencias/tela-inicial.png" target="_blank">🖼️ Ver Tela Home (Grade)</a>
 - **Evidências de Desenvolvimento (Builds & PRs):**
   - Implementação completa de Upload local e cache SQLite (RNF08).
   - Parser customizado para leitura do Histórico Escolar (antecipado de F04).

@@ -69,8 +69,8 @@ gantt
 
   <h3>Protótipos / Evidências</h3>
   <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-    <img src="../../assets/evidencias/tela-documentos.png" alt="Tela de Documentos" style="max-height: 250px; border-radius: 8px;" />
-    <img src="../../assets/evidencias/tela-inicial.png" alt="Tela de Grade" style="max-height: 250px; border-radius: 8px;" />
+    <img src="../assets/evidencias/tela-documentos.png" alt="Tela de Documentos" style="max-height: 250px; border-radius: 8px;" />
+    <img src="../assets/evidencias/tela-inicial.png" alt="Tela de Grade" style="max-height: 250px; border-radius: 8px;" />
   </div>
   <p>🔗 <a href="https://drive.google.com/file/d/1O405tSUfyaiEHS8nvXzuDSnSpt-c87WK/view" target="_blank">Vídeo do Protótipo Funcional</a></p>
 </article>
@@ -152,7 +152,7 @@ gantt
   </ul>
 
   <h3>Protótipos / Evidências</h3>
-  <img src="../../assets/evidencias/tela-inicial.png" alt="Tela Inicial" style="max-height: 250px; border-radius: 8px;" />
+  <img src="../assets/evidencias/tela-inicial.png" alt="Tela Inicial" style="max-height: 250px; border-radius: 8px;" />
   <p>🔗 <a href="https://drive.google.com/file/d/1J5pvcoWDN1ZcXoa7kzQK8vBnkqCwdqLL/view" target="_blank">Vídeo de Navegação Inicial</a></p>
   <p><em>Carteirinha/QRCode: branches em andamento. Protótipos em fase final de validação visual.</em></p>
 </article>

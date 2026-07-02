@@ -67,11 +67,11 @@
 3. O usuário pode clicar no **botão flutuante de '+'** para enviar um novo documento (PDF) usando o seletor nativo do celular.
 
 #### Evidência Visual
-<img src="../../assets/evidencias/tela-documentos.png" alt="Tela de Documentos" style="max-width: 250px; display: block; border-radius: 8px;" />
+<img src="../assets/evidencias/tela-documentos.png" alt="Tela de Documentos" style="max-width: 250px; display: block; border-radius: 8px;" />
 
 #### Evidência de Testes
-<a href="../../assets/evidencias/testes-f09-documentos.png" target="_blank" rel="noopener">
-<img src="../../assets/evidencias/testes-f09-documentos.png" alt="Suíte automatizada da Feature 9: 16/16 testes passando cobrindo upload, validação e a tela de Documentos" style="max-width: 100%; width: 660px; display: block; border-radius: 10px; box-shadow: 0 4px 14px rgba(0,0,0,.12);" />
+<a href="../assets/evidencias/testes-f09-documentos.png" target="_blank" rel="noopener">
+<img src="../assets/evidencias/testes-f09-documentos.png" alt="Suíte automatizada da Feature 9: 16/16 testes passando cobrindo upload, validação e a tela de Documentos" style="max-width: 100%; width: 660px; display: block; border-radius: 10px; box-shadow: 0 4px 14px rgba(0,0,0,.12);" />
 </a>
 <p><em>Clique na imagem para abrir em tamanho completo. <code>npx jest documents.test.tsx documentProcessor.test.ts</code> — 16 testes em 2 suítes, 100% passando (02/07/2026).</em></p>
 <details>
@@ -133,11 +133,11 @@
 3. Ao clicar nos atalhos, um tutorial em formato de carrossel é apresentado na tela.
 
 #### Evidência Visual
-<img src="../../assets/evidencias/tela-inicial.png" alt="Tela Inicial do UnB-App" style="max-width: 250px; display: block; border-radius: 8px;" />
+<img src="../assets/evidencias/tela-inicial.png" alt="Tela Inicial do UnB-App" style="max-width: 250px; display: block; border-radius: 8px;" />
 
 #### Evidência de Testes
-<a href="../../assets/evidencias/testes-f05-onboarding.png" target="_blank" rel="noopener">
-<img src="../../assets/evidencias/testes-f05-onboarding.png" alt="Suíte automatizada da Feature 5: 3/3 testes passando cobrindo a tela de Boas-Vindas" style="max-width: 100%; width: 660px; display: block; border-radius: 10px; box-shadow: 0 4px 14px rgba(0,0,0,.12);" />
+<a href="../assets/evidencias/testes-f05-onboarding.png" target="_blank" rel="noopener">
+<img src="../assets/evidencias/testes-f05-onboarding.png" alt="Suíte automatizada da Feature 5: 3/3 testes passando cobrindo a tela de Boas-Vindas" style="max-width: 100%; width: 660px; display: block; border-radius: 10px; box-shadow: 0 4px 14px rgba(0,0,0,.12);" />
 </a>
 <p><em>Clique na imagem para abrir em tamanho completo. <code>npx jest welcome-modal.test.tsx</code> — 3 testes em 1 suíte, 100% passando (02/07/2026).</em></p>
 <details>
@@ -180,11 +180,11 @@
 3. Clicar sobre uma aula abre um modal com os detalhes de ensalamento.
 
 #### Evidência Visual
-<img src="../../assets/evidencias/tela-inicial.png" alt="Visualização da Grade na Home" style="max-width: 250px; display: block; border-radius: 8px;" />
+<img src="../assets/evidencias/tela-inicial.png" alt="Visualização da Grade na Home" style="max-width: 250px; display: block; border-radius: 8px;" />
 
 #### Evidência de Testes
-<a href="../../assets/evidencias/testes-f07-grade.png" target="_blank" rel="noopener">
-<img src="../../assets/evidencias/testes-f07-grade.png" alt="Suíte automatizada da Feature 7: 11/11 testes passando cobrindo parser de horário, consultas SQLite e tela de Disciplinas" style="max-width: 100%; width: 660px; display: block; border-radius: 10px; box-shadow: 0 4px 14px rgba(0,0,0,.12);" />
+<a href="../assets/evidencias/testes-f07-grade.png" target="_blank" rel="noopener">
+<img src="../assets/evidencias/testes-f07-grade.png" alt="Suíte automatizada da Feature 7: 11/11 testes passando cobrindo parser de horário, consultas SQLite e tela de Disciplinas" style="max-width: 100%; width: 660px; display: block; border-radius: 10px; box-shadow: 0 4px 14px rgba(0,0,0,.12);" />
 </a>
 <p><em>Clique na imagem para abrir em tamanho completo. <code>npx jest disciplinas.test.tsx gradeQueries.test.ts horarioParser.test.ts</code> — 11 testes em 3 suítes, 100% passando (02/07/2026).</em></p>
 <details>
@@ -245,8 +245,8 @@
 *(Funcionalidade operando em background; impacto visual refletido na grade horária)*
 
 #### Evidência de Testes
-<a href="../../assets/evidencias/testes-f04-historico.png" target="_blank" rel="noopener">
-<img src="../../assets/evidencias/testes-f04-historico.png" alt="Suíte automatizada da Feature 4: 6/6 testes passando cobrindo o parser do Histórico Escolar" style="max-width: 100%; width: 660px; display: block; border-radius: 10px; box-shadow: 0 4px 14px rgba(0,0,0,.12);" />
+<a href="../assets/evidencias/testes-f04-historico.png" target="_blank" rel="noopener">
+<img src="../assets/evidencias/testes-f04-historico.png" alt="Suíte automatizada da Feature 4: 6/6 testes passando cobrindo o parser do Histórico Escolar" style="max-width: 100%; width: 660px; display: block; border-radius: 10px; box-shadow: 0 4px 14px rgba(0,0,0,.12);" />
 </a>
 <p><em>Clique na imagem para abrir em tamanho completo. <code>npx jest historicoParser.test.ts</code> — 6 testes em 1 suíte, 100% passando (02/07/2026). A validação do Passe Livre (RF07) é coberta na suíte compartilhada de documentos — ver Evidência de Testes de F09.</em></p>
 <details>
@@ -295,8 +295,8 @@
 *(Feature bloqueada por falta de credenciais do SIGAA; aguardando liberação)*
 
 #### Evidência de Testes
-<a href="../../assets/evidencias/testes-f08-sigaa-calendario.png" target="_blank" rel="noopener">
-<img src="../../assets/evidencias/testes-f08-sigaa-calendario.png" alt="Suíte automatizada da Feature 8: 6/6 testes passando cobrindo sincronização com SIGAA e calendário acadêmico" style="max-width: 100%; width: 660px; display: block; border-radius: 10px; box-shadow: 0 4px 14px rgba(0,0,0,.12);" />
+<a href="../assets/evidencias/testes-f08-sigaa-calendario.png" target="_blank" rel="noopener">
+<img src="../assets/evidencias/testes-f08-sigaa-calendario.png" alt="Suíte automatizada da Feature 8: 6/6 testes passando cobrindo sincronização com SIGAA e calendário acadêmico" style="max-width: 100%; width: 660px; display: block; border-radius: 10px; box-shadow: 0 4px 14px rgba(0,0,0,.12);" />
 </a>
 <p><em>Clique na imagem para abrir em tamanho completo. Dados simulados (fixtures), já que o acesso real segue bloqueado. <code>npx jest sigaaSyncQueries.test.ts calendarioQueries.test.ts</code> — 6 testes em 2 suítes, 100% passando (02/07/2026).</em></p>
 <details>

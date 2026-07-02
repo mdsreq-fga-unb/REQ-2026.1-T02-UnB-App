@@ -11,9 +11,9 @@ Abaixo segue uma árvore de rastreabilidade para melhor visualização das rela�
 
 <div class="image-preview">
   <figure class="image-preview__figure">
-    <img src="../../assets/arvore-de-rastreabilidade.png" alt="Árvore de Rastreabilidade dos Requisitos" loading="lazy">
+    <img src="../assets/arvore-de-rastreabilidade.png" alt="Árvore de Rastreabilidade dos Requisitos" loading="lazy">
   </figure>
-  <a class="image-preview__action" href="../../assets/arvore-de-rastreabilidade.png" target="_blank" rel="noopener">
+  <a class="image-preview__action" href="../assets/arvore-de-rastreabilidade.png" target="_blank" rel="noopener">
     Abrir imagem em tamanho completo
   </a>
 </div>
