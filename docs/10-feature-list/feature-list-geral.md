@@ -39,8 +39,8 @@
 | # | Feature | RFs | RNFs | MoSCoW | Iteração | Período | Responsáveis (papel) | Status | Evidência Principal |
 |:-:|---------|-----|------|:------:|:--------:|---------|------------------------|:------:|---------------------|
 | **F01** | Conversar com assistente (IA/Voz) | [RF08](../08-requisitos/funcionais.md#rf08), [RF09](../08-requisitos/funcionais.md#rf09), [RF10](../08-requisitos/funcionais.md#rf10), [RF11](../08-requisitos/funcionais.md#rf11) | [RNF01](../08-requisitos/nao-funcionais.md#rnf01), [RNF08](../08-requisitos/nao-funcionais.md#rnf08), [RNF18](../08-requisitos/nao-funcionais.md#rnf18) a [RNF26](../08-requisitos/nao-funcionais.md#rnf26) | Won't | — | — | — | ❌ | Fora do escopo — VB=2 / ES=60h |
-| **F02** | Exibir QRCode da BCE | [RF02](../08-requisitos/funcionais.md#rf02) | [RNF01](../08-requisitos/nao-funcionais.md#rnf01), [RNF02](../08-requisitos/nao-funcionais.md#rnf02), [RNF03](../08-requisitos/nao-funcionais.md#rnf03), [RNF08](../08-requisitos/nao-funcionais.md#rnf08), [RNF18](../08-requisitos/nao-funcionais.md#rnf18) a [RNF26](../08-requisitos/nao-funcionais.md#rnf26) | Could (pós-MVP) | **Iteração 4** | até 07/07/2026 | Luís (CP), Pedro (T) | 🟡 | Branch `feat/qrcode-bce` em desenvolvimento |
-| **F03** | Exibir e armazenar a carteirinha digital | [RF01](../08-requisitos/funcionais.md#rf01), [RF03](../08-requisitos/funcionais.md#rf03) | [RNF02](../08-requisitos/nao-funcionais.md#rnf02), [RNF03](../08-requisitos/nao-funcionais.md#rnf03), [RNF08](../08-requisitos/nao-funcionais.md#rnf08), [RNF18](../08-requisitos/nao-funcionais.md#rnf18) a [RNF26](../08-requisitos/nao-funcionais.md#rnf26) | Could (pós-MVP) | **Iteração 4** | até 07/07/2026 | Luís (CP), Davi (CA), Pedro (T) | 🟡 | Branch `feat/carteirinha-digital` em desenvolvimento |
+| **F02** | Exibir QRCode da BCE | [RF02](../08-requisitos/funcionais.md#rf02) | [RNF01](../08-requisitos/nao-funcionais.md#rnf01), [RNF02](../08-requisitos/nao-funcionais.md#rnf02), [RNF03](../08-requisitos/nao-funcionais.md#rnf03), [RNF08](../08-requisitos/nao-funcionais.md#rnf08), [RNF18](../08-requisitos/nao-funcionais.md#rnf18) a [RNF26](../08-requisitos/nao-funcionais.md#rnf26) | Could (pós-MVP) | **Iteração 3** | até 07/07/2026 | Luís (CP), Pedro (T) | 🟡 | Branch `feat/qrcode-bce` em desenvolvimento |
+| **F03** | Exibir e armazenar a carteirinha digital | [RF01](../08-requisitos/funcionais.md#rf01), [RF03](../08-requisitos/funcionais.md#rf03) | [RNF02](../08-requisitos/nao-funcionais.md#rnf02), [RNF03](../08-requisitos/nao-funcionais.md#rnf03), [RNF08](../08-requisitos/nao-funcionais.md#rnf08), [RNF18](../08-requisitos/nao-funcionais.md#rnf18) a [RNF26](../08-requisitos/nao-funcionais.md#rnf26) | Could (pós-MVP) | **Iteração 3** | até 07/07/2026 | Luís (CP), Davi (CA), Pedro (T) | 🟡 | Branch `feat/carteirinha-digital` em desenvolvimento |
 | **F04** | Extrair e processar Histórico/Passe Livre | [RF04](../08-requisitos/funcionais.md#rf04), [RF05](../08-requisitos/funcionais.md#rf05), [RF06](../08-requisitos/funcionais.md#rf06), [RF07](../08-requisitos/funcionais.md#rf07) | [RNF03](../08-requisitos/nao-funcionais.md#rnf03), [RNF08](../08-requisitos/nao-funcionais.md#rnf08), [RNF13](../08-requisitos/nao-funcionais.md#rnf13), [RNF14](../08-requisitos/nao-funcionais.md#rnf14), [RNF18](../08-requisitos/nao-funcionais.md#rnf18) a [RNF26](../08-requisitos/nao-funcionais.md#rnf26) | Should | **Iteração 2** | até 24/06/2026 | Davi (CP/CA), Mateus (CO), Pedro (T) | 🟡 | RF06 ✅ concluído (parser); RF04/RF05/RF07 ⬜ |
 | **F05** | Exibir fluxos de onboarding | [RF22](../08-requisitos/funcionais.md#rf22), [RF23](../08-requisitos/funcionais.md#rf23) | [RNF01](../08-requisitos/nao-funcionais.md#rnf01), [RNF02](../08-requisitos/nao-funcionais.md#rnf02), [RNF10](../08-requisitos/nao-funcionais.md#rnf10) a [RNF12](../08-requisitos/nao-funcionais.md#rnf12), [RNF18](../08-requisitos/nao-funcionais.md#rnf18) a [RNF26](../08-requisitos/nao-funcionais.md#rnf26) | Must (MVP) | **Iteração 3** | até 30/06/2026 | Luís (CP/DE), Isaac (T) | 🟡 | Tela Home implementada; fluxos SIGAA/Aprender 3 ⬜ |
 | **F06** | Listar e reproduzir tutoriais | [RF12](../08-requisitos/funcionais.md#rf12), [RF13](../08-requisitos/funcionais.md#rf13), [RF14](../08-requisitos/funcionais.md#rf14), [RF15](../08-requisitos/funcionais.md#rf15) | [RNF01](../08-requisitos/nao-funcionais.md#rnf01), [RNF02](../08-requisitos/nao-funcionais.md#rnf02), [RNF18](../08-requisitos/nao-funcionais.md#rnf18) a [RNF26](../08-requisitos/nao-funcionais.md#rnf26) | Won't | — | — | — | ❌ | Fora do escopo — VB=2 / ES=15h |
@@ -68,6 +68,37 @@
 
 #### Evidência Visual
 <img src="../../assets/evidencias/tela-documentos.png" alt="Tela de Documentos" style="max-width: 250px; display: block; border-radius: 8px;" />
+
+#### Evidência de Testes
+<a href="../../assets/evidencias/testes-f09-documentos.png" target="_blank" rel="noopener">
+<img src="../../assets/evidencias/testes-f09-documentos.png" alt="Suíte automatizada da Feature 9: 16/16 testes passando cobrindo upload, validação e a tela de Documentos" style="max-width: 100%; width: 660px; display: block; border-radius: 10px; box-shadow: 0 4px 14px rgba(0,0,0,.12);" />
+</a>
+<p><em>Clique na imagem para abrir em tamanho completo. <code>npx jest documents.test.tsx documentProcessor.test.ts</code> — 16 testes em 2 suítes, 100% passando (02/07/2026).</em></p>
+<details>
+<summary>Ver os 16 casos de teste cobertos</summary>
+<p><strong>documentProcessor.test.ts</strong> — processAndSaveDocument</p>
+<ul>
+<li>CT01: Deve processar com sucesso um PDF de Histórico Escolar e salvar os dados no BD</li>
+<li>CT02: Deve retornar erro caso a extração do texto do PDF falhe</li>
+<li>CT03: Deve retornar erro caso não encontre disciplinas válidas no histórico escolar</li>
+<li>CT04: Deve validar tipo do arquivo ao enviar com overrideDocId incorreto</li>
+<li>CT05: Deve validar Carteirinha Estudantil com sucesso</li>
+<li>CT06: Deve falhar ao validar Carteirinha Estudantil caso falte termos obrigatórios</li>
+<li>CT07: Deve validar Passe Livre Estudantil com sucesso</li>
+<li>CT08: Deve validar Boletim de Notas com sucesso</li>
+<li>CT09: Deve validar Índice Acadêmico com sucesso</li>
+</ul>
+<p><strong>documents.test.tsx</strong> — Documentos Screen (RF20 e RF21)</p>
+<ul>
+<li>CT01: Deve renderizar a tela de documentos com seus cabeçalhos e a lista padrão</li>
+<li>CT02: Deve permitir abrir e fechar o painel de documentos salvos ao clicar no card de armazenamento</li>
+<li>CT03: Deve filtrar a lista de documentos ao digitar na barra de pesquisa</li>
+<li>CT04: Deve permitir remover um documento existente</li>
+<li>CT05: Deve abrir documento no Android ao clicar em Ver</li>
+<li>CT06: Deve abrir/compartilhar documento no iOS ao clicar em Ver</li>
+<li>CT07: Deve permitir compartilhar o documento através da gaveta de documentos salvos</li>
+</ul>
+</details>
 
 #### Acompanhamento da Implementação
 - **Responsáveis:**
@@ -104,6 +135,21 @@
 #### Evidência Visual
 <img src="../../assets/evidencias/tela-inicial.png" alt="Tela Inicial do UnB-App" style="max-width: 250px; display: block; border-radius: 8px;" />
 
+#### Evidência de Testes
+<a href="../../assets/evidencias/testes-f05-onboarding.png" target="_blank" rel="noopener">
+<img src="../../assets/evidencias/testes-f05-onboarding.png" alt="Suíte automatizada da Feature 5: 3/3 testes passando cobrindo a tela de Boas-Vindas" style="max-width: 100%; width: 660px; display: block; border-radius: 10px; box-shadow: 0 4px 14px rgba(0,0,0,.12);" />
+</a>
+<p><em>Clique na imagem para abrir em tamanho completo. <code>npx jest welcome-modal.test.tsx</code> — 3 testes em 1 suíte, 100% passando (02/07/2026).</em></p>
+<details>
+<summary>Ver os 3 casos de teste cobertos</summary>
+<p><strong>welcome-modal.test.tsx</strong> — WelcomeModalScreen - Tela de Boas-Vindas (Onboarding)</p>
+<ul>
+<li>CT01: Deve renderizar a tela de boas-vindas</li>
+<li>CT02: Deve salvar dados e continuar</li>
+<li>CT03: Deve permitir pular o onboarding</li>
+</ul>
+</details>
+
 #### Acompanhamento da Implementação
 - **Responsáveis:**
   - Luís (CP/DE) — implementação e copy
@@ -135,6 +181,35 @@
 
 #### Evidência Visual
 <img src="../../assets/evidencias/tela-inicial.png" alt="Visualização da Grade na Home" style="max-width: 250px; display: block; border-radius: 8px;" />
+
+#### Evidência de Testes
+<a href="../../assets/evidencias/testes-f07-grade.png" target="_blank" rel="noopener">
+<img src="../../assets/evidencias/testes-f07-grade.png" alt="Suíte automatizada da Feature 7: 11/11 testes passando cobrindo parser de horário, consultas SQLite e tela de Disciplinas" style="max-width: 100%; width: 660px; display: block; border-radius: 10px; box-shadow: 0 4px 14px rgba(0,0,0,.12);" />
+</a>
+<p><em>Clique na imagem para abrir em tamanho completo. <code>npx jest disciplinas.test.tsx gradeQueries.test.ts horarioParser.test.ts</code> — 11 testes em 3 suítes, 100% passando (02/07/2026).</em></p>
+<details>
+<summary>Ver os 11 casos de teste cobertos</summary>
+<p><strong>horarioParser.test.ts</strong> — parseHorarioUnB</p>
+<ul>
+<li>Deve parsar um horário padrão da UnB no turno da manhã (M) corretamente</li>
+<li>Deve tratar múltiplos locais separados por barra e propagar o prefixo</li>
+<li>Deve ignorar blocos mal formatados sem quebrar a execução</li>
+<li>Deve lidar com strings vazias de forma segura</li>
+</ul>
+<p><strong>gradeQueries.test.ts</strong> — Integração com Banco de Dados: gradeQueries</p>
+<ul>
+<li>CT01: Deve consultar parâmetros, turmas, aulas e formatar o retorno</li>
+<li>CT02: Deve repassar exceções do banco de dados (SQLite Error)</li>
+<li>CT03: Deve limpar banco e realizar INSERTs encadeados em transação</li>
+<li>CT04: Deve rejeitar a promessa e repassar erro caso o INSERT falhe na transação</li>
+<li>CT05: Deve lidar com array de disciplinas vazio sem quebrar (Edge Case)</li>
+</ul>
+<p><strong>disciplinas.test.tsx</strong> — RF16F07 - Feature 7: Grade Horaria e Ensalamento (Modo Offline)</p>
+<ul>
+<li>CT01: Deve renderizar a grade horaria consumindo cache local do SQLite</li>
+<li>CT02: Deve tratar a lista vazia garantindo confiabilidade visual (RNF01)</li>
+</ul>
+</details>
 
 #### Acompanhamento da Implementação
 - **Responsáveis:**
@@ -169,6 +244,24 @@
 #### Evidência Visual
 *(Funcionalidade operando em background; impacto visual refletido na grade horária)*
 
+#### Evidência de Testes
+<a href="../../assets/evidencias/testes-f04-historico.png" target="_blank" rel="noopener">
+<img src="../../assets/evidencias/testes-f04-historico.png" alt="Suíte automatizada da Feature 4: 6/6 testes passando cobrindo o parser do Histórico Escolar" style="max-width: 100%; width: 660px; display: block; border-radius: 10px; box-shadow: 0 4px 14px rgba(0,0,0,.12);" />
+</a>
+<p><em>Clique na imagem para abrir em tamanho completo. <code>npx jest historicoParser.test.ts</code> — 6 testes em 1 suíte, 100% passando (02/07/2026). A validação do Passe Livre (RF07) é coberta na suíte compartilhada de documentos — ver Evidência de Testes de F09.</em></p>
+<details>
+<summary>Ver os 6 casos de teste cobertos</summary>
+<p><strong>historicoParser.test.ts</strong> — extrairDadosDoHistorico</p>
+<ul>
+<li>CT01: Deve extrair informações básicas do aluno corretamente</li>
+<li>CT02: Deve extrair disciplinas cursadas e matriculadas com sucesso</li>
+<li>CT03: Deve extrair docentes com múltiplos títulos e múltiplos docentes por disciplina</li>
+<li>CT04: Deve ignorar linhas do ENADE e realizar limpeza no bloco de disciplinas</li>
+<li>CT05: Deve lidar com históricos mal formatados retornando null ou objeto vazio em caso de falha</li>
+<li>CT06: Deve normalizar turmas vazias para 00</li>
+</ul>
+</details>
+
 #### Acompanhamento da Implementação
 - **Responsáveis:**
   - Davi (CP/CA) — parser e arquitetura
@@ -201,6 +294,27 @@
 #### Evidência Visual
 *(Feature bloqueada por falta de credenciais do SIGAA; aguardando liberação)*
 
+#### Evidência de Testes
+<a href="../../assets/evidencias/testes-f08-sigaa-calendario.png" target="_blank" rel="noopener">
+<img src="../../assets/evidencias/testes-f08-sigaa-calendario.png" alt="Suíte automatizada da Feature 8: 6/6 testes passando cobrindo sincronização com SIGAA e calendário acadêmico" style="max-width: 100%; width: 660px; display: block; border-radius: 10px; box-shadow: 0 4px 14px rgba(0,0,0,.12);" />
+</a>
+<p><em>Clique na imagem para abrir em tamanho completo. Dados simulados (fixtures), já que o acesso real segue bloqueado. <code>npx jest sigaaSyncQueries.test.ts calendarioQueries.test.ts</code> — 6 testes em 2 suítes, 100% passando (02/07/2026).</em></p>
+<details>
+<summary>Ver os 6 casos de teste cobertos</summary>
+<p><strong>calendarioQueries.test.ts</strong> — Sincronização do calendário acadêmico</p>
+<ul>
+<li>Extrai eventos do texto final do PDF de atividades da graduação</li>
+<li>Considera o calendário atualizado quando já sincronizou há menos de 7 dias</li>
+<li>Grava eventos extraídos do PDF e atualiza metadados de sincronização</li>
+</ul>
+<p><strong>sigaaSyncQueries.test.ts</strong> — Sincronização de disciplinas com SIGAA</p>
+<ul>
+<li>Monta alvos do SIGAA usando semestre ativo, docentes e assinatura de horários</li>
+<li>Atualiza turma, docentes e aulas quando os dados extraídos do SIGAA diferem do banco</li>
+<li>Ignora dados extraídos de outro semestre para evitar atualização incorreta</li>
+</ul>
+</details>
+
 #### Acompanhamento da Implementação
 - **Responsáveis:**
   - Davi (CP/CA) — web scraping SIGAA
@@ -221,7 +335,7 @@
 
 ### <a id="f02"></a> 🟡 F02: Exibir QRCode da BCE
 
-**Prioridade:** Could (C) | **Iteração:** [I4](../06-cronograma/index.md#i4) | **Requisitos Relacionados:** [RF02](../08-requisitos/funcionais.md#rf02)
+**Prioridade:** Could (C) | **Iteração:** [I3](../06-cronograma/index.md#i3) | **Requisitos Relacionados:** [RF02](../08-requisitos/funcionais.md#rf02)
 
 #### O que deve ser feito (Ação, Resultado, Objetivo)
 **Ação:** Exibir QRCode da BCE.<br>**Resultado:** Gerar e apresentar o QR Code criado a partir do CPF do estudante.<br>**Objetivo:** Permitir a autenticação e o acesso rápido às catracas da Biblioteca Central.
@@ -233,6 +347,9 @@
 
 #### Evidência Visual
 *(Mockups em validação)*
+
+#### Evidência de Testes
+*(Sem testes automatizados até o momento — geração do QR Code ainda não implementada, feature em fase de mockup.)*
 
 #### Acompanhamento da Implementação
 - **Responsáveis:**
@@ -252,7 +369,7 @@
 
 ### <a id="f03"></a> 🟡 F03: Exibir e armazenar a carteirinha digital
 
-**Prioridade:** Could (C) | **Iteração:** [I4](../06-cronograma/index.md#i4) | **Requisitos Relacionados:** [RF01](../08-requisitos/funcionais.md#rf01), [RF03](../08-requisitos/funcionais.md#rf03)
+**Prioridade:** Could (C) | **Iteração:** [I3](../06-cronograma/index.md#i3) | **Requisitos Relacionados:** [RF01](../08-requisitos/funcionais.md#rf01), [RF03](../08-requisitos/funcionais.md#rf03)
 
 #### O que deve ser feito (Ação, Resultado, Objetivo)
 **Ação:** Exibir e armazenar carteirinha digital.<br>**Resultado:** Apresentar as credenciais e identificação do aluno com foto.<br>**Objetivo:** Garantir a identificação do estudante (RU e seguranças) mesmo sem internet.
@@ -263,6 +380,9 @@
 
 #### Evidência Visual
 *(Mockups em validação)*
+
+#### Evidência de Testes
+*(Sem testes automatizados até o momento — renderização da carteirinha ainda não implementada, feature em fase de mockup.)*
 
 #### Acompanhamento da Implementação
 - **Responsáveis:**

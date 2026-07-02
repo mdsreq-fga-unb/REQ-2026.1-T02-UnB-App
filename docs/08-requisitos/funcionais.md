@@ -12,7 +12,7 @@
 
 ### <a id="rf01"></a> 🟡 RF01: Exibir Carteirinha Estudantil Digital
 
-**Prioridade:** Could (C) | <strong>Feature:</strong> [F03](../10-feature-list/feature-list-geral.md#f03) | <strong>Iteração:</strong> [I4](../06-cronograma/index.md#i4) | <strong>MVP:</strong> Não
+**Prioridade:** Could (C) | <strong>Feature:</strong> [F03](../10-feature-list/feature-list-geral.md#f03) | <strong>Iteração:</strong> [I3](../06-cronograma/index.md#i3) | <strong>MVP:</strong> Não
 
 #### O que deve ser feito
 O sistema deve exibir as credenciais de acesso e identidade do estudante em formato de carteirinha digital, com suporte à leitura por catracas, Restaurante Universitário (RU) e biblioteca.
@@ -26,7 +26,7 @@ Desenvolver uma tela em React Native (<code>src/screens/StudentID</code>) que re
 
 ### <a id="rf02"></a> 🟡 RF02: Gerar QR Code para Acesso à BCE
 
-**Prioridade:** Could (C) | <strong>Feature:</strong> [F02](../10-feature-list/feature-list-geral.md#f02) | <strong>Iteração:</strong> [I4](../06-cronograma/index.md#i4) | <strong>MVP:</strong> Não
+**Prioridade:** Could (C) | <strong>Feature:</strong> [F02](../10-feature-list/feature-list-geral.md#f02) | <strong>Iteração:</strong> [I3](../06-cronograma/index.md#i3) | <strong>MVP:</strong> Não
 
 #### O que deve ser feito
 O sistema deve gerar um QR Code a partir do CPF do estudante para autenticação e acesso à Biblioteca Central (BCE).
@@ -40,7 +40,7 @@ Utilizar a biblioteca <code>react-native-qrcode-svg</code> para renderizar o QR 
 
 ### <a id="rf03"></a> 🟡 RF03: Armazenar Carteirinha Estudantil
 
-**Prioridade:** Could (C) | <strong>Feature:</strong> [F03](../10-feature-list/feature-list-geral.md#f03) | <strong>Iteração:</strong> [I4](../06-cronograma/index.md#i4) | <strong>MVP:</strong> Não
+**Prioridade:** Could (C) | <strong>Feature:</strong> [F03](../10-feature-list/feature-list-geral.md#f03) | <strong>Iteração:</strong> [I3](../06-cronograma/index.md#i3) | <strong>MVP:</strong> Não
 
 #### O que deve ser feito
 O sistema deve armazenar localmente a carteirinha estudantil, permitindo seu acesso mesmo sem conexão com a internet.

@@ -45,7 +45,7 @@
 
 A transcrição integral está disponível no arquivo [Terminar a primeira entrega .docx](docx/Terminar%20a%20primeira%20entrega%20.docx), armazenado nesta mesma pasta.
 
-## RE02 · 18/05/2026
+## RE02 · 18/05/2026 {: #r02--18052026 }
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/wEUmHxRoNcM" title="Apresentação da Unidade 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
@@ -74,7 +74,7 @@ A transcrição integral está disponível no arquivo [Terminar a primeira entre
 
 A transcrição integral está disponível no arquivo [Terminar Unidade 2 (2).docx](docx/Terminar%20Unidade%202%20(2).docx), armazenado nesta mesma pasta.
 
-## RE03 · 15/06/2026
+## RE03 · 15/06/2026 {: #r03--15062026 }
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/sUqzIqj841U" title="Apresentação da Unidade 3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
