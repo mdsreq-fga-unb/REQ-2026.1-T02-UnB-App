@@ -35,7 +35,7 @@ Acompanhamento das iterações do desenvolvimento FDD.
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **[Iteração 1](06-cronograma/index.md#i1)** | 23/05/2026 - 10/06/2026 | Upload local, parser PDF offline e grade horária funcional | [F09](10-feature-list/feature-list-geral.md#f09), [F07](10-feature-list/feature-list-geral.md#f07) | Design Review Figma, Suíte de Testes, Expo Build | ✅ Concluída |
 | **[Iteração 2](06-cronograma/index.md#i2)** | 11/06/2026 - 24/06/2026 | Extração do Passe Livre e Web Scraping do SIGAA | [F04](10-feature-list/feature-list-geral.md#f04), [F08](10-feature-list/feature-list-geral.md#f08) | Testes Regex, Background Fetch | ✅ Concluída |
-| **[Iteração 3](06-cronograma/index.md#i3)** | 25/06/2026 - 02/07/2026 | Onboarding, geração de QR Code e carteirinha virtual | [F05](10-feature-list/feature-list-geral.md#f05), [F02](10-feature-list/feature-list-geral.md#f02), [F03](10-feature-list/feature-list-geral.md#f03) | Validação de Acessibilidade (60+), Animações limitadas, SQLite Persistente, Renderização Gráfica | 🟡 Andamento |
+| **[Iteração 3](06-cronograma/index.md#i3)** | 25/06/2026 - 02/07/2026 | Onboarding, geração de QR Code e carteirinha virtual | [F05](10-feature-list/feature-list-geral.md#f05), [F02](10-feature-list/feature-list-geral.md#f02), [F03](10-feature-list/feature-list-geral.md#f03) | Validação de Acessibilidade (60+), Animações limitadas, SQLite Persistente, Renderização Gráfica | ✅ Concluída |
 
 ---
 
