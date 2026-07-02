@@ -35,7 +35,6 @@ export function SigaaSync() {
          const alvosValidos = await buscarAlvosSincronizacaoSigaa(db);
          
          if (alvosValidos.length > 0) {
-             console.log("🎯 Alvos Carregados para o Robô (Sniper):", alvosValidos.length, "disciplinas.");
              setTargets(alvosValidos);
              setIsNetworkOk(true);
          } else {
@@ -265,7 +264,7 @@ export function SigaaSync() {
     const data = JSON.parse(event.nativeEvent.data);
 
     if (data.type === 'SYNC_SUCCESS') {
-      console.log('✅ Extração Sniper Concluída com Sucesso:');
+      console.log('Extração feita');
       console.log(JSON.stringify(data.payload, null, 2));
       const resultado = await sincronizarDisciplinasComSigaa(
         db,
@@ -281,7 +280,7 @@ export function SigaaSync() {
     }
 
     if (data.type === 'ERROR') {
-      console.log('❌ Falha na sincronização:', data.error);
+      console.log('Falha na sincronização:', data.error);
       setIsFinished(true);
     }
   };

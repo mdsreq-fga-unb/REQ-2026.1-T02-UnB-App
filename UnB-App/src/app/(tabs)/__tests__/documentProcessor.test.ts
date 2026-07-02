@@ -79,6 +79,7 @@ const mockDb = {
 describe('processAndSaveDocument', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    mockDb.getAllAsync.mockResolvedValue([]);
   });
 
   it('CT01: Deve processar com sucesso um PDF de Histórico Escolar e salvar os dados no BD', async () => {

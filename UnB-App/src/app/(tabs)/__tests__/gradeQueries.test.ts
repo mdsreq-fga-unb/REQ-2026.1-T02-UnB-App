@@ -83,6 +83,7 @@ describe('Integração com Banco de Dados: gradeQueries', () => {
         if (query.includes('FROM Docente')) return { id_docente: 5 };
         return null;
       });
+      mockDb.getAllAsync.mockResolvedValueOnce([]);
 
       // Passamos a assinatura correta (db, aluno, disciplinas)
       await popularGradePorDados(mockDb as any, alunoMock as any, disciplinasMock as any);
