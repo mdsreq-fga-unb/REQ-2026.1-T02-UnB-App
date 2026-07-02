@@ -174,3 +174,5 @@ Acompanhamento das iterações do desenvolvimento FDD.
 | 15/06/2026 | 2.0 | Repaginação visual do GitPages, reestruturação da home, seção de evidências e adição de vídeos embed | Luís |
 | 29/06/2026 | 2.1 | Correção de consistência do RF22 e RF23, anteriormente representaodos como RF07 | Davi |
 | 01/07/2026 | 2.2 | Fusão das iterações 3 e 4 e atualização da data de entrega para dia 02| Rivadalvio |
+| 01/07/2026 | 2.3 | Implementação da sincronização com SIGAA, webscraping, validação de carteirinha, testes automatizados, modo escuro e revisões da documentação (DoR/DoD e rastreabilidade) | Isaac, Luís, Davi, Pedro, Mateus |
+| 02/07/2026 | 2.4 | Adição de evidências de testes (imagens e casos de testes) à documentação | Luís Felipe |
