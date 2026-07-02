@@ -5,6 +5,16 @@
 
 ---
 
+## 📱 Teste o Aplicativo (Download)
+
+Para avaliar o projeto diretamente no seu dispositivo Android, faça o download do instalador (APK) clicando no botão abaixo:
+
+[📥 **Baixar UnB-App.apk**](assets/apk/UnB-App.apk){ .md-button .md-button--primary }
+
+> 💡 **Nota para o desenvolvedor:** Coloque o arquivo gerado dentro da pasta `docs/assets/apk/` com o nome exato de `UnB-App.apk` para que o botão acima funcione.
+
+---
+
 ## 1. Escopo Mínimo Viável (MVP)
 
 Abaixo estão listadas as funcionalidades que compõem o MVP.
