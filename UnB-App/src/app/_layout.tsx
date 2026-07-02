@@ -13,6 +13,7 @@ import * as LocalAuthentication from "expo-local-authentication";
 import CustomSplashScreen from "@/components/SplashScreen";
 import * as SplashScreenNative from 'expo-splash-screen';
 import { ToastProvider } from 'react-native-pretty-toast';
+import { StatusBar } from 'expo-status-bar';
 
 SplashScreenNative.preventAutoHideAsync();
 
@@ -95,6 +96,11 @@ function AppLockWrapper({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
+function ThemeAwareStatusBar() {
+  const { isDark } = useTheme();
+  return <StatusBar style={isDark ? 'light' : 'dark'} />;
+}
+
 export default function RootLayout() {
   const [isSplashVisible, setIsSplashVisible] = useState(true);
 
@@ -103,6 +109,7 @@ export default function RootLayout() {
       <SQLiteProvider databaseName="documents.db" onInit={initializeDatabase}>
         <UserProfileProvider>
           <ThemeProvider>
+            <ThemeAwareStatusBar />
             <TextSizeProvider>
               <ToastProvider>
                 <AppLockWrapper>
