@@ -16,7 +16,7 @@ export default function EmBreveModalScreen() {
     <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]} edges={Platform.OS === 'ios' ? ['top', 'bottom'] : ['bottom']}>
       <View style={[styles.header, { backgroundColor: colors.surface, borderBottomColor: colors.border }]}>
           <ScalePressable onPress={() => router.back()} style={styles.closeBtn}>
-              <SymbolView name={{ ios: "xmark", android: "close", web: "close" } as any} size={24} tintColor={colors.textPrimary} fallback={<Text style={{fontSize: 20}}>X</Text>} />
+              <SymbolView name={{ ios: "xmark.circle.fill", android: "cancel", web: "cancel" } as any} size={28} tintColor={colors.inactiveText} />
           </ScalePressable>
           <Text style={[styles.title, { fontSize: getFontSize(20), color: colors.textPrimary }]}>Meu Acesso</Text>
           <View style={{ width: 24 }} />

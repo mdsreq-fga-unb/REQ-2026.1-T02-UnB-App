@@ -81,7 +81,7 @@ export default function TutoriaisModalScreen() {
     <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]} edges={Platform.OS === 'ios' ? ['top', 'bottom'] : ['bottom']} onLayout={(e) => setLayoutWidth(e.nativeEvent.layout.width)}>
       <View style={[styles.header, { backgroundColor: colors.surface, borderBottomColor: colors.border }]}>
         <ScalePressable onPress={() => router.dismissAll()} style={styles.closeBtn}>
-          <SymbolView name={{ ios: "xmark", android: "close", web: "close" } as any} size={24} tintColor={colors.textPrimary} fallback={<Text style={{ fontSize: 20 }}>X</Text>} />
+          <SymbolView name={{ ios: "xmark.circle.fill", android: "cancel", web: "cancel" } as any} size={28} tintColor={colors.inactiveText} />
         </ScalePressable>
         <Text style={[styles.headerTitle, { fontSize: getFontSize(17), color: colors.textPrimary }]}>Guia das Plataformas</Text>
         <View style={{ width: 24 }} />

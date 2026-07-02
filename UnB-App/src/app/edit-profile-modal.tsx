@@ -58,7 +58,7 @@ export default function EditProfileModal() {
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <View style={styles.header}>
         <ScalePressable onPress={() => router.back()} style={styles.closeBtn}>
-          <SymbolView name={{ ios: "xmark", android: "close", web: "close" } as any} size={24} tintColor={colors.textPrimary} fallback={<Text style={{fontSize: 20}}>X</Text>} />
+          <SymbolView name={{ ios: "xmark.circle.fill", android: "cancel", web: "cancel" } as any} size={28} tintColor={colors.inactiveText} />
         </ScalePressable>
         <View style={styles.titleContainer}>
           <Text style={[styles.title, { fontSize: getFontSize(22), color: colors.textPrimary }]}>Editar Perfil</Text>
