@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import * as Network from 'expo-network';
 import { useSQLiteContext } from 'expo-sqlite';
+import { toast } from 'react-native-pretty-toast';
 import {
   buscarAlvosSincronizacaoSigaa,
   sincronizarDisciplinasComSigaa,
@@ -273,14 +274,17 @@ export function SigaaSync() {
 
       if (resultado.atualizadas > 0) {
         console.log('Grade atualizada com dados do SIGAA:', resultado);
+        toast.success('Grade atualizada', { message: 'As informações da sua grade foram sincronizadas com o SIGAA.' });
       } else {
         console.log('Grade ja equivalente ao SIGAA:', resultado);
+        toast.success('Grade sincronizada', { message: 'Sua grade já está equivalente ao SIGAA.' });
       }
       setIsFinished(true);
     }
 
     if (data.type === 'ERROR') {
       console.log('Falha na sincronização:', data.error);
+      toast.error('Erro de sincronização', { message: 'Falha ao buscar as informações no SIGAA.' });
       setIsFinished(true);
     }
   };
