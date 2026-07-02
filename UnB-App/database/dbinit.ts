@@ -100,6 +100,22 @@ export async function initializeDatabase(db: SQLiteDatabase) {
           chave TEXT PRIMARY KEY,
           valor TEXT NOT NULL
       );
+
+      CREATE TABLE IF NOT EXISTS Calendario_Academico (
+          id_calendario INTEGER PRIMARY KEY AUTOINCREMENT,
+          ano INTEGER NOT NULL,
+          periodo INTEGER NOT NULL,
+          data_inicio TEXT NOT NULL,
+          data_fim TEXT NOT NULL,
+          titulo TEXT NOT NULL,
+          tipo TEXT NOT NULL,
+          fonte TEXT,
+          atualizado_em TEXT NOT NULL,
+          UNIQUE (ano, periodo, data_inicio, data_fim, titulo)
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_calendario_academico_periodo
+      ON Calendario_Academico (ano, periodo, data_inicio);
     `);
 
     // Migration: Adiciona coluna situacao na tabela Turma_Aluno se não existir

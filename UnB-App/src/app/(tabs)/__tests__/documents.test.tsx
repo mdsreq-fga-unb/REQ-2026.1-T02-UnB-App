@@ -39,7 +39,7 @@ jest.mock('expo-symbols', () => ({
 }));
 
 const mockDb = {
-  getAllAsync: jest.fn(() => Promise.resolve([])),
+  getAllAsync: jest.fn<Promise<any[]>, any[]>(() => Promise.resolve([])),
   runAsync: jest.fn(() => Promise.resolve()),
 };
 

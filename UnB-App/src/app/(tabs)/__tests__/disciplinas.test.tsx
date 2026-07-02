@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, waitFor, screen } from '@testing-library/react-native';
 
-// Mocks para Reanimated e Worklets para evitar erro de inicialização nativa no Jest
+// Mocks para Reanimated e Worklets para evitar erro de inicializacao nativa no Jest
 jest.mock('react-native-worklets', () => ({
   createSerializable: (x: any) => x,
   isSerializableRef: () => false,
@@ -24,6 +24,7 @@ jest.mock('react-native-worklets', () => ({
   runOnUISync: (fn: any) => fn,
   scheduleOnUI: (fn: any) => fn,
 }));
+
 jest.mock('react-native-pretty-toast', () => ({
   toast: {
     info: jest.fn(),
@@ -31,60 +32,22 @@ jest.mock('react-native-pretty-toast', () => ({
     error: jest.fn(),
   },
 }), { virtual: true });
+
 jest.mock('react-native-reanimated', () => require('react-native-reanimated/mock'));
 
 import DisciplinasScreen from '../disciplinas';
-
 import * as gradeQueries from '../../../../database/queries/gradeQueries';
 
-// Mocs de navegação nativos
 jest.mock('expo-router', () => ({
   useRouter: jest.fn(() => ({ push: jest.fn(), replace: jest.fn() })),
+  useLocalSearchParams: jest.fn(() => ({})),
   Link: ({ children }: any) => <>{children}</>,
   useFocusEffect: (callback: any) => require('react').useEffect(callback, []),
-  useLocalSearchParams: jest.fn(() => ({})),
 }));
 
 jest.mock('expo-symbols', () => ({
   SymbolView: ({ fallback }: any) => <>{fallback}</>,
 }));
-
-jest.mock('@/contexts/ThemeContext', () => ({
-  useTheme: () => ({
-    colors: {
-      primary: '#0056b3',
-      secondary: '#6c757d',
-      background: '#ffffff',
-      surface: '#ffffff',
-      textPrimary: '#000000',
-      textSecondary: '#6c757d',
-      border: '#dee2e6',
-      iconBackground: '#f8f9fa',
-      inactiveText: '#888888',
-      danger: '#dc3545',
-    },
-    isDark: false,
-  }),
-}));
-
-jest.mock('react-native-reanimated', () => {
-  return {
-    __esModule: true,
-    default: {
-      createAnimatedComponent: (c: any) => c,
-    },
-    useSharedValue: (val: any) => ({ value: val }),
-    useAnimatedStyle: (cb: any) => ({}),
-    withTiming: (toValue: any, config: any, cb: any) => toValue,
-    Easing: {
-      linear: (x: any) => x,
-      ease: (x: any) => x,
-      inOut: (x: any) => x,
-    },
-  };
-});
-
-jest.mock('react-native-worklets', () => ({}));
 
 const mockDb = {};
 jest.mock('expo-sqlite', () => ({
@@ -94,33 +57,53 @@ jest.mock('expo-sqlite', () => ({
 jest.mock('expo-document-picker', () => ({ getDocumentAsync: jest.fn() }));
 jest.mock('expo-pdf-text-extract', () => ({ extractTextWithInfo: jest.fn() }));
 
-// Mocs de contexto/negócio
 jest.mock('@/contexts/TextSizeContext', () => ({
   useTextSize: () => ({
     getFontSize: (size: number) => size,
   }),
 }));
 
+jest.mock('@/contexts/ThemeContext', () => ({
+  useTheme: () => ({
+    isDark: false,
+    colors: {
+      primary: '#1D8D28',
+      secondary: '#6c757d',
+      background: '#ffffff',
+      surface: '#ffffff',
+      textPrimary: '#000000',
+      textSecondary: '#6c757d',
+      border: '#dee2e6',
+      success: '#35A92E',
+      danger: '#dc3545',
+      iconBackground: '#f8f9fa',
+      inactiveText: '#888888',
+      textPlaceholder: '#94a3b8',
+    },
+  }),
+}));
+
 jest.mock('@/contexts/UserProfileContext', () => ({
   useUserProfile: () => ({
-    userName: "Lourdes Ribeiro",
-    userMatricula: "123456789",
+    userName: 'Lourdes Ribeiro',
+    userMatricula: '123456789',
     autoSyncPDFData: true,
     setAutoSyncPDFData: jest.fn(),
     clearAllData: jest.fn(),
-    themePreference: "light",
+    themePreference: 'light',
     setThemePreference: jest.fn(),
+    updateUserProfile: jest.fn(),
   }),
 }));
 
 jest.mock('../../../../database/queries/gradeQueries');
 
-describe('RF16F07 - Feature 7: Grade Horária e Ensalamento (Modo Offline)', () => {
+describe('RF16F07 - Feature 7: Grade Horaria e Ensalamento (Modo Offline)', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('CT01: Deve renderizar a grade horária consumindo cache local do SQLite', async () => {
+  it('CT01: Deve renderizar a grade horaria consumindo cache local do SQLite', async () => {
     jest.spyOn(gradeQueries, 'buscarTodasDisciplinas').mockResolvedValue([
       {
         id_turma: 1,
