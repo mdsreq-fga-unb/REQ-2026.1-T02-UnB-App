@@ -8,7 +8,6 @@
 |----------|----------|
 | [10.1 Feature List Geral (Backlog Instrumentado)](feature-list-geral.md) | Backlog vivo: status, responsáveis, iteração, evidências e dependências por feature. **Integra cronograma.** |
 | [10.2 Priorização e MVP](priorizacao.md) | Priorização por valor de negócio × esforço e definição do MVP. |
-| [10.3 Acompanhamento por Feature](acompanhamento.md) | Quadro vivo com cards detalhados (Kanban + FDD) por feature, com responsáveis, período, subatividades e critérios de pronto. |
 
 ---
 
@@ -16,11 +15,11 @@
 
 | Você quer… | Vá para |
 |------------|---------|
-| Ver o **status atual** de cada feature em uma única tabela | [10.3 Acompanhamento por Feature](acompanhamento.md) |
+| Ver o **status atual** de cada feature em uma única tabela | [10.1 Feature List Geral](feature-list-geral.md) |
 | Consultar **descrição FDD + dependências + evidências** de uma feature específica | [10.1 Feature List Geral](feature-list-geral.md) |
 | Entender o **grafo de dependências** entre features | [10.2 Priorização e MVP](priorizacao.md) |
-| Conferir o **reflexo do cronograma** dentro da Feature List | [10.3 Acompanhamento por Feature](acompanhamento.md) |
-| Ver o **quadro Kanban + cards detalhados** de cada feature | [10.3 Acompanhamento por Feature](acompanhamento.md) |
+| Conferir o **reflexo do cronograma** dentro da Feature List | [10.1 Feature List Geral](feature-list-geral.md) |
+| Ver o **quadro Kanban + cards detalhados** de cada feature | [10.1 Feature List Geral](feature-list-geral.md) |
 | Saber o que **compõe o MVP** e por quê | [10.2 Priorização e MVP](priorizacao.md) |
 | **Rastrear uma feature até os requisitos** que a sustentam | [8.3 Matriz de Rastreabilidade](../08-requisitos/rastreabilidade.md) |
 | Conferir o **cronograma detalhado** com desvios planejado × realizado | [6 · Cronograma e Entregas](../06-cronograma/index.md) |

@@ -140,12 +140,13 @@ nav:
     - "9·DoR e DoD":
       - Visão Geral: 09-dor-dod/index.md
       - "9.1 Definition of Ready": 09-dor-dod/dor.md
-      - "9.2 Definition of Done": 09-dor-dod/dod.md
+      - "9.2 Aplicação do DoR": 09-dor-dod/dor-aplicacao.md
+      - "9.3 Definition of Done": 09-dor-dod/dod.md
+      - "9.4 Aplicação do DoD": 09-dor-dod/dod-aplicacao.md
     - "10·Feature List":
       - Visão Geral: 10-feature-list/index.md
       - "10.1 Feature List Geral": 10-feature-list/feature-list-geral.md
       - "10.2 Priorização e MVP": 10-feature-list/priorizacao.md
-      - "10.3 Acompanhamento por Feature": 10-feature-list/acompanhamento.md
   - "Lições Aprendidas":
     - Visão Geral: 11-licoes/index.md
     - Unidade 1: 11-licoes/unidade1.md

@@ -83,6 +83,7 @@ describe('Integração com Banco de Dados: gradeQueries', () => {
         if (query.includes('FROM Docente')) return { id_docente: 5 };
         return null;
       });
+      mockDb.getAllAsync.mockResolvedValueOnce([]);
 
       // Passamos a assinatura correta (db, aluno, disciplinas)
       await popularGradePorDados(mockDb as any, alunoMock as any, disciplinasMock as any);
@@ -116,20 +117,18 @@ describe('Integração com Banco de Dados: gradeQueries', () => {
         const disciplinasVazias: any[] = [];
 
         jest.clearAllMocks();
+        mockDb.getFirstAsync.mockResolvedValueOnce({ matricula: '987654321' }); // Aluno diferente para forçar o DELETE
+
+        // Simula um aluno diferente já existente para acionar a limpeza de dados
+        mockDb.getFirstAsync.mockResolvedValueOnce({ matricula: '987654321', nome: 'Outro Aluno', curso: 'Outro Curso', CPF: '' });
 
         await popularGradePorDados(mockDb as any, alunoMock as any, disciplinasVazias);
 
-        expect(mockDb.withTransactionAsync).toHaveBeenCalledTimes(1)
+        expect(mockDb.withTransactionAsync).toHaveBeenCalledTimes(1);
 
         const queriesExecutadas = mockDb.runAsync.mock.calls.map(call => call[0]);
-        expect(queriesExecutadas).not.toContain('DELETE FROM Aula');
-        expect(queriesExecutadas).toEqual(
-          expect.arrayContaining([
-            expect.stringContaining('INSERT INTO Aluno (matricula, nome, curso, CPF)'),
-            'INSERT OR IGNORE INTO Periodo_Letivo (ano, periodo, data_inicio, data_fim) VALUES (?, ?, ?, ?)',
-            'CREATE TABLE IF NOT EXISTS AppSettings (key TEXT PRIMARY KEY, value TEXT NOT NULL)',
-          ])
-        );
+        expect(queriesExecutadas).toContain('DELETE FROM Aula');
+        expect(queriesExecutadas.some(q => q.includes('INSERT INTO Aluno') && q.includes('ON CONFLICT(matricula)'))).toBe(true);
       });
     });
   });

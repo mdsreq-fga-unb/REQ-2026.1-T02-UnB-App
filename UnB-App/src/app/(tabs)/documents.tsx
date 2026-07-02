@@ -32,6 +32,7 @@ const SYMBOL_MAP: Record<string, CrossPlatformSymbol> = {
   'eye.fill':                   { ios: 'eye.fill',                   android: 'visibility',      web: 'visibility' },
   'trash.fill':                 { ios: 'trash.fill',                 android: 'delete',          web: 'delete' },
   'arrow.down.doc.fill':        { ios: 'arrow.down.doc.fill',        android: 'download',        web: 'download' },
+  'arrow.up.doc.fill':          { ios: 'arrow.up.doc.fill',          android: 'upload',          web: 'upload' },
   // Ícones dos documentos (DEFAULT_DOCS)
   'doc.text.fill':              { ios: 'doc.text.fill',              android: 'description',     web: 'description' },
   'chart.bar.doc.horizontal':   { ios: 'chart.bar.doc.horizontal',   android: 'analytics',       web: 'analytics' },
