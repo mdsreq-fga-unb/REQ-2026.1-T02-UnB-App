@@ -1,7 +1,7 @@
 # REQ-2026.1-T02-UnB-App
 Repositório de projeto da disciplina de REQ-T2, 2026.1.
 
-## 📥 [Baixar APK](docs/assets/apk/UnB-App.apk)
+## 📥 [Baixar APK](docs/assets/apk/UnB-App.apk?raw=true)
 
 ## Como usar a documentação
 
