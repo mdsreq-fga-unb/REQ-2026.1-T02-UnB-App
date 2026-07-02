@@ -46,7 +46,7 @@ Foco principal em entregar a infraestrutura offline (SQLite) e as features F09 (
 
 ## Iteração 2: Automação e SIGAA 🟡
 
-**Período Planejado:** até 24/06/2026
+**Período Planejado:** até 30/06/2026
 
 Iteração em andamento, cujo objetivo é integrar processos manuais (como ler o Passe Livre) e iniciar a raspagem de dados (Web Scraping) do SIGAA.
 
