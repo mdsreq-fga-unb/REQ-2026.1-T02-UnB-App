@@ -2,9 +2,9 @@
 
 <div class="image-preview">
   <figure class="image-preview__figure">
-    <img src="../../assets/rich-picture.png" alt="Rich Picture" loading="lazy">
+    <img src="../assets/rich-picture.png" alt="Rich Picture" loading="lazy">
   </figure>
-  <a class="image-preview__action" href="../../assets/rich-picture.png" target="_blank" rel="noopener">
+  <a class="image-preview__action" href="../assets/rich-picture.png" target="_blank" rel="noopener">
     Abrir imagem em tamanho completo
   </a>
 </div>

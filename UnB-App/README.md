@@ -13,7 +13,7 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 2. Start the app
 
    ```bash
-   npx expo start
+   npx expo start --go
    ```
 
 In the output, you'll find options to open the app in a
@@ -25,15 +25,28 @@ In the output, you'll find options to open the app in a
 
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-## Get a fresh project
+## Get a project for Android .apk
 
 When you're ready, run:
 
 ```bash
-npm run reset-project
+npx expo run:android --device
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+```bash
+# Baixar .apk via nuvem usando o EAS build
+eas build -p android --profile preview
+```
+
+```bash
+# ou caso queira rodar localmente. No windows só com WSL
+eas build --platform android --local
+```
+
+```bash
+# Atualizar via over-the-air informações
+eas update --channel preview --platform android
+```
 
 ### Other setup steps
 

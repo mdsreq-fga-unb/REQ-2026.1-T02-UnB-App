@@ -19,10 +19,10 @@ flowchart LR
     C --> D[Testes de\nAceitação]
     D --> E{Aprovado?}
     E -- Sim --> F[✅ Entregue]
-    E -- Não --> G[Backlog\nReplanejamento]
+    E -- Não --> G[Feature List\nReplanejamento]
     G --> H{Próxima\niteração?}
     H -- Sim --> A
-    H -- Não --> I[Permanece\nno backlog]
+    H -- Não --> I[Permanece\nna Feature List]
 ```
 
 <div class="diagram-actions">
@@ -49,10 +49,10 @@ flowchart LR
     C --> D[Testes de\nAceitação]
     D --> E{Aprovado?}
     E -- Sim --> F[✅ Entregue]
-    E -- Não --> G[Backlog\nReplanejamento]
+    E -- Não --> G[Feature List\nReplanejamento]
     G --> H{Próxima\niteração?}
     H -- Sim --> A
-    H -- Não --> I[Permanece\nno backlog]
+    H -- Não --> I[Permanece\nna Feature List]
 ```
 
 </div>
@@ -89,7 +89,7 @@ Nessa etapa, serão coletados feedbacks sobre:
 - compreensão da interface;
 - autonomia na realização de tarefas.
 
-Os feedbacks coletados orientarão ajustes contínuos do produto ao longo das iterações. Caso a funcionalidade não seja aprovada, ela retornará ao backlog para replanejamento e poderá entrar no próximo ciclo, conforme prioridade e capacidade da equipe.
+Os feedbacks coletados orientarão ajustes contínuos do produto ao longo das iterações. Caso a funcionalidade não seja aprovada, ela retornará à feature list para replanejamento e poderá entrar no próximo ciclo, conforme prioridade e capacidade da equipe.
 
 ---
 
