@@ -62,6 +62,14 @@ export function extrairDadosDoHistorico(texto: string): InfoHistorico | null {
         if (outroCodigo !== -1) {
           possivelNome = possivelNome.substring(0, outroCodigo).trim();
         }
+        
+        // No Android, se não houver quebra de linha, o nome puxa os dados do professor ou as notas junto.
+        // Cortamos no primeiro indicativo de docente ou de início dos dados da nota (ex: "60 02 100,0").
+        const matchLixo = possivelNome.search(/(?:\bDr\.|Dra\.|Esp\.|MSc\.|Prof\.)|\b\d{2,3}\s+(?:[A-Za-z0-9]{2}|--)\s+(?:[\d,]+|--)/);
+        if (matchLixo !== -1) {
+          possivelNome = possivelNome.substring(0, matchLixo).trim();
+        }
+
         if (possivelNome === '*' || possivelNome === '#' || possivelNome === '') {
           possivelNome = '';
         }
@@ -78,7 +86,8 @@ export function extrairDadosDoHistorico(texto: string): InfoHistorico | null {
       });
       
       // Capturamos os resultados (turma, situação, etc) pela regex estrita da UnB
-      const regexResultado = /\b(\d{2,3})\s+([A-Za-z0-9]{2}|--)\s+([\d,]+|--)\s+([A-Z]{2}|-|---)\s*\n\s*(APR|REP|REPF|REPMF|MATR|TRANC|CANC|DISP|CUMP)\b/g;
+      // Flexibilizamos \s*\n\s* para \s+ para suportar a extração no Android que pode não ter quebra de linha
+      const regexResultado = /\b(\d{2,3})\s+([A-Za-z0-9]{2}|--)\s+([\d,]+|--)\s+([A-Z]{2}|-|---)\s+(APR|REP|REPF|REPMF|MATR|TRANC|CANC|DISP|CUMP)\b/g;
       const resultados = [...blocoDisciplinas.matchAll(regexResultado)];
 
       // Zipamos os arrays
