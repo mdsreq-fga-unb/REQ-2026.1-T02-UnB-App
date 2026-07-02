@@ -9,6 +9,7 @@
 | RE01 | 13/04/2026 | Luis Felipe Parreira Cunha | [Terminar a primeira entrega .docx](docx/Terminar%20a%20primeira%20entrega%20.docx) | Revisão da Unidade 1 e alinhamento do plano de execução do semestre. |
 | RE02 | 18/05/2026 | Luis Felipe Parreira Cunha | [Terminar Unidade 2 (2).docx](docx/Terminar%20Unidade%202%20(2).docx) | Elaboração e consolidação dos tópicos da Unidade 2. |
 | RE03 | 15/06/2026 | Luís Felipe Parreira Cunha | [Terminar Unidade 3.docx](docx/Terminar%20Unidade%203.docx) | Apresentação do que foi realizado na Unidade 3 |
+| RE04 | 02/07/2026 | Luís Felipe Parreira Cunha | — | Apresentação do que foi realizado na Unidade 4 |
 
 ## RE01 · 13/04/2026 (23h59)
 
@@ -102,3 +103,32 @@ A transcrição integral está disponível no arquivo [Terminar Unidade 2 (2).do
 ### Registro
 
 A transcrição integral está disponível no arquivo [Terminar Unidade 3.docx](docx/Terminar%20Unidade%203.docx), armazenado nesta mesma pasta.
+
+## RE04 · 02/07/2026 {: #r04--02072026 }
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/hfBj5qRmwFs" title="Apresentação da Unidade 4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+**Duração:** 14m42s
+
+**Participantes com fala registrada:**
+
+- Luis Felipe Parreira Cunha
+- Davi Severiano Freitas
+- Mateus Rodrigues Barreto
+- Pedro Henrique Ferreira Xavier
+- Rivadalvio Joaquim da Silva Filho
+- Isaac Lucas Souza Bezerra
+
+### Tópicos abordados
+
+- Revisão geral das entregas e encerramento da Unidade 4.
+- Implementação técnica e demonstração das features do MVP (Onboarding, Carteirinha de estudante com QR Code e centralizador de documentos).
+- Implementação do modo escuro nativo (ThemeContext), configurações do sistema (Ajustes) e suporte de acessibilidade.
+- Integração de dados com o SIGAA (sincronização do perfil do aluno, grade horária e histórico escolar em SQLite offline).
+- Análise de lições aprendidas (gerenciamento de dependências, cobertura de testes automatizados e melhorias de sincronia no code review).
+- Discussão das ações para o próximo ciclo do projeto.
+
+### Registro
+
+A gravação da apresentação está disponível no link do YouTube.
+

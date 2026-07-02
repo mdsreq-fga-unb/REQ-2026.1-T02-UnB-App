@@ -3,6 +3,8 @@ Repositório de projeto da disciplina de REQ-T2, 2026.1.
 
 ## LINK PARA O PAGES: https://mdsreq-fga-unb.github.io/REQ-2026.1-T02-UnB-App/entrega3/
 
+## 📥 [Baixar APK](docs/assets/apk/UnB-App.apk)
+
 ## Como usar a documentação
 
 ### 1. Instalar dependências
