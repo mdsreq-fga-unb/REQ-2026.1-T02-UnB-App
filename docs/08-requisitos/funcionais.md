@@ -6,6 +6,17 @@
 
 ---
 
+## Legenda de Status
+
+| Ícone | Status |
+|:-----:|--------|
+| ✅ | **Feito** (Concluído) |
+| 🟡 | **Em execução** (Andamento) |
+| ⬜ | **Planejado** (Não iniciado) |
+| ❌ | **Fora do escopo** (Cancelado) |
+
+---
+
 <div class="cards-container" style="display: flex; flex-direction: column; gap: 2rem;" markdown="1">
 
 <article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" markdown="1">
@@ -52,7 +63,7 @@ Salvar os metadados da carteirinha (Nome, Matrícula, Foto, Validade) utilizando
 
 <article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" markdown="1">
 
-### <a id="rf04"></a> 🟣 RF04: Armazenar Dados de Documentos Enviados
+### <a id="rf04"></a> ✅ RF04: Armazenar Dados de Documentos Enviados
 
 **Prioridade:** Should (S) | <strong>Feature:</strong> [F04](../10-feature-list/feature-list-geral.md#f04) | <strong>Iteração:</strong> [I2](../06-cronograma/index.md#i2) | <strong>MVP:</strong> Não
 
@@ -66,7 +77,7 @@ Os dados processados pelo parser (JSON extraído do PDF) devem ser modelados em 
 
 <article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" markdown="1">
 
-### <a id="rf05"></a> 🟣 RF05: Processar Dados de Documentos Enviados
+### <a id="rf05"></a> ✅ RF05: Processar Dados de Documentos Enviados
 
 **Prioridade:** Should (S) | <strong>Feature:</strong> [F04](../10-feature-list/feature-list-geral.md#f04) | <strong>Iteração:</strong> [I2](../06-cronograma/index.md#i2) | <strong>MVP:</strong> Não
 
@@ -94,7 +105,7 @@ Implementar e testar um script de Parser customizado (<code>pdfExtractor.ts</cod
 
 <article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" markdown="1">
 
-### <a id="rf07"></a> 🟣 RF07: Extrair Dados da Declaração do Passe Livre Estudantil
+### <a id="rf07"></a> ✅ RF07: Extrair Dados da Declaração do Passe Livre Estudantil
 
 **Prioridade:** Should (S) | <strong>Feature:</strong> [F04](../10-feature-list/feature-list-geral.md#f04) | <strong>Iteração:</strong> [I2](../06-cronograma/index.md#i2) | <strong>MVP:</strong> Não
 
@@ -108,7 +119,7 @@ Aproveitar o mecanismo do RF05/RF06, criando um adaptador de regex específico p
 
 <article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" markdown="1">
 
-### <a id="rf08"></a> ⛔ RF08: Enviar Perguntas ao Assistente Virtual
+### <a id="rf08"></a> ❌ RF08: Enviar Perguntas ao Assistente Virtual
 
 **Prioridade:** Won't (W) | <strong>Feature:</strong> [F01](../10-feature-list/feature-list-geral.md#f01) | <strong>Iteração:</strong> — | <strong>MVP:</strong> Não
 
@@ -122,7 +133,7 @@ O sistema deve permitir que o estudante envie perguntas ao assistente virtual ut
 
 <article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" markdown="1">
 
-### <a id="rf09"></a> ⛔ RF09: Direcionar para Tutorial Específico
+### <a id="rf09"></a> ❌ RF09: Direcionar para Tutorial Específico
 
 **Prioridade:** Won't (W) | <strong>Feature:</strong> [F01](../10-feature-list/feature-list-geral.md#f01) | <strong>Iteração:</strong> — | <strong>MVP:</strong> Não
 
@@ -136,7 +147,7 @@ O sistema deve direcionar o estudante para o tutorial específico caso necessár
 
 <article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" markdown="1">
 
-### <a id="rf10"></a> ⛔ RF10: Manter Histórico de Conversas Visível
+### <a id="rf10"></a> ❌ RF10: Manter Histórico de Conversas Visível
 
 **Prioridade:** Won't (W) | <strong>Feature:</strong> [F01](../10-feature-list/feature-list-geral.md#f01) | <strong>Iteração:</strong> — | <strong>MVP:</strong> Não
 
@@ -150,7 +161,7 @@ O sistema deve manter e exibir o histórico de conversas do estudante com o assi
 
 <article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" markdown="1">
 
-### <a id="rf11"></a> ⛔ RF11: Consultar Resposta em Voz no Assistente Virtual
+### <a id="rf11"></a> ❌ RF11: Consultar Resposta em Voz no Assistente Virtual
 
 **Prioridade:** Won't (W) | <strong>Feature:</strong> [F01](../10-feature-list/feature-list-geral.md#f01) | <strong>Iteração:</strong> — | <strong>MVP:</strong> Não
 
@@ -164,7 +175,7 @@ O sistema deve permitir que o estudante consulte a resposta de texto em voz no a
 
 <article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" markdown="1">
 
-### <a id="rf12"></a> ⛔ RF12: Listar Tutoriais Disponíveis
+### <a id="rf12"></a> ❌ RF12: Listar Tutoriais Disponíveis
 
 **Prioridade:** Won't (W) | <strong>Feature:</strong> [F06](../10-feature-list/feature-list-geral.md#f06) | <strong>Iteração:</strong> — | <strong>MVP:</strong> Não
 
@@ -178,7 +189,7 @@ O sistema deve exibir a listagem de tutoriais disponíveis para o estudante.
 
 <article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" markdown="1">
 
-### <a id="rf13"></a> ⛔ RF13: Visualizar Tutoriais em Texto
+### <a id="rf13"></a> ❌ RF13: Visualizar Tutoriais em Texto
 
 **Prioridade:** Won't (W) | <strong>Feature:</strong> [F06](../10-feature-list/feature-list-geral.md#f06) | <strong>Iteração:</strong> — | <strong>MVP:</strong> Não
 
@@ -192,7 +203,7 @@ O sistema deve permitir a visualização de tutoriais em formato textual.
 
 <article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" markdown="1">
 
-### <a id="rf14"></a> ⛔ RF14: Reproduzir Tutoriais em Vídeo
+### <a id="rf14"></a> ❌ RF14: Reproduzir Tutoriais em Vídeo
 
 **Prioridade:** Won't (W) | <strong>Feature:</strong> [F06](../10-feature-list/feature-list-geral.md#f06) | <strong>Iteração:</strong> — | <strong>MVP:</strong> Não
 
@@ -206,7 +217,7 @@ O sistema deve permitir a reprodução de tutoriais em formato de vídeo.
 
 <article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" markdown="1">
 
-### <a id="rf15"></a> ⛔ RF15: Expandir Explicação de Tópico em Dúvida
+### <a id="rf15"></a> ❌ RF15: Expandir Explicação de Tópico em Dúvida
 
 **Prioridade:** Won't (W) | <strong>Feature:</strong> [F06](../10-feature-list/feature-list-geral.md#f06) | <strong>Iteração:</strong> — | <strong>MVP:</strong> Não
 
@@ -220,7 +231,7 @@ O sistema deve permitir que o estudante expanda a explicação de um tópico em 
 
 <article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" markdown="1">
 
-### <a id="rf16"></a> 🟡 RF16: Consultar Grade Horária e Ensalamento
+### <a id="rf16"></a> ✅ RF16: Consultar Grade Horária e Ensalamento
 
 **Prioridade:** Must (M) | <strong>Feature:</strong> [F07](../10-feature-list/feature-list-geral.md#f07) | <strong>Iteração:</strong> [I1](../06-cronograma/index.md#i1) | <strong>MVP:</strong> ✅
 
@@ -234,7 +245,7 @@ Telas em formato de calendário (week view) que recuperam os dados da tabela SQL
 
 <article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" markdown="1">
 
-### <a id="rf17"></a> 🔴 RF17: Coletar Dados de Aulas Diariamente via SIGAA
+### <a id="rf17"></a> ✅ RF17: Coletar Dados de Aulas Diariamente via SIGAA
 
 **Prioridade:** Should (S) | <strong>Feature:</strong> [F08](../10-feature-list/feature-list-geral.md#f08) | <strong>Iteração:</strong> [I2](../06-cronograma/index.md#i2) | <strong>MVP:</strong> Não
 
@@ -248,7 +259,7 @@ Criar rotinas em background (`expo-task-manager` / `expo-background-fetch`) que 
 
 <article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" markdown="1">
 
-### <a id="rf18"></a> 🔴 RF18: Coletar Dados do Calendário Acadêmico Semanalmente
+### <a id="rf18"></a> ✅ RF18: Coletar Dados do Calendário Acadêmico Semanalmente
 
 **Prioridade:** Should (S) | <strong>Feature:</strong> [F08](../10-feature-list/feature-list-geral.md#f08) | <strong>Iteração:</strong> [I2](../06-cronograma/index.md#i2) | <strong>MVP:</strong> Não
 
@@ -262,7 +273,7 @@ Consumir endpoint exposto por backend próprio contendo as datas chave (início,
 
 <article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" markdown="1">
 
-### <a id="rf19"></a> 🔴 RF19: Atualizar Informações de Disciplinas Matriculadas
+### <a id="rf19"></a> ✅ RF19: Atualizar Informações de Disciplinas Matriculadas
 
 **Prioridade:** Should (S) | <strong>Feature:</strong> [F08](../10-feature-list/feature-list-geral.md#f08) | <strong>Iteração:</strong> [I2](../06-cronograma/index.md#i2) | <strong>MVP:</strong> Não
 
@@ -304,7 +315,7 @@ Salvar os PDFs físicos no diretório local seguro com <code>expo-file-system</c
 
 <article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" markdown="1">
 
-### <a id="rf22"></a> 🟡 RF22: Exibir Fluxo de Onboarding para o SIGAA
+### <a id="rf22"></a> ✅ RF22: Exibir Fluxo de Onboarding para o SIGAA
 
 **Prioridade:** Must (M) | <strong>Feature:</strong> [F05](../10-feature-list/feature-list-geral.md#f05) | <strong>Iteração:</strong> [I3](../06-cronograma/index.md#i3) | <strong>MVP:</strong> ✅
 
@@ -318,7 +329,7 @@ Utilizar um fluxo de telas (Intro Slider ou modais de tutorial interativo) ensin
 
 <article class="card" style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" markdown="1">
 
-### <a id="rf23"></a> 🟣 RF23: Exibir Fluxo de Onboarding para o Aprender 3
+### <a id="rf23"></a> ✅ RF23: Exibir Fluxo de Onboarding para o Aprender 3
 
 **Prioridade:** Must (M) | <strong>Feature:</strong> [F05](../10-feature-list/feature-list-geral.md#f05) | <strong>Iteração:</strong> [I3](../06-cronograma/index.md#i3) | <strong>MVP:</strong> ✅
 
