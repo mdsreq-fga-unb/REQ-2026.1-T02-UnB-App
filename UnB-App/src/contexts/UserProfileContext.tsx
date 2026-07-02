@@ -14,6 +14,8 @@ type UserProfileContextType = {
   setAutoSyncPDFData: (value: boolean) => Promise<void>;
   setAppLockEnabled: (value: boolean) => Promise<void>;
   setThemePreference: (value: ThemePreference) => Promise<void>;
+  highContrast: boolean;
+  setHighContrast: (value: boolean) => Promise<void>;
   refreshProfile: () => Promise<void>;
   clearAllData: () => Promise<void>;
 };
@@ -27,6 +29,7 @@ export function UserProfileProvider({ children }: { children: React.ReactNode })
   const [autoSyncPDFData, setAutoSyncPDFState] = useState<boolean>(true);
   const [appLockEnabled, setAppLockState] = useState<boolean>(false);
   const [themePreference, setThemePreferenceState] = useState<ThemePreference>('light');
+  const [highContrast, setHighContrastState] = useState<boolean>(false);
   const [isProfileLoaded, setIsProfileLoaded] = useState<boolean>(false);
 
   const refreshProfile = useCallback(async () => {
@@ -69,6 +72,15 @@ export function UserProfileProvider({ children }: { children: React.ReactNode })
         setThemePreferenceState(themeConfig.valor as ThemePreference);
       } else {
         setThemePreferenceState('light'); // default light
+      }
+
+      const highContrastConfig = await db.getFirstAsync<{ valor: string }>(
+        `SELECT valor FROM Configuracoes WHERE chave = 'highContrast'`
+      );
+      if (highContrastConfig) {
+        setHighContrastState(highContrastConfig.valor === 'true');
+      } else {
+        setHighContrastState(false); // default false
       }
     } catch (error) {
       console.error('Failed to load user profile:', error);
@@ -161,6 +173,19 @@ export function UserProfileProvider({ children }: { children: React.ReactNode })
     }
   };
 
+  const setHighContrast = async (value: boolean) => {
+    try {
+      await db.runAsync(
+        `INSERT OR REPLACE INTO Configuracoes (chave, valor) VALUES ('highContrast', ?)`,
+        [value ? 'true' : 'false']
+      );
+      setHighContrastState(value);
+    } catch (error) {
+      console.error('Failed to update highContrast config:', error);
+      throw error;
+    }
+  };
+
   const clearAllData = async () => {
     try {
       await db.withTransactionAsync(async () => {
@@ -181,6 +206,7 @@ export function UserProfileProvider({ children }: { children: React.ReactNode })
       setAutoSyncPDFState(true);
       setAppLockState(false);
       setThemePreferenceState('light');
+      setHighContrastState(false);
     } catch (error) {
       console.error('Failed to clear all data:', error);
       throw error;
@@ -195,11 +221,13 @@ export function UserProfileProvider({ children }: { children: React.ReactNode })
         autoSyncPDFData,
         appLockEnabled,
         themePreference,
+        highContrast,
         isProfileLoaded,
         updateUserProfile,
         setAutoSyncPDFData,
         setAppLockEnabled,
         setThemePreference,
+        setHighContrast,
         refreshProfile,
         clearAllData,
       }}

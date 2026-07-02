@@ -13,10 +13,9 @@ type SymbolName = { ios: string; android: string; web?: string };
 export default function AjustesScreen() {
   const router = useRouter();
   const { getFontSize, textSize, setTextSize } = useTextSize();
-  const { userName, userMatricula, autoSyncPDFData, setAutoSyncPDFData, clearAllData, themePreference, setThemePreference } = useUserProfile();
+  const { userName, userMatricula, autoSyncPDFData, setAutoSyncPDFData, clearAllData, themePreference, setThemePreference, highContrast, setHighContrast } = useUserProfile();
   const { colors } = useTheme();
 
-  const [highContrast, setHighContrast] = useState(false);
   const [pushNotif, setPushNotif] = useState(true);
   const [emailNotif, setEmailNotif] = useState(true);
   const [vibrateNotif, setVibrateNotif] = useState(true);
